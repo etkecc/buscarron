@@ -1,0 +1,422 @@
+
+# system
+system_security_autorizedkeys: []
+
+# homeserver https://matrix.example.com
+matrix_domain: example.com
+matrix_admin: "@test:{{ matrix_domain }}"
+matrix_ssl_lets_encrypt_support_email: test@test.com
+matrix_ma1sd_enabled: no
+matrix_mailer_enabled: no
+
+# synapse
+matrix_homeserver_implementation: synapse
+matrix_synapse_presence_enabled: yes
+matrix_synapse_enable_registration: yes
+matrix_synapse_enable_group_creation: yes
+matrix_synapse_max_upload_size_mb: 1024
+matrix_synapse_tmp_directory_size_mb: "{{ matrix_synapse_max_upload_size_mb * 2 }}"
+
+# synapse::federation
+matrix_synapse_allow_public_rooms_over_federation: yes
+matrix_synapse_allow_public_rooms_without_auth: yes
+
+# synapse::custom
+matrix_synapse_configuration_extension_yaml: |
+  registration_requires_token: yes
+  disable_msisdn_registration: yes
+  allow_device_name_lookup_over_federation: no
+
+# synapse::privacy
+matrix_synapse_user_ips_max_age: 5m
+matrix_synapse_redaction_retention_period: 5m
+
+# synapse::extensions::shared_secret_auth
+matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
+matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO
+
+# synapse::extensions::simple-antispam
+matrix_synapse_ext_spam_checker_synapse_simple_antispam_enabled: yes
+matrix_synapse_ext_spam_checker_synapse_simple_antispam_config_blocked_homeservers: []
+
+# synapse::extensions::spam_checker_mjolnir
+matrix_synapse_ext_spam_checker_mjolnir_antispam_enabled: yes
+matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_invites: no
+matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_messages: no
+matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_usernames: no
+matrix_synapse_ext_spam_checker_mjolnir_antispam_config_ban_lists: []
+
+# synapse::extensions::rest_auth
+matrix_synapse_ext_password_provider_rest_auth_enabled: yes
+matrix_synapse_ext_password_provider_rest_auth_endpoint: "http://matrix-corporal:41080/_matrix/corporal"
+
+# synapse::workers
+matrix_synapse_workers_enabled: yes
+matrix_synapse_workers_preset: one-of-each
+
+# synapse::mailer
+matrix_synapse_email_enabled: yes
+matrix_synapse_email_smtp_host: smtp.migadu.com
+matrix_synapse_email_smtp_port: 587
+matrix_synapse_email_smtp_user: "matrix@{{ matrix_domain }}"
+matrix_synapse_email_smtp_pass: TODO
+matrix_synapse_email_notif_from: "Matrix <matrix@{{ matrix_domain }}>"
+matrix_synapse_email_client_base_url: "https://{{ matrix_server_fqn_element }}"
+matrix_synapse_email_invite_client_location: "https://{{ matrix_server_fqn_element }}"
+
+# synapse::credentials
+matrix_synapse_macaroon_secret_key: TODO
+matrix_postgres_connection_password: TODO
+matrix_synapse_password_config_pepper: TODO
+matrix_coturn_turn_static_auth_secret: TODO
+matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
+
+# nginx proxy
+matrix_nginx_proxy_access_log_enabled: no
+matrix_nginx_proxy_base_domain_serving_enabled: yes
+matrix_nginx_proxy_base_domain_homepage_enabled: no
+matrix_ssl_additional_domains_to_obtain_certificates_for:
+- "{{ matrix_server_fqn_buscarron }}"
+- "{{ matrix_server_fqn_kuma }}"
+- "{{ matrix_server_fqn_languagetool }}"
+- "{{ matrix_server_fqn_miniflux }}"
+- "{{ matrix_server_fqn_miounne }}"
+- "{{ matrix_server_fqn_radicale }}"
+
+# postgres::backups
+matrix_postgres_backup_enabled: yes
+matrix_postgres_backup_schedule: '@daily'
+matrix_postgres_backup_keep_days: 7
+matrix_postgres_backup_keep_weeks: 0
+matrix_postgres_backup_keep_months: 0
+
+# matrix corporal
+matrix_corporal_enabled: yes
+matrix_corporal_http_api_enabled: yes
+matrix_corporal_http_api_auth_token: TODO
+matrix_corporal_corporal_user_id_local_part: "corporal" # password: TODO
+matrix_corporal_policy_provider_config: |
+  # TODO
+
+# cinny https://cinny.example.com
+matrix_client_cinny_enabled: yes
+
+# dimension https://dimension.example.com
+matrix_dimension_enabled: yes
+matrix_dimension_access_token: TODO # password: TODO
+matrix_dimension_admins:
+  - "{{ matrix_admin }}"# TODO
+# matrix-synapse-register-user dimension TODO 0
+# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO", "type": "m.login.password"}' 'https://matrix.example.com/_matrix/client/r0/login'
+
+# dnsmasq
+custom_dnsmasq_enabled: yes
+
+# element https://element.example.com
+matrix_client_element_enabled: yes
+matrix_client_element_default_theme: dark
+
+# etherpad
+matrix_etherpad_enabled: yes
+matrix_etherpad_admin_username: test
+matrix_etherpad_admin_password: TODO
+
+# jitsi https://jitsi.example.com
+matrix_jitsi_enabled: yes
+# matrix_jitsi_enable_auth: yes
+# matrix_jitsi_enable_guests: yes
+matrix_jitsi_jvb_auth_password: TODO
+matrix_jitsi_jibri_xmpp_password: TODO
+matrix_jitsi_jibri_recorder_password: TODO
+matrix_jitsi_jicofo_auth_password: TODO
+# matrix_jitsi_prosody_auth_internal_accounts:
+#  - username: test
+#    password: TODO
+
+# uptime-kuma https://kuma.example.com
+custom_kuma_enabled: yes
+matrix_server_fqn_kuma: "kuma.{{ matrix_domain }}"
+
+# uptime-languagetool https://languagetool.example.com
+custom_languagetool_enabled: yes
+custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage
+matrix_server_fqn_languagetool: "languagetool.{{ matrix_domain }}"
+
+# miniflux https://miniflux.example.com
+custom_miniflux_enabled: yes
+matrix_server_fqn_miniflux: "miniflux.{{ matrix_domain }}"
+# TODO:
+# matrix-postgres-cli-non-interactive -c "CREATE USER miniflux WITH PASSWORD 'TODO';"
+# matrix-postgres-cli-non-interactive -c "CREATE DATABASE miniflux; GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;"
+# docker exec -it custom-miniflux /usr/bin/miniflux -create-admin
+
+# miounne https://miounne.example.com
+custom_miounne_enabled: yes
+custom_miounne_matrix_user_login: miounne
+custom_miounne_matrix_user_password: TODO
+# TODO: only for registration
+custom_miounne_registration_url: https://matrix.example.com/matrix-registration
+custom_miounne_matrix_registration_room: TODO
+custom_miounne_matrix_registration_secret: TODO
+# TODO: only for BMC
+custom_miounne_bmc_token: TODO
+custom_miounne_bmc_room: TODO
+custom_miounne_bmc_notify_extras: 1
+custom_miounne_bmc_notify_members: 1
+custom_miounne_bmc_notify_supporters: 1
+# TODO: only for forms
+matrix_server_fqn_miounne: "miounne.{{ matrix_domain }}"
+matrix_nginx_proxy_proxy_miounne_hostname: "{{ matrix_server_fqn_miounne }}"
+custom_miounne_spam_emails: []
+custom_miounne_spam_hosts: []
+custom_miounne_forms: []
+# TODO: matrix-synapse-register-user miounne TODO 0
+
+# radicale https://radicale.example.com
+custom_radicale_enabled: yes
+matrix_server_fqn_radicale: "radicale.{{ matrix_domain }}"
+custom_radicale_htpasswd: "test:TODO"
+# TODO: htpasswd -nb test TODO
+
+# stats https://stats.example.com
+matrix_grafana_enabled: yes
+matrix_prometheus_enabled: yes
+matrix_grafana_anonymous_access: no
+matrix_prometheus_node_exporter_enabled: yes
+matrix_grafana_default_admin_user: test
+matrix_grafana_default_admin_password: TODO
+
+# synapse-admin https://matrix.example.com/synapse-admin
+matrix_synapse_admin_enabled: yes
+
+# wireguard
+custom_wireguard_enabled: yes
+custom_wireguard_clients: [] # TODO
+
+# bots::goneb
+matrix_bot_go_neb_enabled: yes
+matrix_bot_go_neb_clients:
+- UserID: "@goneb:{{ matrix_domain }}"
+  AccessToken: "TODO" # password: TODO
+  DeviceID: server
+  HomeserverURL: "{{ matrix_homeserver_container_url }}"
+  Sync: yes
+  AutoJoinRooms: yes
+  DisplayName: "GoNEB"
+  AcceptVerificationFromUsers: [":{{ matrix_domain }}"]
+matrix_bot_go_neb_services: [] # TODO
+
+# bots::honoroit
+matrix_bot_honoroit_enabled: yes
+matrix_bot_honoroit_password: TODO
+matrix_bot_honoroit_roomid: TODO
+# TODO: matrix-synapse-register-user honoroit TODO 0
+
+# bots::mjolnir
+matrix_bot_mjolnir_enabled: yes
+matrix_bot_mjolnir_access_token: "TODO" # password: TODO
+matrix_bot_mjolnir_management_room: TODO
+matrix_bot_mjolnir_configuration_extension_yaml: |
+  recordIgnoredInvites: true
+
+# bots::reminder
+matrix_bot_matrix_reminder_bot_enabled: yes
+matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
+matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder
+matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
+# TODO: matrix-synapse-register-user reminder TODO 0
+
+# bridges::discord
+matrix_mx_puppet_discord_enabled: yes
+matrix_mx_puppet_discord_configuration_extension_yaml: |
+  presence:
+    enabled: no
+  logging:
+    console: warn
+
+# bridges::facebook
+matrix_mautrix_facebook_enabled: yes
+matrix_mautrix_facebook_configuration_extension_yaml: |
+  bridge:
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_facebook_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      paho:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::googlechat
+matrix_mautrix_googlechat_enabled: yes
+matrix_mautrix_googlechat_configuration_extension_yaml: |
+  bridge:
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_googlechat_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      hangups:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::groupme
+matrix_mx_puppet_groupme_enabled: yes
+matrix_mx_puppet_groupme_configuration_extension_yaml: |
+  presence:
+    enabled: no
+  logging:
+    console: warn
+
+# bridges::irc (heisenbridge)
+matrix_heisenbridge_enabled: yes
+matrix_heisenbridge_identd_enabled: yes
+matrix_heisenbridge_owner: "{{ matrix_admin }}"
+
+# bridges::instagram
+matrix_mautrix_instagram_enabled: yes
+matrix_mautrix_instagram_configuration_extension_yaml: |
+  bridge:
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_instagram_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      mauigpapi:
+        level: WARNING
+      paho:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::linkedin
+matrix_beeper_linkedin_enabled: yes
+matrix_beeper_linkedin_configuration_extension_yaml: |
+  bridge:
+    presence: no
+    permissions:
+      "{{ matrix_beeper_linkedin_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      paho:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::signal
+matrix_mautrix_signal_enabled: yes
+matrix_mautrix_signal_configuration_extension_yaml: |
+  bridge:
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_signal_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::slack
+matrix_mx_puppet_slack_enabled: yes
+matrix_mx_puppet_slack_configuration_extension_yaml: |
+  presence:
+    enabled: no
+  logging:
+    console: warn
+
+# bridges::steam
+matrix_mx_puppet_steam_enabled: yes
+matrix_mx_puppet_steam_configuration_extension_yaml: |
+  presence:
+    enabled: no
+  logging:
+    console: warn
+
+# bridges::telegram
+matrix_mautrix_telegram_enabled: yes
+matrix_mautrix_telegram_configuration_extension_yaml: |
+  bridge:
+    delivery_error_reports: yes
+    delivery_receipts: no
+    max_initial_member_sync: 10
+    sync_channel_members: no
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_telegram_homeserver_domain }}": full
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      telethon:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::twitter
+matrix_mautrix_twitter_enabled: yes
+matrix_mautrix_twitter_configuration_extension_yaml: |
+  bridge:
+    delivery_error_reports: yes
+    delivery_receipts: no
+    presence: no
+    permissions:
+      "{{ matrix_mautrix_twitter_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    loggers:
+      mau:
+        level: WARNING
+      aiohttp:
+        level: WARNING
+    root:
+      level: WARNING
+      handlers: [console]
+
+# bridges::webhooks
+matrix_appservice_webhooks_enabled: yes
+matrix_appservice_webhooks_api_secret: TODO
+
+# bridges::whatsapp
+matrix_mautrix_whatsapp_enabled: yes
+matrix_mautrix_whatsapp_configuration_extension_yaml: |
+  bridge:
+    permissions:
+      "{{ matrix_mautrix_whatsapp_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    print_level: warn

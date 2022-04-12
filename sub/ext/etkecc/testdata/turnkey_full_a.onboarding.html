@@ -1,0 +1,151 @@
+
+<h1>links</h1>
+
+<ul>
+<li>homeserver: https://matrix.example.com<br />
+</li>
+<li>synapse-admin: https://matrix.example.com/synapse-admin<br />
+</li>
+<li>etherpad admin: https://dimension.example.com/etherpad/admin<br />
+</li>
+<li>buscarron: https://buscarron.example.com<br />
+</li>
+<li>cinny: https://cinny.example.com<br />
+</li>
+<li>dimension: https://dimension.example.com<br />
+</li>
+<li>element-web: https://element.example.com<br />
+</li>
+<li>go-neb: https://goneb.example.com<br />
+</li>
+<li>hydrogen: https://hydrogen.example.com<br />
+</li>
+<li>jitsi: https://jitsi.example.com<br />
+</li>
+<li>kuma: https://kuma.example.com<br />
+</li>
+<li>languagetool: https://languagetool.example.com<br />
+</li>
+<li>miniflux: https://miniflux.example.com<br />
+</li>
+<li>miounne: https://miounne.example.com<br />
+</li>
+<li>radicale: https://radicale.example.com<br />
+</li>
+<li>stats: https://stats.example.com<br />
+</li>
+<li>sygnal: https://sygnal.example.com<br />
+</li>
+</ul>
+
+<h1>bots</h1>
+
+<ul>
+<li>honoroit: @honoroit:example.com<br />
+</li>
+<li>miounne: @miounne:example.com<br />
+</li>
+<li>mjolnir: @mjolnir:example.com<br />
+</li>
+<li>reminder-bot: @reminder:example.com<br />
+</li>
+</ul>
+
+<h1>bridges</h1>
+
+<ul>
+<li>discord: @_discordpuppet_bot:example.com<br />
+</li>
+<li>facebook: @facebookbot:example.com<br />
+</li>
+<li>googlechat: @googlechatbot:example.com<br />
+</li>
+<li>groupme: @_groupmepuppet_bot:example.com<br />
+</li>
+<li>instagram: @instagrambot:example.com<br />
+</li>
+<li>irc: @heisenbridge:example.com<br />
+</li>
+<li>linkedin: @linkedinbot:example.com<br />
+</li>
+<li>signal: @signalbot:example.com<br />
+</li>
+<li>slack: @_slackpuppet_bot:example.com<br />
+</li>
+<li>steam: @_steampuppet_bot:example.com<br />
+</li>
+<li>telegram: @telegrambot:example.com<br />
+</li>
+<li>twitter: @twitterbot:example.com<br />
+</li>
+<li>webhooks: @_webhook:example.com<br />
+</li>
+<li>whatsapp: @whatsappbot:example.com<br />
+</li>
+</ul>
+
+<blockquote>
+<p>https://etke.cc/bridges - auth instructions</p>
+</blockquote>
+
+<h1>credentials</h1>
+
+<ul>
+<li>mxid: @test:example.com<br />
+</li>
+<li>username: test<br />
+</li>
+<li>password: TODO<br />
+</li>
+<li>etherpad admin password: TODO<br />
+</li>
+<li>grafana password: TODO<br />
+</li>
+<li>matrix-corporal api password: TODO<br />
+</li>
+<li>radicale password: TODO<br />
+</li>
+</ul>
+
+<blockquote>
+<p>in case of any issues: @support:etke.cc</p>
+</blockquote>
+
+<h1>steps after the setup</h1>
+
+<h3>email2matrix</h3>
+
+<ol>
+<li>Add new MX record on matrix subdomain that will point... to matrix.example.com (looks odd, but some mail servers will not send email to your server without it)<br />
+</li>
+<li>Create a non-admin matrix user with username <code>email2matrix</code> and secure password<br />
+</li>
+<li>Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite email2matrix user in all of them<br />
+</li>
+<li>Login with email2matrix user and accept the invites you sent (yes, that's why I asked you if you really want it)<br />
+</li>
+<li>Send email2matrix password and pairs of mailbox name - matrix room id to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)<br />
+</li>
+</ol>
+
+<h3>etherpad</h3>
+
+<ol>
+<li>Open integration manager in any element client app<br />
+</li>
+<li>Click on the sprocket icon and go to the Widgets tab<br />
+</li>
+<li>Open the Etherpad widget configuration and replace <code>scalar.vector.im</code> with <code>dimension.example.com</code><br />
+</li>
+</ol>
+
+<h3>honoroit</h3>
+
+<ol>
+<li>Create a matrix room (encryption supported) and invite the honoroit user into it<br />
+</li>
+<li>Send the room id to the @support:etke.cc<br />
+</li>
+</ol>
+
+<p>if you want to change honoroit messages, send the texts you want to set to the @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as reference)</p>
