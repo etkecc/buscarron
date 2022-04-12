@@ -7,11 +7,7 @@ Send any form (HTTP POST, HTML) to an encrypted matrix room, used as part of [et
 ## Features
 
 * End-to-End encryption
-* TBD
-
-## TODO
-
-* Unit tests
+* Receive any HTTP POST request as form submission in a matrix room
 
 ## Commands
 
@@ -25,14 +21,14 @@ env vars
 * **BUSCARRON_HOMESERVER** - homeserver url, eg: `https://matrix.example.com`
 * **BUSCARRON_LOGIN** - user login/localpart, eg: `buscarron`
 * **BUSCARRON_PASSWORD** - user password
-
 * **BUSCARRON_NAME_ROOM** - Matrix Room ID of the `name` form
 * **BUSCARRON_NAME_REDIRECT** - URL to redirect after handling form `name` data
 * **BUSCARRON_NAME_EXTENSIONS** - list of form extensions of the `name` form
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s` or `54r/m`
 
 1. Add form name to **BUSCARRON_LIST**, eg: `export BUSCARRON_LIST="form1 form2"`)
-2. Add form config, eg: `export BUSCARRON_FORM1_URL=https://http.cat/200`
+2. Add form config, eg: `export BUSCARRON_FORM1_REDIRECT=https://http.cat/200`
+3. Send POST request to the `http://127.0.0.1:8080/name`
 
 ### optional
 
