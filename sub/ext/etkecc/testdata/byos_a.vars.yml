@@ -1,0 +1,58 @@
+
+# system
+system_security_autorizedkeys: []
+
+# homeserver https://matrix.example.com
+matrix_domain: example.com
+matrix_admin: "@test:{{ matrix_domain }}"
+matrix_ssl_lets_encrypt_support_email: test@test.com
+matrix_mailer_enabled: no
+matrix_client_element_enabled: no
+
+# synapse
+matrix_homeserver_implementation: synapse
+matrix_synapse_presence_enabled: yes
+matrix_synapse_enable_registration: yes
+matrix_synapse_enable_group_creation: yes
+matrix_synapse_max_upload_size_mb: 1024
+matrix_synapse_tmp_directory_size_mb: "{{ matrix_synapse_max_upload_size_mb * 2 }}"
+
+# synapse::federation
+matrix_synapse_allow_public_rooms_over_federation: yes
+matrix_synapse_allow_public_rooms_without_auth: yes
+
+# synapse::custom
+matrix_synapse_configuration_extension_yaml: |
+  registration_requires_token: yes
+  disable_msisdn_registration: yes
+  allow_device_name_lookup_over_federation: no
+
+# synapse::privacy
+matrix_synapse_user_ips_max_age: 5m
+matrix_synapse_redaction_retention_period: 5m
+
+# synapse::extensions::shared_secret_auth
+matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
+matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO
+
+# synapse::credentials
+matrix_synapse_macaroon_secret_key: TODO
+matrix_postgres_connection_password: TODO
+matrix_synapse_password_config_pepper: TODO
+matrix_coturn_turn_static_auth_secret: TODO
+matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
+
+# nginx proxy
+matrix_nginx_proxy_access_log_enabled: no
+matrix_nginx_proxy_base_domain_serving_enabled: no
+matrix_nginx_proxy_base_domain_homepage_enabled: no
+
+# postgres::backups
+matrix_postgres_backup_enabled: yes
+matrix_postgres_backup_schedule: '@daily'
+matrix_postgres_backup_keep_days: 7
+matrix_postgres_backup_keep_weeks: 0
+matrix_postgres_backup_keep_months: 0
+
+# synapse-admin https://matrix.example.com/synapse-admin
+matrix_synapse_admin_enabled: yes
