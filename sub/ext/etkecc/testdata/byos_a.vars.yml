@@ -13,6 +13,7 @@ matrix_client_element_enabled: no
 matrix_homeserver_implementation: synapse
 matrix_synapse_presence_enabled: yes
 matrix_synapse_enable_registration: yes
+matrix_synapse_registration_requires_token: yes
 matrix_synapse_enable_group_creation: yes
 matrix_synapse_max_upload_size_mb: 1024
 matrix_synapse_tmp_directory_size_mb: "{{ matrix_synapse_max_upload_size_mb * 2 }}"
@@ -23,7 +24,6 @@ matrix_synapse_allow_public_rooms_without_auth: yes
 
 # synapse::custom
 matrix_synapse_configuration_extension_yaml: |
-  registration_requires_token: yes
   disable_msisdn_registration: yes
   allow_device_name_lookup_over_federation: no
 

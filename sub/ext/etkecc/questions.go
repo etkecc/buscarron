@@ -106,6 +106,9 @@ func (o *order) generateQuestionsServicesSubscribers() string {
 	if o.has("sso") {
 		txt.WriteString("SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send me the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)\n\n")
 	}
+	if o.has("borg") {
+		txt.WriteString("BorgBackup: please, provide the desired repository url (user@host:repo). We will generate ssh key and encryption passphrase on your server side. We will send you the public part of the generated ssh key. You will add that ssh key on your provider side.\n\n")
+	}
 
 	return txt.String()
 }

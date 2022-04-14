@@ -13,6 +13,7 @@ matrix_mailer_enabled: no
 matrix_homeserver_implementation: synapse
 matrix_synapse_presence_enabled: yes
 matrix_synapse_enable_registration: yes
+matrix_synapse_registration_requires_token: yes
 matrix_synapse_enable_group_creation: yes
 matrix_synapse_max_upload_size_mb: 1024
 matrix_synapse_tmp_directory_size_mb: "{{ matrix_synapse_max_upload_size_mb * 2 }}"
@@ -23,7 +24,6 @@ matrix_synapse_allow_public_rooms_without_auth: yes
 
 # synapse::custom
 matrix_synapse_configuration_extension_yaml: |
-  registration_requires_token: yes
   disable_msisdn_registration: yes
   allow_device_name_lookup_over_federation: no
 
@@ -83,12 +83,11 @@ matrix_ssl_additional_domains_to_obtain_certificates_for:
 - "{{ matrix_server_fqn_miounne }}"
 - "{{ matrix_server_fqn_radicale }}"
 
-# postgres::backups
-matrix_postgres_backup_enabled: yes
-matrix_postgres_backup_schedule: '@daily'
-matrix_postgres_backup_keep_days: 7
-matrix_postgres_backup_keep_weeks: 0
-matrix_postgres_backup_keep_months: 0
+# borg
+matrix_backup_borg_enabled: yes
+matrix_backup_borg_location_repositories: [] # TODO
+matrix_backup_borg_storage_encryption_passphrase: TODO
+matrix_backup_borg_ssh_key_private: #TODO
 
 # matrix corporal
 matrix_corporal_enabled: yes
@@ -365,6 +364,8 @@ matrix_mx_puppet_steam_configuration_extension_yaml: |
 
 # bridges::telegram
 matrix_mautrix_telegram_enabled: yes
+matrix_mautrix_telegram_api_id: TODO
+matrix_mautrix_telegram_api_hash: TODO
 matrix_mautrix_telegram_configuration_extension_yaml: |
   bridge:
     delivery_error_reports: yes

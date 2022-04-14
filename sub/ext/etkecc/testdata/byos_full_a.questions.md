@@ -41,6 +41,8 @@ Static website: are you sure you want it? To serve a static website, you must se
 
 SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send me the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
 
+BorgBackup: please, provide the desired repository url (user@host:repo). We will generate ssh key and encryption passphrase on your server side. We will send you the public part of the generated ssh key. You will add that ssh key on your provider side.
+
 Server: please, create a VPS with any Debian-based distro. Minimal comfortable configuration for a basic matrix server: 1vCPU, 2GB RAM.
 Add my ssh key (https://etke.cc/ssh.key) to your server, share with me your server IP, the username (with permissions to call sudo), and password (if set).
 

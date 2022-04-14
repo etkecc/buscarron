@@ -17,6 +17,7 @@ func (o *order) generateVars() {
 
 	// additional low-level services
 	txt.WriteString(o.generateVarsPostgresBackup())
+	txt.WriteString(o.generateVarsBorgBackup())
 	txt.WriteString(o.generateVarsCorporal())
 
 	// additional services
@@ -93,6 +94,9 @@ func (o *order) generateVarsHomeserver() string {
 }
 
 func (o *order) generateVarsPostgresBackup() string {
+	if o.has("borg") {
+		return ""
+	}
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres::backups\n")
@@ -105,6 +109,21 @@ func (o *order) generateVarsPostgresBackup() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsBorgBackup() string {
+	if !o.has("borg") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# borg\n")
+	txt.WriteString("matrix_backup_borg_enabled: yes\n")
+	txt.WriteString("matrix_backup_borg_location_repositories: [] # TODO\n")
+	txt.WriteString("matrix_backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_backup_borg_ssh_key_private: #TODO\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsSynapse() string {
 	var txt strings.Builder
 
@@ -112,6 +131,7 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_homeserver_implementation: synapse\n")
 	txt.WriteString("matrix_synapse_presence_enabled: yes\n")
 	txt.WriteString("matrix_synapse_enable_registration: yes\n")
+	txt.WriteString("matrix_synapse_registration_requires_token: yes\n")
 	txt.WriteString("matrix_synapse_enable_group_creation: yes\n")
 	txt.WriteString("matrix_synapse_max_upload_size_mb: 1024\n")
 	txt.WriteString("matrix_synapse_tmp_directory_size_mb: \"{{ matrix_synapse_max_upload_size_mb * 2 }}\"\n")
@@ -122,7 +142,6 @@ func (o *order) generateVarsSynapse() string {
 
 	txt.WriteString("\n# synapse::custom\n")
 	txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
-	txt.WriteString("  registration_requires_token: yes\n")
 	txt.WriteString("  disable_msisdn_registration: yes\n")
 	txt.WriteString("  allow_device_name_lookup_over_federation: no\n")
 
@@ -768,6 +787,8 @@ func (o *order) generateVarsTelegram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::telegram\n")
 	txt.WriteString("matrix_mautrix_telegram_enabled: yes\n")
+	txt.WriteString("matrix_mautrix_telegram_api_id: TODO\n")
+	txt.WriteString("matrix_mautrix_telegram_api_hash: TODO\n")
 	txt.WriteString("matrix_mautrix_telegram_configuration_extension_yaml: |\n")
 	txt.WriteString("  bridge:\n")
 	txt.WriteString("    delivery_error_reports: yes\n")
