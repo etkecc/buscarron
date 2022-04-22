@@ -1,6 +1,10 @@
 package config
 
-import "maunium.net/go/mautrix/id"
+import (
+	"sync"
+
+	"maunium.net/go/mautrix/id"
+)
 
 // Config of Buscarron
 type Config struct {
@@ -42,6 +46,7 @@ type Spam struct {
 
 // Form config
 type Form struct {
+	sync.Mutex
 	// Name of the form
 	Name string
 	// Redirect is an url to redirect after submission

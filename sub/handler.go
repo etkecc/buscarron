@@ -92,10 +92,12 @@ func (h *Handler) POST(name string, r *http.Request) string {
 	}
 
 	text, files := h.generate(form, data)
+	form.Lock()
 	h.sender.Send(form.RoomID, text)
 	for _, file := range files {
 		h.sender.SendFile(form.RoomID, file)
 	}
+	form.Unlock()
 
 	return h.redirect(form.Redirect)
 }
