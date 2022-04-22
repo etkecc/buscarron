@@ -5,6 +5,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
+	sentryhttp "github.com/getsentry/sentry-go/http"
+
 	"gitlab.com/etke.cc/buscarron/logger"
 )
 
@@ -17,6 +20,7 @@ type FormHandler interface {
 // Server to handle forms
 type Server struct {
 	fh   FormHandler
+	sh   *sentryhttp.Handler
 	log  *logger.Logger
 	iph  *iphasher
 	rls  map[string]*ratelimiter
@@ -26,8 +30,10 @@ type Server struct {
 // New web server
 func New(port string, rls map[string]string, loglevel string, fh FormHandler) *Server {
 	log := logger.New("web.", loglevel)
+	sh := sentryhttp.New(sentryhttp.Options{})
 	srv := &Server{
 		fh:  fh,
+		sh:  sh,
 		log: log,
 		iph: &iphasher{},
 		rls: initRateLimiters(rls, log),
@@ -55,19 +61,24 @@ func initRateLimiters(rlCfg map[string]string, log *logger.Logger) map[string]*r
 }
 
 func (s *Server) initHealthcheck() {
-	http.HandleFunc("/_health", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/_health", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if _, err := w.Write([]byte(`{"status":"ok"}`)); err != nil {
 			s.log.Error("%s %s %v", r.Method, r.URL.String(), err)
 		}
-	})
+	}))
 }
 
 func (s *Server) initForms() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
 		url := r.URL.Path
 		name := strings.ReplaceAll(url, "/", "")
 		method := r.Method
+		if hub := sentry.GetHubFromContext(r.Context()); hub != nil {
+			hub.WithScope(func(scope *sentry.Scope) {
+				scope.SetExtra("form", "name")
+			})
+		}
 		if method != http.MethodPost {
 			body := s.fh.GET(name, r)
 			if _, err := w.Write([]byte(body)); err != nil {
@@ -86,7 +97,7 @@ func (s *Server) initForms() {
 		if _, err := w.Write([]byte(body)); err != nil {
 			s.log.Error("%s %s %v", method, url, err)
 		}
-	})
+	}))
 }
 
 func (s *Server) isLimited(name string, r *http.Request) bool {

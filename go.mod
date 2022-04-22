@@ -3,7 +3,7 @@ module gitlab.com/etke.cc/buscarron
 go 1.18
 
 require (
-	github.com/getsentry/sentry-go v0.12.0
+	github.com/getsentry/sentry-go v0.13.0
 	github.com/lib/pq v1.10.4
 	github.com/mattn/go-sqlite3 v1.14.12
 	github.com/microcosm-cc/bluemonday v1.0.2
