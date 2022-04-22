@@ -16,9 +16,10 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsNginx())
 
 	// additional low-level services
-	txt.WriteString(o.generateVarsPostgresBackup())
 	txt.WriteString(o.generateVarsBorgBackup())
 	txt.WriteString(o.generateVarsCorporal())
+	txt.WriteString(o.generateVarsPostgresBackup())
+	txt.WriteString(o.generateVarsSygnal())
 
 	// additional services
 	txt.WriteString(o.generateVarsCinny())
@@ -26,9 +27,11 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsDnsmasq())
 	txt.WriteString(o.generateVarsElement())
 	txt.WriteString(o.generateVarsEtherpad())
+	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
 	txt.WriteString(o.generateVarsKuma())
 	txt.WriteString(o.generateVarsLanguagetool())
+	txt.WriteString(o.generateVarsMatrixRegistration())
 	txt.WriteString(o.generateVarsMiniflux())
 	txt.WriteString(o.generateVarsMiounne())
 	txt.WriteString(o.generateVarsRadicale())
@@ -44,6 +47,7 @@ func (o *order) generateVars() {
 
 	// bridges
 	txt.WriteString(o.generateVarsDiscord())
+	txt.WriteString(o.generateVarsEmail2Matrix())
 	txt.WriteString(o.generateVarsFacebook())
 	txt.WriteString(o.generateVarsGooglechat())
 	txt.WriteString(o.generateVarsGroupme())
@@ -83,12 +87,38 @@ func (o *order) generateVarsHomeserver() string {
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("matrix_ssl_lets_encrypt_support_email: " + o.get("email") + "\n")
 	if o.has("ma1sd") {
-		txt.WriteString("matrix_ma1sd_enabled: no\n")
+		txt.WriteString("matrix_ma1sd_enabled: yes\n")
 	}
 	txt.WriteString("matrix_mailer_enabled: no\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}
+
+	return txt.String()
+}
+
+func (o *order) generateVarsSygnal() string {
+	if o.has("sygnal") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# sygnal https://sygnal." + o.get("domain") + "\n")
+	txt.WriteString("matrix_sygnal_enabled: yes\n")
+	txt.WriteString("matrix_sygnal_apps:\n")
+	txt.WriteString("  TODO:\n")
+	txt.WriteString("    type: gcm\n")
+	txt.WriteString("    api_key: TODO\n")
+	txt.WriteString("matrix_sygnal_configuration_extension_yaml:\n")
+	txt.WriteString("  log:\n")
+	txt.WriteString("    setup:\n")
+	txt.WriteString("      root:\n")
+	txt.WriteString("        level: WARNING\n")
+	txt.WriteString("      loggers:\n")
+	txt.WriteString("        sygnal:\n")
+	txt.WriteString("          level: WARNING\n")
+	txt.WriteString("        sygnal.access:\n")
+	txt.WriteString("          level: WARNING\n")
 
 	return txt.String()
 }
@@ -144,6 +174,20 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
 	txt.WriteString("  disable_msisdn_registration: yes\n")
 	txt.WriteString("  allow_device_name_lookup_over_federation: no\n")
+	if o.has("sso") {
+		txt.WriteString("  oidc_providers:\n")
+		txt.WriteString("  - idp_id: todo\n")
+		txt.WriteString("    idp_name: Todo\n")
+		txt.WriteString("    idp_brand: \"todo\"\n")
+		txt.WriteString("    issuer: \"https://TODO/\"\n")
+		txt.WriteString("    client_id: \"TODO\"\n")
+		txt.WriteString("    client_secret: \"TODO\"\n")
+		txt.WriteString("    scopes: [\"openid\", \"profile\"]\n")
+		txt.WriteString("    user_mapping_provider:\n")
+		txt.WriteString("      config:\n")
+		txt.WriteString("        localpart_template: \"{% raw %}{{ user.given_name|lower }}{% endraw %}\"\n")
+		txt.WriteString("        display_name_template: \"{% raw %}{{ user.name }}{% endraw %}\"\n")
+	}
 
 	txt.WriteString("\n# synapse::privacy\n")
 	txt.WriteString("matrix_synapse_user_ips_max_age: 5m\n")
@@ -252,6 +296,7 @@ func (o *order) generateVarsNginx() string {
 	txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
 	txt.WriteString("matrix_nginx_proxy_base_domain_homepage_enabled: no\n")
 	txt.WriteString(o.generateVarsNginxCustom())
+	txt.WriteString(o.generateVarsNginxWebsite())
 
 	return txt.String()
 }
@@ -273,6 +318,21 @@ func (o *order) generateVarsNginxCustom() string {
 	}
 
 	return ""
+}
+
+func (o *order) generateVarsNginxWebsite() string {
+	if !o.has("nginx-proxy-website") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# nginx proxy website\n")
+	txt.WriteString("matrix_nginx_proxy_website_enabled: yes\n")
+	txt.WriteString("matrix_nginx_proxy_website_repo: TODO\n")
+	txt.WriteString("matrix_nginx_proxy_website_command: TODO\n")
+	txt.WriteString("matrix_nginx_proxy_website_dist: \"public\"\n")
+
+	return txt.String()
 }
 
 func (o *order) generateVarsCinny() string {
@@ -321,14 +381,29 @@ func (o *order) generateVarsEtherpad() string {
 }
 
 func (o *order) generateVarsElement() string {
-	if !o.has("element-web") {
-		return ""
-	}
 	var txt strings.Builder
+	if !o.has("element-web") {
+		txt.WriteString("\n# element\n")
+		txt.WriteString("matrix_client_element_enabled: yes\n")
+		return txt.String()
+	}
 
 	txt.WriteString("\n# element https://element." + o.get("domain") + "\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")
 	txt.WriteString("matrix_client_element_default_theme: dark\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsHydrogen() string {
+	if !o.has("hydrogen") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# hydrogen https://hydrogen." + o.get("domain") + "\n")
+	txt.WriteString("matrix_client_hydrogen_enabled: yes\n")
+	txt.WriteString("matrix_client_hydrogen_default_theme: dark\n")
 
 	return txt.String()
 }
@@ -406,6 +481,19 @@ func (o *order) generateVarsLanguagetool() string {
 	txt.WriteString("custom_languagetool_enabled: yes\n")
 	txt.WriteString("custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage\n")
 	txt.WriteString("matrix_server_fqn_languagetool: \"languagetool.{{ matrix_domain }}\"\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsMatrixRegistration() string {
+	if !o.has("matrix-registration") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# matrix-registration https://matrix." + o.get("domain") + "/matrix-registration\n")
+	txt.WriteString("matrix_registration_enabled: yes\n")
+	txt.WriteString("matrix_registration_admin_secret: " + o.pwgen() + "\n")
 
 	return txt.String()
 }
@@ -558,6 +646,32 @@ func (o *order) generateVarsReminder() string {
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + password + "\n")
 	txt.WriteString("# TODO: matrix-synapse-register-user reminder " + password + " 0\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsEmail2Matrix() string {
+	if !o.has("email2matrix") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::email2matrix\n")
+	txt.WriteString("matrix_email2matrix_enabled: yes\n")
+	txt.WriteString("matrix_email2matrix_user_hs: \"http://matrix-synapse:8008\"\n")
+	txt.WriteString("matrix_email2matrix_user_mxid: \"email2matrix@" + o.get("domain") + "\"\n")
+	txt.WriteString("matrix_email2matrix_user_token: TODO\n")
+	txt.WriteString("# TODO: matrix-synapse-register-user email2matrix VVtqYtyJpaAbW0YI2oBo8doZepfB07xkvcVkXuQJrXfmyxZJCBCrgcwur2XtzmRY 0\n")
+	txt.WriteString("# curl -X POST -H 'Content-Type: application/json' -d '{\"identifier\": { \"type\": \"m.id.user\", \"user\": \"email2matrix\" },\"password\": \"" + o.pwgen() + "\", \"type\": \"m.login.password\"}' 'https://matrix." + o.get("domain") + "/_matrix/client/r0/login'\n")
+	txt.WriteString("# join: curl -H \"Authorization: Bearer TODO\" 'https://matrix." + o.get("domain") + "/_matrix/client/r0/join/ROOM_ID' -X POST\n")
+	txt.WriteString("matrix_email2matrix_matrix_mappings:\n")
+	txt.WriteString("  - MailboxName: TODO\n")
+	txt.WriteString("    MatrixRoomId: TODO\n")
+	txt.WriteString("    MatrixHomeserverUrl: \"{{ matrix_email2matrix_user_hs }}\"\n")
+	txt.WriteString("    MatrixAccessToken: \"{{ matrix_email2matrix_user_token }}\"\n")
+	txt.WriteString("    MatrixUserId: \"{{ matrix_email2matrix_user_mxid }}\"\n")
+	txt.WriteString("    IgnoreSubject: no\n")
+	txt.WriteString("    IgnoreBody: no\n")
+	txt.WriteString("    SkipMarkdown: no\n")
 
 	return txt.String()
 }
