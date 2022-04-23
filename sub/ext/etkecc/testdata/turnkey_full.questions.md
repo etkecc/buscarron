@@ -1,3 +1,4 @@
+```yaml
 Hi there,
 We got your order and have some questions before the setup.
 
@@ -44,6 +45,8 @@ matrix-registration (only with subscription or turnkey): are you sure you want i
 Miounne (only with subscription or turnkey): are you sure you want it? Miounne is deprecated software - a bridge between external services (like HTML/HTTP forms, matrix-registration, buymeacoffee, etc.) and matrix. Please, check the https://gitlab.com/etke.cc/miounne and decide. If you still want it, please, send me a configuration to apply (no, there is no 'default configuration'. No, there is no 'good configuration'. No, we don't provide configuration templates. It's completely up to you)
 
 SSH: please, share with me YOUR public ssh key and YOUR public static IP(-s) to get ssh root access to your server. We restrict ssh server access by default to the predefined list of IPs and ssh keys to limit the attack surface. Of course, if you don't want to have ssh access or want to allow connections from anywhere (insecure) - just say a word.
+
+```
 
 
 ___
