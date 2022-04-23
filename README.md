@@ -20,7 +20,6 @@ env vars
 * **BUSCARRON_PASSWORD** - user password
 * **BUSCARRON_NAME_ROOM** - Matrix Room ID of the `name` form
 * **BUSCARRON_NAME_REDIRECT** - URL to redirect after handling form `name` data
-* **BUSCARRON_NAME_EXTENSIONS** - list of form extensions of the `name` form
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s` or `54r/m`
 
 1. Add form name to **BUSCARRON_LIST**, eg: `export BUSCARRON_LIST="form1 form2"`)
