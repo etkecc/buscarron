@@ -74,7 +74,7 @@ func (o *order) generateVarsSystem() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# system\n")
-	txt.WriteString("system_security_autorizedkeys: []\n")
+	txt.WriteString("system_security_authorizedkeys: []\n")
 
 	return txt.String()
 }
@@ -98,7 +98,7 @@ func (o *order) generateVarsHomeserver() string {
 }
 
 func (o *order) generateVarsSygnal() string {
-	if o.has("sygnal") {
+	if !o.has("sygnal") {
 		return ""
 	}
 	var txt strings.Builder
@@ -381,12 +381,10 @@ func (o *order) generateVarsEtherpad() string {
 }
 
 func (o *order) generateVarsElement() string {
-	var txt strings.Builder
 	if !o.has("element-web") {
-		txt.WriteString("\n# element\n")
-		txt.WriteString("matrix_client_element_enabled: yes\n")
-		return txt.String()
+		return ""
 	}
+	var txt strings.Builder
 
 	txt.WriteString("\n# element https://element." + o.get("domain") + "\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")

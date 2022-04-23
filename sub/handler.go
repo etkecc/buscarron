@@ -65,8 +65,8 @@ func (h *Handler) GET(name string, _ *http.Request) string {
 
 // POST request handler
 func (h *Handler) POST(name string, r *http.Request) string {
-	form := h.forms[name]
-	if form == nil {
+	form, ok := h.forms[name]
+	if !ok {
 		h.log.Warn("submission attempt to the %s form (does not exist)", name)
 		return ""
 	}

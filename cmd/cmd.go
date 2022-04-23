@@ -37,6 +37,7 @@ func main() {
 	log.Info("Buscarron " + version)
 	log.Info("Matrix: true")
 	log.Info("HTTP: true")
+	log.Info("Forms: %d", len(cfg.Forms))
 	log.Info("#############################")
 
 	initBot(cfg)

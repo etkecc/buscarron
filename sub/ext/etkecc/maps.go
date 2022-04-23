@@ -24,7 +24,6 @@ var dnsmap = map[string]string{
 }
 
 var customlist = []string{
-	"buscarron",
 	"kuma",
 	"languagetool",
 	"miniflux",
