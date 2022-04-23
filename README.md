@@ -9,9 +9,6 @@ Send any form (HTTP POST, HTML) to an encrypted matrix room, used as part of [et
 * End-to-End encryption
 * Receive any HTTP POST request as form submission in a matrix room
 
-## Commands
-
-
 ## Configuration
 
 env vars
