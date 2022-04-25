@@ -1,3 +1,9 @@
+# in development
+
+### Features :sparkles:
+
+* Email confirmation after form submissions with [Postmark](https://postmarkapp.com)
+
 # Buscarron v1.0.0 (2022-04-23)
 
 ### Features :sparkles:

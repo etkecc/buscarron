@@ -3,6 +3,8 @@ package etkecc
 import (
 	"strings"
 
+	"github.com/mattevans/postmark-go"
+	"gitlab.com/etke.cc/buscarron/logger"
 	"maunium.net/go/mautrix"
 )
 
@@ -10,9 +12,11 @@ type order struct {
 	test bool
 	name string
 	data map[string]string
+	pm   EmailSender
 	v    NetworkValidator
 
 	txt   strings.Builder
+	eml   strings.Builder
 	pass  map[string]string
 	files []*mautrix.ReqUploadMedia
 }
@@ -23,15 +27,27 @@ var preprocessFields = []string{"email", "domain", "username"}
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
-	o.txt.WriteString(o.generateQuestions())
+	questions := o.generateQuestions()
+	dns := o.generateDNS()
+
+	o.txt.WriteString("```yaml\n")
+	o.txt.WriteString(questions)
+	o.txt.WriteString("```\n\n")
 	o.txt.WriteString("\n___\n\n")
 
 	o.txt.WriteString("```yaml\n")
-	o.txt.WriteString(o.generateDNS())
+	o.txt.WriteString(dns)
 	o.txt.WriteString("```\n\n")
 
 	o.generateVars()
 	o.generateOnboarding()
+
+	o.eml.WriteString(questions)
+	if o.get("type") != "turnkey" {
+		o.eml.WriteString(dns)
+	}
+
+	o.sendmail()
 
 	return o.txt.String(), o.files
 }
@@ -78,4 +94,24 @@ func (o *order) preprocess() {
 	}
 
 	o.password("matrix")
+}
+
+func (o *order) sendmail() {
+	if o.pm == nil {
+		return
+	}
+
+	log := logger.New("mail.", "ERROR")
+	req := &postmark.Email{
+		To:       o.get("email"),
+		Tag:      "confirmation",
+		Subject:  "matrix server on " + o.get("domain"),
+		TextBody: o.eml.String(),
+	}
+	_, resp, err := o.pm.Send(req)
+	if err != nil {
+		log.Error("cannot send email: %v (resp: %+v)", err, resp)
+		return
+	}
+	o.txt.WriteString("\n\n**email has been sent to the customer**")
 }

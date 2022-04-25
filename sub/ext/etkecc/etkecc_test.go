@@ -26,7 +26,7 @@ type EtkeccSuite struct {
 func (s *EtkeccSuite) SetupTest() {
 	s.T().Helper()
 	s.v = &mocks.NetworkValidator{}
-	s.ext = New(s.v)
+	s.ext = New(s.v, nil)
 	s.ext.test = true
 	s.save = false
 
@@ -194,7 +194,7 @@ func (s *EtkeccSuite) rts(r io.Reader) string {
 }
 
 func (s *EtkeccSuite) TestNew() {
-	etkeccExt := New(s.v)
+	etkeccExt := New(s.v, nil)
 
 	s.IsType(&Etkecc{}, etkeccExt)
 }

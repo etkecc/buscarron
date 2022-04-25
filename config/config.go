@@ -26,6 +26,11 @@ func New() *Config {
 			Hosts:  envSlice("spam.hosts"),
 			Emails: envSlice("spam.emails"),
 		},
+		Postmark: &Postmark{
+			Token:   env("pm.token", ""),
+			From:    env("pm.from", ""),
+			ReplyTo: env("pm.replyto", ""),
+		},
 	}
 	cfg.Forms = parseForms()
 

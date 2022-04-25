@@ -4,7 +4,6 @@ import "strings"
 
 func (o *order) generateQuestions() string {
 	var txt strings.Builder
-	txt.WriteString("```yaml\n")
 	txt.WriteString("Hi there,\nWe got your order and have some questions before the setup.\n\n")
 	txt.WriteString(o.generateQuestionsDelegation())
 	txt.WriteString(o.generateQuestionsBots())
@@ -12,7 +11,6 @@ func (o *order) generateQuestions() string {
 	txt.WriteString(o.generateQuestionsServices())
 
 	txt.WriteString(o.generateQuestionsType())
-	txt.WriteString("```\n\n")
 	return txt.String()
 }
 

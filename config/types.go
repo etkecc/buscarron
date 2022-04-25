@@ -28,6 +28,9 @@ type Config struct {
 
 	// Sentry DSN
 	Sentry string
+
+	// Postmark config
+	Postmark *Postmark
 }
 
 // DB config
@@ -42,6 +45,13 @@ type DB struct {
 type Spam struct {
 	Hosts  []string
 	Emails []string
+}
+
+// Postmark config
+type Postmark struct {
+	Token   string
+	From    string
+	ReplyTo string
 }
 
 // Form config

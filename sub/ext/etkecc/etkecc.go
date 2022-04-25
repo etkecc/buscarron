@@ -3,6 +3,7 @@ package etkecc
 import (
 	"regexp"
 
+	"github.com/mattevans/postmark-go"
 	"github.com/russross/blackfriday/v2"
 	"maunium.net/go/mautrix"
 )
@@ -10,6 +11,7 @@ import (
 // Etkecc extension
 type Etkecc struct {
 	v    NetworkValidator
+	pm   EmailSender
 	test bool
 }
 
@@ -18,6 +20,11 @@ type NetworkValidator interface {
 	A(host string) bool
 	CNAME(host string) bool
 	GetBase(domain string) string
+}
+
+// EmailSender interface
+type EmailSender interface {
+	Send(*postmark.Email) (*postmark.EmailResponse, *postmark.Response, error)
 }
 
 var (
@@ -35,21 +42,22 @@ var (
 )
 
 // New etke.cc extension
-func New(v NetworkValidator) *Etkecc {
-	return &Etkecc{v: v}
+func New(v NetworkValidator, pm EmailSender) *Etkecc {
+	return &Etkecc{v: v, pm: pm}
 }
 
 // Execute extension
 func (e *Etkecc) Execute(name string, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	return parseOrder(name, data, e.v, e.test)
+	return parseOrder(name, data, e.v, e.pm, e.test)
 }
 
-func parseOrder(name string, data map[string]string, v NetworkValidator, test bool) (string, []*mautrix.ReqUploadMedia) {
+func parseOrder(name string, data map[string]string, v NetworkValidator, pm EmailSender, test bool) (string, []*mautrix.ReqUploadMedia) {
 	o := &order{
 		name:  name,
 		data:  data,
 		test:  test,
 		v:     v,
+		pm:    pm,
 		pass:  map[string]string{},
 		files: make([]*mautrix.ReqUploadMedia, 0, 3),
 	}
