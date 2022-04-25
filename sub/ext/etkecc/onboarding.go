@@ -49,6 +49,9 @@ func (o *order) generateOnboardingLinks() string {
 	if o.has("etherpad") {
 		txt.WriteString("* etherpad admin: https://dimension." + o.get("domain") + "/etherpad/admin\n")
 	}
+	if o.has("softserve") {
+		txt.WriteString("* ssh git: ssh matrix." + o.get("domain") + ":23231\n")
+	}
 	items := []string{}
 	for item := range dnsmap {
 		if o.has(item) {

@@ -129,6 +129,9 @@ func (o *order) generateQuestionsServicesNonMatrix() string {
 	if o.has("languagetool") {
 		txt.WriteString("Languagetool: are you sure you want it? It's an 'open-source Grammarly' server, requires ~30GB of disk space for n-grams, and is not integrated into the matrix. Please, check the https://languagetool.org and decide.\n\n")
 	}
+	if o.has("softserve") {
+		txt.WriteString("Soft-Serve: are you sure you want it? It's a ssh-git hosting, that is not integrated into the matrix. Please, check the https://github.com/charmbracelet/soft-serve and decide.\n\n")
+	}
 	txt.WriteString(o.generateQuestionsServicesWireguard())
 
 	return txt.String()

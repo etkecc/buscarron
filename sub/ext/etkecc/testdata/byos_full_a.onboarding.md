@@ -3,6 +3,7 @@
 * homeserver: https://matrix.example.com
 * synapse-admin: https://matrix.example.com/synapse-admin
 * etherpad admin: https://dimension.example.com/etherpad/admin
+* ssh git: ssh matrix.example.com:23231
 * buscarron: https://buscarron.example.com
 * cinny: https://cinny.example.com
 * dimension: https://dimension.example.com

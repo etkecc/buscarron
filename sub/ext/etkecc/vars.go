@@ -35,6 +35,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsMiniflux())
 	txt.WriteString(o.generateVarsMiounne())
 	txt.WriteString(o.generateVarsRadicale())
+	txt.WriteString(o.generateVarsSoftServe())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
 	txt.WriteString(o.generateVarsWireguard())
@@ -507,6 +508,20 @@ func (o *order) generateVarsRadicale() string {
 	txt.WriteString("matrix_server_fqn_radicale: \"radicale.{{ matrix_domain }}\"\n")
 	txt.WriteString("custom_radicale_htpasswd: \"" + o.get("username") + ":TODO\"\n")
 	txt.WriteString("# TODO: htpasswd -nb " + o.get("username") + " " + o.password("radicale") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsSoftServe() string {
+	if !o.has("softserve") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# softserve ssh://matrix." + o.get("domain") + ":23231\n")
+	txt.WriteString("custom_softserve_enabled: yes\n")
+	txt.WriteString("custom_softserve_host: \"matrix.{{ matrix_domain }}\"\n")
+	txt.WriteString("custom_softserve_pubkey: # TODO (optional)\n")
 
 	return txt.String()
 }

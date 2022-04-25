@@ -24,6 +24,8 @@ Miniflux: are you sure you want it? It's an RSS reader, not integrated into the 
 
 Languagetool: are you sure you want it? It's an 'open-source Grammarly' server, requires ~30GB of disk space for n-grams, and is not integrated into the matrix. Please, check the https://languagetool.org and decide.
 
+Soft-Serve: are you sure you want it? It's a ssh-git hosting, that is not integrated into the matrix. Please, check the https://github.com/charmbracelet/soft-serve and decide.
+
 WireGuard and dnsmasq: are you sure you want them? WireGuard is a VPN (not integrated with matrix) and dnsmasq is a local DNS server installed with adblock lists (like pi-hole) that is integrated pretty well with WireGuard. Please, check the https://wireguard.com and decide. If you still want it, please, share with me a list of labels you want to assign to generated client keys (just to set filenames, so even '1,2,3...' is OK)
 
 Etherpad (only with subscription or turnkey): are you sure you want it? It's a self-hosted collaborative editor, available to set up only with dimension (added a question about it, too). Keep in mind that you will get an etherpad anyway with the default integration manager, but it will be hosted by Element Inc. (developers of the Element client apps).

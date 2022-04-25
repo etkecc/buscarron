@@ -219,6 +219,11 @@ matrix_server_fqn_radicale: "radicale.{{ matrix_domain }}"
 custom_radicale_htpasswd: "test:TODO"
 # TODO: htpasswd -nb test TODO
 
+# softserve ssh://matrix.example.com:23231
+custom_softserve_enabled: yes
+custom_softserve_host: "matrix.{{ matrix_domain }}"
+custom_softserve_pubkey: # TODO (optional)
+
 # stats https://stats.example.com
 matrix_grafana_enabled: yes
 matrix_prometheus_enabled: yes
