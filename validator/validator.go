@@ -37,6 +37,20 @@ func (v *V) Domain(domain string) bool {
 		return true
 	}
 
+	if !v.DomainString(domain) {
+		return false
+	}
+
+	if !v.NS(domain) {
+		v.log.Info("domain %s invalid, reason: nslookup", domain)
+		return false
+	}
+
+	return true
+}
+
+// DomainString checks if domain string / value is valid using string checks like length and regexp
+func (v *V) DomainString(domain string) bool {
 	if len(domain) < 4 || len(domain) > 77 {
 		v.log.Info("domain %s invalid, reason: length", domain)
 		return false
@@ -44,11 +58,6 @@ func (v *V) Domain(domain string) bool {
 
 	if !domainRegex.MatchString(domain) {
 		v.log.Info("domain %s invalid, reason: regexp", domain)
-		return false
-	}
-
-	if !v.NS(domain) {
-		v.log.Info("domain %s invalid, reason: nslookup", domain)
 		return false
 	}
 

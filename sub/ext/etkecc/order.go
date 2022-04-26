@@ -4,7 +4,6 @@ import (
 	"strings"
 
 	"github.com/mattevans/postmark-go"
-	"gitlab.com/etke.cc/buscarron/logger"
 	"maunium.net/go/mautrix"
 )
 
@@ -46,6 +45,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	if o.get("type") != "turnkey" {
 		o.eml.WriteString(dns)
 	}
+	o.eml.WriteString("\nPS: this is an automatic email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers")
 
 	o.sendmail()
 
@@ -101,17 +101,17 @@ func (o *order) sendmail() {
 		return
 	}
 
-	log := logger.New("mail.", "ERROR")
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
 		Subject:  "matrix server on " + o.get("domain"),
 		TextBody: o.eml.String(),
 	}
-	_, resp, err := o.pm.Send(req)
+	err := o.pm.Send(req)
 	if err != nil {
-		log.Error("cannot send email: %v (resp: %+v)", err, resp)
+		o.txt.WriteString("\n\n**confirmation email**: ❌\n")
 		return
 	}
-	o.txt.WriteString("\n\n**email has been sent to the customer**")
+
+	o.txt.WriteString("\n\n**confirmation email**: ✅\n")
 }

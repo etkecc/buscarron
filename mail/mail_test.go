@@ -15,13 +15,13 @@ func (s *mailSuite) SetupTest() {
 }
 
 func (s *mailSuite) TestNew() {
-	pm := New("test", "test@example.com", "test@example.com")
+	pm := New("test", "test@example.com", "test@example.com", "INFO")
 
 	s.IsType(&Client{}, pm)
 }
 
 func (s *mailSuite) TestNew_Empty() {
-	null := New("", "", "")
+	null := New("", "", "", "")
 
 	s.Nil(null)
 }

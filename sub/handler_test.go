@@ -11,6 +11,7 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mocks"
+	"gitlab.com/etke.cc/buscarron/validator"
 )
 
 type HandlerSuite struct {
@@ -24,7 +25,7 @@ func (s *HandlerSuite) SetupTest() {
 }
 
 func (s *HandlerSuite) TestNew() {
-	handler := NewHandler(nil, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(nil, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
 	s.IsType(&Handler{}, handler)
 }
@@ -36,7 +37,7 @@ func (s *HandlerSuite) TestGet() {
 			Redirect: "https://example.com",
 		},
 	}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
 	result := handler.GET("test", nil)
 
@@ -45,7 +46,7 @@ func (s *HandlerSuite) TestGet() {
 
 func (s *HandlerSuite) TestGet_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
 	result := handler.GET("test", nil)
 
@@ -54,7 +55,7 @@ func (s *HandlerSuite) TestGet_NoForm() {
 
 func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
 	result := handler.POST("test", nil)
 
@@ -64,7 +65,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 func (s *HandlerSuite) TestPOST_NoData() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	request, err := http.NewRequest("POST", "", nil)
 
 	result := handler.POST("test", request)
@@ -76,7 +77,7 @@ func (s *HandlerSuite) TestPOST_NoData() {
 func (s *HandlerSuite) TestPOST_SpamEmail() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("email", "no")
 	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
@@ -91,7 +92,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 func (s *HandlerSuite) TestPOST_SpamDomain() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("domain", "no")
 	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
@@ -117,7 +118,7 @@ func (s *HandlerSuite) TestPOST() {
 		},
 	}
 	s.sender.On("Send", roomID, expectedMessage).Once()
-	handler := NewHandler(forms, &config.Spam{}, nil, s.sender, "TRACE")
+	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("email", "test@example.com")
 	data.Add("field", "value")

@@ -24,7 +24,7 @@ type NetworkValidator interface {
 
 // EmailSender interface
 type EmailSender interface {
-	Send(*postmark.Email) (*postmark.EmailResponse, *postmark.Response, error)
+	Send(*postmark.Email) error
 }
 
 var (

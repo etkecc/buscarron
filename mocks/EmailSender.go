@@ -13,33 +13,15 @@ type EmailSender struct {
 }
 
 // Send provides a mock function with given fields: _a0
-func (_m *EmailSender) Send(_a0 *postmark.Email) (*postmark.EmailResponse, *postmark.Response, error) {
+func (_m *EmailSender) Send(_a0 *postmark.Email) error {
 	ret := _m.Called(_a0)
 
-	var r0 *postmark.EmailResponse
-	if rf, ok := ret.Get(0).(func(*postmark.Email) *postmark.EmailResponse); ok {
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*postmark.Email) error); ok {
 		r0 = rf(_a0)
 	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*postmark.EmailResponse)
-		}
+		r0 = ret.Error(0)
 	}
 
-	var r1 *postmark.Response
-	if rf, ok := ret.Get(1).(func(*postmark.Email) *postmark.Response); ok {
-		r1 = rf(_a0)
-	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*postmark.Response)
-		}
-	}
-
-	var r2 error
-	if rf, ok := ret.Get(2).(func(*postmark.Email) error); ok {
-		r2 = rf(_a0)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0
 }

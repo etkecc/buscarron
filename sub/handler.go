@@ -25,7 +25,7 @@ type Sender interface {
 
 // EmailSender interface
 type EmailSender interface {
-	Send(*postmark.Email) (*postmark.EmailResponse, *postmark.Response, error)
+	Send(*postmark.Email) error
 }
 
 // Handler is an HTTP forms handler
@@ -34,7 +34,6 @@ type Handler struct {
 	sanitizer   *bluemonday.Policy
 	sender      Sender
 	forms       map[string]*config.Form
-	spam        *config.Spam
 	log         *logger.Logger
 	ext         map[string]ext.Extension
 	v           *validator.V
@@ -43,14 +42,12 @@ type Handler struct {
 const redirect = "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='{{ .URL }}'\" /></head><body>Redirecting to <a href='{{ .URL }}'>{{ .URL }}</a>..."
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, spam *config.Spam, pm EmailSender, sender Sender, loglevel string) *Handler {
-	v := validator.New(spam.Hosts, spam.Emails, loglevel)
+func NewHandler(forms map[string]*config.Form, v *validator.V, pm EmailSender, sender Sender, loglevel string) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
 		sender:      sender,
 		forms:       forms,
-		spam:        spam,
 		log:         logger.New("sub.", loglevel),
 		ext:         ext.New(v, pm),
 		v:           v,

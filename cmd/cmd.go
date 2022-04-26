@@ -18,6 +18,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/logger"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
+	"gitlab.com/etke.cc/buscarron/validator"
 	"gitlab.com/etke.cc/buscarron/web"
 )
 
@@ -99,9 +100,10 @@ func initSrv(cfg *config.Config) {
 	for name, item := range cfg.Forms {
 		rls[name] = item.Ratelimit
 	}
-	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo)
-	fh := sub.NewHandler(cfg.Forms, cfg.Spam, pm, mxb, cfg.LogLevel)
-	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh)
+	v := validator.New(cfg.Spam.Hosts, cfg.Spam.Emails, cfg.LogLevel)
+	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, cfg.LogLevel)
+	fh := sub.NewHandler(cfg.Forms, v, pm, mxb, cfg.LogLevel)
+	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, v)
 
 	log.Debug("web server has been created")
 }

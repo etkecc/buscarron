@@ -17,9 +17,16 @@ type FormHandler interface {
 	POST(string, *http.Request) string
 }
 
+// DomainValidator for the web server
+type DomainValidator interface {
+	A(string) bool
+	DomainString(string) bool
+}
+
 // Server to handle forms
 type Server struct {
 	fh   FormHandler
+	dv   DomainValidator
 	sh   *sentryhttp.Handler
 	log  *logger.Logger
 	iph  *iphasher
@@ -28,11 +35,12 @@ type Server struct {
 }
 
 // New web server
-func New(port string, rls map[string]string, loglevel string, fh FormHandler) *Server {
+func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
 	srv := &Server{
 		fh:  fh,
+		dv:  dv,
 		sh:  sh,
 		log: log,
 		iph: &iphasher{},
@@ -43,6 +51,7 @@ func New(port string, rls map[string]string, loglevel string, fh FormHandler) *S
 		},
 	}
 	srv.initHealthcheck()
+	srv.initDomainValidator()
 	srv.initForms()
 
 	return srv
@@ -66,6 +75,27 @@ func (s *Server) initHealthcheck() {
 		if _, err := w.Write([]byte(`{"status":"ok"}`)); err != nil {
 			s.log.Error("%s %s %v", r.Method, r.URL.String(), err)
 		}
+	}))
+}
+
+func (s *Server) initDomainValidator() {
+	http.HandleFunc("/_domain", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
+		domain := r.URL.Query().Get("domain")
+		if domain == "" {
+			http.Error(w, "", http.StatusNotFound)
+			return
+		}
+
+		if s.dv.DomainString(domain) && !s.dv.A(domain) {
+			s.log.Info("%s %s %s is valid", r.Method, r.URL.String(), domain)
+			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+			w.Header().Set("X-Content-Type-Options", "nosniff")
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+
+		s.log.Info("%s %s %s is invalid", r.Method, r.URL.String(), domain)
+		http.Error(w, "", http.StatusForbidden)
 	}))
 }
 
