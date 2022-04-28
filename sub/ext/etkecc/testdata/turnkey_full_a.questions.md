@@ -2,6 +2,10 @@
 Hi there,
 We got your order and have some questions before the setup.
 
+I see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
+* https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
+* https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
+
 Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
 
 Honoroit: are you sure you want it? it's a helpdesk bot with e2e encryption support. Please, check the https://gitlab.com/etke.cc/honoroit and decide.
@@ -52,7 +56,6 @@ ___
 ```yaml
 
 DNS - please, add the following entries:
-@	A record	server IP
 matrix	A record	server IP
 buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com

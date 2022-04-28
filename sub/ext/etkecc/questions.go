@@ -15,7 +15,7 @@ func (o *order) generateQuestions() string {
 }
 
 func (o *order) generateQuestionsDelegation() string {
-	if o.get("serve_base_domain") == "no" {
+	if o.get("serve_base_domain") == "yes" {
 		return ""
 	}
 
