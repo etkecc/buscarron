@@ -9,6 +9,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
+	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
@@ -220,7 +221,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("turnkey", s.turnkey)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -246,7 +247,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("turnkey", s.turnkey)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -273,7 +274,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("turnkey", s.turnkeyFull)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -299,7 +300,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("turnkey", s.turnkeyFull)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -326,7 +327,7 @@ func (s *EtkeccSuite) TestExecute_Byos() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("byos", s.byos)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -352,7 +353,7 @@ func (s *EtkeccSuite) TestExecute_Byos_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("byos", s.byos)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -379,7 +380,7 @@ func (s *EtkeccSuite) TestExecute_Byos_Full() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("byos", s.byosFull)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -405,7 +406,7 @@ func (s *EtkeccSuite) TestExecute_Byos_Full_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute("byos", s.byosFull)
+	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)

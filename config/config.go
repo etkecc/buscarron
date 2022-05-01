@@ -56,10 +56,14 @@ func parseForms() map[string]*Form {
 	forms := make(map[string]*Form, len(list))
 	for _, name := range list {
 		form := &Form{
-			RoomID:     id.RoomID(env(name+".room", "")),
-			Name:       name,
-			Redirect:   env(name+".redirect", ""),
-			Ratelimit:  env(name+".ratelimit", ""),
+			RoomID:    id.RoomID(env(name+".room", "")),
+			Name:      name,
+			Redirect:  env(name+".redirect", ""),
+			Ratelimit: env(name+".ratelimit", ""),
+			Confirmation: Confirmation{
+				Subject: env(name+".confirmation.subject", ""),
+				Body:    env(name+".confirmation.body", ""),
+			},
 			Extensions: envSlice(name + ".extensions"),
 		}
 		forms[name] = form

@@ -65,6 +65,16 @@ type Form struct {
 	RoomID id.RoomID
 	// Ratelimit config
 	Ratelimit string
+	// Confirmation email config
+	Confirmation Confirmation
 	// Extensions list
 	Extensions []string
+}
+
+// Confirmation email config
+type Confirmation struct {
+	// Subject of the confirmation email
+	Subject string
+	// Body of the confirmation email
+	Body string
 }

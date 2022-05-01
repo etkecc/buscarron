@@ -5,6 +5,7 @@ import (
 
 	"maunium.net/go/mautrix"
 
+	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/validator"
 )
 
@@ -16,9 +17,9 @@ func NewRoot(_ *validator.V) *root {
 }
 
 // Execute extension
-func (e *root) Execute(name string, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *root) Execute(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	fields := e.sort(data)
-	out := "**New " + name + "**"
+	out := "**New " + form.Name + "**"
 	if data["email"] != "" {
 		out += " by " + data["email"] + "\n\n"
 	} else {

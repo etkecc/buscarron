@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
+	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/validator"
 )
 
@@ -30,7 +31,7 @@ func (s *RootSuite) TestExecute() {
 		"test": "on",
 	}
 
-	actual, _ := s.ext.Execute("test", data)
+	actual, _ := s.ext.Execute(&config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }
@@ -42,7 +43,7 @@ func (s *RootSuite) TestExecute_Email() {
 		"test":  "on",
 	}
 
-	actual, _ := s.ext.Execute("test", data)
+	actual, _ := s.ext.Execute(&config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }

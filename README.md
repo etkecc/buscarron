@@ -20,13 +20,20 @@ env vars
 * **BUSCARRON_PASSWORD** - user password
 * **BUSCARRON_NAME_ROOM** - Matrix Room ID of the `name` form
 * **BUSCARRON_NAME_REDIRECT** - URL to redirect after handling form `name` data, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to the redirect string as `{{ .email }}`)
+
+### optional form configs
+
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s` or `54r/m`
+* **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`
+* **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
+* **BUSCARRON_NAME_CONFIRMATION_BODY** - confrimation email body, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to body as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
+
 
 1. Add form name to **BUSCARRON_LIST**, eg: `export BUSCARRON_LIST="form1 form2"`)
 2. Add form config, eg: `export BUSCARRON_FORM1_REDIRECT=https://http.cat/200`
 3. Send POST request to the `http://127.0.0.1:8080/name`
 
-### optional
+### optional buscarron configs
 
 * **BUSCARRON_SENTRY** - sentry DSN
 * **BUSCARRON_LOGLEVEL** - log level
@@ -34,6 +41,9 @@ env vars
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
 * **BUSCARRON_SPAM_HOSTS** - list of spam domains, eg: `export BUSCARRON_SPAM_HOSTS="spammer.com notspammer.com"`
 * **BUSCARRON_SPAM_EMAILS** - list of spam emails: eg: `export BUSCARRON_SPAM_EMAILS="annoy@gmail.com spammer@live.com"`
+* **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
+* **BUSCARRON_PM_FROM** - [Postmark](https://postmarkapp.com) sender signature
+* **BUSCARRON_PM_REPLYTO** - reply-to email header
 
 You can find default values in [config/defaults.go](config/defaults.go)
 

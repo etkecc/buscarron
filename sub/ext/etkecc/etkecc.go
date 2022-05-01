@@ -5,6 +5,7 @@ import (
 
 	"github.com/mattevans/postmark-go"
 	"github.com/russross/blackfriday/v2"
+	"gitlab.com/etke.cc/buscarron/config"
 	"maunium.net/go/mautrix"
 )
 
@@ -47,8 +48,8 @@ func New(v NetworkValidator, pm EmailSender) *Etkecc {
 }
 
 // Execute extension
-func (e *Etkecc) Execute(name string, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	return parseOrder(name, data, e.v, e.pm, e.test)
+func (e *Etkecc) Execute(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	return parseOrder(form.Name, data, e.v, e.pm, e.test)
 }
 
 func parseOrder(name string, data map[string]string, v NetworkValidator, pm EmailSender, test bool) (string, []*mautrix.ReqUploadMedia) {
