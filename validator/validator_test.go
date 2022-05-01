@@ -82,28 +82,11 @@ func (s *ValidatorSuite) TestMX() {
 	}
 }
 
-func (s *ValidatorSuite) TestNS() {
-	tests := map[string]bool{
-		"":              false,
-		"example.com":   true,
-		"doesnt.exists": false,
-	}
-
-	for host, expected := range tests {
-		s.Run(host, func() {
-			result := s.v.NS(host)
-
-			s.Equal(expected, result)
-		})
-	}
-}
-
 func (s *ValidatorSuite) TestDomain() {
 	tests := map[string]bool{
 		"":                true,
 		"n.e":             false,
 		"example.com":     true,
-		"doesnt.exists":   false,
 		"that's invalid!": false,
 		"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.e": false,
 	}

@@ -1,52 +1,52 @@
 ```yaml
-Hi there,
-We got your order and have some questions before the setup.
+Привет,
+Мы получили твой заказ и хотели задать несколько вопросов перед установкой.
 
-I see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
+Я вижу что у тебя что-то настроено на основном домене. В этом случае тебе нужно будет добавить HTTPS редиректы (HTTP 301):
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
 
-Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
+Reminder bot: Какой у тебя часовой пояс (в формате IANA)? Например, America/Chicago, Asia/Seoul или Europe/Berlin
 
-Honoroit: are you sure you want it? it's a helpdesk bot with e2e encryption support. Please, check the https://gitlab.com/etke.cc/honoroit and decide.
+Honoroit: ты точно хочешь это? Это хелпдеск бот с поддержкой e2e шифрования. Пожалуйста, посмотри на https://gitlab.com/etke.cc/honoroit и реши.
 
-Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
+Telegram: пожалуйста, сходи на https://my.telegram.org/apps и создай новое приложение. Отправь мне API ID и Hash
 
-Uptime Kuma: are you sure you want it? It's a self-hosted monitoring tool, that is not integrated into the matrix, like 'opensource UptimeRobot'. Please, check the https://github.com/louislam/uptime-kuma and decide.
+Uptime Kuma: ты точно хочешь это? Простой мониторинг сайтов на твоем сервере, без интеграции с matrix, что-то вроде 'open source UptimeRobot'. Пожалуйста, открой https://github.com/louislam/uptime-kuma и реши.
 
-Radicale: are you sure you want it? It's a CalDAV/CardDAV server, that is not integrated into the matrix. Please, check the https://radicale.org/ and decide.
+Radicale: ты точно хочешь это? CalDav/CardDav сервер, без интеграции с matrix. Пожалуйста, открой https://radicale.org и реши.
 
-Miniflux: are you sure you want it? It's an RSS reader, not integrated into the matrix. Please, check the https://miniflux.app and decide.
+Miniflux: ты точно хочешь это? Читалка RSS, без интеграции с matrix. Пожалуйста, открой https://miniflux.app и реши.
 
-Languagetool: are you sure you want it? It's an 'open-source Grammarly' server, requires ~30GB of disk space for n-grams, and is not integrated into the matrix. Please, check the https://languagetool.org and decide.
+Languagetool: ты точно хочешь это? Что-то вроде сервера 'open source Grammarly', требует около 30ГБ места на диске для н-грамм, без интеграции с matrix. Пожалуйста, открой https://languagetool.org и реши.
 
-Soft-Serve: are you sure you want it? It's a ssh-git hosting, that is not integrated into the matrix. Please, check the https://github.com/charmbracelet/soft-serve and decide.
+Soft-Serve: ты точно хочешь это? Git хостинг, достуный только по ssh, без интеграции с matrix. Пожалуйста, открой https://github.com/charmbracelet/soft-serve и реши.
 
-WireGuard and dnsmasq: are you sure you want them? WireGuard is a VPN (not integrated with matrix) and dnsmasq is a local DNS server installed with adblock lists (like pi-hole) that is integrated pretty well with WireGuard. Please, check the https://wireguard.com and decide. If you still want it, please, share with me a list of labels you want to assign to generated client keys (just to set filenames, so even '1,2,3...' is OK)
+WirGuard и dnsmasq: ты точно хочешь их? WireGuard это VPN (без интеграции с matrix), а dnsmasq - локальный DNS сервер с блокировщиком рекламы (как pi-hole), который хорошо интегрирован с WireGuard. Пожалуйста, открой https://wireguard.com и реши. Если ты хочешь добавить их, пожалуйста, отправь мне список названий, которые ты хочешь использовать для клиентов (просто для имен файлов, так что даже '1,2,3,...' подойдет)
 
-Etherpad (only with subscription or turnkey): are you sure you want it? It's a self-hosted collaborative editor, available to set up only with dimension (added a question about it, too). Keep in mind that you will get an etherpad anyway with the default integration manager, but it will be hosted by Element Inc. (developers of the Element client apps).
+Etherpad (только с подпиской или хостингом): ты точно хочешь это? Это редактор текста для совместной работы на твоем сервере, работает только в связке с dimension (добавил вопрос и о нем). Etherpad и так доступен тебе по умолчанию в менеджере интеграций в любом приложении Element (хостится на серверах Element Inc., разработчики приложений Element).
 
-Dimension (only with subscription or turnkey): are you sure you want it? It's a self-hosted integration manager. You will get integration manager by default with any Element client app. Please check the https://github.com/turt2live/matrix-dimension and decide
+Dimension (только с подпиской или хостингом): ты точно хочешь это? Это менеджер интеграций на твоем сервере. По умолчанию у тебя и так будет доступен стандартный менеджер интеграций. Пожалуйста, посмотри на https://github.com/turt2live/matrix-dimension и реши
 
-Website (only with subscription or turnkey): to deploy a static website you have to point your base domain (the @ DNS entry) to the matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
+Website (только с подпиской или хостингом): чтобы задеплоить статичный вебсайт, тебе придется настроить свой базовый домен на сервер matrix (@ DNS запись), а исходники самого вебсайта должны быть доступны в публичном git репозитории. Ты точно хочешь этого? Если да, пожалуйста, отправь мне адрес git репозитория твоего статичного сайта, список команд для сборки и в какой директории будет собран артефакт (обычно это public или dist).
 
-SSO (only with subscription or turnkey): You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send me the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
+SSO (только с подпиской или хостингом): Я не получил информацию о том, какого OIDC/OAuth2 провайдера ты хочешь интегрировать, так что вот список популярных провайдеров - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Пожалуйста, отправь мне требуемую информацию для настройки (обычно это название провайдера, issuer, client_id и client_secret, но все зависит от выбранного провайдера)
 
-Sygnal (only with subscription or turnkey): are you sure you want it? It's a push gateway, usable only for matrix client app developers, so you can't use it if you don't develop your mobile matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
+Sygnal (только с подпиской или хостингом): ты точно хочешь это? Это push gateway, нужен только разработчикам мобильных приложений matrix, так что он будет бесполезен, если ты не разрабатываешь собственное мобильное приложение для matrix. Если ты все же хочешь его добавить, пожалуйста, отправь следующую информацию: ID приложений (например org.matrix.app), API ключ FCM и/или сертификат APNS (если используется)
 
-BorgBackup (only with subscription or turnkey): please, provide the desired repository url (user@host:repo). We will generate ssh key and encryption passphrase on your server side. We will send you the public part of the generated ssh key. You will add that ssh key on your provider side.
+BorgBackup (только с подпиской или хостингом): пожалуйста, предоставь желаемый адрес репозитория (user@host:repo). Мы сгенерируем ssh ключ и пароль шифрования на стороне твоего сервера и отправим тебе публичную часть ключа. Тебе нужно будет добавить этот ключ на стороне твоего borg провайдера.
 
-email2matrix (only with subscription or turnkey): are you sure you want it? It's a one-way SMTP server to receive emails in a matrix room that is quite tricky to set up by you as it doesn't have a straightforward way to configure it, we will need to cooperate with you to do configuration both as matrix homeserver user (you, we don't have users on your homeserver thus don't have access to your data inside matrix) and system (us, because that tool's configuration available only in config files on the VM/VPS disk).
+email2matrix (только с подпиской или хостингом): ты точно хочешь это? Это односторонний SMTP сервер для получения имейлов в комнате matrix и настроить его тебе будет крайне непросто, нам нужно будет скооперироваться с тобой, чтобы подготовить конфигурацию с обеих сторон - matrix (ты - у нас нет matrix ползователей на твоем сервере, потому и нет доступа к данным внутри matrix) и системы (мы - потому как все настройки email2matrix надо править прямо в файлах конфигурации на диске).
 
-Jitsi (only with subscription or turnkey): are you sure you want it? You will get jitsi integration by default with public instance, the jitsi item we offer is a self-hosted version. Keep in mind that jitsi significantly increases compute power requirements.
+Jitsi (только с подпиской или хостингом): ты точно хочешь это? По умолчанию у тебя будет интегрирован публичный сервер jitsi, а мы предлагаем то же самое установить на твой сервер. Имей в виду, что jitsi на твоем сервере сильно увеличивает требования к конфигурации сервера.
 
-ma1sd (only with subscription or turnkey): are you sure you want it? It's deprecated software, previously used as stub - an identity server, unmaintained for a while, and it doesn't have any benefits in most cases (except if you want to add LDAP auth or Twilio phone number verification).
+ma1sd (только с подпиской или хостингом): ты точно хочешь это? Это устаревшее решение, изначально использовалось как заглушка - identity сервер, не обновлявшийся уже долгое время и не имеющий никаких плюсов в большинстве случаев (за исключением ситуаций, когда тебе нужна авторизация LDAP или подтверждение телефона через Twilio).
 
-matrix-registration (only with subscription or turnkey): are you sure you want it? It's deprecated software - a workaround used to add invite-based registration to the matrix, because protocol didn't support it, but now you can use builtin invite tokens instead: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html
+matrix-registration (только с подпиской или хостингом): ты точно хочешь это? Это устаревшее решение - костыль, чтобы добавить регистрацию по приглашениям в matrix, потому что раньше протокол не поддерживал их, но теперь по умолчанию включено встроенное решение: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html
 
-Miounne (only with subscription or turnkey): are you sure you want it? Miounne is deprecated software - a bridge between external services (like HTML/HTTP forms, matrix-registration, buymeacoffee, etc.) and matrix. Please, check the https://gitlab.com/etke.cc/miounne and decide. If you still want it, please, send me a configuration to apply (no, there is no 'default configuration'. No, there is no 'good configuration'. No, we don't provide configuration templates. It's completely up to you)
+Miounne (только с подпиской или хостингом): ты точно хочешь это? Это устаревшее решение - интеграция между внешними сервисами (например, HTML/HTTP формы, matrix-registration, buymeacoffee и т.д.) и matrix. Пожалуйста, открой https://gitlab.com/etke.cc/miounne и реши. Если ты все же хочешь добавить miounne, пожалуйста, отправь мне желаемую конфигурацию (нет, 'конфигурации по умолчанию' не существует. Нет, 'хорошей конфигурации' не существует. Нет, мы не предоставляем шаблоны конфигурации, это все на тебе)
 
-SSH: please, share with me YOUR public ssh key and YOUR public static IP(-s) to get ssh root access to your server. We restrict ssh server access by default to the predefined list of IPs and ssh keys to limit the attack surface. Of course, if you don't want to have ssh access or want to allow connections from anywhere (insecure) - just say a word.
+SSH: пожалуйста, отправь мне ТВОЙ публичный ssh ключи и ТВОЙ публичный статичный IP адрес(-а) для получения root ssh доступа на сервер. По умолчанию, мы разрешаем доступ на ssh только с предустановленного списка IP адресов и публичных ssh ключей, чтобы снизить вероятность взлома. Конечно, если тебе не нужен доступ на сервер по ssh или если ты хочешь убрать ограничение по IP адресам - только скажи.
 
 ```
 
@@ -55,7 +55,7 @@ ___
 
 ```yaml
 
-DNS - please, add the following entries:
+DNS - пожалуйста, добавь следующие записи:
 matrix	A record	server IP
 buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com

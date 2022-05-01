@@ -1,5 +1,5 @@
 
-<h1>links</h1>
+<h1>ссылки</h1>
 
 <ul>
 <li>homeserver: https://matrix.example.com<br />
@@ -40,7 +40,7 @@
 </li>
 </ul>
 
-<h1>bots</h1>
+<h1>боты</h1>
 
 <ul>
 <li>honoroit: @honoroit:example.com<br />
@@ -53,7 +53,7 @@
 </li>
 </ul>
 
-<h1>bridges</h1>
+<h1>интеграции</h1>
 
 <ul>
 <li>discord: @_discordpuppet_bot:example.com<br />
@@ -87,10 +87,10 @@
 </ul>
 
 <blockquote>
-<p>https://etke.cc/bridges - auth instructions</p>
+<p>https://etke.cc/bridges - инструкции по авторизации</p>
 </blockquote>
 
-<h1>credentials</h1>
+<h1>доступы</h1>
 
 <ul>
 <li>mxid: @test:example.com<br />
@@ -110,44 +110,44 @@
 </ul>
 
 <blockquote>
-<p>in case of any issues: @support:etke.cc</p>
+<p>в случае проблем: @support:etke.cc</p>
 </blockquote>
 
-<h1>steps after the setup</h1>
+<h1>после установки</h1>
 
 <h3>email2matrix</h3>
 
 <ol>
-<li>Add new MX record on matrix subdomain that will point... to matrix.example.com (looks odd, but some mail servers will not send email to your server without it)<br />
+<li>Добавь новую MX запись на поддомене matrix, которая будет указывать... на matrix.example.com (выглядит странно, но некторые почтовые сервера не будут доставлять письма на твой сервер без нее)<br />
 </li>
-<li>Create a non-admin matrix user with username <code>email2matrix</code> and secure password<br />
+<li>Создай обычного пользователя matrix с логином <code>email2matrix</code> и надежным паролем<br />
 </li>
-<li>Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite email2matrix user in all of them<br />
+<li>На каждый почтовый ящик, который ты хочешь добавить, создай незашифрованную matrix комнату и пригласи пользователя email2matrix в каждую из них<br />
 </li>
-<li>Login with email2matrix user and accept the invites you sent (yes, that's why I asked you if you really want it)<br />
+<li>Войди пользователем email2matrix и прими все приглашения, которые были отправлены тобой ранее (да, вот потому я и спрашивал, точно ли ты хочешь это)<br />
 </li>
-<li>Send email2matrix password and pairs of mailbox name - matrix room id to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)<br />
+<li>Отправь пароль пользователя email2matrix и пары почтовый ящик - ID matrix комнаты на @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)<br />
 </li>
 </ol>
 
 <h3>etherpad</h3>
 
 <ol>
-<li>Open integration manager in any element client app<br />
+<li>Открой менеджер интеграций в любом приложении Element<br />
 </li>
-<li>Click on the sprocket icon and go to the Widgets tab<br />
+<li>Нажми на иконку шестеренки и перейди в таб Widgets<br />
 </li>
-<li>Open the Etherpad widget configuration and replace <code>scalar.vector.im</code> with <code>dimension.example.com</code><br />
+<li>Открой конфигурацию виджета Etherpad и замени <code>scalar.vector.im</code> на <code>dimension.example.com</code><br />
 </li>
 </ol>
 
 <h3>honoroit</h3>
 
 <ol>
-<li>Create a matrix room (encryption supported) and invite the honoroit user into it<br />
+<li>Создай matrix комнату (шифрование поддерживается) и пригласи пользователя honoroit в нее<br />
 </li>
-<li>Send the room id to the @support:etke.cc<br />
+<li>Отправь ID этой комнаты на @support:etke.cc<br />
 </li>
 </ol>
 
-<p>if you want to change honoroit messages, send the texts you want to set to the @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as reference)</p>
+<p>Если ты хочешь изменить текст сообщений, отправь желаемый вариант на @support:etke.cc (используй https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go в качесте справки)</p>

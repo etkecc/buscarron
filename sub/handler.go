@@ -60,7 +60,7 @@ func NewHandler(forms map[string]*config.Form, v *validator.V, pm EmailSender, s
 func (h *Handler) GET(name string, _ *http.Request) string {
 	form := h.forms[name]
 	if form != nil {
-		return h.redirect(form.Redirect)
+		return h.redirect(form.Redirect, nil)
 	}
 
 	return ""
@@ -76,7 +76,7 @@ func (h *Handler) POST(name string, r *http.Request) string {
 
 	if err := r.ParseForm(); err != nil {
 		h.log.Error("cannot parse a submission to the %s form: %v", name, err)
-		return h.redirect(form.Redirect)
+		return h.redirect(form.Redirect, nil)
 	}
 
 	data := make(map[string]string, len(r.PostForm))
@@ -86,12 +86,12 @@ func (h *Handler) POST(name string, r *http.Request) string {
 
 	if !h.v.Email(data["email"]) {
 		h.log.Info("submission to the %s form marked as spam, reason: email", form.Name)
-		return h.redirect(form.Redirect)
+		return h.redirect(form.Redirect, data)
 	}
 
 	if !h.v.Domain(data["domain"]) {
 		h.log.Info("submission to the %s form marked as spam, reason: domain", form.Name)
-		return h.redirect(form.Redirect)
+		return h.redirect(form.Redirect, data)
 	}
 
 	text, files := h.generate(form, data)
@@ -102,17 +102,31 @@ func (h *Handler) POST(name string, r *http.Request) string {
 	}
 	form.Unlock()
 
-	return h.redirect(form.Redirect)
+	return h.redirect(form.Redirect, data)
 }
 
-func (h *Handler) redirect(target string) string {
+func (h *Handler) redirect(target string, vars map[string]string) string {
 	var html bytes.Buffer
+	var targetBytes bytes.Buffer
+	targetTpl, err := template.New("target").Parse(target)
+	if err != nil {
+		h.log.Error("cannot parse redirect url template: %v", err)
+	}
+	if targetTpl != nil {
+		err = targetTpl.Execute(&targetBytes, vars)
+		if err != nil {
+			h.log.Error("cannot execute redirect url template: %v", err)
+		} else {
+			target = targetBytes.String()
+		}
+	}
+
 	data := struct {
 		URL string
 	}{
 		URL: target,
 	}
-	err := h.redirectTpl.Execute(&html, data)
+	err = h.redirectTpl.Execute(&html, data)
 	if err != nil {
 		h.log.Error("cannot execute redirect template: %v", err)
 	}

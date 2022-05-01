@@ -3,6 +3,7 @@
 ### Features :sparkles:
 
 * Email confirmation after form submissions with [Postmark](https://postmarkapp.com)
+* [Templates](https://pkg.go.dev/text/template) support for redirect URLs
 
 # Buscarron v1.0.0 (2022-04-23)
 

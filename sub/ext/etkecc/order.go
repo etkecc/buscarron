@@ -45,7 +45,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	if o.get("type") != "turnkey" {
 		o.eml.WriteString(dns)
 	}
-	o.eml.WriteString("\nPS: this is an automatic email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers")
+	o.eml.WriteString("\n" + o.t("ps_automatic_email"))
 
 	o.sendmail()
 
@@ -66,6 +66,11 @@ func (o *order) get(key string) string {
 func (o *order) has(key string) bool {
 	val, ok := o.data[key]
 	return ok || val != ""
+}
+
+// t is a wrapper of the package's t with lang set
+func (o *order) t(key string) string {
+	return t(o.get("lang"), key)
 }
 
 // preprocess data
@@ -104,7 +109,7 @@ func (o *order) sendmail() {
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
-		Subject:  "matrix server on " + o.get("domain"),
+		Subject:  o.t("matrix_server_on") + " " + o.get("domain"),
 		TextBody: o.eml.String(),
 	}
 	err := o.pm.Send(req)

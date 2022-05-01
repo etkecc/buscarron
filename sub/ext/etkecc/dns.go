@@ -6,7 +6,7 @@ import (
 )
 
 func (o *order) generateDNS() string {
-	dns := "\nDNS - please, add the following entries:\n"
+	dns := "\n" + o.t("dns_add_entries") + ":\n"
 	if o.get("serve_base_domain") == "yes" {
 		dns += strings.Join([]string{"@", "A record", "server IP\n"}, "\t")
 	}
