@@ -41,11 +41,6 @@ func (v *V) Domain(domain string) bool {
 		return false
 	}
 
-	if !v.NS(domain) {
-		v.log.Info("domain %s invalid, reason: nslookup", domain)
-		return false
-	}
-
 	return true
 }
 
@@ -143,20 +138,6 @@ func (v *V) MX(host string) bool {
 	}
 
 	return len(mxs) > 0
-}
-
-// NS checks if host has at least one NS record
-func (v *V) NS(host string) bool {
-	if host == "" {
-		return false
-	}
-	ns, err := net.LookupNS(host)
-	if err != nil {
-		v.log.Error("cannot get NS records of %s: %v", host, err)
-		return false
-	}
-
-	return len(ns) > 0
 }
 
 // emailDomain checks if email domain or host is invalid

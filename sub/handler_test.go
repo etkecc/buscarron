@@ -105,14 +105,14 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 }
 
 func (s *HandlerSuite) TestPOST() {
-	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
+	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
-	expectedMessage := "**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n\n___\n**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n\n___\n"
+	expectedMessage := "**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n* lang: en\n\n___\n**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n* lang: en\n\n___\n"
 	roomID := id.RoomID("!test:example.com")
 	forms := map[string]*config.Form{
 		"test": {
 			Name:       "test",
-			Redirect:   "https://example.com",
+			Redirect:   "https://example.com/{{ .lang }}",
 			RoomID:     roomID,
 			Extensions: []string{"", "root", "invalid"},
 		},
@@ -122,6 +122,7 @@ func (s *HandlerSuite) TestPOST() {
 	data := url.Values{}
 	data.Add("email", "test@example.com")
 	data.Add("field", "value")
+	data.Add("lang", "en")
 	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
