@@ -34,7 +34,7 @@ SSO (only with subscription or turnkey): You didn't mention what OIDC/OAuth2 pro
 
 Sygnal (only with subscription or turnkey): are you sure you want it? It's a push gateway, usable only for matrix client app developers, so you can't use it if you don't develop your mobile matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
 
-BorgBackup (only with subscription or turnkey): please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server side. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
+BorgBackup (only with subscription or turnkey): please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
 
 email2matrix (only with subscription or turnkey): are you sure you want it? It's a one-way SMTP server to receive emails into a matrix room. It's quite tricky to set up by yourself, as it doesn't have a straightforward way to get it configured. We will need to cooperate with you to do configuration both as a matrix homeserver user (performed by you, because we don't have users on your homeserver and don't have access to your data inside matrix) and system (performed by us, because that tool's configuration is saved in config files on the VM/VPS disk).
 
@@ -47,7 +47,7 @@ matrix-registration (only with subscription or turnkey): are you sure you want i
 Miounne (only with subscription or turnkey): are you sure you want it? Miounne is deprecated software - a bridge between external services (like HTML/HTTP forms, matrix-registration, buymeacoffee, etc.) and matrix. Please, check https://gitlab.com/etke.cc/miounne before deciding. If you still want it, please, send me a configuration to apply (no, there is no 'default configuration'. No, there is no 'good configuration'. No, we don't provide configuration templates. It's completely up to you)
 
 Server: please, create a VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
-Add our SSH key (https://etke.cc/ssh.key) to your server, send us your server's IP address, the username (with permissions to call sudo), and password (if set).
+Add our SSH keys (https://etke.cc/ssh.key) to your server, send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
 ```
 
