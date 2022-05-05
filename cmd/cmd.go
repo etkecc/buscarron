@@ -103,7 +103,7 @@ func initSrv(cfg *config.Config) {
 	v := validator.New(cfg.Spam.Hosts, cfg.Spam.Emails, cfg.LogLevel)
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, cfg.LogLevel)
 	fh := sub.NewHandler(cfg.Forms, v, pm, mxb, cfg.LogLevel)
-	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, v)
+	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, v, cfg.Ban.Duration, cfg.Ban.Size)
 
 	log.Debug("web server has been created")
 }

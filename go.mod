@@ -3,6 +3,7 @@ module gitlab.com/etke.cc/buscarron
 go 1.18
 
 require (
+	git.sr.ht/~xn/cache v1.2.2
 	github.com/getsentry/sentry-go v0.13.0
 	github.com/lib/pq v1.10.4
 	github.com/mattevans/postmark-go v0.1.5
@@ -16,6 +17,7 @@ require (
 )
 
 require (
+	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect

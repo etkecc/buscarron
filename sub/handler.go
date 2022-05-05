@@ -2,6 +2,7 @@ package sub
 
 import (
 	"bytes"
+	"errors"
 	"html/template"
 	"net/http"
 	"strings"
@@ -41,6 +42,13 @@ type Handler struct {
 
 const redirect = "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='{{ .URL }}'\" /></head><body>Redirecting to <a href='{{ .URL }}'>{{ .URL }}</a>..."
 
+var (
+	// ErrNotFound when form not found
+	ErrNotFound = errors.New("form not found")
+	// ErrSpam returned when submission is spam
+	ErrSpam = errors.New("spam submission")
+)
+
 // NewHandler creates new HTTP forms handler
 func NewHandler(forms map[string]*config.Form, v *validator.V, pm EmailSender, sender Sender, loglevel string) *Handler {
 	h := &Handler{
@@ -57,26 +65,26 @@ func NewHandler(forms map[string]*config.Form, v *validator.V, pm EmailSender, s
 }
 
 // GET request handler
-func (h *Handler) GET(name string, _ *http.Request) string {
+func (h *Handler) GET(name string, _ *http.Request) (string, error) {
 	form := h.forms[name]
 	if form != nil {
-		return h.redirect(form.Redirect, nil)
+		return h.redirect(form.Redirect, nil), nil
 	}
 
-	return ""
+	return "", ErrNotFound
 }
 
 // POST request handler
-func (h *Handler) POST(name string, r *http.Request) string {
+func (h *Handler) POST(name string, r *http.Request) (string, error) {
 	form, ok := h.forms[name]
 	if !ok {
 		h.log.Warn("submission attempt to the %s form (does not exist)", name)
-		return ""
+		return "", ErrNotFound
 	}
 
 	if err := r.ParseForm(); err != nil {
 		h.log.Error("cannot parse a submission to the %s form: %v", name, err)
-		return h.redirect(form.Redirect, nil)
+		return h.redirect(form.Redirect, nil), nil
 	}
 
 	data := make(map[string]string, len(r.PostForm))
@@ -86,12 +94,12 @@ func (h *Handler) POST(name string, r *http.Request) string {
 
 	if !h.v.Email(data["email"]) {
 		h.log.Info("submission to the %s form marked as spam, reason: email", form.Name)
-		return h.redirect(form.Redirect, data)
+		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
 	if !h.v.Domain(data["domain"]) {
 		h.log.Info("submission to the %s form marked as spam, reason: domain", form.Name)
-		return h.redirect(form.Redirect, data)
+		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
 	text, files := h.generate(form, data)
@@ -102,7 +110,7 @@ func (h *Handler) POST(name string, r *http.Request) string {
 	}
 	form.Unlock()
 
-	return h.redirect(form.Redirect, data)
+	return h.redirect(form.Redirect, data), nil
 }
 
 func (h *Handler) redirect(target string, vars map[string]string) string {

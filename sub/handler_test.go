@@ -39,8 +39,9 @@ func (s *HandlerSuite) TestGet() {
 	}
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
-	result := handler.GET("test", nil)
+	result, err := handler.GET("test", nil)
 
+	s.Require().NoError(err)
 	s.Equal(expected, result)
 }
 
@@ -48,8 +49,10 @@ func (s *HandlerSuite) TestGet_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
-	result := handler.GET("test", nil)
+	result, err := handler.GET("test", nil)
 
+	s.Require().Error(err)
+	s.Equal(ErrNotFound, err)
 	s.Equal("", result)
 }
 
@@ -57,8 +60,10 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 
-	result := handler.POST("test", nil)
+	result, err := handler.POST("test", nil)
 
+	s.Require().Error(err)
+	s.Equal(ErrNotFound, err)
 	s.Equal("", result)
 }
 
@@ -66,11 +71,12 @@ func (s *HandlerSuite) TestPOST_NoData() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
-	request, err := http.NewRequest("POST", "", nil)
+	request, rerr := http.NewRequest("POST", "", nil)
 
-	result := handler.POST("test", request)
+	result, err := handler.POST("test", request)
 
-	s.NoError(err)
+	s.Require().NoError(rerr)
+	s.Require().NoError(err)
 	s.Equal(expected, result)
 }
 
@@ -80,12 +86,14 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("email", "no")
-	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result := handler.POST("test", request)
+	result, err := handler.POST("test", request)
 
-	s.NoError(err)
+	s.NoError(rerr)
+	s.Require().Error(err)
+	s.Equal(ErrSpam, err)
 	s.Equal(expected, result)
 }
 
@@ -95,12 +103,14 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("domain", "no")
-	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result := handler.POST("test", request)
+	result, err := handler.POST("test", request)
 
-	s.NoError(err)
+	s.NoError(rerr)
+	s.Require().Error(err)
+	s.Equal(ErrSpam, err)
 	s.Equal(expected, result)
 }
 
@@ -123,12 +133,13 @@ func (s *HandlerSuite) TestPOST() {
 	data.Add("email", "test@example.com")
 	data.Add("field", "value")
 	data.Add("lang", "en")
-	request, err := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result := handler.POST("test", request)
+	result, err := handler.POST("test", request)
 
-	s.NoError(err)
+	s.NoError(rerr)
+	s.Require().NoError(err)
 	s.Equal(expected, result)
 }
 

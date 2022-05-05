@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"strconv"
 	"strings"
 
 	"maunium.net/go/mautrix/id"
@@ -22,6 +23,10 @@ func New() *Config {
 			DSN:     env("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env("db.dialect", defaultConfig.DB.Dialect),
 		},
+		Ban: &Ban{
+			Duration: envInt("ban.duration", defaultConfig.Ban.Duration),
+			Size:     envInt("ban.size", defaultConfig.Ban.Size),
+		},
 		Spam: &Spam{
 			Hosts:  envSlice("spam.hosts"),
 			Emails: envSlice("spam.emails"),
@@ -41,6 +46,19 @@ func env(shortkey string, defaultValue string) string {
 	key := strings.ToUpper(prefix + "_" + strings.ReplaceAll(shortkey, ".", "_"))
 	value := strings.TrimSpace(os.Getenv(key))
 	if value == "" {
+		return defaultValue
+	}
+
+	return value
+}
+
+func envInt(shortkey string, defaultValue int) int {
+	vString := env(shortkey, "")
+	if vString == "" {
+		return defaultValue
+	}
+	value, err := strconv.Atoi(vString)
+	if err != nil {
 		return defaultValue
 	}
 

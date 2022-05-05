@@ -20,8 +20,10 @@ type Config struct {
 	Port string
 	// Forms map
 	Forms map[string]*Form
-	// Spam Config
+	// Spam config
 	Spam *Spam
+	// Ban config
+	Ban *Ban
 
 	// DB config
 	DB DB
@@ -45,6 +47,12 @@ type DB struct {
 type Spam struct {
 	Hosts  []string
 	Emails []string
+}
+
+// Ban config
+type Ban struct {
+	Duration int
+	Size     int
 }
 
 // Postmark config

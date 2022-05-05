@@ -3,18 +3,17 @@ package web
 import (
 	"context"
 	"net/http"
-	"strings"
 
-	"github.com/getsentry/sentry-go"
 	sentryhttp "github.com/getsentry/sentry-go/http"
 
 	"gitlab.com/etke.cc/buscarron/logger"
+	"gitlab.com/etke.cc/buscarron/sub"
 )
 
 // FormHandler for web server
 type FormHandler interface {
-	GET(string, *http.Request) string
-	POST(string, *http.Request) string
+	GET(string, *http.Request) (string, error)
+	POST(string, *http.Request) (string, error)
 }
 
 // DomainValidator for the web server
@@ -25,34 +24,43 @@ type DomainValidator interface {
 
 // Server to handle forms
 type Server struct {
-	fh   FormHandler
-	dv   DomainValidator
-	sh   *sentryhttp.Handler
-	log  *logger.Logger
-	iph  *iphasher
-	rls  map[string]*ratelimiter
-	http *http.Server
+	fh  FormHandler
+	dv  DomainValidator
+	sh  *sentryhttp.Handler
+	bh  *banhandler
+	log *logger.Logger
+	iph *iphasher
+	rls map[string]*ratelimiter
+	srv *http.Server
 }
 
 // New web server
-func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator) *Server {
+func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bd int, bs int) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
+	bh := NewBanHanlder(bd, bs, loglevel)
+	iph := &iphasher{}
+	ctxm := &ctxMiddleware{iph}
 	srv := &Server{
-		fh:  fh,
+		bh:  bh,
 		dv:  dv,
+		fh:  fh,
 		sh:  sh,
 		log: log,
 		iph: &iphasher{},
 		rls: initRateLimiters(rls, log),
-		http: &http.Server{
-			Addr:     ":" + port,
-			ErrorLog: log.GetLog(),
-		},
 	}
-	srv.initHealthcheck()
-	srv.initDomainValidator()
-	srv.initForms()
+
+	mux := http.NewServeMux()
+	mux.Handle("/_health", srv.healthcheck())
+	mux.Handle("/_domain", srv.domainValidator())
+	mux.Handle("/", srv.forms())
+
+	h := ctxm.Handle(sh.Handle(bh.Handle(mux)))
+	srv.srv = &http.Server{
+		Addr:    ":" + port,
+		Handler: h,
+	}
 
 	return srv
 }
@@ -69,17 +77,17 @@ func initRateLimiters(rlCfg map[string]string, log *logger.Logger) map[string]*r
 	return rls
 }
 
-func (s *Server) initHealthcheck() {
-	http.HandleFunc("/_health", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
+func (s *Server) healthcheck() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if _, err := w.Write([]byte(`{"status":"ok"}`)); err != nil {
 			s.log.Error("%s %s %v", r.Method, r.URL.String(), err)
 		}
-	}))
+	}
 }
 
-func (s *Server) initDomainValidator() {
-	http.HandleFunc("/_domain", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
+func (s *Server) domainValidator() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		domain := r.URL.Query().Get("domain")
 		if domain == "" {
 			http.Error(w, "", http.StatusNotFound)
@@ -96,53 +104,59 @@ func (s *Server) initDomainValidator() {
 
 		s.log.Info("%s %s %s is invalid", r.Method, r.URL.String(), domain)
 		http.Error(w, "", http.StatusForbidden)
-	}))
+	}
 }
 
-func (s *Server) initForms() {
-	http.HandleFunc("/", s.sh.HandleFunc(func(w http.ResponseWriter, r *http.Request) {
-		url := r.URL.Path
-		name := strings.ReplaceAll(url, "/", "")
-		method := r.Method
-		if hub := sentry.GetHubFromContext(r.Context()); hub != nil {
-			hub.WithScope(func(scope *sentry.Scope) {
-				scope.SetExtra("form", "name")
-			})
-		}
-		if method != http.MethodPost {
-			body := s.fh.GET(name, r)
-			if _, err := w.Write([]byte(body)); err != nil {
-				s.log.Error("%s %s %v", method, url, err)
-			}
+func (s *Server) forms() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := r.Context().Value(ctxID).(uint32)
+		name := r.Context().Value(ctxName).(string)
+
+		if r.Method == http.MethodPost {
+			s.formPOST(id, name, w, r)
 			return
 		}
 
-		if s.isLimited(name, r) {
-			http.Error(w, "", http.StatusTooManyRequests)
-			s.log.Error("%s %s too many requests", method, url)
-			return
-		}
-
-		body := s.fh.POST(name, r)
-		if _, err := w.Write([]byte(body)); err != nil {
-			s.log.Error("%s %s %v", method, url, err)
-		}
-	}))
+		s.formGET(name, w, r)
+	}
 }
 
-func (s *Server) isLimited(name string, r *http.Request) bool {
-	id := s.iph.GetHash(r)
-	rl, ok := s.rls[name]
-	if rl == nil || !ok {
-		return false
+func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
+	body, err := s.fh.GET(name, r)
+	if err == sub.ErrNotFound || err == sub.ErrSpam {
+		s.bh.Ban(r)
+	}
+	if _, err := w.Write([]byte(body)); err != nil {
+		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
+	}
+}
+
+func (s *Server) formPOST(id uint32, name string, w http.ResponseWriter, r *http.Request) {
+	var limited bool
+	rl := s.rls[name]
+	if rl != nil {
+		limited = !rl.Allow(id)
 	}
 
-	return !rl.Allow(id)
+	if limited {
+		http.Error(w, "", http.StatusTooManyRequests)
+		s.log.Error("%s %s too many requests", r.Method, r.URL.Path)
+		return
+	}
+
+	body, err := s.fh.POST(name, r)
+	if err == sub.ErrNotFound || err == sub.ErrSpam {
+		s.bh.Ban(r)
+	}
+
+	if _, err := w.Write([]byte(body)); err != nil {
+		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
+	}
 }
 
 // Start web server
 func (s *Server) Start() error {
-	if err := s.http.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	if err := s.srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		return err
 	}
 	return nil
@@ -150,7 +164,7 @@ func (s *Server) Start() error {
 
 // Stop web server
 func (s *Server) Stop() {
-	if err := s.http.Shutdown(context.Background()); err != nil {
+	if err := s.srv.Shutdown(context.Background()); err != nil {
 		s.log.Error("cannot stop web server: %v", err)
 	}
 }
