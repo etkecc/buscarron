@@ -239,6 +239,13 @@ matrix_synapse_admin_enabled: yes
 custom_wireguard_enabled: yes
 custom_wireguard_clients: [] # TODO
 
+# bots::buscarron
+matrix_bot_buscarron_enabled: yes
+matrix_bot_buscarron_login: buscarron
+matrix_bot_buscarron_password: TODO
+matrix_bot_buscarron_forms: [] # TODO
+TODO: matrix-synapse-register-user buscarron TODO 0
+
 # bots::goneb
 matrix_bot_go_neb_enabled: yes
 matrix_bot_go_neb_clients:

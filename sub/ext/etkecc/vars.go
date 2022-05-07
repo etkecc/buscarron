@@ -41,6 +41,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsWireguard())
 
 	// bots
+	txt.WriteString(o.generateVarsBuscarron())
 	txt.WriteString(o.generateVarsGoneb())
 	txt.WriteString(o.generateVarsHonoroit())
 	txt.WriteString(o.generateVarsMjolnir())
@@ -588,6 +589,23 @@ func (o *order) generateVarsWireguard() string {
 	txt.WriteString("\n# wireguard\n")
 	txt.WriteString("custom_wireguard_enabled: yes\n")
 	txt.WriteString("custom_wireguard_clients: [] # TODO\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsBuscarron() string {
+	if !o.has("buscarron") {
+		return ""
+	}
+	var txt strings.Builder
+	password := o.pwgen()
+
+	txt.WriteString("\n# bots::buscarron\n")
+	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
+	txt.WriteString("matrix_bot_buscarron_login: buscarron\n")
+	txt.WriteString("matrix_bot_buscarron_password: " + password + "\n")
+	txt.WriteString("matrix_bot_buscarron_forms: [] # TODO\n")
+	txt.WriteString("TODO: matrix-synapse-register-user buscarron " + password + " 0\n")
 
 	return txt.String()
 }

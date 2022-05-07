@@ -22,6 +22,7 @@
 
 # bots
 
+* buscarron: @buscarron:example.com
 * honoroit: @honoroit:example.com
 * miounne: @miounne:example.com
 * mjolnir: @mjolnir:example.com
@@ -82,6 +83,11 @@ Please, [buy the Setup item](https://etke.cc/setup) and join the **Maintenance+E
 1. Open integration manager in any element client app
 2. Click on the sprocket icon and go to the Widgets tab
 3. Open the Etherpad widget configuration and replace `scalar.vector.im` with `dimension.example.com`
+
+### buscarron
+
+1. Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
+2. Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc
 
 ### honoroit
 

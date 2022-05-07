@@ -22,6 +22,7 @@
 
 # боты
 
+* buscarron: @buscarron:example.com
 * honoroit: @honoroit:example.com
 * miounne: @miounne:example.com
 * mjolnir: @mjolnir:example.com
@@ -76,6 +77,11 @@
 1. Открой менеджер интеграций в любом приложении Element
 2. Нажми на иконку шестеренки и перейди в таб Widgets
 3. Открой конфигурацию виджета Etherpad и замени `scalar.vector.im` на `dimension.example.com`
+
+### buscarron
+
+1. Создай (зашифрованные) комнаты matrix для всех форм, которые ты собираешься сделать и пригласи пользователя buscarron в каждую из них
+2. Отправь список (название формы, id комнаты matrix, URL для перенаправления пользователя после отправки) на @support:etke.cc
 
 ### honoroit
 

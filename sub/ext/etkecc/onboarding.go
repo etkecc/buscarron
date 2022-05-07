@@ -186,6 +186,7 @@ func (o *order) generateOnboardingAfter() string {
 	txt.WriteString("# " + o.t("steps_after_setup") + "\n\n")
 	txt.WriteString(o.generateOnboardingAfterEmail2Matrix())
 	txt.WriteString(o.generateOnboardingAfterEtherpad())
+	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
 
 	return txt.String()
@@ -217,6 +218,19 @@ func (o *order) generateOnboardingAfterEtherpad() string {
 	txt.WriteString("1. " + o.t("as_etherpad_1") + "\n")
 	txt.WriteString("2. " + o.t("as_etherpad_2") + "\n")
 	txt.WriteString("3. " + o.t("as_etherpad_3") + " `dimension." + o.get("domain") + "`\n\n")
+
+	return txt.String()
+}
+
+func (o *order) generateOnboardingAfterBuscarron() string {
+	if !o.has("honoroit") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("### buscarron\n\n")
+	txt.WriteString("1. " + o.t("as_buscarron_1") + "\n")
+	txt.WriteString("2. " + o.t("as_buscarron_2") + "\n\n")
 
 	return txt.String()
 }

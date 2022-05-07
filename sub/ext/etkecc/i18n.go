@@ -8,7 +8,8 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 
 		"q_delegation":          "We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301)",
 		"q_reminder-bot":        "What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin",
-		"q_honoroit":            "are you sure you want it? it's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.",
+		"q_buscarron":           "are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.",
+		"q_honoroit":            "are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.",
 		"q_telegram":            "please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me",
 		"q_smtp-relay":          "please, select a suitable email provider (big providers like Gmail or Outlook will ban you for automated emails, so you need to find a service that allows sending of verification emails. Optionally, we provide such service). Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email (usually login and email are the same thing, but that depends on the provider).",
 		"q_stats":               "are you sure you want it? Cloud providers usually provide a dashboard with server stats, so why not use that dashboard instead? A Prometheus+Grafana stack provides some internal matrix stats (like count of events), but it's overkill if you just want to see server utilization.",
@@ -66,12 +67,15 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 		"as_honoroit_1":           "Create a matrix room (encryption supported) and invite the honoroit user into it",
 		"as_honoroit_2":           "Send the room id to the @support:etke.cc",
 		"as_honoroit_3":           "if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)",
+		"as_buscarron_1":          "Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them",
+		"as_buscarron_2":          "Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc",
 	},
 	"ru": {
 		"intro": "Привет,\nМы получили твой заказ и хотели задать несколько вопросов перед установкой.",
 
 		"q_delegation":          "Мы видим, что у тебя что-то настроено на основном домене. В этом случае тебе нужно будет добавить HTTPS редиректы (HTTP 301)",
 		"q_reminder-bot":        "Какой у тебя часовой пояс (в формате IANA)? Например, America/Chicago, Asia/Seoul или Europe/Berlin",
+		"q_buscarron":           "ты точно хочешь это? Это бот, который принимает отправку веб форм (HTML/HTTP POST) и отправляет их в (зашифрованные) Matrix комнаты. Пожалуйста, посмотри на https://gitlab.com/etke.cc/buscarron и реши.",
 		"q_honoroit":            "ты точно хочешь это? Это хелпдеск бот с поддержкой e2e шифрования. Пожалуйста, посмотри на https://gitlab.com/etke.cc/honoroit и реши.",
 		"q_telegram":            "пожалуйста, сходи на https://my.telegram.org/apps и создай новое приложение. Отправь нам API ID и Hash",
 		"q_smtp-relay":          "пожалуйста, найди подходящего почтового провайдера (большие провайдеры вроде Gmail или Outlook забанят тебя за автоматическую отправку писен, так что тебе нужно найти сервис, который разрешает отправку верификационных имейлов. К примеру, мы предоставляем такой сервис). Пожалуйста, отправь нам SMTP хост, SMTP STARTTLS порт, SMTP логин, SMTP пароль и SMTP email (обычно логин и email это то же самое, но все зависит от провайдера).",
@@ -130,6 +134,8 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 		"as_honoroit_1":           "Создай matrix комнату (шифрование поддерживается) и пригласи пользователя honoroit в нее",
 		"as_honoroit_2":           "Отправь ID этой комнаты на @support:etke.cc",
 		"as_honoroit_3":           "Если ты хочешь изменить текст сообщений, отправь желаемый вариант на @support:etke.cc (используй https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go в качесте справки)",
+		"as_buscarron_1":          "Создай (зашифрованные) комнаты matrix для всех форм, которые ты собираешься сделать и пригласи пользователя buscarron в каждую из них",
+		"as_buscarron_2":          "Отправь список (название формы, id комнаты matrix, URL для перенаправления пользователя после отправки) на @support:etke.cc",
 	},
 }
 

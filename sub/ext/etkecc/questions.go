@@ -85,6 +85,9 @@ func (o *order) generateQuestionsServicesSubscribers() string {
 	if o.has("nginx-proxy-website") {
 		txt.WriteString("Website (" + o.t("only_with_subscription") + "): " + o.t("q_nginx-proxy-website") + "\n\n")
 	}
+	if o.has("buscarron") {
+		txt.WriteString("buscarron (" + o.t("only_with_subscription") + "): " + o.t("q_buscarron") + "\n\n")
+	}
 	if o.has("sso") {
 		txt.WriteString("SSO (" + o.t("only_with_subscription") + "): " + o.t("q_sso") + "\n\n")
 	}

@@ -4,7 +4,7 @@ We got your order and have some questions before the setup.
 
 Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
 
-Honoroit: are you sure you want it? it's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
+Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
 
 Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
 
@@ -29,6 +29,8 @@ Etherpad (only with subscription or turnkey): are you sure you want it? It's a s
 Dimension (only with subscription or turnkey): are you sure you want it? It's a self-hosted integration manager. You will get an integration manager by default with any Element client app. Please check https://github.com/turt2live/matrix-dimension before deciding
 
 Website (only with subscription or turnkey): to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
+
+buscarron (only with subscription or turnkey): are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
 
 SSO (only with subscription or turnkey): You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send us the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
 

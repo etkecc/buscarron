@@ -32,6 +32,7 @@ var customlist = []string{
 }
 
 var botmap = map[string]string{
+	"buscarron":    "@buscarron",
 	"honoroit":     "@honoroit",
 	"miounne":      "@miounne",
 	"mjolnir":      "@mjolnir",
