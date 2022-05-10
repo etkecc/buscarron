@@ -60,9 +60,10 @@ func initSentry(cfg *config.Config) {
 		env = "production"
 	}
 	err := sentry.Init(sentry.ClientOptions{
-		Dsn:         cfg.Sentry,
-		Release:     "buscarron@" + version,
-		Environment: env,
+		Dsn:              cfg.Sentry,
+		Release:          "buscarron@" + version,
+		Environment:      env,
+		TracesSampleRate: 0.2,
 	})
 	if err != nil {
 		log.Fatal("cannot initialize sentry: %v", err)
