@@ -9,9 +9,9 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	_ "github.com/lib/pq"
-	_ "github.com/mattn/go-sqlite3"
 	"gitlab.com/etke.cc/linkpearl"
 	lpcfg "gitlab.com/etke.cc/linkpearl/config"
+	_ "modernc.org/sqlite"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
@@ -71,7 +71,11 @@ func initSentry(cfg *config.Config) {
 }
 
 func initBot(cfg *config.Config) {
-	db, err := sql.Open(cfg.DB.Dialect, cfg.DB.DSN)
+	dialect := cfg.DB.Dialect
+	if dialect == "sqlite3" {
+		dialect = "sqlite"
+	}
+	db, err := sql.Open(dialect, cfg.DB.DSN)
 	if err != nil {
 		log.Fatal("cannot initialize SQL database: %v", err)
 	}
