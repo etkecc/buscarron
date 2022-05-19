@@ -103,7 +103,7 @@ func (s *Server) domainValidator() http.HandlerFunc {
 		}
 
 		s.log.Info("%s %s %s is invalid", r.Method, r.URL.String(), domain)
-		http.Error(w, "", http.StatusForbidden)
+		http.Error(w, "", http.StatusConflict)
 	}
 }
 
