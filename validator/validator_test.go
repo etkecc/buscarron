@@ -128,6 +128,7 @@ func (s *ValidatorSuite) TestGetBase() {
 		"example.com":             "example.com",
 		"sub.example.com":         "example.com",
 		"sub.sub.sub.example.com": "example.com",
+		"sub.etke.host":           "sub.etke.host",
 	}
 
 	for host, expected := range tests {

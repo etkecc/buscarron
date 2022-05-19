@@ -61,6 +61,9 @@ func (v *V) DomainString(domain string) bool {
 
 // GetBase returns base domain/host of the provided domain
 func (v *V) GetBase(domain string) string {
+	if strings.HasSuffix(domain, ".etke.host") {
+		return domain
+	}
 	parts := strings.Split(domain, ".")
 	size := len(parts)
 	// If domain contains only 2 parts (or less) - consider it without subdomains
