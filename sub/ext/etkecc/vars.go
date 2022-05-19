@@ -175,7 +175,6 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("\n# synapse::custom\n")
 	txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
 	txt.WriteString("  disable_msisdn_registration: yes\n")
-	txt.WriteString("  allow_device_name_lookup_over_federation: no\n")
 	if o.has("sso") {
 		txt.WriteString("  oidc_providers:\n")
 		txt.WriteString("  - idp_id: todo\n")

@@ -56,7 +56,7 @@ func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv
 	mux.Handle("/_domain", srv.domainValidator())
 	mux.Handle("/", srv.forms())
 
-	h := ctxm.Handle(sh.Handle(bh.Handle(mux)))
+	h := cors(ctxm.Handle(sh.Handle(bh.Handle(mux))))
 	srv.srv = &http.Server{
 		Addr:    ":" + port,
 		Handler: h,

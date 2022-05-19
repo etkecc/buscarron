@@ -1,3 +1,14 @@
+# Buscarron v1.2.0 (in development)
+
+### Bugfixes :bug:
+
+* Added CORS headers
+
+### Misc :zzz:
+
+* Switch to pure-go implementation of sqlite
+* Updated deps
+
 # Buscarron v1.1.0 (2022-05-10)
 
 ### Features :sparkles:

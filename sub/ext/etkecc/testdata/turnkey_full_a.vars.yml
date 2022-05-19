@@ -25,7 +25,6 @@ matrix_synapse_allow_public_rooms_without_auth: yes
 # synapse::custom
 matrix_synapse_configuration_extension_yaml: |
   disable_msisdn_registration: yes
-  allow_device_name_lookup_over_federation: no
   oidc_providers:
   - idp_id: todo
     idp_name: Todo
