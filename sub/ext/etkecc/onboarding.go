@@ -4,8 +4,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/russross/blackfriday/v2"
 	"maunium.net/go/mautrix"
+	"maunium.net/go/mautrix/format"
 )
 
 func (o *order) generateOnboarding() {
@@ -20,22 +20,19 @@ func (o *order) generateOnboarding() {
 
 	txt.WriteString(o.generateOnboardingAfter())
 
-	htmlBytes := blackfriday.Run([]byte(txt.String()), bfExtsOpt, bfRendererOpt)
-	html := strings.TrimRight(string(htmlBytes), "\n")
-	html = htmlPRegex.ReplaceAllString(html, "$1")
-
+	content := format.RenderMarkdown(txt.String(), true, true)
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(txt.String()),
+			Content:       strings.NewReader(content.Body),
 			FileName:      "onboarding.md",
 			ContentType:   "text/markdown",
 			ContentLength: int64(txt.Len()),
 		},
 		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(html),
+			Content:       strings.NewReader(content.FormattedBody),
 			FileName:      "onboarding.html",
 			ContentType:   "text/html",
-			ContentLength: int64(len(html)),
+			ContentLength: int64(len(content.FormattedBody)),
 		},
 	)
 }

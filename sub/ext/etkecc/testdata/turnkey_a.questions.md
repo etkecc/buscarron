@@ -6,7 +6,7 @@ We see that you have something on your base domain. In that case, you should add
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
 
-SSH: please, send us YOUR public SSH key and YOUR public static IP(-s) to get SSH root access to your server. We restrict SSH server access by default to the predefined list of IPs and SSH keys to limit the attack surface. Of course, if you don't want to have SSH access or want to allow connections from anywhere (insecure) - just say the word.
+SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.
 
 ```
 

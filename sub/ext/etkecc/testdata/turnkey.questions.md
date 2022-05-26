@@ -2,7 +2,7 @@
 Hi there,
 We got your order and have some questions before the setup.
 
-SSH: please, send us YOUR public SSH key and YOUR public static IP(-s) to get SSH root access to your server. We restrict SSH server access by default to the predefined list of IPs and SSH keys to limit the attack surface. Of course, if you don't want to have SSH access or want to allow connections from anywhere (insecure) - just say the word.
+SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.
 
 ```
 
