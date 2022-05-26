@@ -19,7 +19,6 @@
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
 
-
 # bots
 
 * buscarron: @buscarron:example.com
@@ -27,7 +26,6 @@
 * miounne: @miounne:example.com
 * mjolnir: @mjolnir:example.com
 * reminder-bot: @reminder:example.com
-
 
 # bridges
 
@@ -46,7 +44,6 @@
 * webhooks: @_webhook:example.com
 * whatsapp: @whatsappbot:example.com
 
-
 > https://etke.cc/bridges - auth instructions
 
 # credentials
@@ -59,24 +56,23 @@
 * matrix-corporal api password: TODO
 * radicale password: TODO
 
-
 > in case of any issues: @support:etke.cc
 
 # payment
 
-Please, [buy the Setup item](https://etke.cc/setup) and join the **Maintenance+Email** membership on [https://etke.cc/membership](https://etke.cc/membership).
+Please, buy the Setup item (https://etke.cc/setup) and join the **Maintenance+Email** membership on https://etke.cc/membership.
 
-> **NOTE**: all prices are based on the [Pay What You Want](https://en.wikipedia.org/wiki/Pay_what_you_want) model.
+> **NOTE**: all prices are based on the Pay What You Want (https://en.wikipedia.org/wiki/Pay_what_you_want) model.
 
 # steps after the setup
 
 ### email2matrix
 
-1. Add a new MX record on the matrix subdomain that will point... to matrix.example.com (looks odd, but some mail servers will not send email to your server without it)
-2. Create a non-admin matrix user with username `email2matrix` and a secure password
-3. Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite the email2matrix user to all of them
-4. Login with the email2matrix user and accept the invitations you sent (yes, it's a very manual process - this is why we asked you if you really want it)
-5. Send the email2matrix password and pairs of (mailbox name + matrix room id) to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
+1.  Add a new MX record on the matrix subdomain that will point... to matrix.example.com (looks odd, but some mail servers will not send email to your server without it)
+2.  Create a non-admin matrix user with username `email2matrix` and a secure password
+3.  Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite the email2matrix user to all of them
+4.  Login with the email2matrix user and accept the invitations you sent (yes, it's a very manual process - this is why we asked you if you really want it)
+5.  Send the email2matrix password and pairs of (mailbox name + matrix room id) to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
 
 ### etherpad
 
@@ -95,4 +91,3 @@ Please, [buy the Setup item](https://etke.cc/setup) and join the **Maintenance+E
 2. Send the room id to the @support:etke.cc
 
 if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
-

@@ -1,10 +1,7 @@
 package etkecc
 
 import (
-	"regexp"
-
 	"github.com/mattevans/postmark-go"
-	"github.com/russross/blackfriday/v2"
 	"gitlab.com/etke.cc/buscarron/config"
 	"maunium.net/go/mautrix"
 )
@@ -27,20 +24,6 @@ type NetworkValidator interface {
 type EmailSender interface {
 	Send(*postmark.Email) error
 }
-
-var (
-	htmlPRegex    = regexp.MustCompile("^<p>(.+?)</p>$")
-	bfRendererOpt = blackfriday.WithRenderer(blackfriday.NewHTMLRenderer(blackfriday.HTMLRendererParameters{
-		Flags: blackfriday.UseXHTML,
-	}))
-	bfExtsOpt = blackfriday.WithExtensions(blackfriday.NoIntraEmphasis |
-		blackfriday.Tables |
-		blackfriday.FencedCode |
-		blackfriday.Strikethrough |
-		blackfriday.SpaceHeadings |
-		blackfriday.DefinitionLists |
-		blackfriday.HardLineBreak)
-)
 
 // New etke.cc extension
 func New(v NetworkValidator, pm EmailSender) *Etkecc {

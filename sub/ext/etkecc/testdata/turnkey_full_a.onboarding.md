@@ -19,7 +19,6 @@
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
 
-
 # боты
 
 * buscarron: @buscarron:example.com
@@ -27,7 +26,6 @@
 * miounne: @miounne:example.com
 * mjolnir: @mjolnir:example.com
 * reminder-bot: @reminder:example.com
-
 
 # интеграции
 
@@ -46,7 +44,6 @@
 * webhooks: @_webhook:example.com
 * whatsapp: @whatsappbot:example.com
 
-
 > https://etke.cc/bridges - инструкции по авторизации
 
 # доступы
@@ -59,34 +56,32 @@
 * matrix-corporal api password: TODO
 * radicale password: TODO
 
-
 > в случае проблем: @support:etke.cc
 
 # после установки
 
 ### email2matrix
 
-1. Добавь новую MX запись на поддомене matrix, которая будет указывать... на matrix.example.com (выглядит странно, но некторые почтовые сервера не будут доставлять письма на твой сервер без нее)
-2. Создай обычного пользователя matrix с логином `email2matrix` и надежным паролем
-3. На каждый почтовый ящик, который ты хочешь добавить, создай незашифрованную matrix комнату и пригласи пользователя email2matrix в каждую из них
-4. Войди пользователем email2matrix и прими все приглашения, которые были отправлены тобой ранее (да, вот потому мы и спрашивали, точно ли ты хочешь это)
-5. Отправь пароль пользователя email2matrix и пары почтовый ящик - ID matrix комнаты на @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
+1.  Добавьте новую MX запись на поддомене matrix, которая будет указывать... на matrix.example.com (выглядит странно, но некторые почтовые сервера не будут доставлять письма на Ваш сервер без нее)
+2.  Создайте обычного пользователя matrix с логином `email2matrix` и надежным паролем
+3.  На каждый почтовый ящик, который Вы хотите добавить, создайте незашифрованную matrix комнату и пригласите пользователя email2matrix в каждую из них
+4.  Войдите пользователем email2matrix и примите все приглашения, которые были отправлены ранее (да, вот потому мы и спрашивали, точно ли Вы хотите это)
+5.  отправьте пароль пользователя email2matrix и пары почтовый ящик - ID matrix комнаты на @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
 
 ### etherpad
 
-1. Открой менеджер интеграций в любом приложении Element
-2. Нажми на иконку шестеренки и перейди в таб Widgets
-3. Открой конфигурацию виджета Etherpad и замени `scalar.vector.im` на `dimension.example.com`
+1. Откройте менеджер интеграций в любом приложении Element
+2. Нажмите на иконку шестеренки и перейдите в таб Widgets
+3. Откройте конфигурацию виджета Etherpad и замените `scalar.vector.im` на `dimension.example.com`
 
 ### buscarron
 
-1. Создай (зашифрованные) комнаты matrix для всех форм, которые ты собираешься сделать и пригласи пользователя buscarron в каждую из них
-2. Отправь список (название формы, id комнаты matrix, URL для перенаправления пользователя после отправки) на @support:etke.cc
+1. Создайте (зашифрованные) комнаты matrix для всех форм, которые Вы собираетесь сделать и пригласите пользователя buscarron в каждую из них
+2. Отправьте список (название формы, id комнаты matrix, URL для перенаправления пользователя после отправки) на @support:etke.cc
 
 ### honoroit
 
-1. Создай matrix комнату (шифрование поддерживается) и пригласи пользователя honoroit в нее
-2. Отправь ID этой комнаты на @support:etke.cc
+1. Создайте matrix комнату (шифрование поддерживается) и пригласите пользователя honoroit в нее
+2. Отправьте ID этой комнаты на @support:etke.cc
 
-Если ты хочешь изменить текст сообщений, отправь желаемый вариант на @support:etke.cc (используй https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go в качесте справки)
-
+Если Вы хотите изменить текст сообщений, отправьте желаемый вариант на @support:etke.cc (используйте https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go в качесте справки)
