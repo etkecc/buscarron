@@ -26,7 +26,7 @@ func (o *order) generateOnboarding() {
 			Content:       strings.NewReader(content.Body),
 			FileName:      "onboarding.md",
 			ContentType:   "text/markdown",
-			ContentLength: int64(txt.Len()),
+			ContentLength: int64(len(content.Body)),
 		},
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(content.FormattedBody),
