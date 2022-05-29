@@ -6,7 +6,6 @@
 
 ### Misc :zzz:
 
-* Switch to pure-go implementation of sqlite
 * Updated deps
 
 # Buscarron v1.1.0 (2022-05-10)
