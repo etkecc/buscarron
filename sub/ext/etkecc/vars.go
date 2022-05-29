@@ -10,6 +10,7 @@ func (o *order) generateVars() {
 	var txt strings.Builder
 
 	// base
+	txt.WriteString(o.generateVarsAll())
 	txt.WriteString(o.generateVarsHomeserver())
 	txt.WriteString(o.generateVarsSynapse())
 	txt.WriteString(o.generateVarsNginx())
@@ -69,6 +70,15 @@ func (o *order) generateVars() {
 		ContentType:   "text/yaml",
 		ContentLength: int64(txt.Len()),
 	})
+}
+
+func (o *order) generateVarsAll() string {
+	var txt strings.Builder
+
+	txt.WriteString("### all:start\n\n")
+	txt.WriteString("### all:end\n")
+
+	return txt.String()
 }
 
 func (o *order) generateVarsHomeserver() string {

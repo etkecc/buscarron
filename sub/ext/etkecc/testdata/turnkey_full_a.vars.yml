@@ -1,3 +1,6 @@
+### all:start
+
+### all:end
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
