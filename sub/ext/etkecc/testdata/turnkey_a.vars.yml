@@ -1,7 +1,4 @@
 
-# system
-system_security_authorizedkeys: []
-
 # homeserver https://matrix.example.com
 matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"

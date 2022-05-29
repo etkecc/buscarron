@@ -10,7 +10,6 @@ func (o *order) generateVars() {
 	var txt strings.Builder
 
 	// base
-	txt.WriteString(o.generateVarsSystem())
 	txt.WriteString(o.generateVarsHomeserver())
 	txt.WriteString(o.generateVarsSynapse())
 	txt.WriteString(o.generateVarsNginx())
@@ -70,15 +69,6 @@ func (o *order) generateVars() {
 		ContentType:   "text/yaml",
 		ContentLength: int64(txt.Len()),
 	})
-}
-
-func (o *order) generateVarsSystem() string {
-	var txt strings.Builder
-
-	txt.WriteString("\n# system\n")
-	txt.WriteString("system_security_authorizedkeys: []\n")
-
-	return txt.String()
 }
 
 func (o *order) generateVarsHomeserver() string {
