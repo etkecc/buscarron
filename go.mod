@@ -10,6 +10,7 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.13
 	github.com/microcosm-cc/bluemonday v1.0.2
 	github.com/stretchr/testify v1.7.1
+	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.0.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20220529155505-b74d5ef96042
 	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324
