@@ -9,11 +9,11 @@ import (
 
 	"github.com/mattevans/postmark-go"
 	"github.com/microcosm-cc/bluemonday"
+	"gitlab.com/etke.cc/go/logger"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/id"
 
 	"gitlab.com/etke.cc/buscarron/config"
-	"gitlab.com/etke.cc/buscarron/logger"
 	"gitlab.com/etke.cc/buscarron/sub/ext"
 	"gitlab.com/etke.cc/buscarron/validator"
 )

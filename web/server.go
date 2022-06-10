@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	sentryhttp "github.com/getsentry/sentry-go/http"
+	"gitlab.com/etke.cc/go/logger"
 
-	"gitlab.com/etke.cc/buscarron/logger"
 	"gitlab.com/etke.cc/buscarron/sub"
 )
 

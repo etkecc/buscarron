@@ -5,7 +5,7 @@ import (
 	"regexp"
 	"strings"
 
-	"gitlab.com/etke.cc/buscarron/logger"
+	"gitlab.com/etke.cc/go/logger"
 )
 
 // V is a validator implementation

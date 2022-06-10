@@ -4,12 +4,11 @@ import (
 	"fmt"
 	"sync"
 
+	"gitlab.com/etke.cc/go/logger"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/format"
 	"maunium.net/go/mautrix/id"
-
-	"gitlab.com/etke.cc/buscarron/logger"
 )
 
 // Bot represents matrix bot

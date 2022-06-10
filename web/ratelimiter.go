@@ -7,9 +7,8 @@ import (
 	"sync"
 	"time"
 
+	"gitlab.com/etke.cc/go/logger"
 	"golang.org/x/time/rate"
-
-	"gitlab.com/etke.cc/buscarron/logger"
 )
 
 // DefaultFrequency of the rate limiter

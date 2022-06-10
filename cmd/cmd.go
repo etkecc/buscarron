@@ -10,12 +10,12 @@ import (
 	"github.com/getsentry/sentry-go"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
+	"gitlab.com/etke.cc/go/logger"
 	"gitlab.com/etke.cc/linkpearl"
 	lpcfg "gitlab.com/etke.cc/linkpearl/config"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
-	"gitlab.com/etke.cc/buscarron/logger"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
 	"gitlab.com/etke.cc/buscarron/validator"

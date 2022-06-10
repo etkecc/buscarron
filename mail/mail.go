@@ -4,8 +4,7 @@ import (
 	"net/http"
 
 	"github.com/mattevans/postmark-go"
-
-	"gitlab.com/etke.cc/buscarron/logger"
+	"gitlab.com/etke.cc/go/logger"
 )
 
 // Client to send mail

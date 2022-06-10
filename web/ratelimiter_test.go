@@ -5,9 +5,8 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/suite"
+	"gitlab.com/etke.cc/go/logger"
 	"golang.org/x/time/rate"
-
-	"gitlab.com/etke.cc/buscarron/logger"
 )
 
 type RatelimiterSuite struct {

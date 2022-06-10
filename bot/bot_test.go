@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/suite"
+	"gitlab.com/etke.cc/go/logger"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
 
-	"gitlab.com/etke.cc/buscarron/logger"
 	"gitlab.com/etke.cc/buscarron/mocks"
 )
 

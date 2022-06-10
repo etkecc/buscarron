@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"git.sr.ht/~xn/cache"
-	"gitlab.com/etke.cc/buscarron/logger"
+	"gitlab.com/etke.cc/go/logger"
 )
 
 type banhandler struct {
