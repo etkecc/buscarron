@@ -417,6 +417,16 @@ matrix_mautrix_signal_configuration_extension_yaml: |
       level: WARNING
       handlers: [console]
 
+# bridges::skype
+matrix_go_skype_bridge_enabled: yes
+matrix_go_skype_bridge_configuration_extension_yaml: |
+  bridge:
+    permissions:
+      "{{ matrix_go_skype_bridge_homeserver_domain }}": user
+      "{{ matrix_admin }}": admin
+  logging:
+    print_level: warn
+
 # bridges::slack
 matrix_mx_puppet_slack_enabled: yes
 matrix_mx_puppet_slack_configuration_extension_yaml: |

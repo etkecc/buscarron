@@ -57,6 +57,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsInstagram())
 	txt.WriteString(o.generateVarsLinkedin())
 	txt.WriteString(o.generateVarsSignal())
+	txt.WriteString(o.generateVarsSkype())
 	txt.WriteString(o.generateVarsSlack())
 	txt.WriteString(o.generateVarsSteam())
 	txt.WriteString(o.generateVarsTelegram())
@@ -920,6 +921,24 @@ func (o *order) generateVarsSignal() string {
 	txt.WriteString("    root:\n")
 	txt.WriteString("      level: WARNING\n")
 	txt.WriteString("      handlers: [console]\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsSkype() string {
+	if !o.has("skype") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::skype\n")
+	txt.WriteString("matrix_go_skype_bridge_enabled: yes\n")
+	txt.WriteString("matrix_go_skype_bridge_configuration_extension_yaml: |\n")
+	txt.WriteString("  bridge:\n")
+	txt.WriteString("    permissions:\n")
+	txt.WriteString("      \"{{ matrix_go_skype_bridge_homeserver_domain }}\": user\n")
+	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
+	txt.WriteString("  logging:\n")
+	txt.WriteString("    print_level: warn\n")
 
 	return txt.String()
 }

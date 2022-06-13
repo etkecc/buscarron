@@ -37,6 +37,7 @@
 * irc: @heisenbridge:example.com
 * linkedin: @linkedinbot:example.com
 * signal: @signalbot:example.com
+* skype: @skypebridgebot:example.com
 * slack: @_slackpuppet_bot:example.com
 * steam: @_steampuppet_bot:example.com
 * telegram: @telegrambot:example.com
