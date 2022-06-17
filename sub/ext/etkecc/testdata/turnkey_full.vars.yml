@@ -14,8 +14,8 @@ matrix_homeserver_implementation: synapse
 matrix_synapse_presence_enabled: yes
 matrix_synapse_enable_registration: yes
 matrix_synapse_registration_requires_token: yes
-matrix_synapse_enable_group_creation: yes
 matrix_synapse_max_upload_size_mb: 1024
+matrix_synapse_media_retention_remote_media_lifetime: 30d
 matrix_synapse_tmp_directory_size_mb: "{{ matrix_synapse_max_upload_size_mb * 2 }}"
 
 # synapse::federation

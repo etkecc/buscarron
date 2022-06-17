@@ -165,8 +165,8 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_synapse_presence_enabled: yes\n")
 	txt.WriteString("matrix_synapse_enable_registration: yes\n")
 	txt.WriteString("matrix_synapse_registration_requires_token: yes\n")
-	txt.WriteString("matrix_synapse_enable_group_creation: yes\n")
 	txt.WriteString("matrix_synapse_max_upload_size_mb: 1024\n")
+	txt.WriteString("matrix_synapse_media_retention_remote_media_lifetime: 30d\n")
 	txt.WriteString("matrix_synapse_tmp_directory_size_mb: \"{{ matrix_synapse_max_upload_size_mb * 2 }}\"\n")
 
 	txt.WriteString("\n# synapse::federation\n")
