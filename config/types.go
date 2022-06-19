@@ -45,8 +45,9 @@ type DB struct {
 
 // Spam config
 type Spam struct {
-	Hosts  []string
-	Emails []string
+	Hosts      []string
+	Emails     []string
+	Localparts []string
 }
 
 // Ban config
@@ -73,6 +74,8 @@ type Form struct {
 	RoomID id.RoomID
 	// Ratelimit config
 	Ratelimit string
+	// HasDomain if form has "domain" field
+	HasDomain bool
 	// Confirmation email config
 	Confirmation Confirmation
 	// Extensions list

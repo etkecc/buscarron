@@ -97,7 +97,7 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
-	if !h.v.Domain(data["domain"]) {
+	if !h.v.Domain(data["domain"], form.HasDomain) {
 		h.log.Info("submission to the %s form marked as spam, reason: domain", form.Name)
 		return h.redirect(form.Redirect, data), ErrSpam
 	}

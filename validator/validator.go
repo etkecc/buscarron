@@ -10,9 +10,10 @@ import (
 
 // V is a validator implementation
 type V struct {
-	hosts  []string
-	emails []string
-	log    *logger.Logger
+	hosts      []string
+	emails     []string
+	localparts []string
+	log        *logger.Logger
 }
 
 // based on W3C email regex, ref: https://www.w3.org/TR/2016/REC-html51-20161101/sec-forms.html#email-state-typeemail
@@ -22,18 +23,19 @@ var (
 )
 
 // New Validator
-func New(spamHosts []string, spamEmails []string, loglevel string) *V {
+func New(spamHosts []string, spamEmails []string, spamLocalparts []string, loglevel string) *V {
 	return &V{
-		hosts:  spamHosts,
-		emails: spamEmails,
-		log:    logger.New("v.", loglevel),
+		hosts:      spamHosts,
+		emails:     spamEmails,
+		localparts: spamLocalparts,
+		log:        logger.New("v.", loglevel),
 	}
 }
 
 // Domain checks if domain is valid
-func (v *V) Domain(domain string) bool {
+func (v *V) Domain(domain string, must bool) bool {
 	// edge case: domain may be optional
-	if domain == "" {
+	if domain == "" && !must {
 		return true
 	}
 
@@ -94,6 +96,12 @@ func (v *V) Email(email string) bool {
 	}
 
 	if v.spam(email) {
+		v.log.Info("email %s invalid, reason: spamlist", email)
+		return false
+	}
+
+	localpart := email[:strings.LastIndex(email, "@")]
+	if v.spam(localpart) {
 		v.log.Info("email %s invalid, reason: spamlist", email)
 		return false
 	}
@@ -170,6 +178,12 @@ func (v *V) emailDomain(email string) bool {
 func (v *V) spam(item string) bool {
 	for _, address := range v.emails {
 		if address == item {
+			return true
+		}
+	}
+
+	for _, localpart := range v.localparts {
+		if localpart == item {
 			return true
 		}
 	}

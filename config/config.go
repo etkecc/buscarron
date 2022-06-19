@@ -26,8 +26,9 @@ func New() *Config {
 			Size:     env.Int("ban.size", defaultConfig.Ban.Size),
 		},
 		Spam: &Spam{
-			Hosts:  env.Slice("spam.hosts"),
-			Emails: env.Slice("spam.emails"),
+			Hosts:      env.Slice("spam.hosts"),
+			Emails:     env.Slice("spam.emails"),
+			Localparts: env.Slice("spam.localparts"),
 		},
 		Postmark: &Postmark{
 			Token:   env.String("pm.token", ""),
@@ -49,6 +50,7 @@ func parseForms() map[string]*Form {
 			Name:      name,
 			Redirect:  env.String(name+".redirect", ""),
 			Ratelimit: env.String(name+".ratelimit", ""),
+			HasDomain: env.Bool(name + ".hasdomain"),
 			Confirmation: Confirmation{
 				Subject: env.String(name+".confirmation.subject", ""),
 				Body:    env.String(name+".confirmation.body", ""),

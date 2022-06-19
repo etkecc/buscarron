@@ -17,7 +17,7 @@ func (s *ExtSuite) SetupTest() {
 }
 
 func (s *ExtSuite) TestNew() {
-	v := validator.New([]string{}, []string{}, "TRACE")
+	v := validator.New([]string{}, []string{}, []string{}, "TRACE")
 	exts := New(v, nil)
 
 	s.IsType(&root{}, exts["root"])

@@ -25,11 +25,11 @@ func (s *ValidatorSuite) SetupTest() {
 		s.T().Skipf("skipping test: no external network in -short mode")
 	}
 
-	s.v = New([]string{"spam.host"}, []string{"spam@email.host"}, "TRACE")
+	s.v = New([]string{"spam.host"}, []string{"spam@email.host"}, []string{"spam"}, "TRACE")
 }
 
 func (s *ValidatorSuite) TestNew() {
-	validator := New([]string{}, []string{}, "TRACE")
+	validator := New([]string{}, []string{}, []string{}, "TRACE")
 
 	s.IsType(&V{}, validator)
 }
@@ -83,19 +83,34 @@ func (s *ValidatorSuite) TestMX() {
 }
 
 func (s *ValidatorSuite) TestDomain() {
-	tests := map[string]bool{
-		"":                true,
-		"n.e":             false,
-		"example.com":     true,
-		"that's invalid!": false,
-		"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.e": false,
+	tests := map[string][]bool{
+		"":                {true, false},
+		"n.e":             {true, false},
+		"example.com":     {true, true},
+		"that's invalid!": {true, false},
+		"nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn.e": {true, false},
 	}
 
-	for host, expected := range tests {
+	for host, slice := range tests {
 		s.Run(host, func() {
-			result := s.v.Domain(host)
+			result := s.v.Domain(host, slice[0])
 
-			s.Equal(expected, result)
+			s.Equal(slice[1], result)
+		})
+	}
+}
+
+// TestDomain2 - additional test cases with the same values
+func (s *ValidatorSuite) TestDomain2() {
+	tests := map[string][]bool{
+		"": {false, true},
+	}
+
+	for host, slice := range tests {
+		s.Run(host, func() {
+			result := s.v.Domain(host, slice[0])
+
+			s.Equal(slice[1], result)
 		})
 	}
 }
@@ -108,6 +123,7 @@ func (s *ValidatorSuite) TestEmail() {
 		"doesnt.exists":         false,
 		"that's invalid!":       false,
 		"valid@example.com":     true,
+		"spam@validhost.com":    false,
 		"notspam@spam.host":     false,
 		"notspam@sub.spam.host": false,
 		"spam@email.host":       false,

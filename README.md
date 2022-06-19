@@ -24,6 +24,7 @@ env vars
 ### optional form configs
 
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s` or `54r/m`
+* **BUSCARRON_NAME_HASDOMAIN** - if the form has a `domain` field and you want to enforce domain validation
 * **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`
 * **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
 * **BUSCARRON_NAME_CONFIRMATION_BODY** - confrimation email body, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to body as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
@@ -41,6 +42,7 @@ env vars
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
 * **BUSCARRON_SPAM_HOSTS** - list of spam domains, eg: `export BUSCARRON_SPAM_HOSTS="spammer.com notspammer.com"`
 * **BUSCARRON_SPAM_EMAILS** - list of spam emails: eg: `export BUSCARRON_SPAM_EMAILS="annoy@gmail.com spammer@live.com"`
+* **BUSCARRON_SPAM_LOCALPARTS** - list of spam localparts, eg: `export BUSCARRON_SPAM_LOCALPARTS="annoy spammer noreply"`
 * **BUSCARRON_BAN_DURATION** - duration of automatic ban of spammers, scanners and bots in hours
 * **BUSCARRON_BAN_SIZE** - jail size of banned users
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
