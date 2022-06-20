@@ -16,6 +16,8 @@ type Config struct {
 	Password string
 	// LogLevel for logger
 	LogLevel string
+	// NoEncryption disables encryption
+	NoEncryption bool
 	// Port of the web server
 	Port string
 	// Forms map

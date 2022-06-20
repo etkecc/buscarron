@@ -1,9 +1,10 @@
-# Buscarron v1.2.0 (in development)
+# Buscarron v1.2.0 (2022-06-20)
 
 ### Features :sparkles:
 
 * Spam checker can work with with email localpart list
 * Add optional domain validation on the forms level
+* Add `NOENCRYPTION` option
 
 ### Bugfixes :bug:
 

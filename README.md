@@ -38,6 +38,7 @@ env vars
 
 * **BUSCARRON_SENTRY** - sentry DSN
 * **BUSCARRON_LOGLEVEL** - log level
+* **BUSCARRON_NOENCRYPTION** - disable encryption
 * **BUSCARRON_DB_DSN** - database connection string
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
 * **BUSCARRON_SPAM_HOSTS** - list of spam domains, eg: `export BUSCARRON_SPAM_HOSTS="spammer.com notspammer.com"`

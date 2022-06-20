@@ -83,6 +83,7 @@ func initBot(cfg *config.Config) {
 		Password:     cfg.Password,
 		DB:           db,
 		Dialect:      cfg.DB.Dialect,
+		NoEncryption: cfg.NoEncryption,
 		LPLogger:     mxlog,
 		APILogger:    logger.New("api.", cfg.LogLevel),
 		StoreLogger:  logger.New("store.", cfg.LogLevel),
