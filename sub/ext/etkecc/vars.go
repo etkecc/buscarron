@@ -714,11 +714,6 @@ func (o *order) generateVarsDiscord() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::discord\n")
 	txt.WriteString("matrix_mx_puppet_discord_enabled: yes\n")
-	txt.WriteString("matrix_mx_puppet_discord_configuration_extension_yaml: |\n")
-	txt.WriteString("  presence:\n")
-	txt.WriteString("    enabled: no\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    console: warn\n")
 
 	return txt.String()
 }
@@ -730,11 +725,6 @@ func (o *order) generateVarsGroupme() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::groupme\n")
 	txt.WriteString("matrix_mx_puppet_groupme_enabled: yes\n")
-	txt.WriteString("matrix_mx_puppet_groupme_configuration_extension_yaml: |\n")
-	txt.WriteString("  presence:\n")
-	txt.WriteString("    enabled: no\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    console: warn\n")
 
 	return txt.String()
 }
@@ -746,11 +736,6 @@ func (o *order) generateVarsSlack() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::slack\n")
 	txt.WriteString("matrix_mx_puppet_slack_enabled: yes\n")
-	txt.WriteString("matrix_mx_puppet_slack_configuration_extension_yaml: |\n")
-	txt.WriteString("  presence:\n")
-	txt.WriteString("    enabled: no\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    console: warn\n")
 
 	return txt.String()
 }
@@ -762,11 +747,6 @@ func (o *order) generateVarsSteam() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::steam\n")
 	txt.WriteString("matrix_mx_puppet_steam_enabled: yes\n")
-	txt.WriteString("matrix_mx_puppet_steam_configuration_extension_yaml: |\n")
-	txt.WriteString("  presence:\n")
-	txt.WriteString("    enabled: no\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    console: warn\n")
 
 	return txt.String()
 }
@@ -778,23 +758,6 @@ func (o *order) generateVarsFacebook() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::facebook\n")
 	txt.WriteString("matrix_mautrix_facebook_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_facebook_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_facebook_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      paho:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -806,23 +769,6 @@ func (o *order) generateVarsGooglechat() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::googlechat\n")
 	txt.WriteString("matrix_mautrix_googlechat_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_googlechat_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_googlechat_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      hangups:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -848,25 +794,6 @@ func (o *order) generateVarsInstagram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::instagram\n")
 	txt.WriteString("matrix_mautrix_instagram_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_instagram_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_instagram_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      mauigpapi:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      paho:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -878,23 +805,6 @@ func (o *order) generateVarsLinkedin() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::linkedin\n")
 	txt.WriteString("matrix_beeper_linkedin_enabled: yes\n")
-	txt.WriteString("matrix_beeper_linkedin_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_beeper_linkedin_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      paho:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -906,21 +816,6 @@ func (o *order) generateVarsSignal() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::signal\n")
 	txt.WriteString("matrix_mautrix_signal_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_signal_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_signal_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -932,13 +827,6 @@ func (o *order) generateVarsSkype() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::skype\n")
 	txt.WriteString("matrix_go_skype_bridge_enabled: yes\n")
-	txt.WriteString("matrix_go_skype_bridge_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_go_skype_bridge_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    print_level: warn\n")
 
 	return txt.String()
 }
@@ -952,27 +840,6 @@ func (o *order) generateVarsTelegram() string {
 	txt.WriteString("matrix_mautrix_telegram_enabled: yes\n")
 	txt.WriteString("matrix_mautrix_telegram_api_id: TODO\n")
 	txt.WriteString("matrix_mautrix_telegram_api_hash: TODO\n")
-	txt.WriteString("matrix_mautrix_telegram_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    delivery_error_reports: yes\n")
-	txt.WriteString("    delivery_receipts: no\n")
-	txt.WriteString("    max_initial_member_sync: 10\n")
-	txt.WriteString("    sync_channel_members: no\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_telegram_homeserver_domain }}\": full\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      telethon:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -984,23 +851,6 @@ func (o *order) generateVarsTwitter() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::twitter\n")
 	txt.WriteString("matrix_mautrix_twitter_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_twitter_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    delivery_error_reports: yes\n")
-	txt.WriteString("    delivery_receipts: no\n")
-	txt.WriteString("    presence: no\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_twitter_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    loggers:\n")
-	txt.WriteString("      mau:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("      aiohttp:\n")
-	txt.WriteString("        level: WARNING\n")
-	txt.WriteString("    root:\n")
-	txt.WriteString("      level: WARNING\n")
-	txt.WriteString("      handlers: [console]\n")
 
 	return txt.String()
 }
@@ -1024,13 +874,6 @@ func (o *order) generateVarsWhatsapp() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::whatsapp\n")
 	txt.WriteString("matrix_mautrix_whatsapp_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_whatsapp_configuration_extension_yaml: |\n")
-	txt.WriteString("  bridge:\n")
-	txt.WriteString("    permissions:\n")
-	txt.WriteString("      \"{{ matrix_mautrix_whatsapp_homeserver_domain }}\": user\n")
-	txt.WriteString("      \"{{ matrix_admin }}\": admin\n")
-	txt.WriteString("  logging:\n")
-	txt.WriteString("    print_level: warn\n")
 
 	return txt.String()
 }

@@ -280,11 +280,6 @@ matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
 
 # bridges::discord
 matrix_mx_puppet_discord_enabled: yes
-matrix_mx_puppet_discord_configuration_extension_yaml: |
-  presence:
-    enabled: no
-  logging:
-    console: warn
 
 # bridges::email2matrix
 matrix_email2matrix_enabled: yes
@@ -306,51 +301,12 @@ matrix_email2matrix_matrix_mappings:
 
 # bridges::facebook
 matrix_mautrix_facebook_enabled: yes
-matrix_mautrix_facebook_configuration_extension_yaml: |
-  bridge:
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_facebook_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      paho:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::googlechat
 matrix_mautrix_googlechat_enabled: yes
-matrix_mautrix_googlechat_configuration_extension_yaml: |
-  bridge:
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_googlechat_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      hangups:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::groupme
 matrix_mx_puppet_groupme_enabled: yes
-matrix_mx_puppet_groupme_configuration_extension_yaml: |
-  presence:
-    enabled: no
-  logging:
-    console: warn
 
 # bridges::irc (heisenbridge)
 matrix_heisenbridge_enabled: yes
@@ -359,135 +315,29 @@ matrix_heisenbridge_owner: "{{ matrix_admin }}"
 
 # bridges::instagram
 matrix_mautrix_instagram_enabled: yes
-matrix_mautrix_instagram_configuration_extension_yaml: |
-  bridge:
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_instagram_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      mauigpapi:
-        level: WARNING
-      paho:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::linkedin
 matrix_beeper_linkedin_enabled: yes
-matrix_beeper_linkedin_configuration_extension_yaml: |
-  bridge:
-    presence: no
-    permissions:
-      "{{ matrix_beeper_linkedin_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      paho:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::signal
 matrix_mautrix_signal_enabled: yes
-matrix_mautrix_signal_configuration_extension_yaml: |
-  bridge:
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_signal_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::skype
 matrix_go_skype_bridge_enabled: yes
-matrix_go_skype_bridge_configuration_extension_yaml: |
-  bridge:
-    permissions:
-      "{{ matrix_go_skype_bridge_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    print_level: warn
 
 # bridges::slack
 matrix_mx_puppet_slack_enabled: yes
-matrix_mx_puppet_slack_configuration_extension_yaml: |
-  presence:
-    enabled: no
-  logging:
-    console: warn
 
 # bridges::steam
 matrix_mx_puppet_steam_enabled: yes
-matrix_mx_puppet_steam_configuration_extension_yaml: |
-  presence:
-    enabled: no
-  logging:
-    console: warn
 
 # bridges::telegram
 matrix_mautrix_telegram_enabled: yes
 matrix_mautrix_telegram_api_id: TODO
 matrix_mautrix_telegram_api_hash: TODO
-matrix_mautrix_telegram_configuration_extension_yaml: |
-  bridge:
-    delivery_error_reports: yes
-    delivery_receipts: no
-    max_initial_member_sync: 10
-    sync_channel_members: no
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_telegram_homeserver_domain }}": full
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      telethon:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::twitter
 matrix_mautrix_twitter_enabled: yes
-matrix_mautrix_twitter_configuration_extension_yaml: |
-  bridge:
-    delivery_error_reports: yes
-    delivery_receipts: no
-    presence: no
-    permissions:
-      "{{ matrix_mautrix_twitter_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    loggers:
-      mau:
-        level: WARNING
-      aiohttp:
-        level: WARNING
-    root:
-      level: WARNING
-      handlers: [console]
 
 # bridges::webhooks
 matrix_appservice_webhooks_enabled: yes
@@ -495,10 +345,3 @@ matrix_appservice_webhooks_api_secret: TODO
 
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes
-matrix_mautrix_whatsapp_configuration_extension_yaml: |
-  bridge:
-    permissions:
-      "{{ matrix_mautrix_whatsapp_homeserver_domain }}": user
-      "{{ matrix_admin }}": admin
-  logging:
-    print_level: warn
