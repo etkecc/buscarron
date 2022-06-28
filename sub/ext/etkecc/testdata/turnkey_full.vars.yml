@@ -245,6 +245,7 @@ matrix_grafana_enabled: yes
 matrix_prometheus_enabled: yes
 matrix_grafana_anonymous_access: no
 matrix_prometheus_node_exporter_enabled: yes
+matrix_prometheus_node_exporter_process_extra_arguments: []
 matrix_grafana_default_admin_user: test
 matrix_grafana_default_admin_password: TODO
 
