@@ -1,6 +1,23 @@
 ### all:start
-
 ### all:end
+### allmonitoring:start
+matrix_nginx_proxy_proxy_matrix_metrics_enabled: yes
+matrix_prometheus_node_exporter_metrics_proxying_enabled: yes
+matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_enabled: yes
+matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_username: TODO
+matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_password: TODO
+matrix_prometheus_node_exporter_enabled: yes
+matrix_prometheus_node_exporter_process_extra_arguments:
+  - "--collector.disable-defaults"
+  - "--collector.cpu"
+  - "--collector.filesystem"
+  - "--collector.meminfo"
+  - "--collector.systemd"
+  - "--collector.uname"
+matrix_prometheus_node_exporter_container_extra_arguments:
+  - "--security-opt apparmor=unconfined"
+  - "--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro,bind-propagation=rslave"
+### allmonitoring:end
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
