@@ -96,7 +96,7 @@ func (o *order) generateVarsAll() string {
 		txt.WriteString("  - \"--collector.uname\"\n")
 		txt.WriteString("matrix_prometheus_node_exporter_container_extra_arguments:\n")
 		txt.WriteString("  - \"--security-opt apparmor=unconfined\"\n")
-		txt.WriteString("  - \"--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro,bind-propagation=rslave\"\n")
+		txt.WriteString("  - \"--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro\"\n")
 	}
 	txt.WriteString("### allmonitoring:end\n")
 

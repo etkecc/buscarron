@@ -16,7 +16,7 @@ matrix_prometheus_node_exporter_process_extra_arguments:
   - "--collector.uname"
 matrix_prometheus_node_exporter_container_extra_arguments:
   - "--security-opt apparmor=unconfined"
-  - "--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro,bind-propagation=rslave"
+  - "--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro"
 ### allmonitoring:end
 
 # homeserver https://matrix.example.com
