@@ -147,6 +147,9 @@ matrix_sygnal_configuration_extension_yaml:
         sygnal.access:
           level: WARNING
 
+# ntfy https://ntfy.example.com
+matrix_ntfy_enabled: yes
+
 # cinny https://cinny.example.com
 matrix_client_cinny_enabled: yes
 

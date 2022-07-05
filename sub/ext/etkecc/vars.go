@@ -20,6 +20,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsCorporal())
 	txt.WriteString(o.generateVarsPostgresBackup())
 	txt.WriteString(o.generateVarsSygnal())
+	txt.WriteString(o.generateVarsNtfy())
 
 	// additional services
 	txt.WriteString(o.generateVarsCinny())
@@ -143,6 +144,18 @@ func (o *order) generateVarsSygnal() string {
 	txt.WriteString("          level: WARNING\n")
 	txt.WriteString("        sygnal.access:\n")
 	txt.WriteString("          level: WARNING\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsNtfy() string {
+	if !o.has("ntfy") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# ntfy https://ntfy." + o.get("domain") + "\n")
+	txt.WriteString("matrix_ntfy_enabled: yes\n")
 
 	return txt.String()
 }

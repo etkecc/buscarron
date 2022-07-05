@@ -8,7 +8,7 @@ require (
 	github.com/lib/pq v1.10.6
 	github.com/mattevans/postmark-go v0.1.5
 	github.com/mattn/go-sqlite3 v1.14.13
-	github.com/microcosm-cc/bluemonday v1.0.18
+	github.com/microcosm-cc/bluemonday v1.0.19
 	github.com/stretchr/testify v1.7.1
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.0.0

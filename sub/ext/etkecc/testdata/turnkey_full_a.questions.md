@@ -70,6 +70,7 @@ kuma	CNAME record	matrix.example.com
 languagetool	CNAME record	matrix.example.com
 miniflux	CNAME record	matrix.example.com
 miounne	CNAME record	matrix.example.com
+ntfy	CNAME record	matrix.example.com
 radicale	CNAME record	matrix.example.com
 stats	CNAME record	matrix.example.com
 sygnal	CNAME record	matrix.example.com

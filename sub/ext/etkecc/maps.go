@@ -18,6 +18,7 @@ var dnsmap = map[string]string{
 	"languagetool": "languagetool",
 	"miniflux":     "miniflux",
 	"miounne":      "miounne",
+	"ntfy":         "ntfy",
 	"radicale":     "radicale",
 	"stats":        "stats",
 	"sygnal":       "sygnal",

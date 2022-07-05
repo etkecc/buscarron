@@ -15,6 +15,7 @@
 * languagetool: https://languagetool.example.com
 * miniflux: https://miniflux.example.com
 * miounne: https://miounne.example.com
+* ntfy: https://ntfy.example.com
 * radicale: https://radicale.example.com
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
