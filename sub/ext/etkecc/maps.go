@@ -47,6 +47,7 @@ var bridgemap = map[string]string{
 	"groupme":    "@_groupmepuppet_bot",
 	"instagram":  "@instagrambot",
 	"irc":        "@heisenbridge",
+	"kakotalk":   "@kakaotalkbot",
 	"linkedin":   "@linkedinbot",
 	"signal":     "@signalbot",
 	"skype":      "@skypebridgebot",

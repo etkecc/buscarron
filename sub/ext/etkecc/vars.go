@@ -56,6 +56,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsGroupme())
 	txt.WriteString(o.generateVarsHeisenbridge())
 	txt.WriteString(o.generateVarsInstagram())
+	txt.WriteString(o.generateVarsKakaotalk())
 	txt.WriteString(o.generateVarsLinkedin())
 	txt.WriteString(o.generateVarsSignal())
 	txt.WriteString(o.generateVarsSkype())
@@ -512,7 +513,7 @@ func (o *order) generateVarsLanguagetool() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# uptime-languagetool https://languagetool." + o.get("domain") + "\n")
+	txt.WriteString("\n# languagetool https://languagetool." + o.get("domain") + "\n")
 	txt.WriteString("custom_languagetool_enabled: yes\n")
 	txt.WriteString("custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage\n")
 	txt.WriteString("matrix_server_fqn_languagetool: \"languagetool.{{ matrix_domain }}\"\n")
@@ -640,7 +641,7 @@ func (o *order) generateVarsBuscarron() string {
 	txt.WriteString("matrix_bot_buscarron_login: buscarron\n")
 	txt.WriteString("matrix_bot_buscarron_password: " + password + "\n")
 	txt.WriteString("matrix_bot_buscarron_forms: [] # TODO\n")
-	txt.WriteString("TODO: matrix-synapse-register-user buscarron " + password + " 0\n")
+	txt.WriteString("# TODO: matrix-synapse-register-user buscarron " + password + " 0\n")
 
 	return txt.String()
 }
@@ -829,6 +830,17 @@ func (o *order) generateVarsInstagram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::instagram\n")
 	txt.WriteString("matrix_mautrix_instagram_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsKakaotalk() string {
+	if !o.has("kakaotalk") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::kakaotalk\n")
+	txt.WriteString("matrix_appservice_kakaotalk_enabled: yes\n")
 
 	return txt.String()
 }

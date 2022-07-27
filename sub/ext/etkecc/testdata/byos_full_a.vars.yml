@@ -193,7 +193,7 @@ matrix_jitsi_jicofo_auth_password: TODO
 custom_kuma_enabled: yes
 matrix_server_fqn_kuma: "kuma.{{ matrix_domain }}"
 
-# uptime-languagetool https://languagetool.example.com
+# languagetool https://languagetool.example.com
 custom_languagetool_enabled: yes
 custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage
 matrix_server_fqn_languagetool: "languagetool.{{ matrix_domain }}"
@@ -264,7 +264,7 @@ matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_login: buscarron
 matrix_bot_buscarron_password: TODO
 matrix_bot_buscarron_forms: [] # TODO
-TODO: matrix-synapse-register-user buscarron TODO 0
+# TODO: matrix-synapse-register-user buscarron TODO 0
 
 # bots::goneb
 matrix_bot_go_neb_enabled: yes
@@ -336,6 +336,9 @@ matrix_heisenbridge_owner: "{{ matrix_admin }}"
 
 # bridges::instagram
 matrix_mautrix_instagram_enabled: yes
+
+# bridges::kakaotalk
+matrix_appservice_kakaotalk_enabled: yes
 
 # bridges::linkedin
 matrix_beeper_linkedin_enabled: yes

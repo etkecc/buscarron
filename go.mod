@@ -11,7 +11,7 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.19
 	github.com/stretchr/testify v1.7.1
 	gitlab.com/etke.cc/go/env v1.0.0
-	gitlab.com/etke.cc/go/logger v1.0.0
+	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20220531091432-f61370b94f6b
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.11.0
@@ -33,7 +33,7 @@ require (
 	github.com/yuin/goldmark v1.4.12 // indirect
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/net v0.0.0-20220607020251-c690dde0001d // indirect
-	golang.org/x/sys v0.0.0-20220608164250-635b8c9b7f68 // indirect
+	golang.org/x/sys v0.0.0-20220727055044-e65921a090b8 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
