@@ -749,7 +749,7 @@ func (o *order) generateVarsDiscord() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::discord\n")
-	txt.WriteString("matrix_mx_puppet_discord_enabled: yes\n")
+	txt.WriteString("matrix_mautrix_discord_enabled: yes\n")
 
 	return txt.String()
 }

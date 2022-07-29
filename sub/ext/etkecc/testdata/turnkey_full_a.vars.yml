@@ -300,7 +300,7 @@ matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
 # TODO: matrix-synapse-register-user reminder TODO 0
 
 # bridges::discord
-matrix_mx_puppet_discord_enabled: yes
+matrix_mautrix_discord_enabled: yes
 
 # bridges::email2matrix
 matrix_email2matrix_enabled: yes
