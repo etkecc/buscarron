@@ -2,7 +2,6 @@ package etkecc
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 	"testing"
@@ -181,7 +180,7 @@ func (s *EtkeccSuite) TearDownTest() {
 }
 
 func (s *EtkeccSuite) read(file string) string {
-	text, err := ioutil.ReadFile("testdata/" + file)
+	text, err := os.ReadFile("testdata/" + file)
 
 	s.NoError(err)
 

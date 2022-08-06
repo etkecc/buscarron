@@ -9,4 +9,4 @@
 * username: test
 * password: TODO
 
-> in case of any issues: @support:etke.cc
+> in case of any issues: https://etke.cc/contacts
