@@ -182,12 +182,17 @@ func (o *order) generateVarsBorgBackup() string {
 		return ""
 	}
 	var txt strings.Builder
+	pub, priv := o.keygen()
 
 	txt.WriteString("\n# borg\n")
 	txt.WriteString("matrix_backup_borg_enabled: yes\n")
 	txt.WriteString("matrix_backup_borg_location_repositories: [] # TODO\n")
 	txt.WriteString("matrix_backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_backup_borg_ssh_key_private: #TODO\n")
+	txt.WriteString("matrix_backup_borg_ssh_key_private: |\n")
+	for _, line := range strings.Split(priv, "\n") {
+		txt.WriteString("  " + line + "\n")
+	}
+	txt.WriteString("# TODO: " + pub + "\n")
 
 	return txt.String()
 }
@@ -568,12 +573,14 @@ func (o *order) generateVarsMiniflux() string {
 		return ""
 	}
 	var txt strings.Builder
+	password := o.pwgen()
 
 	txt.WriteString("\n# miniflux https://miniflux." + o.get("domain") + "\n")
 	txt.WriteString("custom_miniflux_enabled: yes\n")
 	txt.WriteString("matrix_server_fqn_miniflux: \"miniflux.{{ matrix_domain }}\"\n")
+	txt.WriteString("custom_miniflux_database_password: " + password + "\n")
 	txt.WriteString("# TODO:\n")
-	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE USER miniflux WITH PASSWORD '" + o.pwgen() + "';\"\n")
+	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE USER miniflux WITH PASSWORD '" + password + "';\"\n")
 	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE DATABASE miniflux; GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;\"\n")
 	txt.WriteString("# docker exec -it custom-miniflux /usr/bin/miniflux -create-admin\n")
 
@@ -725,7 +732,7 @@ func (o *order) generateVarsEmail2Matrix() string {
 	txt.WriteString("\n# bridges::email2matrix\n")
 	txt.WriteString("matrix_email2matrix_enabled: yes\n")
 	txt.WriteString("matrix_email2matrix_user_hs: \"http://matrix-synapse:8008\"\n")
-	txt.WriteString("matrix_email2matrix_user_mxid: \"email2matrix@" + o.get("domain") + "\"\n")
+	txt.WriteString("matrix_email2matrix_user_mxid: \"@email2matrix:" + o.get("domain") + "\"\n")
 	txt.WriteString("matrix_email2matrix_user_token: TODO\n")
 	txt.WriteString("# TODO: matrix-synapse-register-user email2matrix VVtqYtyJpaAbW0YI2oBo8doZepfB07xkvcVkXuQJrXfmyxZJCBCrgcwur2XtzmRY 0\n")
 	txt.WriteString("# curl -X POST -H 'Content-Type: application/json' -d '{\"identifier\": { \"type\": \"m.id.user\", \"user\": \"email2matrix\" },\"password\": \"" + o.pwgen() + "\", \"type\": \"m.login.password\"}' 'https://matrix." + o.get("domain") + "/_matrix/client/r0/login'\n")

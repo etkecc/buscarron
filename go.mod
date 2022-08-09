@@ -9,10 +9,12 @@ require (
 	github.com/mattevans/postmark-go v0.1.5
 	github.com/mattn/go-sqlite3 v1.14.13
 	github.com/microcosm-cc/bluemonday v1.0.19
+	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a
 	github.com/stretchr/testify v1.7.1
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20220531091432-f61370b94f6b
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.11.0
 )
@@ -31,7 +33,6 @@ require (
 	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/tidwall/sjson v1.2.4 // indirect
 	github.com/yuin/goldmark v1.4.12 // indirect
-	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/net v0.0.0-20220607020251-c690dde0001d // indirect
 	golang.org/x/sys v0.0.0-20220727055044-e65921a090b8 // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
