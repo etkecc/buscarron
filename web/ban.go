@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"time"
 
-	"git.sr.ht/~xn/cache"
+	"git.sr.ht/~xn/cache/v2"
 	"gitlab.com/etke.cc/go/logger"
 )
 
 type banhandler struct {
-	store cache.Cache
+	store cache.Cache[bool]
 	log   *logger.Logger
 }
 
@@ -17,7 +17,7 @@ var donotban = []string{"/favicon.ico", "/robots.txt"}
 
 // NewBanHanlder creates banhandler
 func NewBanHanlder(duration int, size int, loglevel string) *banhandler {
-	store := cache.NewTLRU(size, time.Duration(duration)*time.Hour, false)
+	store := cache.NewTLRU[bool](size, time.Duration(duration)*time.Hour, false)
 	log := logger.New("ban.", loglevel)
 
 	return &banhandler{store, log}
@@ -30,7 +30,11 @@ func (b *banhandler) Ban(r *http.Request) {
 			return
 		}
 	}
-	id := r.Context().Value(ctxID)
+	ctxIDv := r.Context().Value(ctxID)
+	id, ok := ctxIDv.(string)
+	if !ok {
+		b.log.Error("cannot convert ctxID to string: %v", ctxIDv)
+	}
 	b.store.Set(id, true)
 
 	b.log.Info("%s %s %v has been banned", r.Method, r.URL.Path, id)
@@ -39,8 +43,12 @@ func (b *banhandler) Ban(r *http.Request) {
 // Handle to check for ban
 func (b *banhandler) Handle(handler http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := r.Context().Value(ctxID)
-		if b.store.Get(id) != nil {
+		ctxIDv := r.Context().Value(ctxID)
+		id, ok := ctxIDv.(string)
+		if !ok {
+			b.log.Error("cannot convert ctxID to string: %v", ctxIDv)
+		}
+		if b.store.Get(id) {
 			b.log.Debug("%s %s %v (banned) request attempt", r.Method, r.URL.String(), id)
 			http.Error(w, "", http.StatusTooManyRequests)
 			return

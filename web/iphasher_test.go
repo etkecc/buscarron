@@ -15,13 +15,13 @@ func (s *IPHasherSuite) TestGetHash() {
 	hasher := &iphasher{}
 	tests := []struct {
 		input    string
-		expected uint32
+		expected string
 	}{
-		{input: "127.0.0.1,192.168.0.1,1.1.1.1", expected: 88015183},
-		{input: "127.0.0.1", expected: 1},
-		{input: "192.168.0.1", expected: 1},
-		{input: "100.64.0.1", expected: 1},
-		{input: "1.1.1.1,1.0.0.1", expected: 87490893},
+		{input: "127.0.0.1,192.168.0.1,1.1.1.1", expected: "88015183"},
+		{input: "127.0.0.1", expected: "1"},
+		{input: "192.168.0.1", expected: "1"},
+		{input: "100.64.0.1", expected: "1"},
+		{input: "1.1.1.1,1.0.0.1", expected: "87490893"},
 	}
 
 	for _, test := range tests {

@@ -5,6 +5,7 @@ import (
 	"hash/adler32"
 	"net"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -79,8 +80,8 @@ func (iph *iphasher) match(request *http.Request) string {
 }
 
 // GetHash returns hash of an IP address
-func (iph *iphasher) GetHash(request *http.Request) uint32 {
+func (iph *iphasher) GetHash(request *http.Request) string {
 	ip := iph.match(request)
 
-	return adler32.Checksum([]byte(ip))
+	return strconv.FormatUint(uint64(adler32.Checksum([]byte(ip))), 10)
 }
