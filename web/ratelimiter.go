@@ -20,7 +20,7 @@ type ratelimiter struct {
 	log       *logger.Logger
 	burst     int
 	frequency time.Duration
-	visitors  map[uint32]*rlVisitor
+	visitors  map[string]*rlVisitor
 }
 
 // rlVisitor is a visitor's rate limiter config
@@ -58,9 +58,11 @@ func parseFrequency(pattern string) (int, time.Duration, error) {
 		frequency = time.Duration(burst) * time.Second
 	case "m":
 		frequency = time.Duration(burst) * time.Minute
+	case "h":
+		frequency = time.Duration(burst) * time.Hour
 	default:
 		frequency = DefaultFrequency
-		err = fmt.Errorf("limit must be 's' or 'm' (per second or per minute), used: %s", slice[1])
+		err = fmt.Errorf("limit must be 's', 'm', or 'h' (per second, per minute, or per hour), used: %s", slice[1])
 	}
 
 	return burst, frequency, err
@@ -81,10 +83,10 @@ func (l *ratelimiter) start() {
 }
 
 // Add new visitor
-func (l *ratelimiter) Allow(id uint32) bool {
+func (l *ratelimiter) Allow(id string) bool {
 	l.RLock()
 	if l.visitors == nil {
-		l.visitors = make(map[uint32]*rlVisitor)
+		l.visitors = make(map[string]*rlVisitor)
 	}
 
 	v, exists := l.visitors[id]

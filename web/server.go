@@ -109,7 +109,7 @@ func (s *Server) domainValidator() http.HandlerFunc {
 
 func (s *Server) forms() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := r.Context().Value(ctxID).(uint32)
+		id := r.Context().Value(ctxID).(string)
 		name := r.Context().Value(ctxName).(string)
 
 		if r.Method == http.MethodPost {
@@ -131,7 +131,7 @@ func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) formPOST(id uint32, name string, w http.ResponseWriter, r *http.Request) {
+func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Request) {
 	var limited bool
 	rl := s.rls[name]
 	if rl != nil {

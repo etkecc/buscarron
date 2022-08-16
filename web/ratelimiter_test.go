@@ -25,7 +25,8 @@ func (s *RatelimiterSuite) TestNewRateLimiter() {
 		{input: "3r/m", burst: 3, limit: rate.Every(1 * time.Minute)},
 		{input: "invalidr/h", burst: 1, limit: rate.Every(DefaultFrequency)},
 		{input: "0r/h", burst: 1, limit: rate.Every(DefaultFrequency)},
-		{input: "5r/h", burst: 5, limit: rate.Every(DefaultFrequency)},
+		{input: "5r/h", burst: 5, limit: rate.Every(1 * time.Hour)},
+		{input: "5r/d", burst: 5, limit: rate.Every(DefaultFrequency)},
 	}
 
 	for _, test := range tests {
@@ -42,11 +43,11 @@ func (s *RatelimiterSuite) TestAllow() {
 	log := logger.New("rl.", "TRACE")
 	rl := NewRateLimiter("1r/s", log)
 
-	first := rl.Allow(1)
-	second := rl.Allow(1)
+	first := rl.Allow("1")
+	second := rl.Allow("1")
 	time.Sleep(2 * time.Second)
-	third := rl.Allow(1)
-	fourth := rl.Allow(1)
+	third := rl.Allow("1")
+	fourth := rl.Allow("1")
 
 	s.True(first)
 	s.False(second)
