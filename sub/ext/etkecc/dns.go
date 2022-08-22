@@ -24,5 +24,9 @@ func (o *order) generateDNS() string {
 		dns += strings.Join([]string{dnsmap[key], "CNAME record", "matrix." + o.get("domain") + "\n"}, "\t")
 	}
 
+	if o.has("email2matrix") || o.has("postmoogle") {
+		dns += strings.Join([]string{"matrix", "MX record", "matrix." + o.get("domain") + "\n"}, "\t")
+	}
+
 	return dns
 }

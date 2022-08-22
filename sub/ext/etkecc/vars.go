@@ -46,6 +46,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsGoneb())
 	txt.WriteString(o.generateVarsHonoroit())
 	txt.WriteString(o.generateVarsMjolnir())
+	txt.WriteString(o.generateVarsPostmoogle())
 	txt.WriteString(o.generateVarsReminder())
 
 	// bridges
@@ -707,6 +708,21 @@ func (o *order) generateVarsMjolnir() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsPostmoogle() string {
+	if !o.has("postmoogle") {
+		return ""
+	}
+	var txt strings.Builder
+	password := o.pwgen()
+
+	txt.WriteString("\n# bots::postmoogle\n")
+	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
+	txt.WriteString("matrix_bot_postmoogle_password: " + password + "\n")
+	txt.WriteString("# TODO: matrix-synapse-register-user postmoogle " + password + " 0\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsReminder() string {
 	if !o.has("reminder-bot") {
 		return ""
@@ -725,7 +741,7 @@ func (o *order) generateVarsReminder() string {
 }
 
 func (o *order) generateVarsEmail2Matrix() string {
-	if !o.has("email2matrix") {
+	if !o.has("email2matrix") || o.has("postmoogle") {
 		return ""
 	}
 	var txt strings.Builder

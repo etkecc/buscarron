@@ -71,5 +71,6 @@ ntfy	CNAME record	matrix.example.com
 radicale	CNAME record	matrix.example.com
 stats	CNAME record	matrix.example.com
 sygnal	CNAME record	matrix.example.com
+matrix	MX record	matrix.example.com
 ```
 

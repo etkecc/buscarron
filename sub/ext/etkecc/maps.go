@@ -37,6 +37,7 @@ var botmap = map[string]string{
 	"honoroit":     "@honoroit",
 	"miounne":      "@miounne",
 	"mjolnir":      "@mjolnir",
+	"postmoogle":   "@postmoogle",
 	"reminder-bot": "@reminder",
 }
 

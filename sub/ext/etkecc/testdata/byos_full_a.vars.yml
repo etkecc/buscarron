@@ -297,6 +297,11 @@ matrix_bot_mjolnir_management_room: TODO
 matrix_bot_mjolnir_configuration_extension_yaml: |
   recordIgnoredInvites: true
 
+# bots::postmoogle
+matrix_bot_postmoogle_enabled: yes
+matrix_bot_postmoogle_password: TODO
+# TODO: matrix-synapse-register-user postmoogle TODO 0
+
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
@@ -306,24 +311,6 @@ matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
 
 # bridges::discord
 matrix_mautrix_discord_enabled: yes
-
-# bridges::email2matrix
-matrix_email2matrix_enabled: yes
-matrix_email2matrix_user_hs: "http://matrix-synapse:8008"
-matrix_email2matrix_user_mxid: "@email2matrix:example.com"
-matrix_email2matrix_user_token: TODO
-# TODO: matrix-synapse-register-user email2matrix VVtqYtyJpaAbW0YI2oBo8doZepfB07xkvcVkXuQJrXfmyxZJCBCrgcwur2XtzmRY 0
-# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "email2matrix" },"password": "TODO", "type": "m.login.password"}' 'https://matrix.example.com/_matrix/client/r0/login'
-# join: curl -H "Authorization: Bearer TODO" 'https://matrix.example.com/_matrix/client/r0/join/ROOM_ID' -X POST
-matrix_email2matrix_matrix_mappings:
-  - MailboxName: TODO
-    MatrixRoomId: TODO
-    MatrixHomeserverUrl: "{{ matrix_email2matrix_user_hs }}"
-    MatrixAccessToken: "{{ matrix_email2matrix_user_token }}"
-    MatrixUserId: "{{ matrix_email2matrix_user_mxid }}"
-    IgnoreSubject: no
-    IgnoreBody: no
-    SkipMarkdown: no
 
 # bridges::facebook
 matrix_mautrix_facebook_enabled: yes

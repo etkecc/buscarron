@@ -88,6 +88,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"mjolnir":                 "on",
 		"nginx-proxy-website":     "on",
 		"ntfy":                    "on",
+		"postmoogle":              "on",
 		"radicale":                "on",
 		"reminder-bot":            "on",
 		"signal":                  "on",

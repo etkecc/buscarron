@@ -196,11 +196,10 @@ func (o *order) generateOnboardingAfterEmail2Matrix() string {
 	var txt strings.Builder
 
 	txt.WriteString("### email2matrix\n\n")
-	txt.WriteString("1. " + o.t("as_email2matrix_1_point") + " matrix." + o.get("domain") + " " + o.t("as_email2matrix_1_note") + "\n")
+	txt.WriteString("1. " + o.t("as_email2matrix_1") + "\n")
 	txt.WriteString("2. " + o.t("as_email2matrix_2") + "\n")
 	txt.WriteString("3. " + o.t("as_email2matrix_3") + "\n")
-	txt.WriteString("4. " + o.t("as_email2matrix_4") + "\n")
-	txt.WriteString("5. " + o.t("as_email2matrix_5") + " @support:etke.cc (eg: info@matrix." + o.get("domain") + " = !gqlCuoCdhufltluRXk:" + o.get("domain") + ")\n\n")
+	txt.WriteString("4. " + o.t("as_email2matrix_4") + " @support:etke.cc (eg: info@matrix." + o.get("domain") + " = !gqlCuoCdhufltluRXk:" + o.get("domain") + ")\n\n")
 
 	return txt.String()
 }
