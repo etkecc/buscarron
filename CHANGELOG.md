@@ -1,3 +1,9 @@
+# Buscarron v1.2.1 (2022-08-23)
+
+### Misc :zzz:
+
+* Updated deps
+
 # Buscarron v1.2.0 (2022-06-20)
 
 ### Features :sparkles:
