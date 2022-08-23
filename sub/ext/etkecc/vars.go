@@ -833,7 +833,7 @@ func (o *order) generateVarsGooglechat() string {
 }
 
 func (o *order) generateVarsHeisenbridge() string {
-	if !o.has("heisenbridge") {
+	if !o.has("irc") {
 		return ""
 	}
 
