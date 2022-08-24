@@ -31,7 +31,7 @@
 
 # bridges
 
-* discord: @_discordpuppet_bot:example.com
+* discord: @discordbot:example.com
 * facebook: @facebookbot:example.com
 * googlechat: @googlechatbot:example.com
 * groupme: @_groupmepuppet_bot:example.com

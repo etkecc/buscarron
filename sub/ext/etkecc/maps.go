@@ -42,7 +42,7 @@ var botmap = map[string]string{
 }
 
 var bridgemap = map[string]string{
-	"discord":    "@_discordpuppet_bot",
+	"discord":    "@discordbot",
 	"facebook":   "@facebookbot",
 	"googlechat": "@googlechatbot",
 	"groupme":    "@_groupmepuppet_bot",
