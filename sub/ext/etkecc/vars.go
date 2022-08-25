@@ -582,7 +582,8 @@ func (o *order) generateVarsMiniflux() string {
 	txt.WriteString("custom_miniflux_database_password: " + password + "\n")
 	txt.WriteString("# TODO:\n")
 	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE USER miniflux WITH PASSWORD '" + password + "';\"\n")
-	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE DATABASE miniflux; GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;\"\n")
+	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE DATABASE miniflux;\"\n")
+	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;\"\n")
 	txt.WriteString("# docker exec -it custom-miniflux /usr/bin/miniflux -create-admin\n")
 
 	return txt.String()
