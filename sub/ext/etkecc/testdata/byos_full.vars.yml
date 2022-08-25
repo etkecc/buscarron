@@ -212,7 +212,8 @@ matrix_server_fqn_miniflux: "miniflux.{{ matrix_domain }}"
 custom_miniflux_database_password: TODO
 # TODO:
 # matrix-postgres-cli-non-interactive -c "CREATE USER miniflux WITH PASSWORD 'TODO';"
-# matrix-postgres-cli-non-interactive -c "CREATE DATABASE miniflux; GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;"
+# matrix-postgres-cli-non-interactive -c "CREATE DATABASE miniflux;"
+# matrix-postgres-cli-non-interactive -c "GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;"
 # docker exec -it custom-miniflux /usr/bin/miniflux -create-admin
 
 # miounne https://miounne.example.com
