@@ -1,54 +1,27 @@
 package etkecc
 
 import (
-	"crypto/ed25519"
-	"crypto/rand"
-	"encoding/pem"
-	"math/big"
-	"strings"
-
-	"github.com/mikesmitty/edkey"
-	"golang.org/x/crypto/ssh"
+	"gitlab.com/etke.cc/go/secgen"
 )
 
-const (
-	passlen = 64
-	charset = "abcdedfghijklmnopqrstABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" // a-z A-Z 0-9
-)
-
-var charsetlen = big.NewInt(57)
+const passlen = 64
 
 // pwgen is actual password generator
 func (o *order) pwgen() string {
 	if o.test {
 		return "TODO"
 	}
-	var password strings.Builder
 
-	for i := 0; i < passlen; i++ {
-		// nolint // the configuration will be genered as template and must be modified manually after that, so even if password will not be generated that's not a problem
-		index, _ := rand.Int(rand.Reader, charsetlen)
-		password.WriteByte(charset[index.Int64()])
-	}
-
-	return password.String()
+	return secgen.Password(passlen)
 }
 
 func (o *order) keygen() (string, string) {
 	if o.test {
 		return "ssh-todo TODO", "-----BEGIN OPENSSH PRIVATE KEY-----\nTODO\n-----END OPENSSH PRIVATE KEY-----"
 	}
-	publicBytes, privateBytes, _ := ed25519.GenerateKey(nil) //nolint:errcheck
-	publicStruct, _ := ssh.NewPublicKey(publicBytes)         //nolint:errcheck
+	pub, priv, _ := secgen.Keypair() //nolint:errcheck
 
-	pemblock := &pem.Block{
-		Type:  "OPENSSH PRIVATE KEY",
-		Bytes: edkey.MarshalED25519PrivateKey(privateBytes),
-	}
-	private := pem.EncodeToMemory(pemblock)
-	public := ssh.MarshalAuthorizedKey(publicStruct)
-
-	return string(public), string(private)
+	return pub, priv
 }
 
 // password calls pwgen and saves result to internal map to export that password in multiple places (eg vars and onboarding)
