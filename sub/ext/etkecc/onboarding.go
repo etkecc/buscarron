@@ -174,7 +174,7 @@ func (o *order) generateOnboardingPayment() string {
 }
 
 func (o *order) generateOnboardingAfter() string {
-	has := o.has("email2matrix") || o.has("etherpad") || o.has("honoroit")
+	has := o.has("email2matrix") || o.has("etherpad") || o.has("honoroit") || o.has("postmoogle")
 	if !has {
 		return ""
 	}
@@ -182,6 +182,7 @@ func (o *order) generateOnboardingAfter() string {
 
 	txt.WriteString("# " + o.t("steps_after_setup") + "\n\n")
 	txt.WriteString(o.generateOnboardingAfterEmail2Matrix())
+	txt.WriteString(o.generateOnboardingAfterPostmoogle())
 	txt.WriteString(o.generateOnboardingAfterEtherpad())
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
@@ -200,6 +201,19 @@ func (o *order) generateOnboardingAfterEmail2Matrix() string {
 	txt.WriteString("2. " + o.t("as_email2matrix_2") + "\n")
 	txt.WriteString("3. " + o.t("as_email2matrix_3") + "\n")
 	txt.WriteString("4. " + o.t("as_email2matrix_4") + " @support:etke.cc (eg: info@matrix." + o.get("domain") + " = !gqlCuoCdhufltluRXk:" + o.get("domain") + ")\n\n")
+
+	return txt.String()
+}
+
+func (o *order) generateOnboardingAfterPostmoogle() string {
+	if !o.has("postmoogle") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("### postmoogle\n\n")
+	txt.WriteString("1. " + o.t("as_postmoogle_1") + "\n")
+	txt.WriteString("2. " + o.t("as_postmoogle_2") + "\n")
 
 	return txt.String()
 }

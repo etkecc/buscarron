@@ -77,5 +77,7 @@ radicale	CNAME record	matrix.example.com
 stats	CNAME record	matrix.example.com
 sygnal	CNAME record	matrix.example.com
 matrix	MX record	matrix.example.com
+matrix	TXT record	v=spf1 ip4:SERVER_IP -all
+_dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 

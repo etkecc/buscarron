@@ -76,6 +76,11 @@ Please, [buy the Setup item](https://etke.cc/setup) and join the **Maintenance+E
 3. Login with the email2matrix user and accept the invitations you sent (yes, it's a very manual process - this is why we asked you if you really want it)
 4. Send the email2matrix password and pairs of (mailbox name + matrix room id) to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
 
+### postmoogle
+
+1. Run command `!pm dkim` in any room with postmoogle
+2. Add new TXT DNS record with Key/From/Subdomain = `postmoogle._domainkey.matrix` and Value/To = signature copied from `!pm dkim` output
+
 ### etherpad
 
 1. Open integration manager in any element client app
