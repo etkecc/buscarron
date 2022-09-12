@@ -54,7 +54,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"service-setup":           "on",
 		"service-maintenance":     "on",
 		"service-email":           "on",
-		"lang":                    "en",
+		"lang":                    "de",
 		"type":                    "byos",
 		"borg":                    "on",
 		"buscarron":               "on",

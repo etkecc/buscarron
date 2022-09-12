@@ -48,9 +48,9 @@
 <li>whatsapp: @whatsappbot:example.com</li>
 </ul>
 <blockquote>
-<p>https://etke.cc/bridges - auth instructions</p>
+<p>https://etke.cc/bridges - Authentifizierungsanweisungen</p>
 </blockquote>
-<h1>credentials</h1>
+<h1>Anmeldeinformationen</h1>
 <ul>
 <li>mxid: @test:example.com</li>
 <li>username: test</li>
@@ -61,40 +61,40 @@
 <li>radicale password: TODO</li>
 </ul>
 <blockquote>
-<p>in case of any issues: https://etke.cc/contacts</p>
+<p>im Falle irgendwelcher Probleme: https://etke.cc/contacts</p>
 </blockquote>
-<h1>payment</h1>
-<p>Please, <a href="https://etke.cc/setup">buy the Setup item</a> and join the <strong>Maintenance+Email</strong> membership on <a href="https://etke.cc/membership">https://etke.cc/membership</a>.</p>
+<h1>Bezahlung</h1>
+<p>Bitte, <a href="https://etke.cc/setup">kaufen Sie das Einrichtungselement</a> und Beitritt zur <strong>Maintenance+Email</strong> Mitgliedschaft auf <a href="https://etke.cc/membership">https://etke.cc/membership</a>.</p>
 <blockquote>
-<p><strong>NOTE</strong>: all prices are based on the <a href="https://en.wikipedia.org/wiki/Pay_what_you_want">Pay What You Want</a> model.</p>
+<p><strong>HINWEIS</strong>: Alle Preise basieren auf dem [Pay What You Want]-Modell (https://de.wikipedia.org/wiki/Pay_what_you_want).</p>
 </blockquote>
-<h1>steps after the setup</h1>
+<h1>Schritte nach dem Einrichten</h1>
 <h3>email2matrix</h3>
 <ol>
-<li>Create a non-admin matrix user with username <code>email2matrix</code> and a secure password</li>
-<li>Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite the email2matrix user to all of them</li>
-<li>Login with the email2matrix user and accept the invitations you sent (yes, it's a very manual process - this is why we asked you if you really want it)</li>
-<li>Send the email2matrix password and pairs of (mailbox name + matrix room id) to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)</li>
+<li>Erstellen Sie einen Nicht-Administrator-Matrix-Benutzer mit dem Benutzernamen <code>email2matrix</code> und einem sicheren Passwort</li>
+<li>Erstellen Sie unverschlüsselte Matrixräume für die gewünschten Postfächer (1 Raum = 1 Postfach) und laden Sie den email2matrix-Benutzer zu allen Räumen ein.</li>
+<li>Melden Sie sich mit dem email2matrix-Benutzer an und akzeptieren Sie die Einladungen, die Sie verschickt haben (ja, das ist ein sehr manueller Prozess - deshalb haben wir Sie gefragt, ob Sie das wirklich wollen)</li>
+<li>Senden Sie das email2matrix-Passwort und Paare von (Mailboxname + Matrix-Raum-ID) an den @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)</li>
 </ol>
 <h3>postmoogle</h3>
 <ol>
-<li>Run command <code>!pm dkim</code> in any room with postmoogle</li>
-<li>Add new TXT DNS record with Key/From/Subdomain = <code>postmoogle._domainkey.matrix</code> and Value/To = signature copied from <code>!pm dkim</code> output</li>
+<li>Befehl <code>!pm dkim</code> in einem beliebigen Raum mit postmoogle ausführen</li>
+<li>Fügen Sie einen neuen TXT-DNS-Eintrag mit Key/From/Subdomain = <code>postmoogle._domainkey.matrix</code> und Value/To = Signatur aus der Ausgabe von <code>!pm dkim</code> hinzu</li>
 </ol>
 <h3>etherpad</h3>
 <ol>
-<li>Open integration manager in any element client app</li>
-<li>Click on the sprocket icon and go to the Widgets tab</li>
-<li>Open the Etherpad widget configuration and replace <code>scalar.vector.im</code> with <code>dimension.example.com</code></li>
+<li>Öffnen Sie den Integrationsmanager in einer beliebigen Element-Client-Anwendung</li>
+<li>Klicken Sie auf das Zahnradsymbol und gehen Sie auf die Registerkarte Widgets</li>
+<li>Öffnen Sie die Etherpad-Widget-Konfiguration und ersetzen Sie <code>scalar.vector.im</code> durch <code>dimension.example.com</code></li>
 </ol>
 <h3>buscarron</h3>
 <ol>
-<li>Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them</li>
-<li>Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc</li>
+<li>Erstellen Sie (verschlüsselte) Matrixräume für die gewünschten Formulare und laden Sie den buscarron-Benutzer zu allen Räumen ein</li>
+<li>Senden Sie die Liste (Formularname, Matrix-Raum-ID, Umleitungs-URL nach Übermittlung) an @support:etke.cc</li>
 </ol>
 <h3>honoroit</h3>
 <ol>
-<li>Create a matrix room (encryption supported) and invite the honoroit user into it</li>
-<li>Send the room id to the @support:etke.cc</li>
+<li>Erstellen Sie einen Matrixraum (Verschlüsselung unterstützt) und laden Sie den honoroit-Benutzer dazu ein</li>
+<li>Senden Sie die Raum-ID an @support:etke.cc</li>
 </ol>
-<p>if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)</p>
+<p>Wenn Sie die Nachrichten von honoroit ändern möchten, senden Sie die gewünschten Texte an @support:etke.cc (Sie können https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go als Referenz verwenden)</p>

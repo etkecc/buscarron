@@ -47,9 +47,9 @@
 * webhooks: @_webhook:example.com
 * whatsapp: @whatsappbot:example.com
 
-> https://etke.cc/bridges - auth instructions
+> https://etke.cc/bridges - Authentifizierungsanweisungen
 
-# credentials
+# Anmeldeinformationen
 
 * mxid: @test:example.com
 * username: test
@@ -59,42 +59,42 @@
 * matrix-corporal api password: TODO
 * radicale password: TODO
 
-> in case of any issues: https://etke.cc/contacts
+> im Falle irgendwelcher Probleme: https://etke.cc/contacts
 
-# payment
+# Bezahlung
 
-Please, [buy the Setup item](https://etke.cc/setup) and join the **Maintenance+Email** membership on https://etke.cc/membership.
+Bitte, [kaufen Sie das Einrichtungselement](https://etke.cc/setup) und Beitritt zur **Maintenance+Email** Mitgliedschaft auf https://etke.cc/membership.
 
-> **NOTE**: all prices are based on the [Pay What You Want](https://en.wikipedia.org/wiki/Pay_what_you_want) model.
+> **HINWEIS**: Alle Preise basieren auf dem [Pay What You Want]-Modell (https://de.wikipedia.org/wiki/Pay_what_you_want).
 
-# steps after the setup
+# Schritte nach dem Einrichten
 
 ### email2matrix
 
-1. Create a non-admin matrix user with username `email2matrix` and a secure password
-2. Create un-encrypted matrix rooms for mailboxes you want to have (1 room = 1 mailbox) and invite the email2matrix user to all of them
-3. Login with the email2matrix user and accept the invitations you sent (yes, it's a very manual process - this is why we asked you if you really want it)
-4. Send the email2matrix password and pairs of (mailbox name + matrix room id) to the @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
+1. Erstellen Sie einen Nicht-Administrator-Matrix-Benutzer mit dem Benutzernamen `email2matrix` und einem sicheren Passwort
+2. Erstellen Sie unverschlüsselte Matrixräume für die gewünschten Postfächer (1 Raum = 1 Postfach) und laden Sie den email2matrix-Benutzer zu allen Räumen ein.
+3. Melden Sie sich mit dem email2matrix-Benutzer an und akzeptieren Sie die Einladungen, die Sie verschickt haben (ja, das ist ein sehr manueller Prozess - deshalb haben wir Sie gefragt, ob Sie das wirklich wollen)
+4. Senden Sie das email2matrix-Passwort und Paare von (Mailboxname + Matrix-Raum-ID) an den @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
 
 ### postmoogle
 
-1. Run command `!pm dkim` in any room with postmoogle
-2. Add new TXT DNS record with Key/From/Subdomain = `postmoogle._domainkey.matrix` and Value/To = signature copied from `!pm dkim` output
+1. Befehl `!pm dkim` in einem beliebigen Raum mit postmoogle ausführen
+2. Fügen Sie einen neuen TXT-DNS-Eintrag mit Key/From/Subdomain = `postmoogle._domainkey.matrix` und Value/To = Signatur aus der Ausgabe von `!pm dkim` hinzu
 
 ### etherpad
 
-1. Open integration manager in any element client app
-2. Click on the sprocket icon and go to the Widgets tab
-3. Open the Etherpad widget configuration and replace `scalar.vector.im` with `dimension.example.com`
+1. Öffnen Sie den Integrationsmanager in einer beliebigen Element-Client-Anwendung
+2. Klicken Sie auf das Zahnradsymbol und gehen Sie auf die Registerkarte Widgets
+3. Öffnen Sie die Etherpad-Widget-Konfiguration und ersetzen Sie `scalar.vector.im` durch `dimension.example.com`
 
 ### buscarron
 
-1. Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
-2. Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc
+1. Erstellen Sie (verschlüsselte) Matrixräume für die gewünschten Formulare und laden Sie den buscarron-Benutzer zu allen Räumen ein
+2. Senden Sie die Liste (Formularname, Matrix-Raum-ID, Umleitungs-URL nach Übermittlung) an @support:etke.cc
 
 ### honoroit
 
-1. Create a matrix room (encryption supported) and invite the honoroit user into it
-2. Send the room id to the @support:etke.cc
+1. Erstellen Sie einen Matrixraum (Verschlüsselung unterstützt) und laden Sie den honoroit-Benutzer dazu ein
+2. Senden Sie die Raum-ID an @support:etke.cc
 
-if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
+Wenn Sie die Nachrichten von honoroit ändern möchten, senden Sie die gewünschten Texte an @support:etke.cc (Sie können https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go als Referenz verwenden)

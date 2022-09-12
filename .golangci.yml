@@ -38,8 +38,6 @@ linters-settings:
     enable:
       - atomicalign
       - shadow
-  misspell:
-    locale: US
   staticcheck:
     go: "1.18"
     checks: [ "all" ]
@@ -62,7 +60,6 @@ linters:
     - goimports
     - gosimple
     - govet
-    - misspell
     - staticcheck
     - stylecheck
     - unparam

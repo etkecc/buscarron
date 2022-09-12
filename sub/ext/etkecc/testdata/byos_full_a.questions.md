@@ -1,59 +1,59 @@
 ```yaml
-Hi there,
-We got your order and have some questions before the setup.
+Hallo zusammen,
+Wir haben Ihre Bestellung erhalten und haben einige Fragen vor der Einrichtung.
 
-We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
+Wir sehen, dass Sie etwas auf Ihrer Basisdomain haben. In diesem Fall sollten Sie die folgenden HTTPS-Weiterleitungen (HTTP 301) hinzufügen:
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
 
-Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
+Reminder bot: Was ist Ihre Zeitzone (IANA)? Wie America/Chicago, Asia/Seoul, oder Europe/Berlin
 
-Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
+Honoroit: Sind Sie sicher, dass Sie es wollen? Es ist ein Helpdesk-Bot mit Ende-Zu-Ende-Verschlüsselungsunterstützung. Bitte prüfen Sie https://gitlab.com/etke.cc/honoroit, bevor Sie sich entscheiden.
 
-Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
+Telegram: gehen Sie bitte auf https://my.telegram.org/apps und erstellen Sie eine neue App. Teilen Sie mir die API-ID und den Hash mit
 
-SMTP relay: please, select a suitable email provider (big providers like Gmail or Outlook will ban you for automated emails, so you need to find a service that allows sending of verification emails. Optionally, we provide such service). Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email (usually login and email are the same thing, but that depends on the provider).
+SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter wie Gmail oder Outlook sperren Sie für automatisierte E-Mails, daher müssen Sie einen Dienst finden, der den Versand von Verifizierungs-E-Mails erlaubt. Optional bieten wir einen solchen Dienst an). Bitte senden Sie uns einen SMTP Host, einen SMTP STARTTLS Port, ein SMTP Login, ein SMTP Passwort und eine SMTP E-Mail (normalerweise sind Login und E-Mail dasselbe, aber das hängt vom Anbieter ab).
 
-Prometheus+Grafana: are you sure you want it? Cloud providers usually provide a dashboard with server stats, so why not use that dashboard instead? A Prometheus+Grafana stack provides some internal matrix stats (like count of events), but it's overkill if you just want to see server utilization.
+Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
 
-Uptime Kuma: are you sure you want it? It's a self-hosted monitoring tool, that is not integrated into Matrix, like 'opensource UptimeRobot'. Please, check https://github.com/louislam/uptime-kuma before deciding.
+Uptime Kuma: Sind Sie sicher, dass Sie es wollen? Es handelt sich um ein selbstgehostetes Überwachungsprogramm, das nicht in Matrix integriert ist, wie z. B. 'opensource UptimeRobot'. Bitte prüfen Sie https://github.com/louislam/uptime-kuma, bevor Sie sich entscheiden.
 
-Radicale: are you sure you want it? It's a CalDAV/CardDAV server, that is not integrated into Matrix. Please, check https://radicale.org/ before deciding.
+Radicale: Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen CalDAV/CardDAV-Server, der nicht in Matrix integriert ist. Bitte prüfen Sie https://radicale.org/, bevor Sie sich entscheiden.
 
-Miniflux: are you sure you want it? It's an RSS reader, not integrated into Matrix. Please, check https://miniflux.app before deciding.
+Miniflux: Sind Sie sicher, dass Sie es wollen? Es ist ein RSS-Reader, der nicht in Matrix integriert ist. Bitte prüfen Sie https://miniflux.app, bevor Sie sich entscheiden.
 
-Languagetool: are you sure you want it? It's an 'open-source Grammarly' server, requires ~30GB of disk space for n-grams, and is not integrated into Matrix. Please, check https://languagetool.org before deciding.
+Languagetool: Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen 'Open-Source-Grammarly'-Server, der ~30 GB Speicherplatz für n-Gramme benötigt und nicht in Matrix integriert ist. Bitte prüfen Sie https://languagetool.org, bevor Sie sich entscheiden.
 
-Soft-Serve: are you sure you want it? It's a git hosting exposed over SSH, that is not integrated into Matrix. Please, check https://github.com/charmbracelet/soft-serve before deciding.
+Soft-Serve: Sind Sie sicher, dass Sie es wollen? Es ist ein Git-Hosting das über SSH zugänglich ist, das nicht in Matrix integriert ist. Bitte prüfen Sie https://github.com/charmbracelet/soft-serve, bevor Sie sich entscheiden.
 
-WireGuard and dnsmasq: are you sure you want them? WireGuard is a VPN (not integrated with Matrix) and dnsmasq is a local DNS server installed with adblock lists (like pi-hole) that is integrated pretty well with WireGuard. Please, check https://wireguard.com before deciding. If you still want it, please, send us a list of labels you want to assign to generated client keys (just to set filenames, so even '1,2,3...' is OK)
+WireGuard und dnsmasq: sind Sie sicher, dass Sie sie wollen? WireGuard ist ein VPN (nicht in Matrix integriert) und dnsmasq ist ein lokaler DNS-Server, der mit Adblock-Listen (wie pi-hole) ausgestattet ist, die ziemlich gut in WireGuard integriert sind. Bitte prüfen Sie https://wireguard.com, bevor Sie sich entscheiden. Wenn Sie es immer noch wollen, senden Sie uns bitte eine Liste von Bezeichnungen, die Sie den generierten Client-Schlüsseln zuweisen wollen (nur um Dateinamen festzulegen, also auch '1,2,3...' ist OK)
 
-Etherpad (only with subscription or turnkey): are you sure you want it? It's a self-hosted collaborative editor, available for usage only with dimension (added a question about it, too). Keep in mind that you will get an etherpad anyway with the default integration manager, but it will be hosted by Element Inc. (developers of the Element client apps).
+Etherpad (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es handelt sich um einen selbst gehosteten kollaborativen Editor, der nur in Verbindung mit Dimension verwendet werden kann (auch dazu wurde eine Frage gestellt). Denken Sie daran, dass Sie mit dem Standard-Integrationsmanager ohnehin ein Etherpad erhalten, das jedoch von Element Inc. gehostet wird (Entwickler der Element-Clientanwendungen).
 
-Dimension (only with subscription or turnkey): are you sure you want it? It's a self-hosted integration manager. You will get an integration manager by default with any Element client app. Please check https://github.com/turt2live/matrix-dimension before deciding
+Dimension (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es ist ein selbst gehosteter Integrationsmanager. Sie erhalten standardmäßig einen Integrationsmanager mit jeder Element-Client-Anwendung. Bitte prüfen Sie https://github.com/turt2live/matrix-dimension bevor Sie sich entscheiden.
 
-Website (only with subscription or turnkey): to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
+Website (nur mit Abonnement oder Komplettpaket): Um eine statische Website einzurichten, müssen Sie Ihre Basisdomäne (den @ DNS eintrag) auf die IP-Adresse des Matrix-Servers verweisen, und der Quellcode der Website muss in einem öffentlichen git repo verfügbar sein. Sind Sie sicher, dass Sie das wollen? Wenn ja, geben Sie bitte die URL des Website-Repositorys, den Befehl (-s) zum Erstellen der Website und den Ordner an, in dem die Build-Distribution gespeichert ist (normalerweise public oder dist).
 
-buscarron (only with subscription or turnkey): are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
+buscarron (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es ist ein Bot, der Webformulare (HTML/HTTP POST) empfängt und sie an (verschlüsselte) Matrixräume sendet. Bitte prüfen Sie https://gitlab.com/etke.cc/buscarron, bevor Sie sich entscheiden.
 
-SSO (only with subscription or turnkey): You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send us the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
+SSO (nur mit Abonnement oder Komplettpaket): Sie haben nicht erwähnt, welchen OIDC/OAuth2-Anbieter Sie integrieren möchten. Hier ist eine Liste der gängigen Anbieter - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Bitte senden Sie uns die Informationen, die für die Konfiguration erforderlich sind (in der Regel sind es Anbietername, issuer, client_id, client_secret, aber das hängt vom Anbieter ab)
 
-Sygnal (only with subscription or turnkey): are you sure you want it? It's a push gateway, usable only for matrix client app developers, so you can't use it if you don't develop your mobile matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
+Sygnal (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es ist ein Push Gateway, das nur für Matrix-Client-App-Entwickler nutzbar ist. Sie können es also nicht verwenden, wenn Sie Ihre mobile Matrix-App nicht entwickeln. Wenn Sie es hinzufügen möchten, geben Sie bitte die folgenden Informationen an: App ID(-s) (z.B. org.matrix.app), FCM api key, und/oder APNS certificate (falls verwendet)
 
-BorgBackup (only with subscription or turnkey): please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
+BorgBackup (nur mit Abonnement oder Komplettpaket): geben Sie bitte die gewünschte Repository-URL an (user@host:repo). Wir werden einen SSH-Schlüssel und eine Verschlüsselungspassphrase auf Ihrem Server generieren. Wir senden Ihnen den öffentlichen Teil des generierten SSH-Schlüssels zu. Sie müssen diesen SSH-Schlüssel zu Ihrem Provider hinzufügen.
 
-email2matrix (only with subscription or turnkey): are you sure you want it? It's a one-way SMTP server to receive emails into a matrix room. It's quite tricky to set up by yourself, as it doesn't have a straightforward way to get it configured. We will need to cooperate with you to do configuration both as a matrix homeserver user (performed by you, because we don't have users on your homeserver and don't have access to your data inside matrix) and system (performed by us, because that tool's configuration is saved in config files on the VM/VPS disk).
+email2matrix (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen Einweg-SMTP-Server für den Empfang von E-Mails in einem Matrixraum. Es ist ziemlich schwierig, ihn selbst einzurichten, da es keinen einfachen Weg gibt, ihn zu konfigurieren. Wir müssen mit Ihnen zusammenarbeiten, um die Konfiguration sowohl als Matrix-Homeserver-Benutzer (von Ihnen durchgeführt, da wir keine Benutzer auf Ihrem Homeserver haben und keinen Zugriff auf Ihre Daten innerhalb von Matrix haben) als auch für das System (von uns durchgeführt, da die Konfiguration dieses Tools in Konfigurationsdateien auf der VM/VPS-Festplatte gespeichert wird) durchzuführen.
 
-Jitsi (only with subscription or turnkey): are you sure you want it? You will get jitsi integration by default with a public instance. The jitsi item we offer is a self-hosted version. Keep in mind that jitsi significantly increases compute power requirements.
+Jitsi (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Sie erhalten die jitsi-Integration standardmäßig mit einer öffentlichen Instanz. Das von uns angebotene jitsi ist eine selbst gehostete Version. Denken Sie daran, dass Jitsi die Anforderungen an die Rechenleistung deutlich erhöht.
 
-ma1sd (only with subscription or turnkey): are you sure you want it? It's deprecated software, previously used as stub - an identity server, unmaintained for a while, and it doesn't have any benefits in most cases (unless you want to add LDAP auth or Twilio phone number verification).
+ma1sd (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um veraltete Software, die früher als Stub - Identitätsserver - verwendet wurde, seit einiger Zeit nicht mehr gewartet wird und in den meisten Fällen keine Vorteile bietet (es sei denn, Sie möchten LDAP-Authentifizierung oder Twilio-Telefonnummernüberprüfung hinzufügen).
 
-matrix-registration (only with subscription or turnkey): are you sure you want it? It's deprecated software - a workaround used to add invite-based registration support to matrix, because the protocol didn't support it, but now you can use the builtin invite tokens feature instead: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html
+matrix-registration (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um veraltete Software - ein Workaround, der verwendet wurde, um Matrix eine einladungsbasierte Registrierungsunterstützung hinzuzufügen, weil das Protokoll dies nicht unterstützte, aber jetzt können Sie stattdessen die eingebaute Einladungs-Token-Funktion verwenden: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html
 
-Miounne (only with subscription or turnkey): are you sure you want it? Miounne is deprecated software - a bridge between external services (like HTML/HTTP forms, matrix-registration, buymeacoffee, etc.) and matrix. Please, check https://gitlab.com/etke.cc/miounne before deciding. If you still want it, please, send me a configuration to apply (no, there is no 'default configuration'. No, there is no 'good configuration'. No, we don't provide configuration templates. It's completely up to you)
+Miounne (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Miounne ist eine veraltete Software - eine Brücke zwischen externen Diensten (wie HTML/HTTP-Formulare, Matrix-Registrierung, buymeacoffee, etc.) und Matrix. Bitte prüfen Sie https://gitlab.com/etke.cc/miounne, bevor Sie sich entscheiden. Wenn Sie es immer noch wollen, schicken Sie mir bitte eine Konfiguration, die ich anwenden kann (nein, es gibt keine 'Standardkonfiguration'. Nein, es gibt keine 'gute Konfiguration'. Nein, wir stellen keine Konfigurationsvorlagen zur Verfügung. Es liegt ganz bei Ihnen)
 
-Server: please, create a VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
-Add our SSH keys (https://etke.cc/ssh.key) to your server, send us your server's IP address, the username (with permissions to call sudo), and password (if set).
+Server: Bitte erstellen Sie einen VPS mit einer beliebigen Debian-basierten Distribution. Minimale komfortable Konfiguration für einen einfachen Matrix-Server: 1vCPU, 2GB RAM.
+ Fügen Sie unsere SSH-Schlüssel (https://etke.cc/ssh.key) zu Ihrem Server hinzu, senden Sie uns die IP-Adresse Ihres Servers, den Benutzernamen (mit der Berechtigung, sudo aufzurufen) und das Passwort (falls festgelegt).
 
 ```
 
@@ -62,7 +62,7 @@ ___
 
 ```yaml
 
-DNS - please, add the following entries:
+DNS - bitte fügen Sie die folgenden Einträge hinzu:
 matrix	A record	server IP
 buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com
