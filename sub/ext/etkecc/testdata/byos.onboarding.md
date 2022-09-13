@@ -9,7 +9,7 @@
 * username: test
 * password: TODO
 
-> in case of any issues: https://etke.cc/contacts
+> in case of any issues: https://etke.cc/en/help
 
 # payment
 

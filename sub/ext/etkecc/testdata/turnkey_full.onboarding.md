@@ -58,7 +58,7 @@
 * matrix-corporal api password: TODO
 * radicale password: TODO
 
-> в случае проблем: https://etke.cc/contacts
+> в случае проблем: https://etke.cc/ru/help
 
 # после установки
 

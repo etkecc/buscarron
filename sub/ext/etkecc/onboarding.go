@@ -145,7 +145,7 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("* " + name + " password: " + o.pass[name] + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/contacts\n\n")
+	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/" + o.get("lang") + "/help\n\n")
 	o.pass["matrix"] = mxpass
 
 	return txt.String()

@@ -59,7 +59,7 @@
 * matrix-corporal api password: TODO
 * radicale password: TODO
 
-> im Falle irgendwelcher Probleme: https://etke.cc/contacts
+> im Falle irgendwelcher Probleme: https://etke.cc/de/help
 
 # Bezahlung
 

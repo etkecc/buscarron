@@ -43,6 +43,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"username":   " tEsT ",
 		"email":      "tEsT@TEST.cOm",
 		"type":       "turnkey",
+		"lang":       "wrong",
 	}
 	s.byosFull = map[string]string{
 		"homeserver":              "synapse",

@@ -94,6 +94,12 @@ func (o *order) preprocess() {
 		o.data["smtp-relay"] = "yes"
 	}
 
+	lang := o.get("lang")
+	_, ok := i18n[lang]
+	if !ok {
+		o.data["lang"] = i18nDefault
+	}
+
 	if o.has("etherpad") {
 		o.data["dimension"] = "auto"
 	}
