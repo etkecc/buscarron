@@ -20,6 +20,7 @@ type FormHandler interface {
 type DomainValidator interface {
 	A(string) bool
 	DomainString(string) bool
+	GetBase(string) string
 }
 
 // Server to handle forms
@@ -93,6 +94,7 @@ func (s *Server) domainValidator() http.HandlerFunc {
 			http.Error(w, "", http.StatusNotFound)
 			return
 		}
+		domain = s.dv.GetBase(domain)
 
 		if s.dv.DomainString(domain) && !s.dv.A(domain) {
 			s.log.Info("%s %s %s is valid", r.Method, r.URL.String(), domain)

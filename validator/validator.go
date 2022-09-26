@@ -2,10 +2,12 @@ package validator
 
 import (
 	"net"
+	"net/mail"
 	"regexp"
 	"strings"
 
 	"gitlab.com/etke.cc/go/logger"
+	"golang.org/x/net/publicsuffix"
 )
 
 // V is a validator implementation
@@ -18,8 +20,8 @@ type V struct {
 
 // based on W3C email regex, ref: https://www.w3.org/TR/2016/REC-html51-20161101/sec-forms.html#email-state-typeemail
 var (
-	emailRegex  = regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-	domainRegex = regexp.MustCompile(`^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]$`)
+	domainRegex   = regexp.MustCompile(`^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]$`)
+	privateSuffix = []string{".etke.host"}
 )
 
 // New Validator
@@ -61,19 +63,36 @@ func (v *V) DomainString(domain string) bool {
 	return true
 }
 
+// hasSuffix checks if domain has a suffix from public suffix list or from predefined suffix list
+func (v *V) hasSuffix(domain string) bool {
+	for _, suffix := range privateSuffix {
+		if strings.HasSuffix(domain, suffix) {
+			return true
+		}
+	}
+
+	eTLD, _ := publicsuffix.PublicSuffix(domain)
+	return strings.IndexByte(eTLD, '.') >= 0
+}
+
 // GetBase returns base domain/host of the provided domain
 func (v *V) GetBase(domain string) string {
-	if strings.HasSuffix(domain, ".etke.host") {
-		return domain
+	// domain without subdomain "example.com" has parts: example com
+	minSize := 2
+	if v.hasSuffix(domain) {
+		// domain with a certain TLDs contains 3 parts: example.co.uk -> example co uk
+		minSize = 3
 	}
+
 	parts := strings.Split(domain, ".")
 	size := len(parts)
 	// If domain contains only 2 parts (or less) - consider it without subdomains
-	if size <= 2 {
+	if size <= minSize {
 		return domain
 	}
 
-	return parts[size-2] + "." + parts[size-1]
+	// return domain without subdomain (sub.example.com -> example.com; sub.example.co.uk -> example.co.uk)
+	return strings.Join(parts[size-minSize:], ".")
 }
 
 // Email checks if email is valid
@@ -83,15 +102,16 @@ func (v *V) Email(email string) bool {
 		return true
 	}
 
+	length := len(email)
 	// email cannot too short and too big
-	if len(email) < 3 || len(email) > 254 {
+	if length < 3 || length > 254 {
 		v.log.Info("email %s invalid, reason: length", email)
 		return false
 	}
 
-	// check format
-	if !emailRegex.MatchString(email) {
-		v.log.Info("email %s invalid, reason: regexp", email)
+	_, err := mail.ParseAddress(email)
+	if err != nil {
+		v.log.Info("email %s invalid, reason: %v", email, err)
 		return false
 	}
 

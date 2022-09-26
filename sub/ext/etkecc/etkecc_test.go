@@ -28,7 +28,7 @@ func (s *EtkeccSuite) SetupTest() {
 	s.v = &mocks.NetworkValidator{}
 	s.ext = New(s.v, nil)
 	s.ext.test = true
-	s.save = false
+	s.save = true
 
 	s.byos = map[string]string{
 		"homeserver": "synapse",
@@ -112,7 +112,8 @@ func (s *EtkeccSuite) SetupTest() {
 	}
 	s.turnkeyFull = map[string]string{
 		"homeserver":              "synapse",
-		"domain":                  "https://matrix.ExAmPlE.com ",
+		"domain":                  "https://higenjitsuteki.etke.host",
+		"domain-type":             "subdomain",
 		"username":                " tEsT ",
 		"email":                   "tEsT@TEST.cOm",
 		"name":                    "Test",
@@ -275,9 +276,9 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
 	expectedOnboarding := s.read("turnkey_full.onboarding.md")
 	expectedOnboardingHTML := s.read("turnkey_full.onboarding.html")
 	expectedVars := s.read("turnkey_full.vars.yml")
-	s.v.On("A", "example.com").Return(false).Once()
-	s.v.On("CNAME", "example.com").Return(false).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
+	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
+	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
 
 	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
@@ -302,8 +303,8 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
 	expectedOnboarding := s.read("turnkey_full_a.onboarding.md")
 	expectedOnboardingHTML := s.read("turnkey_full_a.onboarding.html")
 	expectedVars := s.read("turnkey_full_a.vars.yml")
-	s.v.On("A", "example.com").Return(true).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+	s.v.On("A", "higenjitsuteki.etke.host").Return(true).Once()
+	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
 
 	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
