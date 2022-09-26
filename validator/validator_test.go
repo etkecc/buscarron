@@ -144,7 +144,14 @@ func (s *ValidatorSuite) TestGetBase() {
 		"example.com":             "example.com",
 		"sub.example.com":         "example.com",
 		"sub.sub.sub.example.com": "example.com",
-		"sub.etke.host":           "sub.etke.host",
+		"example.etke.host":       "example.etke.host",
+		"sub.example.etke.host":   "example.etke.host",
+		"example.co.uk":           "example.co.uk",
+		"sub.example.co.uk":       "example.co.uk",
+		"example.gov.la":          "example.gov.la",
+		"sub.example.gov.la":      "example.gov.la",
+		"example.com.sg":          "example.com.sg",
+		"sub.example.com.sg":      "example.com.sg",
 	}
 
 	for host, expected := range tests {

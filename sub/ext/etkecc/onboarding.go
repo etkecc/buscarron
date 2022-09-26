@@ -213,7 +213,11 @@ func (o *order) generateOnboardingAfterPostmoogle() string {
 
 	txt.WriteString("### postmoogle\n\n")
 	txt.WriteString("1. " + o.t("as_postmoogle_1") + "\n")
-	txt.WriteString("2. " + o.t("as_postmoogle_2") + "\n")
+	if o.get("type") == "turnkey" {
+		txt.WriteString("2. " + o.t("as_postmoogle_2_turnkey") + "\n")
+	} else {
+		txt.WriteString("2. " + o.t("as_postmoogle_2") + "\n")
+	}
 
 	return txt.String()
 }

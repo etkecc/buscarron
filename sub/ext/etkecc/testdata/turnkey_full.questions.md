@@ -52,27 +52,7 @@ q_turnkey_ssh
 ___
 
 ```yaml
-
-DNS - пожалуйста, добавьте следующие записи:
-@	A record	server IP
-matrix	A record	server IP
-buscarron	CNAME record	matrix.example.com
-cinny	CNAME record	matrix.example.com
-dimension	CNAME record	matrix.example.com
-element	CNAME record	matrix.example.com
-goneb	CNAME record	matrix.example.com
-hydrogen	CNAME record	matrix.example.com
-jitsi	CNAME record	matrix.example.com
-kuma	CNAME record	matrix.example.com
-languagetool	CNAME record	matrix.example.com
-miniflux	CNAME record	matrix.example.com
-miounne	CNAME record	matrix.example.com
-ntfy	CNAME record	matrix.example.com
-radicale	CNAME record	matrix.example.com
-stats	CNAME record	matrix.example.com
-sygnal	CNAME record	matrix.example.com
-matrix	MX record	matrix.example.com
-matrix	TXT record	v=spf1 ip4:SERVER_IP -all
-_dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
+export HETZNER_SERVER_IP=SERVER_IP
+curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: application/json" -H "Auth-API-Token: $HETZNER_API_TOKEN" -d "{\"records\":[{\"name\":\"higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"higenjitsuteki\",\"type\":\"MX\",\"value\":\"10 aspmx1.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"higenjitsuteki\",\"type\":\"MX\",\"value\":\"20 aspmx2.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"autoconfig.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"autoconfig.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"_autodiscover._tcp.higenjitsuteki\",\"type\":\"SRV\",\"value\":\"0 1 443 autodiscover.migadu.com\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"key1._domainkey.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"key1.higenjitsuteki._domainkey.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"key2._domainkey.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"key2.higenjitsuteki._domainkey.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"key3._domainkey.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"key3.higenjitsuteki._domainkey.migadu.com.\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"_dmarc.higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=DMARC1; p=quarantine;\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=spf1 include:spf.migadu.com -all\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"buscarron.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"cinny.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"dimension.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"element.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"goneb.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"hydrogen.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"jitsi.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"kuma.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"languagetool.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"miniflux.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"miounne.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"ntfy.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"radicale.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"stats.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"sygnal.higenjitsuteki\",\"type\":\"CNAME\",\"value\":\"matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"MX\",\"value\":\"0 matrix.higenjitsuteki.etke.host\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=spf1 ip4:$HETZNER_SERVER_IP -all\",\"zone_id\":\"$HETZNER_ZONE_ID\"},{\"name\":\"_dmarc.matrix.higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=DMARC1; p=quarantine;\",\"zone_id\":\"$HETZNER_ZONE_ID\"}]}"
 ```
 

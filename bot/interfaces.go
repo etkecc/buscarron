@@ -20,6 +20,6 @@ type Linkpearl interface {
 	OnEventType(eventType event.Type, callback mautrix.EventHandler)
 	OnSync(callback mautrix.SyncHandler)
 	Send(roomID id.RoomID, content interface{}) (id.EventID, error)
-	Start() error
+	Start(optionalStatusMsg ...string) error
 	Stop()
 }

@@ -27,7 +27,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
 	questions := o.generateQuestions()
-	dns := o.generateDNS()
+	dns := o.generateDNSInstructions()
 
 	o.txt.WriteString("```yaml\n")
 	o.txt.WriteString(questions)

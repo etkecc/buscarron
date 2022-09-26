@@ -122,13 +122,19 @@ func (_m *Linkpearl) Send(roomID id.RoomID, content interface{}) (id.EventID, er
 	return r0, r1
 }
 
-// Start provides a mock function with given fields:
-func (_m *Linkpearl) Start() error {
-	ret := _m.Called()
+// Start provides a mock function with given fields: optionalStatusMsg
+func (_m *Linkpearl) Start(optionalStatusMsg ...string) error {
+	_va := make([]interface{}, len(optionalStatusMsg))
+	for _i := range optionalStatusMsg {
+		_va[_i] = optionalStatusMsg[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func() error); ok {
-		r0 = rf()
+	if rf, ok := ret.Get(0).(func(...string) error); ok {
+		r0 = rf(optionalStatusMsg...)
 	} else {
 		r0 = ret.Error(0)
 	}
