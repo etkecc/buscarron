@@ -20,6 +20,7 @@ type Linkpearl interface {
 	OnEventType(eventType event.Type, callback mautrix.EventHandler)
 	OnSync(callback mautrix.SyncHandler)
 	Send(roomID id.RoomID, content interface{}) (id.EventID, error)
+	SendFile(roomID id.RoomID, req *mautrix.ReqUploadMedia, msgtype event.MessageType, relation *event.RelatesTo) error
 	Start(optionalStatusMsg ...string) error
 	Stop()
 }

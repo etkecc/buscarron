@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 	"gitlab.com/etke.cc/go/logger"
+	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
 
@@ -73,6 +74,37 @@ func (s *BotSuite) TestSend_Error() {
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
 	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg")
+}
+
+func (s *BotSuite) TestSendFile() {
+	var relation *event.RelatesTo
+	roomID := id.RoomID("!doesnt:matt.er")
+	req := &mautrix.ReqUploadMedia{
+		FileName:      "test.txt",
+		ContentBytes:  []byte("test"),
+		ContentLength: int64(len([]byte("test"))),
+		ContentType:   "text/plain",
+	}
+	s.lp.On("SendFile", roomID, req, event.MsgFile, relation).Return(nil).Once()
+
+	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
+}
+
+func (s *BotSuite) TestSendFile_Error() {
+	var relation *event.RelatesTo
+	roomID := id.RoomID("!doesnt:matt.er")
+	req := &mautrix.ReqUploadMedia{
+		FileName:      "test.txt",
+		ContentBytes:  []byte("test"),
+		ContentLength: int64(len([]byte("test"))),
+		ContentType:   "text/plain",
+	}
+	s.lp.On("SendFile", roomID, req, event.MsgFile, relation).Return(errors.New("test")).Once()
+	s.lp.On("Send", roomID, &event.MessageEventContent{
+		MsgType: "m.notice",
+		Body:    "ERROR: cannot upload file: test",
+	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
+	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
 }
 
 func (s *BotSuite) TestStart() {

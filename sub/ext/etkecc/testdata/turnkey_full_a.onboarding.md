@@ -46,7 +46,7 @@
 * webhooks: @_webhook:higenjitsuteki.etke.host
 * whatsapp: @whatsappbot:higenjitsuteki.etke.host
 
-> https://etke.cc/bridges - инструкции по авторизации
+> https://etke.cc/ru/bridges - инструкции по авторизации
 
 # доступы
 

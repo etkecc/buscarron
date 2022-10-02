@@ -120,7 +120,7 @@ func (o *order) generateOnboardingBridges() string {
 		txt.WriteString("* " + bridge + ": " + bridgemap[bridge] + ":" + o.get("domain") + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> https://etke.cc/bridges - " + o.t("auth_instructions") + "\n\n")
+	txt.WriteString("> https://etke.cc/" + o.get("lang") + "/bridges - " + o.t("auth_instructions") + "\n\n")
 
 	return txt.String()
 }
@@ -163,11 +163,7 @@ func (o *order) generateOnboardingPayment() string {
 	var txt strings.Builder
 	txt.WriteString("# " + o.t("payment") + "\n\n")
 	txt.WriteString(o.t("buy_setup") + "(https://etke.cc/setup)")
-	if o.has("service-maintenance") || o.has("service-email") {
-		txt.WriteString(" " + o.t("and") + " " + o.t("join_the") + " **" + membership + "** " + o.t("membership_on") + " [https://etke.cc/membership](https://etke.cc/membership).\n")
-	} else {
-		txt.WriteString(".\n" + o.t("if_you_want_maintenance") + ", " + o.t("join_the") + " **Maintenance** " + o.t("membership_on") + " [https://etke.cc/membership](https://etke.cc/membership).\n" + o.t("clarify_maintenance") + "\n")
-	}
+	txt.WriteString(" " + o.t("and") + " " + o.t("join_the") + " **" + membership + "** " + o.t("membership_on") + " [https://etke.cc/membership](https://etke.cc/membership).\n")
 	txt.WriteString("\n" + o.t("note_pwyw") + "\n\n")
 
 	return txt.String()

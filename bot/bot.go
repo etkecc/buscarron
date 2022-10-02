@@ -56,22 +56,11 @@ func (b *Bot) Send(roomID id.RoomID, message string) {
 // SendFile for the room
 func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia) {
 	b.Lock()
-	resp, err := b.lp.GetClient().UploadMedia(*file)
+	err := b.lp.SendFile(roomID, file, event.MsgFile, nil)
 	b.Unlock()
 	if err != nil {
 		b.Error(roomID, "cannot upload file: %v", err)
 		return
-	}
-
-	b.Lock()
-	_, err = b.lp.Send(roomID, &event.MessageEventContent{
-		MsgType: event.MsgFile,
-		Body:    file.FileName,
-		URL:     resp.ContentURI.CUString(),
-	})
-	b.Unlock()
-	if err != nil {
-		b.Error(roomID, "cannot send a message with uploaded file: %v", err)
 	}
 }
 

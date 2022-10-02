@@ -47,7 +47,7 @@
 * webhooks: @_webhook:example.com
 * whatsapp: @whatsappbot:example.com
 
-> https://etke.cc/bridges - Authentifizierungsanweisungen
+> https://etke.cc/de/bridges - Authentifizierungsanweisungen
 
 # Anmeldeinformationen
 

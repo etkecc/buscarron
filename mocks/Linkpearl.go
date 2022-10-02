@@ -122,6 +122,20 @@ func (_m *Linkpearl) Send(roomID id.RoomID, content interface{}) (id.EventID, er
 	return r0, r1
 }
 
+// SendFile provides a mock function with given fields: roomID, req, msgtype, relation
+func (_m *Linkpearl) SendFile(roomID id.RoomID, req *mautrix.ReqUploadMedia, msgtype event.MessageType, relation *event.RelatesTo) error {
+	ret := _m.Called(roomID, req, msgtype, relation)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(id.RoomID, *mautrix.ReqUploadMedia, event.MessageType, *event.RelatesTo) error); ok {
+		r0 = rf(roomID, req, msgtype, relation)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Start provides a mock function with given fields: optionalStatusMsg
 func (_m *Linkpearl) Start(optionalStatusMsg ...string) error {
 	_va := make([]interface{}, len(optionalStatusMsg))

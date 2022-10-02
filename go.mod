@@ -13,8 +13,8 @@ require (
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.0.0
-	gitlab.com/etke.cc/linkpearl v0.0.0-20220921080011-9407dc599571
-	golang.org/x/net v0.0.0-20220923203811-8be639271d50
+	gitlab.com/etke.cc/linkpearl v0.0.0-20221002171411-bb783f7e50f0
+	golang.org/x/net v0.0.0-20221002022538-bcab6841153b
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.12.1
 )
@@ -25,6 +25,7 @@ require (
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
+	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
@@ -33,11 +34,11 @@ require (
 	github.com/stretchr/objx v0.4.0 // indirect
 	github.com/tidwall/gjson v1.14.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
-	github.com/tidwall/pretty v1.2.0 // indirect
+	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tidwall/sjson v1.2.5 // indirect
 	github.com/yuin/goldmark v1.4.13 // indirect
-	golang.org/x/crypto v0.0.0-20220924013350-4ba4fb4dd9e7 // indirect
-	golang.org/x/sys v0.0.0-20220919091848-fb04ddd9f9c8 // indirect
+	golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be // indirect
+	golang.org/x/sys v0.0.0-20220928140112-f11e5e49a4ec // indirect
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.3.2 // indirect
