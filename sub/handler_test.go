@@ -117,7 +117,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 func (s *HandlerSuite) TestPOST() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
-	expectedMessage := "**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n* lang: en\n\n___\n**New test** by test@example.com\n\n* email: test@example.com\n* field: value\n* lang: en\n\n___\n"
+	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n"
 	roomID := id.RoomID("!test:example.com")
 	forms := map[string]*config.Form{
 		"test": {
@@ -130,7 +130,7 @@ func (s *HandlerSuite) TestPOST() {
 	s.sender.On("Send", roomID, expectedMessage).Once()
 	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
 	data := url.Values{}
-	data.Add("email", "test@example.com")
+	data.Add("email", "email@dkimvalidator.com")
 	data.Add("field", "value")
 	data.Add("lang", "en")
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))

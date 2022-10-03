@@ -126,7 +126,11 @@ func (v *V) Email(email string) bool {
 		return false
 	}
 
-	return v.emailDomain(email)
+	if v.emailDomain(email) {
+		return false
+	}
+
+	return !v.emailSMTP(email)
 }
 
 // A checks if host has at least one A record
@@ -179,19 +183,47 @@ func (v *V) emailDomain(email string) bool {
 
 	if v.spam(domain) {
 		v.log.Info("email %s domain %s invalid, reason: spamlist", email, domain)
-		return false
+		return true
 	}
 	if v.spam(host) {
 		v.log.Info("email %s host %s invalid, reason: spamlist", email, host)
-		return false
+		return true
 	}
 
 	if !v.MX(domain) && !v.MX(host) {
 		v.log.Info("email %s domain/host %s invalid, reason: no MX", email, domain)
-		return false
+		return true
 	}
 
-	return true
+	return false
+}
+
+func (v *V) emailSMTP(email string) bool {
+	client, err := v.connectSMTP(email)
+	if err != nil {
+		v.log.Warn("SMTP check of %s failed: %v", email, err)
+		return true
+	}
+
+	err = client.Mail(SMTPFrom)
+	if err != nil {
+		v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
+		return true
+	}
+	defer client.Close()
+
+	err = client.Rcpt(email)
+	if err != nil {
+		if strings.HasPrefix(err.Error(), "451") {
+			v.log.Info("email %s may be invalid, reason: SMTP check (%v)", email, err)
+			return false
+		}
+
+		v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
+		return true
+	}
+
+	return false
 }
 
 // spam checks spam lists for the item
