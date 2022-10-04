@@ -11,21 +11,22 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mocks"
-	"gitlab.com/etke.cc/buscarron/validator"
 )
 
 type HandlerSuite struct {
 	suite.Suite
+	v      *mocks.Validator
 	sender *mocks.Sender
 }
 
 func (s *HandlerSuite) SetupTest() {
 	s.T().Helper()
+	s.v = &mocks.Validator{}
 	s.sender = &mocks.Sender{}
 }
 
 func (s *HandlerSuite) TestNew() {
-	handler := NewHandler(nil, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(nil, s.v, nil, s.sender, "TRACE")
 
 	s.IsType(&Handler{}, handler)
 }
@@ -37,7 +38,7 @@ func (s *HandlerSuite) TestGet() {
 			Redirect: "https://example.com",
 		},
 	}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 
 	result, err := handler.GET("test", nil)
 
@@ -47,7 +48,7 @@ func (s *HandlerSuite) TestGet() {
 
 func (s *HandlerSuite) TestGet_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 
 	result, err := handler.GET("test", nil)
 
@@ -58,7 +59,7 @@ func (s *HandlerSuite) TestGet_NoForm() {
 
 func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 
 	result, err := handler.POST("test", nil)
 
@@ -70,7 +71,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 func (s *HandlerSuite) TestPOST_NoData() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 	request, rerr := http.NewRequest("POST", "", nil)
 
 	result, err := handler.POST("test", request)
@@ -83,7 +84,8 @@ func (s *HandlerSuite) TestPOST_NoData() {
 func (s *HandlerSuite) TestPOST_SpamEmail() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
+	s.v.On("Email", "no").Return(false).Once()
 	data := url.Values{}
 	data.Add("email", "no")
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
@@ -100,7 +102,9 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 func (s *HandlerSuite) TestPOST_SpamDomain() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
+	s.v.On("Email", "").Return(true).Once()
+	s.v.On("Domain", "no", false).Return(false).Once()
 	data := url.Values{}
 	data.Add("domain", "no")
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
@@ -127,8 +131,10 @@ func (s *HandlerSuite) TestPOST() {
 			Extensions: []string{"", "root", "invalid"},
 		},
 	}
+	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
+	s.v.On("Domain", "", false).Return(true).Once()
 	s.sender.On("Send", roomID, expectedMessage).Once()
-	handler := NewHandler(forms, validator.New([]string{}, []string{}, []string{}, "TRACE"), nil, s.sender, "TRACE")
+	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 	data := url.Values{}
 	data.Add("email", "email@dkimvalidator.com")
 	data.Add("field", "value")

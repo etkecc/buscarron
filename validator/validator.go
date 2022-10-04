@@ -10,6 +10,17 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
+// Validator interface
+type Validator interface {
+	Domain(string, bool) bool
+	DomainString(string) bool
+	Email(string) bool
+	A(string) bool
+	CNAME(string) bool
+	MX(string) bool
+	GetBase(domain string) string
+}
+
 // V is a validator implementation
 type V struct {
 	hosts      []string
@@ -25,7 +36,7 @@ var (
 )
 
 // New Validator
-func New(spamHosts []string, spamEmails []string, spamLocalparts []string, loglevel string) *V {
+func New(spamHosts []string, spamEmails []string, spamLocalparts []string, loglevel string) Validator {
 	return &V{
 		hosts:      spamHosts,
 		emails:     spamEmails,

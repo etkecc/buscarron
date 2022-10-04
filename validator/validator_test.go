@@ -25,7 +25,7 @@ func (s *ValidatorSuite) SetupTest() {
 		s.T().Skipf("skipping test: no external network in -short mode")
 	}
 
-	s.v = New([]string{"spam.host"}, []string{"spam@email.host"}, []string{"spam"}, "TRACE")
+	s.v = New([]string{"spam.host"}, []string{"spam@email.host"}, []string{"spam"}, "TRACE").(*V)
 }
 
 func (s *ValidatorSuite) TestNew() {
