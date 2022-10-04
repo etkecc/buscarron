@@ -12,7 +12,7 @@ import (
 type root struct{}
 
 // NewRoot extension
-func NewRoot(_ *validator.V) *root {
+func NewRoot(_ validator.Validator) *root {
 	return &root{}
 }
 

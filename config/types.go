@@ -35,6 +35,9 @@ type Config struct {
 
 	// Postmark config
 	Postmark *Postmark
+
+	// SMTP config
+	SMTP *SMTP
 }
 
 // DB config
@@ -63,6 +66,12 @@ type Postmark struct {
 	Token   string
 	From    string
 	ReplyTo string
+}
+
+// SMTP config
+type SMTP struct {
+	From              string
+	EnforceValidation bool
 }
 
 // Form config

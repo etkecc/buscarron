@@ -68,6 +68,8 @@ gitlab.com/etke.cc/go/logger v1.1.0 h1:Yngp/DDLmJ0jJNLvLXrfan5Gi5QV+r7z6kCczTv8t
 gitlab.com/etke.cc/go/logger v1.1.0/go.mod h1:8Vw5HFXlZQ5XeqvUs5zan+GnhrQyYtm/xe+yj8H/0zk=
 gitlab.com/etke.cc/go/secgen v1.0.0 h1:LmIp9/uI+SGeEcmrZERy+uhXtd/Thv8MCU8zzDHn98k=
 gitlab.com/etke.cc/go/secgen v1.0.0/go.mod h1:3pJqRGeWApzx7qXjABqz2o2SMCNpKSZao/gXVdasqE8=
+gitlab.com/etke.cc/go/trysmtp v1.0.0 h1:f/7gSmzohKniVeLSLevI+ZsySYcPUGkT9cRlOTwjOr8=
+gitlab.com/etke.cc/go/trysmtp v1.0.0/go.mod h1:KqRuIB2IPElEEbAxXmFyKtm7S5YiuEb4lxwWthccqyE=
 gitlab.com/etke.cc/linkpearl v0.0.0-20221002171411-bb783f7e50f0 h1:B5YV62XKsLb9sCu9jW4Pnc5HDNRzdR1FswtRBMw1sR0=
 gitlab.com/etke.cc/linkpearl v0.0.0-20221002171411-bb783f7e50f0/go.mod h1:hjn0SVswej+Jo3+MycLm+lTsAVFy047Df+adX6MoXoE=
 golang.org/x/crypto v0.0.0-20220926161630-eccd6366d1be h1:fmw3UbQh+nxngCAHrDCCztao/kbYFnWjoqop8dHx05A=

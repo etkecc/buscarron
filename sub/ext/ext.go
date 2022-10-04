@@ -20,7 +20,7 @@ type EmailSender interface {
 }
 
 // New extensions map
-func New(v *validator.V, pm EmailSender) map[string]Extension {
+func New(v validator.Validator, pm EmailSender) map[string]Extension {
 	return map[string]Extension{
 		"root":         NewRoot(v),
 		"confirmation": NewConfirmation(pm),

@@ -1,3 +1,13 @@
+# Buscarron v1.x.x (in development)
+
+### Features :sparkles:
+
+* Advanced email validation, using using actual connection to the sender's SMTP address
+
+### Misc :zzz:
+
+* Updated deps
+
 # Buscarron v1.2.1 (2022-08-23)
 
 ### Misc :zzz:

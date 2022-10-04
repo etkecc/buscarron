@@ -7,15 +7,29 @@ import (
 	"strings"
 
 	"gitlab.com/etke.cc/go/logger"
+	"gitlab.com/etke.cc/go/trysmtp"
 	"golang.org/x/net/publicsuffix"
 )
 
+// Validator interface
+type Validator interface {
+	Domain(string, bool) bool
+	DomainString(string) bool
+	Email(string) bool
+	A(string) bool
+	CNAME(string) bool
+	MX(string) bool
+	GetBase(domain string) string
+}
+
 // V is a validator implementation
 type V struct {
-	hosts      []string
-	emails     []string
-	localparts []string
-	log        *logger.Logger
+	hosts       []string
+	emails      []string
+	localparts  []string
+	from        string
+	enforceSMTP bool
+	log         *logger.Logger
 }
 
 // based on W3C email regex, ref: https://www.w3.org/TR/2016/REC-html51-20161101/sec-forms.html#email-state-typeemail
@@ -25,12 +39,14 @@ var (
 )
 
 // New Validator
-func New(spamHosts []string, spamEmails []string, spamLocalparts []string, loglevel string) *V {
+func New(spamHosts []string, spamEmails []string, spamLocalparts []string, smtpFrom string, smtpEnforce bool, loglevel string) Validator {
 	return &V{
-		hosts:      spamHosts,
-		emails:     spamEmails,
-		localparts: spamLocalparts,
-		log:        logger.New("v.", loglevel),
+		hosts:       spamHosts,
+		emails:      spamEmails,
+		localparts:  spamLocalparts,
+		from:        smtpFrom,
+		enforceSMTP: smtpEnforce,
+		log:         logger.New("v.", loglevel),
 	}
 }
 
@@ -126,7 +142,16 @@ func (v *V) Email(email string) bool {
 		return false
 	}
 
-	return v.emailDomain(email)
+	if v.emailDomain(email) {
+		return false
+	}
+
+	smtpCheck := !v.emailSMTP(email)
+	if v.enforceSMTP {
+		return smtpCheck
+	}
+
+	return true
 }
 
 // A checks if host has at least one A record
@@ -179,19 +204,35 @@ func (v *V) emailDomain(email string) bool {
 
 	if v.spam(domain) {
 		v.log.Info("email %s domain %s invalid, reason: spamlist", email, domain)
-		return false
+		return true
 	}
 	if v.spam(host) {
 		v.log.Info("email %s host %s invalid, reason: spamlist", email, host)
-		return false
+		return true
 	}
 
 	if !v.MX(domain) && !v.MX(host) {
 		v.log.Info("email %s domain/host %s invalid, reason: no MX", email, domain)
-		return false
+		return true
 	}
 
-	return true
+	return false
+}
+
+func (v *V) emailSMTP(email string) bool {
+	client, err := trysmtp.Connect(v.from, email)
+	if err != nil {
+		if strings.HasPrefix(err.Error(), "451") {
+			v.log.Info("email %s may be invalid, reason: SMTP check (%v)", email, err)
+			return false
+		}
+
+		v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
+		return true
+	}
+	defer client.Close()
+
+	return false
 }
 
 // spam checks spam lists for the item
