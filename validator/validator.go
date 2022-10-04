@@ -24,10 +24,12 @@ type Validator interface {
 
 // V is a validator implementation
 type V struct {
-	hosts      []string
-	emails     []string
-	localparts []string
-	log        *logger.Logger
+	hosts       []string
+	emails      []string
+	localparts  []string
+	from        string
+	enforceSMTP bool
+	log         *logger.Logger
 }
 
 // based on W3C email regex, ref: https://www.w3.org/TR/2016/REC-html51-20161101/sec-forms.html#email-state-typeemail
@@ -37,12 +39,14 @@ var (
 )
 
 // New Validator
-func New(spamHosts []string, spamEmails []string, spamLocalparts []string, loglevel string) Validator {
+func New(spamHosts []string, spamEmails []string, spamLocalparts []string, smtpFrom string, smtpEnforce bool, loglevel string) Validator {
 	return &V{
-		hosts:      spamHosts,
-		emails:     spamEmails,
-		localparts: spamLocalparts,
-		log:        logger.New("v.", loglevel),
+		hosts:       spamHosts,
+		emails:      spamEmails,
+		localparts:  spamLocalparts,
+		from:        smtpFrom,
+		enforceSMTP: smtpEnforce,
+		log:         logger.New("v.", loglevel),
 	}
 }
 
@@ -142,7 +146,12 @@ func (v *V) Email(email string) bool {
 		return false
 	}
 
-	return !v.emailSMTP(email)
+	smtpCheck := !v.emailSMTP(email)
+	if v.enforceSMTP {
+		return smtpCheck
+	}
+
+	return true
 }
 
 // A checks if host has at least one A record
@@ -211,7 +220,7 @@ func (v *V) emailDomain(email string) bool {
 }
 
 func (v *V) emailSMTP(email string) bool {
-	client, err := trysmtp.Connect("test@ilydeen.org", email)
+	client, err := trysmtp.Connect(v.from, email)
 	if err != nil {
 		if strings.HasPrefix(err.Error(), "451") {
 			v.log.Info("email %s may be invalid, reason: SMTP check (%v)", email, err)

@@ -11,4 +11,7 @@ var defaultConfig = &Config{
 		Duration: 24,
 		Size:     10000,
 	},
+	SMTP: &SMTP{
+		From: "test@ilydeen.org", // used only for SMTP validation
+	},
 }

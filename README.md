@@ -49,6 +49,8 @@ env vars
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
 * **BUSCARRON_PM_FROM** - [Postmark](https://postmarkapp.com) sender signature
 * **BUSCARRON_PM_REPLYTO** - reply-to email header
+* **BUSCARRON_SMTP_FROM** - email address (from) for SMTP validation. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
+* **BUSCARRON_SMTP_VALIDATION** - enforce SMTP validation
 
 You can find default values in [config/defaults.go](config/defaults.go)
 

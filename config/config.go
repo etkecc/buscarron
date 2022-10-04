@@ -36,6 +36,10 @@ func New() *Config {
 			From:    env.String("pm.from", ""),
 			ReplyTo: env.String("pm.replyto", ""),
 		},
+		SMTP: &SMTP{
+			From:              env.String("smtp.from", defaultConfig.SMTP.From),
+			EnforceValidation: env.Bool("smtp.validation"),
+		},
 	}
 	cfg.Forms = parseForms()
 

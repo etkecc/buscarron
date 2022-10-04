@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/suite"
 
-	"gitlab.com/etke.cc/buscarron/validator"
+	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
 type ExtSuite struct {
@@ -17,8 +17,7 @@ func (s *ExtSuite) SetupTest() {
 }
 
 func (s *ExtSuite) TestNew() {
-	v := validator.New([]string{}, []string{}, []string{}, "TRACE")
-	exts := New(v, nil)
+	exts := New(&mocks.Validator{}, nil)
 
 	s.IsType(&root{}, exts["root"])
 }
