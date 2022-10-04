@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"gitlab.com/etke.cc/go/logger"
+	"gitlab.com/etke.cc/go/trysmtp"
 	"golang.org/x/net/publicsuffix"
 )
 
@@ -210,20 +211,7 @@ func (v *V) emailDomain(email string) bool {
 }
 
 func (v *V) emailSMTP(email string) bool {
-	client, err := v.connectSMTP(email)
-	if err != nil {
-		v.log.Warn("SMTP check of %s failed: %v", email, err)
-		return true
-	}
-
-	err = client.Mail(SMTPFrom)
-	if err != nil {
-		v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
-		return true
-	}
-	defer client.Close()
-
-	err = client.Rcpt(email)
+	client, err := trysmtp.Connect("test@ilydeen.org", email)
 	if err != nil {
 		if strings.HasPrefix(err.Error(), "451") {
 			v.log.Info("email %s may be invalid, reason: SMTP check (%v)", email, err)
@@ -233,6 +221,7 @@ func (v *V) emailSMTP(email string) bool {
 		v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
 		return true
 	}
+	defer client.Close()
 
 	return false
 }
