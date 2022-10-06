@@ -11,6 +11,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"gitlab.com/etke.cc/go/logger"
+	"gitlab.com/etke.cc/go/validator"
 	"gitlab.com/etke.cc/linkpearl"
 	lpcfg "gitlab.com/etke.cc/linkpearl/config"
 
@@ -18,7 +19,6 @@ import (
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
-	"gitlab.com/etke.cc/buscarron/validator"
 	"gitlab.com/etke.cc/buscarron/web"
 )
 
@@ -102,7 +102,9 @@ func initSrv(cfg *config.Config) {
 	for name, item := range cfg.Forms {
 		rls[name] = item.Ratelimit
 	}
-	v := validator.New(cfg.Spam.Hosts, cfg.Spam.Emails, cfg.Spam.Localparts, cfg.SMTP.From, cfg.SMTP.EnforceValidation, cfg.LogLevel)
+	spam := validator.Spam(*cfg.Spam)
+	log := logger.New("v.", cfg.LogLevel)
+	v := validator.New(spam, cfg.SMTP.From, cfg.SMTP.EnforceValidation, log)
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, cfg.LogLevel)
 	fh := sub.NewHandler(cfg.Forms, v, pm, mxb, cfg.LogLevel)
 	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, v, cfg.Ban.Duration, cfg.Ban.Size)

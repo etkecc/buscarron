@@ -51,17 +51,8 @@ func (o *order) generateQuestionsBridges() string {
 	return txt.String()
 }
 
+// nolint:gocognit
 func (o *order) generateQuestionsServices() string {
-	var txt strings.Builder
-
-	txt.WriteString(o.generateQuestionsServicesSystem())
-	txt.WriteString(o.generateQuestionsServicesNonMatrix())
-	txt.WriteString(o.generateQuestionsServicesSubscribers())
-
-	return txt.String()
-}
-
-func (o *order) generateQuestionsServicesSystem() string {
 	var txt strings.Builder
 
 	if o.has("smtp-relay") && o.get("type") != "turnkey" {
@@ -70,12 +61,6 @@ func (o *order) generateQuestionsServicesSystem() string {
 	if o.has("stats") && o.get("type") != "turnkey" {
 		txt.WriteString("Prometheus+Grafana: " + o.t("q_stats") + "\n\n")
 	}
-
-	return txt.String()
-}
-
-func (o *order) generateQuestionsServicesSubscribers() string {
-	var txt strings.Builder
 	if o.has("etherpad") && o.get("dimension") == "auto" {
 		txt.WriteString("Etherpad (" + o.t("only_with_subscription") + "): " + o.t("q_etherpad") + "\n\n")
 	}
@@ -97,58 +82,11 @@ func (o *order) generateQuestionsServicesSubscribers() string {
 	if o.has("borg") {
 		txt.WriteString("BorgBackup (" + o.t("only_with_subscription") + "): " + o.t("q_borg") + "\n\n")
 	}
-	if o.has("email2matrix") {
-		txt.WriteString("email2matrix (" + o.t("only_with_subscription") + "): " + o.t("q_email2matrix") + "\n\n")
-	}
 	if o.has("jitsi") {
 		txt.WriteString("Jitsi (" + o.t("only_with_subscription") + "): " + o.t("q_jitsi") + "\n\n")
 	}
-	if o.has("ma1sd") {
-		txt.WriteString("ma1sd (" + o.t("only_with_subscription") + "): " + o.t("q_ma1sd") + "\n\n")
-	}
-	if o.has("matrix-registration") {
-		txt.WriteString("matrix-registration (" + o.t("only_with_subscription") + "): " + o.t("q_matrix-registration") + "\n\n")
-	}
-	if o.has("miounne") {
-		txt.WriteString("Miounne (" + o.t("only_with_subscription") + "): " + o.t("q_miounne") + "\n\n")
-	}
 
 	return txt.String()
-}
-
-func (o *order) generateQuestionsServicesNonMatrix() string {
-	var txt strings.Builder
-	if o.has("kuma") {
-		txt.WriteString("Uptime Kuma: " + o.t("q_kuma") + "\n\n")
-	}
-	if o.has("radicale") {
-		txt.WriteString("Radicale: " + o.t("q_radicale") + "\n\n")
-	}
-	if o.has("miniflux") {
-		txt.WriteString("Miniflux: " + o.t("q_miniflux") + "\n\n")
-	}
-	if o.has("languagetool") {
-		txt.WriteString("Languagetool: " + o.t("q_languagetool") + "\n\n")
-	}
-	if o.has("softserve") {
-		txt.WriteString("Soft-Serve: " + o.t("q_softserve") + "\n\n")
-	}
-	txt.WriteString(o.generateQuestionsServicesWireguard())
-
-	return txt.String()
-}
-
-func (o *order) generateQuestionsServicesWireguard() string {
-	switch {
-	case o.has("wireguard") && o.has("dnsmasq"):
-		return o.t("q_wireguard_dnsmasq") + "\n\n"
-	case o.has("wireguard") && !o.has("dnsmasq"):
-		return o.t("q_wireguard") + "\n\n"
-	case !o.has("wireguard") && o.has("dnsmasq"):
-		return o.t("q_dnsmasq") + "\n\n"
-	default:
-		return ""
-	}
 }
 
 func (o *order) generateQuestionsType() string {

@@ -15,7 +15,6 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/sub/ext"
-	"gitlab.com/etke.cc/buscarron/validator"
 )
 
 // Sender interface to send messages
@@ -29,6 +28,17 @@ type EmailSender interface {
 	Send(*postmark.Email) error
 }
 
+// Validator interface
+type Validator interface {
+	Domain(string, bool) bool
+	DomainString(string) bool
+	Email(string) bool
+	A(string) bool
+	CNAME(string) bool
+	MX(string) bool
+	GetBase(domain string) string
+}
+
 // Handler is an HTTP forms handler
 type Handler struct {
 	redirectTpl *template.Template
@@ -37,7 +47,7 @@ type Handler struct {
 	forms       map[string]*config.Form
 	log         *logger.Logger
 	ext         map[string]ext.Extension
-	v           validator.Validator
+	v           Validator
 }
 
 const redirect = "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='{{ .URL }}'\" /></head><body>Redirecting to <a href='{{ .URL }}'>{{ .URL }}</a>..."
@@ -50,7 +60,7 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, v validator.Validator, pm EmailSender, sender Sender, loglevel string) *Handler {
+func NewHandler(forms map[string]*config.Form, v Validator, pm EmailSender, sender Sender, loglevel string) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),

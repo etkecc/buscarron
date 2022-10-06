@@ -23,7 +23,6 @@ matrix_prometheus_node_exporter_container_extra_arguments:
 matrix_domain: higenjitsuteki.etke.host
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
-matrix_ma1sd_enabled: yes
 matrix_mailer_enabled: no
 
 # synapse
@@ -63,25 +62,6 @@ matrix_synapse_redaction_retention_period: 5m
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
 matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO
 
-# synapse::extensions::simple-antispam
-matrix_synapse_ext_spam_checker_synapse_simple_antispam_enabled: yes
-matrix_synapse_ext_spam_checker_synapse_simple_antispam_config_blocked_homeservers: []
-
-# synapse::extensions::spam_checker_mjolnir
-matrix_synapse_ext_spam_checker_mjolnir_antispam_enabled: yes
-matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_invites: no
-matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_messages: no
-matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_usernames: no
-matrix_synapse_ext_spam_checker_mjolnir_antispam_config_ban_lists: []
-
-# synapse::extensions::rest_auth
-matrix_synapse_ext_password_provider_rest_auth_enabled: yes
-matrix_synapse_ext_password_provider_rest_auth_endpoint: "http://matrix-corporal:41080/_matrix/corporal"
-
-# synapse::workers
-matrix_synapse_workers_enabled: yes
-matrix_synapse_workers_preset: one-of-each
-
 # synapse::mailer
 matrix_synapse_email_enabled: yes
 matrix_synapse_email_smtp_host: smtp.migadu.com
@@ -103,12 +83,6 @@ matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 matrix_nginx_proxy_access_log_enabled: no
 matrix_nginx_proxy_base_domain_serving_enabled: no
 matrix_nginx_proxy_base_domain_homepage_enabled: no
-matrix_ssl_additional_domains_to_obtain_certificates_for:
-- "{{ matrix_server_fqn_kuma }}"
-- "{{ matrix_server_fqn_languagetool }}"
-- "{{ matrix_server_fqn_miniflux }}"
-- "{{ matrix_server_fqn_miounne }}"
-- "{{ matrix_server_fqn_radicale }}"
 
 # nginx proxy website
 matrix_nginx_proxy_website_enabled: yes
@@ -125,14 +99,6 @@ matrix_backup_borg_ssh_key_private: |
   TODO
   -----END OPENSSH PRIVATE KEY-----
 # TODO: ssh-todo TODO
-
-# matrix corporal
-matrix_corporal_enabled: yes
-matrix_corporal_http_api_enabled: yes
-matrix_corporal_http_api_auth_token: TODO
-matrix_corporal_corporal_user_id_local_part: "corporal" # password: TODO
-matrix_corporal_policy_provider_config: |
-  # TODO
 
 # sygnal https://sygnal.higenjitsuteki.etke.host
 matrix_sygnal_enabled: yes
@@ -165,9 +131,6 @@ matrix_dimension_admins:
 # matrix-synapse-register-user dimension TODO 0
 # curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO", "type": "m.login.password"}' 'https://matrix.higenjitsuteki.etke.host/_matrix/client/r0/login'
 
-# dnsmasq
-custom_dnsmasq_enabled: yes
-
 # element https://element.higenjitsuteki.etke.host
 matrix_client_element_enabled: yes
 matrix_client_element_default_theme: dark
@@ -193,62 +156,6 @@ matrix_jitsi_jicofo_auth_password: TODO
 #  - username: test
 #    password: TODO
 
-# uptime-kuma https://kuma.higenjitsuteki.etke.host
-custom_kuma_enabled: yes
-matrix_server_fqn_kuma: "kuma.{{ matrix_domain }}"
-
-# languagetool https://languagetool.higenjitsuteki.etke.host
-custom_languagetool_enabled: yes
-custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage
-matrix_server_fqn_languagetool: "languagetool.{{ matrix_domain }}"
-
-# matrix-registration https://matrix.higenjitsuteki.etke.host/matrix-registration
-matrix_registration_enabled: yes
-matrix_registration_admin_secret: TODO
-
-# miniflux https://miniflux.higenjitsuteki.etke.host
-custom_miniflux_enabled: yes
-matrix_server_fqn_miniflux: "miniflux.{{ matrix_domain }}"
-custom_miniflux_database_password: TODO
-# TODO:
-# matrix-postgres-cli-non-interactive -c "CREATE USER miniflux WITH PASSWORD 'TODO';"
-# matrix-postgres-cli-non-interactive -c "CREATE DATABASE miniflux;"
-# matrix-postgres-cli-non-interactive -c "GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;"
-# docker exec -it custom-miniflux /usr/bin/miniflux -create-admin
-
-# miounne https://miounne.higenjitsuteki.etke.host
-custom_miounne_enabled: yes
-custom_miounne_matrix_user_login: miounne
-custom_miounne_matrix_user_password: TODO
-# TODO: only for registration
-custom_miounne_registration_url: https://matrix.higenjitsuteki.etke.host/matrix-registration
-custom_miounne_matrix_registration_room: TODO
-custom_miounne_matrix_registration_secret: TODO
-# TODO: only for BMC
-custom_miounne_bmc_token: TODO
-custom_miounne_bmc_room: TODO
-custom_miounne_bmc_notify_extras: 1
-custom_miounne_bmc_notify_members: 1
-custom_miounne_bmc_notify_supporters: 1
-# TODO: only for forms
-matrix_server_fqn_miounne: "miounne.{{ matrix_domain }}"
-matrix_nginx_proxy_proxy_miounne_hostname: "{{ matrix_server_fqn_miounne }}"
-custom_miounne_spam_emails: []
-custom_miounne_spam_hosts: []
-custom_miounne_forms: []
-# TODO: matrix-synapse-register-user miounne TODO 0
-
-# radicale https://radicale.higenjitsuteki.etke.host
-custom_radicale_enabled: yes
-matrix_server_fqn_radicale: "radicale.{{ matrix_domain }}"
-custom_radicale_htpasswd: "test:TODO"
-# TODO: htpasswd -nb test TODO
-
-# softserve ssh://matrix.higenjitsuteki.etke.host:23231
-custom_softserve_enabled: yes
-custom_softserve_host: "matrix.{{ matrix_domain }}"
-custom_softserve_pubkey: # TODO (optional)
-
 # stats https://stats.higenjitsuteki.etke.host
 matrix_grafana_enabled: yes
 matrix_prometheus_enabled: yes
@@ -261,10 +168,6 @@ matrix_grafana_default_admin_password: TODO
 # synapse-admin https://matrix.higenjitsuteki.etke.host/synapse-admin
 matrix_synapse_admin_enabled: yes
 
-# wireguard
-custom_wireguard_enabled: yes
-custom_wireguard_clients: [] # TODO
-
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_login: buscarron
@@ -272,31 +175,11 @@ matrix_bot_buscarron_password: TODO
 matrix_bot_buscarron_forms: [] # TODO
 # TODO: matrix-synapse-register-user buscarron TODO 0
 
-# bots::goneb
-matrix_bot_go_neb_enabled: yes
-matrix_bot_go_neb_clients:
-- UserID: "@goneb:{{ matrix_domain }}"
-  AccessToken: "TODO" # password: TODO
-  DeviceID: server
-  HomeserverURL: "{{ matrix_homeserver_container_url }}"
-  Sync: yes
-  AutoJoinRooms: yes
-  DisplayName: "GoNEB"
-  AcceptVerificationFromUsers: [":{{ matrix_domain }}"]
-matrix_bot_go_neb_services: [] # TODO
-
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO
 matrix_bot_honoroit_roomid: TODO
 # TODO: matrix-synapse-register-user honoroit TODO 0
-
-# bots::mjolnir
-matrix_bot_mjolnir_enabled: yes
-matrix_bot_mjolnir_access_token: "TODO" # password: TODO
-matrix_bot_mjolnir_management_room: TODO
-matrix_bot_mjolnir_configuration_extension_yaml: |
-  recordIgnoredInvites: true
 
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
@@ -307,24 +190,6 @@ matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
 
 # bridges::discord
 matrix_mautrix_discord_enabled: yes
-
-# bridges::email2matrix
-matrix_email2matrix_enabled: yes
-matrix_email2matrix_user_hs: "http://matrix-synapse:8008"
-matrix_email2matrix_user_mxid: "@email2matrix:higenjitsuteki.etke.host"
-matrix_email2matrix_user_token: TODO
-# TODO: matrix-synapse-register-user email2matrix VVtqYtyJpaAbW0YI2oBo8doZepfB07xkvcVkXuQJrXfmyxZJCBCrgcwur2XtzmRY 0
-# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "email2matrix" },"password": "TODO", "type": "m.login.password"}' 'https://matrix.higenjitsuteki.etke.host/_matrix/client/r0/login'
-# join: curl -H "Authorization: Bearer TODO" 'https://matrix.higenjitsuteki.etke.host/_matrix/client/r0/join/ROOM_ID' -X POST
-matrix_email2matrix_matrix_mappings:
-  - MailboxName: TODO
-    MatrixRoomId: TODO
-    MatrixHomeserverUrl: "{{ matrix_email2matrix_user_hs }}"
-    MatrixAccessToken: "{{ matrix_email2matrix_user_token }}"
-    MatrixUserId: "{{ matrix_email2matrix_user_mxid }}"
-    IgnoreSubject: no
-    IgnoreBody: no
-    SkipMarkdown: no
 
 # bridges::facebook
 matrix_mautrix_facebook_enabled: yes
@@ -342,9 +207,6 @@ matrix_heisenbridge_owner: "{{ matrix_admin }}"
 
 # bridges::instagram
 matrix_mautrix_instagram_enabled: yes
-
-# bridges::kakaotalk
-matrix_appservice_kakaotalk_enabled: yes
 
 # bridges::linkedin
 matrix_beeper_linkedin_enabled: yes

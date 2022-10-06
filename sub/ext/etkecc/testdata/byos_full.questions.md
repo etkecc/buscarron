@@ -12,18 +12,6 @@ SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter 
 
 Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
 
-Uptime Kuma: Sind Sie sicher, dass Sie es wollen? Es handelt sich um ein selbstgehostetes Überwachungsprogramm, das nicht in Matrix integriert ist, wie z. B. 'opensource UptimeRobot'. Bitte prüfen Sie https://github.com/louislam/uptime-kuma, bevor Sie sich entscheiden.
-
-Radicale: Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen CalDAV/CardDAV-Server, der nicht in Matrix integriert ist. Bitte prüfen Sie https://radicale.org/, bevor Sie sich entscheiden.
-
-Miniflux: Sind Sie sicher, dass Sie es wollen? Es ist ein RSS-Reader, der nicht in Matrix integriert ist. Bitte prüfen Sie https://miniflux.app, bevor Sie sich entscheiden.
-
-Languagetool: Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen 'Open-Source-Grammarly'-Server, der ~30 GB Speicherplatz für n-Gramme benötigt und nicht in Matrix integriert ist. Bitte prüfen Sie https://languagetool.org, bevor Sie sich entscheiden.
-
-Soft-Serve: Sind Sie sicher, dass Sie es wollen? Es ist ein Git-Hosting das über SSH zugänglich ist, das nicht in Matrix integriert ist. Bitte prüfen Sie https://github.com/charmbracelet/soft-serve, bevor Sie sich entscheiden.
-
-WireGuard und dnsmasq: sind Sie sicher, dass Sie sie wollen? WireGuard ist ein VPN (nicht in Matrix integriert) und dnsmasq ist ein lokaler DNS-Server, der mit Adblock-Listen (wie pi-hole) ausgestattet ist, die ziemlich gut in WireGuard integriert sind. Bitte prüfen Sie https://wireguard.com, bevor Sie sich entscheiden. Wenn Sie es immer noch wollen, senden Sie uns bitte eine Liste von Bezeichnungen, die Sie den generierten Client-Schlüsseln zuweisen wollen (nur um Dateinamen festzulegen, also auch '1,2,3...' ist OK)
-
 Etherpad (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es handelt sich um einen selbst gehosteten kollaborativen Editor, der nur in Verbindung mit Dimension verwendet werden kann (auch dazu wurde eine Frage gestellt). Denken Sie daran, dass Sie mit dem Standard-Integrationsmanager ohnehin ein Etherpad erhalten, das jedoch von Element Inc. gehostet wird (Entwickler der Element-Clientanwendungen).
 
 Dimension (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es ist ein selbst gehosteter Integrationsmanager. Sie erhalten standardmäßig einen Integrationsmanager mit jeder Element-Client-Anwendung. Bitte prüfen Sie https://github.com/turt2live/matrix-dimension bevor Sie sich entscheiden.
@@ -38,15 +26,7 @@ Sygnal (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wol
 
 BorgBackup (nur mit Abonnement oder Komplettpaket): geben Sie bitte die gewünschte Repository-URL an (user@host:repo). Wir werden einen SSH-Schlüssel und eine Verschlüsselungspassphrase auf Ihrem Server generieren. Wir senden Ihnen den öffentlichen Teil des generierten SSH-Schlüssels zu. Sie müssen diesen SSH-Schlüssel zu Ihrem Provider hinzufügen.
 
-email2matrix (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um einen Einweg-SMTP-Server für den Empfang von E-Mails in einem Matrixraum. Es ist ziemlich schwierig, ihn selbst einzurichten, da es keinen einfachen Weg gibt, ihn zu konfigurieren. Wir müssen mit Ihnen zusammenarbeiten, um die Konfiguration sowohl als Matrix-Homeserver-Benutzer (von Ihnen durchgeführt, da wir keine Benutzer auf Ihrem Homeserver haben und keinen Zugriff auf Ihre Daten innerhalb von Matrix haben) als auch für das System (von uns durchgeführt, da die Konfiguration dieses Tools in Konfigurationsdateien auf der VM/VPS-Festplatte gespeichert wird) durchzuführen.
-
 Jitsi (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Sie erhalten die jitsi-Integration standardmäßig mit einer öffentlichen Instanz. Das von uns angebotene jitsi ist eine selbst gehostete Version. Denken Sie daran, dass Jitsi die Anforderungen an die Rechenleistung deutlich erhöht.
-
-ma1sd (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um veraltete Software, die früher als Stub - Identitätsserver - verwendet wurde, seit einiger Zeit nicht mehr gewartet wird und in den meisten Fällen keine Vorteile bietet (es sei denn, Sie möchten LDAP-Authentifizierung oder Twilio-Telefonnummernüberprüfung hinzufügen).
-
-matrix-registration (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Es handelt sich um veraltete Software - ein Workaround, der verwendet wurde, um Matrix eine einladungsbasierte Registrierungsunterstützung hinzuzufügen, weil das Protokoll dies nicht unterstützte, aber jetzt können Sie stattdessen die eingebaute Einladungs-Token-Funktion verwenden: https://matrix-org.github.io/synapse/latest/usage/administration/admin_api/registration_tokens.html
-
-Miounne (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie es wollen? Miounne ist eine veraltete Software - eine Brücke zwischen externen Diensten (wie HTML/HTTP-Formulare, Matrix-Registrierung, buymeacoffee, etc.) und Matrix. Bitte prüfen Sie https://gitlab.com/etke.cc/miounne, bevor Sie sich entscheiden. Wenn Sie es immer noch wollen, schicken Sie mir bitte eine Konfiguration, die ich anwenden kann (nein, es gibt keine 'Standardkonfiguration'. Nein, es gibt keine 'gute Konfiguration'. Nein, wir stellen keine Konfigurationsvorlagen zur Verfügung. Es liegt ganz bei Ihnen)
 
 Server: Bitte erstellen Sie einen VPS mit einer beliebigen Debian-basierten Distribution. Minimale komfortable Konfiguration für einen einfachen Matrix-Server: 1vCPU, 2GB RAM.
  Fügen Sie unsere SSH-Schlüssel (https://etke.cc/ssh.key) zu Ihrem Server hinzu, senden Sie uns die IP-Adresse Ihres Servers, den Benutzernamen (mit der Berechtigung, sudo aufzurufen) und das Passwort (falls festgelegt).
@@ -65,15 +45,9 @@ buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com
 dimension	CNAME record	matrix.example.com
 element	CNAME record	matrix.example.com
-goneb	CNAME record	matrix.example.com
 hydrogen	CNAME record	matrix.example.com
 jitsi	CNAME record	matrix.example.com
-kuma	CNAME record	matrix.example.com
-languagetool	CNAME record	matrix.example.com
-miniflux	CNAME record	matrix.example.com
-miounne	CNAME record	matrix.example.com
 ntfy	CNAME record	matrix.example.com
-radicale	CNAME record	matrix.example.com
 stats	CNAME record	matrix.example.com
 sygnal	CNAME record	matrix.example.com
 matrix	MX record	matrix.example.com

@@ -17,7 +17,6 @@ func (o *order) generateVars() {
 
 	// additional low-level services
 	txt.WriteString(o.generateVarsBorgBackup())
-	txt.WriteString(o.generateVarsCorporal())
 	txt.WriteString(o.generateVarsPostgresBackup())
 	txt.WriteString(o.generateVarsSygnal())
 	txt.WriteString(o.generateVarsNtfy())
@@ -25,39 +24,26 @@ func (o *order) generateVars() {
 	// additional services
 	txt.WriteString(o.generateVarsCinny())
 	txt.WriteString(o.generateVarsDimension())
-	txt.WriteString(o.generateVarsDnsmasq())
 	txt.WriteString(o.generateVarsElement())
 	txt.WriteString(o.generateVarsEtherpad())
 	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
-	txt.WriteString(o.generateVarsKuma())
-	txt.WriteString(o.generateVarsLanguagetool())
-	txt.WriteString(o.generateVarsMatrixRegistration())
-	txt.WriteString(o.generateVarsMiniflux())
-	txt.WriteString(o.generateVarsMiounne())
-	txt.WriteString(o.generateVarsRadicale())
-	txt.WriteString(o.generateVarsSoftServe())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
-	txt.WriteString(o.generateVarsWireguard())
 
 	// bots
 	txt.WriteString(o.generateVarsBuscarron())
-	txt.WriteString(o.generateVarsGoneb())
 	txt.WriteString(o.generateVarsHonoroit())
-	txt.WriteString(o.generateVarsMjolnir())
 	txt.WriteString(o.generateVarsPostmoogle())
 	txt.WriteString(o.generateVarsReminder())
 
 	// bridges
 	txt.WriteString(o.generateVarsDiscord())
-	txt.WriteString(o.generateVarsEmail2Matrix())
 	txt.WriteString(o.generateVarsFacebook())
 	txt.WriteString(o.generateVarsGooglechat())
 	txt.WriteString(o.generateVarsGroupme())
 	txt.WriteString(o.generateVarsHeisenbridge())
 	txt.WriteString(o.generateVarsInstagram())
-	txt.WriteString(o.generateVarsKakaotalk())
 	txt.WriteString(o.generateVarsLinkedin())
 	txt.WriteString(o.generateVarsSignal())
 	txt.WriteString(o.generateVarsSkype())
@@ -113,9 +99,6 @@ func (o *order) generateVarsHomeserver() string {
 	txt.WriteString("matrix_domain: " + o.get("domain") + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("matrix_ssl_lets_encrypt_support_email: " + o.get("email") + "\n")
-	if o.has("ma1sd") {
-		txt.WriteString("matrix_ma1sd_enabled: yes\n")
-	}
 	txt.WriteString("matrix_mailer_enabled: no\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
@@ -240,33 +223,6 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: " + o.pwgen() + "\n")
 
-	if o.has("synapse-simple-antispam") {
-		txt.WriteString("\n# synapse::extensions::simple-antispam\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_synapse_simple_antispam_enabled: yes\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_synapse_simple_antispam_config_blocked_homeservers: []\n")
-	}
-
-	if o.has("mjolnir") {
-		txt.WriteString("\n# synapse::extensions::spam_checker_mjolnir\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_mjolnir_antispam_enabled: yes\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_invites: no\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_messages: no\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_mjolnir_antispam_config_block_usernames: no\n")
-		txt.WriteString("matrix_synapse_ext_spam_checker_mjolnir_antispam_config_ban_lists: []\n")
-	}
-
-	if o.has("matrix-corporal") {
-		txt.WriteString("\n# synapse::extensions::rest_auth\n")
-		txt.WriteString("matrix_synapse_ext_password_provider_rest_auth_enabled: yes\n")
-		txt.WriteString("matrix_synapse_ext_password_provider_rest_auth_endpoint: \"http://matrix-corporal:41080/_matrix/corporal\"\n")
-	}
-
-	if o.has("synapse-workers") {
-		txt.WriteString("\n# synapse::workers\n")
-		txt.WriteString("matrix_synapse_workers_enabled: yes\n")
-		txt.WriteString("matrix_synapse_workers_preset: one-of-each\n")
-	}
-
 	if o.has("smtp-relay") {
 		txt.WriteString(o.generateVarsSynapseMailer())
 	}
@@ -305,23 +261,6 @@ func (o *order) generateVarsSynapseCredentials() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsCorporal() string {
-	if !o.has("matrix-corporal") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# matrix corporal\n")
-	txt.WriteString("matrix_corporal_enabled: yes\n")
-	txt.WriteString("matrix_corporal_http_api_enabled: yes\n")
-	txt.WriteString("matrix_corporal_http_api_auth_token: " + o.password("matrix-corporal api") + "\n")
-	txt.WriteString("matrix_corporal_corporal_user_id_local_part: \"corporal\" # password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_corporal_policy_provider_config: |\n")
-	txt.WriteString("  # TODO\n")
-
-	return txt.String()
-}
-
 func (o *order) generateVarsSynapseAdmin() string {
 	var txt strings.Builder
 
@@ -338,29 +277,9 @@ func (o *order) generateVarsNginx() string {
 	txt.WriteString("matrix_nginx_proxy_access_log_enabled: no\n")
 	txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
 	txt.WriteString("matrix_nginx_proxy_base_domain_homepage_enabled: no\n")
-	txt.WriteString(o.generateVarsNginxCustom())
 	txt.WriteString(o.generateVarsNginxWebsite())
 
 	return txt.String()
-}
-
-func (o *order) generateVarsNginxCustom() string {
-	var has bool
-	var txt strings.Builder
-
-	txt.WriteString("matrix_ssl_additional_domains_to_obtain_certificates_for:\n")
-	for _, custom := range customlist {
-		if o.has(custom) {
-			has = true
-			txt.WriteString("- \"{{ matrix_server_fqn_" + custom + " }}\"\n")
-		}
-	}
-
-	if has {
-		return txt.String()
-	}
-
-	return ""
 }
 
 func (o *order) generateVarsNginxWebsite() string {
@@ -488,156 +407,6 @@ func (o *order) generateVarsStats() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsDnsmasq() string {
-	if !o.has("dnsmasq") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# dnsmasq\n")
-	txt.WriteString("custom_dnsmasq_enabled: yes\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsKuma() string {
-	if !o.has("kuma") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# uptime-kuma https://kuma." + o.get("domain") + "\n")
-	txt.WriteString("custom_kuma_enabled: yes\n")
-	txt.WriteString("matrix_server_fqn_kuma: \"kuma.{{ matrix_domain }}\"\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsLanguagetool() string {
-	if !o.has("languagetool") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# languagetool https://languagetool." + o.get("domain") + "\n")
-	txt.WriteString("custom_languagetool_enabled: yes\n")
-	txt.WriteString("custom_languagetool_ngrams_enabled: yes # WARNING: requires a LOT of storage\n")
-	txt.WriteString("matrix_server_fqn_languagetool: \"languagetool.{{ matrix_domain }}\"\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsMatrixRegistration() string {
-	if !o.has("matrix-registration") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# matrix-registration https://matrix." + o.get("domain") + "/matrix-registration\n")
-	txt.WriteString("matrix_registration_enabled: yes\n")
-	txt.WriteString("matrix_registration_admin_secret: " + o.pwgen() + "\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsRadicale() string {
-	if !o.has("radicale") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# radicale https://radicale." + o.get("domain") + "\n")
-	txt.WriteString("custom_radicale_enabled: yes\n")
-	txt.WriteString("matrix_server_fqn_radicale: \"radicale.{{ matrix_domain }}\"\n")
-	txt.WriteString("custom_radicale_htpasswd: \"" + o.get("username") + ":TODO\"\n")
-	txt.WriteString("# TODO: htpasswd -nb " + o.get("username") + " " + o.password("radicale") + "\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsSoftServe() string {
-	if !o.has("softserve") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# softserve ssh://matrix." + o.get("domain") + ":23231\n")
-	txt.WriteString("custom_softserve_enabled: yes\n")
-	txt.WriteString("custom_softserve_host: \"matrix.{{ matrix_domain }}\"\n")
-	txt.WriteString("custom_softserve_pubkey: # TODO (optional)\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsMiniflux() string {
-	if !o.has("miniflux") {
-		return ""
-	}
-	var txt strings.Builder
-	password := o.pwgen()
-
-	txt.WriteString("\n# miniflux https://miniflux." + o.get("domain") + "\n")
-	txt.WriteString("custom_miniflux_enabled: yes\n")
-	txt.WriteString("matrix_server_fqn_miniflux: \"miniflux.{{ matrix_domain }}\"\n")
-	txt.WriteString("custom_miniflux_database_password: " + password + "\n")
-	txt.WriteString("# TODO:\n")
-	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE USER miniflux WITH PASSWORD '" + password + "';\"\n")
-	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"CREATE DATABASE miniflux;\"\n")
-	txt.WriteString("# matrix-postgres-cli-non-interactive -c \"GRANT ALL PRIVILEGES ON DATABASE miniflux to miniflux;\"\n")
-	txt.WriteString("# docker exec -it custom-miniflux /usr/bin/miniflux -create-admin\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsMiounne() string {
-	if !o.has("miounne") {
-		return ""
-	}
-	var txt strings.Builder
-	password := o.pwgen()
-
-	txt.WriteString("\n# miounne https://miounne." + o.get("domain") + "\n")
-	txt.WriteString("custom_miounne_enabled: yes\n")
-	txt.WriteString("custom_miounne_matrix_user_login: miounne\n")
-	txt.WriteString("custom_miounne_matrix_user_password: " + password + "\n")
-
-	txt.WriteString("# TODO: only for registration\n")
-	txt.WriteString("custom_miounne_registration_url: https://matrix." + o.get("domain") + "/matrix-registration\n")
-	txt.WriteString("custom_miounne_matrix_registration_room: TODO\n")
-	txt.WriteString("custom_miounne_matrix_registration_secret: TODO\n")
-
-	txt.WriteString("# TODO: only for BMC\n")
-	txt.WriteString("custom_miounne_bmc_token: TODO\n")
-	txt.WriteString("custom_miounne_bmc_room: TODO\n")
-	txt.WriteString("custom_miounne_bmc_notify_extras: 1\n")
-	txt.WriteString("custom_miounne_bmc_notify_members: 1\n")
-	txt.WriteString("custom_miounne_bmc_notify_supporters: 1\n")
-
-	txt.WriteString("# TODO: only for forms\n")
-	txt.WriteString("matrix_server_fqn_miounne: \"miounne.{{ matrix_domain }}\"\n")
-	txt.WriteString("matrix_nginx_proxy_proxy_miounne_hostname: \"{{ matrix_server_fqn_miounne }}\"\n")
-	txt.WriteString("custom_miounne_spam_emails: []\n")
-	txt.WriteString("custom_miounne_spam_hosts: []\n")
-	txt.WriteString("custom_miounne_forms: []\n")
-
-	txt.WriteString("# TODO: matrix-synapse-register-user miounne " + password + " 0\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsWireguard() string {
-	if !o.has("wireguard") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# wireguard\n")
-	txt.WriteString("custom_wireguard_enabled: yes\n")
-	txt.WriteString("custom_wireguard_clients: [] # TODO\n")
-
-	return txt.String()
-}
-
 func (o *order) generateVarsBuscarron() string {
 	if !o.has("buscarron") {
 		return ""
@@ -655,28 +424,6 @@ func (o *order) generateVarsBuscarron() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsGoneb() string {
-	if !o.has("go-neb") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# bots::goneb\n")
-	txt.WriteString("matrix_bot_go_neb_enabled: yes\n")
-	txt.WriteString("matrix_bot_go_neb_clients:\n")
-	txt.WriteString("- UserID: \"@goneb:{{ matrix_domain }}\"\n")
-	txt.WriteString("  AccessToken: \"TODO\" # password: " + o.pwgen() + "\n")
-	txt.WriteString("  DeviceID: server\n")
-	txt.WriteString("  HomeserverURL: \"{{ matrix_homeserver_container_url }}\"\n")
-	txt.WriteString("  Sync: yes\n")
-	txt.WriteString("  AutoJoinRooms: yes\n")
-	txt.WriteString("  DisplayName: \"GoNEB\"\n")
-	txt.WriteString("  AcceptVerificationFromUsers: [\":{{ matrix_domain }}\"]\n")
-	txt.WriteString("matrix_bot_go_neb_services: [] # TODO\n")
-
-	return txt.String()
-}
-
 func (o *order) generateVarsHonoroit() string {
 	if !o.has("honoroit") {
 		return ""
@@ -689,22 +436,6 @@ func (o *order) generateVarsHonoroit() string {
 	txt.WriteString("matrix_bot_honoroit_password: " + pass + "\n")
 	txt.WriteString("matrix_bot_honoroit_roomid: TODO\n")
 	txt.WriteString("# TODO: matrix-synapse-register-user honoroit " + pass + " 0\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsMjolnir() string {
-	if !o.has("mjolnir") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# bots::mjolnir\n")
-	txt.WriteString("matrix_bot_mjolnir_enabled: yes\n")
-	txt.WriteString("matrix_bot_mjolnir_access_token: \"TODO\" # password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_mjolnir_management_room: TODO\n")
-	txt.WriteString("matrix_bot_mjolnir_configuration_extension_yaml: |\n")
-	txt.WriteString("  recordIgnoredInvites: true\n")
 
 	return txt.String()
 }
@@ -737,32 +468,6 @@ func (o *order) generateVarsReminder() string {
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + password + "\n")
 	txt.WriteString("# TODO: matrix-synapse-register-user reminder " + password + " 0\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsEmail2Matrix() string {
-	if !o.has("email2matrix") || o.has("postmoogle") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::email2matrix\n")
-	txt.WriteString("matrix_email2matrix_enabled: yes\n")
-	txt.WriteString("matrix_email2matrix_user_hs: \"http://matrix-synapse:8008\"\n")
-	txt.WriteString("matrix_email2matrix_user_mxid: \"@email2matrix:" + o.get("domain") + "\"\n")
-	txt.WriteString("matrix_email2matrix_user_token: TODO\n")
-	txt.WriteString("# TODO: matrix-synapse-register-user email2matrix VVtqYtyJpaAbW0YI2oBo8doZepfB07xkvcVkXuQJrXfmyxZJCBCrgcwur2XtzmRY 0\n")
-	txt.WriteString("# curl -X POST -H 'Content-Type: application/json' -d '{\"identifier\": { \"type\": \"m.id.user\", \"user\": \"email2matrix\" },\"password\": \"" + o.pwgen() + "\", \"type\": \"m.login.password\"}' 'https://matrix." + o.get("domain") + "/_matrix/client/r0/login'\n")
-	txt.WriteString("# join: curl -H \"Authorization: Bearer TODO\" 'https://matrix." + o.get("domain") + "/_matrix/client/r0/join/ROOM_ID' -X POST\n")
-	txt.WriteString("matrix_email2matrix_matrix_mappings:\n")
-	txt.WriteString("  - MailboxName: TODO\n")
-	txt.WriteString("    MatrixRoomId: TODO\n")
-	txt.WriteString("    MatrixHomeserverUrl: \"{{ matrix_email2matrix_user_hs }}\"\n")
-	txt.WriteString("    MatrixAccessToken: \"{{ matrix_email2matrix_user_token }}\"\n")
-	txt.WriteString("    MatrixUserId: \"{{ matrix_email2matrix_user_mxid }}\"\n")
-	txt.WriteString("    IgnoreSubject: no\n")
-	txt.WriteString("    IgnoreBody: no\n")
-	txt.WriteString("    SkipMarkdown: no\n")
 
 	return txt.String()
 }
@@ -854,17 +559,6 @@ func (o *order) generateVarsInstagram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::instagram\n")
 	txt.WriteString("matrix_mautrix_instagram_enabled: yes\n")
-
-	return txt.String()
-}
-
-func (o *order) generateVarsKakaotalk() string {
-	if !o.has("kakaotalk") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::kakaotalk\n")
-	txt.WriteString("matrix_appservice_kakaotalk_enabled: yes\n")
 
 	return txt.String()
 }
