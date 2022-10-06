@@ -3,20 +3,13 @@
 * homeserver: https://matrix.higenjitsuteki.etke.host
 * synapse-admin: https://matrix.higenjitsuteki.etke.host/synapse-admin
 * etherpad admin: https://dimension.higenjitsuteki.etke.host/etherpad/admin
-* ssh git: ssh matrix.higenjitsuteki.etke.host:23231
 * buscarron: https://buscarron.higenjitsuteki.etke.host
 * cinny: https://cinny.higenjitsuteki.etke.host
 * dimension: https://dimension.higenjitsuteki.etke.host
 * element-web: https://element.higenjitsuteki.etke.host
-* go-neb: https://goneb.higenjitsuteki.etke.host
 * hydrogen: https://hydrogen.higenjitsuteki.etke.host
 * jitsi: https://jitsi.higenjitsuteki.etke.host
-* kuma: https://kuma.higenjitsuteki.etke.host
-* languagetool: https://languagetool.higenjitsuteki.etke.host
-* miniflux: https://miniflux.higenjitsuteki.etke.host
-* miounne: https://miounne.higenjitsuteki.etke.host
 * ntfy: https://ntfy.higenjitsuteki.etke.host
-* radicale: https://radicale.higenjitsuteki.etke.host
 * stats: https://stats.higenjitsuteki.etke.host
 * sygnal: https://sygnal.higenjitsuteki.etke.host
 
@@ -24,8 +17,6 @@
 
 * buscarron: @buscarron:higenjitsuteki.etke.host
 * honoroit: @honoroit:higenjitsuteki.etke.host
-* miounne: @miounne:higenjitsuteki.etke.host
-* mjolnir: @mjolnir:higenjitsuteki.etke.host
 * reminder-bot: @reminder:higenjitsuteki.etke.host
 
 # интеграции
@@ -55,19 +46,10 @@
 * password: TODO
 * etherpad admin password: TODO
 * grafana password: TODO
-* matrix-corporal api password: TODO
-* radicale password: TODO
 
 > в случае проблем: https://etke.cc/ru/help
 
 # после установки
-
-### email2matrix
-
-1. Создайте обычного пользователя matrix с логином `email2matrix` и надежным паролем
-2. На каждый почтовый ящик, который Вы хотите добавить, создайте незашифрованную matrix комнату и пригласите пользователя email2matrix в каждую из них
-3. Войдите пользователем email2matrix и примите все приглашения, которые были отправлены ранее (да, вот потому мы и спрашивали, точно ли Вы хотите это)
-4. отправьте пароль пользователя email2matrix и пары почтовый ящик - ID matrix комнаты на @support:etke.cc (eg: info@matrix.higenjitsuteki.etke.host = !gqlCuoCdhufltluRXk:higenjitsuteki.etke.host)
 
 ### etherpad
 

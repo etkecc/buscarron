@@ -46,9 +46,6 @@ func (o *order) generateOnboardingLinks() string {
 	if o.has("etherpad") {
 		txt.WriteString("* etherpad admin: https://dimension." + o.get("domain") + "/etherpad/admin\n")
 	}
-	if o.has("softserve") {
-		txt.WriteString("* ssh git: ssh matrix." + o.get("domain") + ":23231\n")
-	}
 	items := []string{}
 	for item := range dnsmap {
 		if o.has(item) {
@@ -170,50 +167,16 @@ func (o *order) generateOnboardingPayment() string {
 }
 
 func (o *order) generateOnboardingAfter() string {
-	has := o.has("email2matrix") || o.has("etherpad") || o.has("honoroit") || o.has("postmoogle")
+	has := o.has("etherpad") || o.has("honoroit")
 	if !has {
 		return ""
 	}
 	var txt strings.Builder
 
 	txt.WriteString("# " + o.t("steps_after_setup") + "\n\n")
-	txt.WriteString(o.generateOnboardingAfterEmail2Matrix())
-	txt.WriteString(o.generateOnboardingAfterPostmoogle())
 	txt.WriteString(o.generateOnboardingAfterEtherpad())
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
-
-	return txt.String()
-}
-
-func (o *order) generateOnboardingAfterEmail2Matrix() string {
-	if !o.has("email2matrix") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("### email2matrix\n\n")
-	txt.WriteString("1. " + o.t("as_email2matrix_1") + "\n")
-	txt.WriteString("2. " + o.t("as_email2matrix_2") + "\n")
-	txt.WriteString("3. " + o.t("as_email2matrix_3") + "\n")
-	txt.WriteString("4. " + o.t("as_email2matrix_4") + " @support:etke.cc (eg: info@matrix." + o.get("domain") + " = !gqlCuoCdhufltluRXk:" + o.get("domain") + ")\n\n")
-
-	return txt.String()
-}
-
-func (o *order) generateOnboardingAfterPostmoogle() string {
-	if !o.has("postmoogle") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("### postmoogle\n\n")
-	txt.WriteString("1. " + o.t("as_postmoogle_1") + "\n")
-	if o.get("type") == "turnkey" {
-		txt.WriteString("2. " + o.t("as_postmoogle_2_turnkey") + "\n")
-	} else {
-		txt.WriteString("2. " + o.t("as_postmoogle_2") + "\n")
-	}
 
 	return txt.String()
 }

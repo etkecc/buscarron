@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"gitlab.com/etke.cc/buscarron/config"
-	"gitlab.com/etke.cc/buscarron/validator"
+	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
 type RootSuite struct {
@@ -16,11 +16,11 @@ type RootSuite struct {
 
 func (s *RootSuite) SetupTest() {
 	s.T().Helper()
-	s.ext = NewRoot(&validator.V{})
+	s.ext = NewRoot(&mocks.Validator{})
 }
 
 func (s *RootSuite) TestNew() {
-	rootExt := NewRoot(&validator.V{})
+	rootExt := NewRoot(&mocks.Validator{})
 
 	s.IsType(&root{}, rootExt)
 }

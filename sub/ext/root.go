@@ -6,13 +6,12 @@ import (
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
-	"gitlab.com/etke.cc/buscarron/validator"
 )
 
 type root struct{}
 
 // NewRoot extension
-func NewRoot(_ validator.Validator) *root {
+func NewRoot(_ Validator) *root {
 	return &root{}
 }
 

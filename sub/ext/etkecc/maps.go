@@ -7,36 +7,20 @@ var defaults = map[string]string{
 }
 
 var dnsmap = map[string]string{
-	"buscarron":    "buscarron",
-	"cinny":        "cinny",
-	"dimension":    "dimension",
-	"element-web":  "element",
-	"go-neb":       "goneb",
-	"hydrogen":     "hydrogen",
-	"jitsi":        "jitsi",
-	"kuma":         "kuma",
-	"languagetool": "languagetool",
-	"miniflux":     "miniflux",
-	"miounne":      "miounne",
-	"ntfy":         "ntfy",
-	"radicale":     "radicale",
-	"stats":        "stats",
-	"sygnal":       "sygnal",
-}
-
-var customlist = []string{
-	"kuma",
-	"languagetool",
-	"miniflux",
-	"miounne",
-	"radicale",
+	"buscarron":   "buscarron",
+	"cinny":       "cinny",
+	"dimension":   "dimension",
+	"element-web": "element",
+	"hydrogen":    "hydrogen",
+	"jitsi":       "jitsi",
+	"ntfy":        "ntfy",
+	"stats":       "stats",
+	"sygnal":      "sygnal",
 }
 
 var botmap = map[string]string{
 	"buscarron":    "@buscarron",
 	"honoroit":     "@honoroit",
-	"miounne":      "@miounne",
-	"mjolnir":      "@mjolnir",
 	"postmoogle":   "@postmoogle",
 	"reminder-bot": "@reminder",
 }
@@ -48,7 +32,6 @@ var bridgemap = map[string]string{
 	"groupme":    "@_groupmepuppet_bot",
 	"instagram":  "@instagrambot",
 	"irc":        "@heisenbridge",
-	"kakotalk":   "@kakaotalkbot",
 	"linkedin":   "@linkedinbot",
 	"signal":     "@signalbot",
 	"skype":      "@skypebridgebot",

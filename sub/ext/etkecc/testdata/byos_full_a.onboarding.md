@@ -3,20 +3,13 @@
 * homeserver: https://matrix.example.com
 * synapse-admin: https://matrix.example.com/synapse-admin
 * etherpad admin: https://dimension.example.com/etherpad/admin
-* ssh git: ssh matrix.example.com:23231
 * buscarron: https://buscarron.example.com
 * cinny: https://cinny.example.com
 * dimension: https://dimension.example.com
 * element-web: https://element.example.com
-* go-neb: https://goneb.example.com
 * hydrogen: https://hydrogen.example.com
 * jitsi: https://jitsi.example.com
-* kuma: https://kuma.example.com
-* languagetool: https://languagetool.example.com
-* miniflux: https://miniflux.example.com
-* miounne: https://miounne.example.com
 * ntfy: https://ntfy.example.com
-* radicale: https://radicale.example.com
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
 
@@ -24,8 +17,6 @@
 
 * buscarron: @buscarron:example.com
 * honoroit: @honoroit:example.com
-* miounne: @miounne:example.com
-* mjolnir: @mjolnir:example.com
 * postmoogle: @postmoogle:example.com
 * reminder-bot: @reminder:example.com
 
@@ -56,8 +47,6 @@
 * password: TODO
 * etherpad admin password: TODO
 * grafana password: TODO
-* matrix-corporal api password: TODO
-* radicale password: TODO
 
 > im Falle irgendwelcher Probleme: https://etke.cc/de/help
 
@@ -68,18 +57,6 @@ Bitte, [kaufen Sie das Einrichtungselement](https://etke.cc/setup) und Beitritt 
 > **HINWEIS**: Alle Preise basieren auf dem [Pay What You Want]-Modell (https://de.wikipedia.org/wiki/Pay_what_you_want).
 
 # Schritte nach dem Einrichten
-
-### email2matrix
-
-1. Erstellen Sie einen Nicht-Administrator-Matrix-Benutzer mit dem Benutzernamen `email2matrix` und einem sicheren Passwort
-2. Erstellen Sie unverschlüsselte Matrixräume für die gewünschten Postfächer (1 Raum = 1 Postfach) und laden Sie den email2matrix-Benutzer zu allen Räumen ein.
-3. Melden Sie sich mit dem email2matrix-Benutzer an und akzeptieren Sie die Einladungen, die Sie verschickt haben (ja, das ist ein sehr manueller Prozess - deshalb haben wir Sie gefragt, ob Sie das wirklich wollen)
-4. Senden Sie das email2matrix-Passwort und Paare von (Mailboxname + Matrix-Raum-ID) an den @support:etke.cc (eg: info@matrix.example.com = !gqlCuoCdhufltluRXk:example.com)
-
-### postmoogle
-
-1. Befehl `!pm dkim` in einem beliebigen Raum mit postmoogle ausführen
-2. Fügen Sie einen neuen TXT-DNS-Eintrag mit Key/From/Subdomain = `postmoogle._domainkey.matrix` und Value/To = Signatur aus der Ausgabe von `!pm dkim` hinzu
 
 ### etherpad
 
