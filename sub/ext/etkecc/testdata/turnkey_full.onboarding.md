@@ -43,9 +43,9 @@
 
 * mxid: @test:higenjitsuteki.etke.host
 * username: test
-* password: TODO
-* etherpad admin password: TODO
-* grafana password: TODO
+* password: TODO64
+* etherpad admin password: TODO64
+* grafana password: TODO64
 
 > в случае проблем: https://etke.cc/ru/help
 

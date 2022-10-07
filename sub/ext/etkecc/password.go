@@ -1,15 +1,22 @@
 package etkecc
 
 import (
+	"strconv"
+
 	"gitlab.com/etke.cc/go/secgen"
 )
 
-const passlen = 64
+const defaultPassLen = 64
 
 // pwgen is actual password generator
-func (o *order) pwgen() string {
+func (o *order) pwgen(length ...int) string {
+	passlen := defaultPassLen
+	if len(length) > 0 {
+		passlen = length[0]
+	}
+
 	if o.test {
-		return "TODO"
+		return "TODO" + strconv.Itoa(passlen)
 	}
 
 	return secgen.Password(passlen)

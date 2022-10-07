@@ -44,9 +44,9 @@
 
 * mxid: @test:example.com
 * username: test
-* password: TODO
-* etherpad admin password: TODO
-* grafana password: TODO
+* password: TODO64
+* etherpad admin password: TODO64
+* grafana password: TODO64
 
 > im Falle irgendwelcher Probleme: https://etke.cc/de/help
 

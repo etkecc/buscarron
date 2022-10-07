@@ -450,6 +450,7 @@ func (o *order) generateVarsPostmoogle() string {
 	txt.WriteString("\n# bots::postmoogle\n")
 	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
 	txt.WriteString("matrix_bot_postmoogle_password: " + password + "\n")
+	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
 	txt.WriteString("# TODO: matrix-synapse-register-user postmoogle " + password + " 0\n")
 
 	return txt.String()

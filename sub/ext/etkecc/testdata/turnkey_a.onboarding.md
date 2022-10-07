@@ -7,6 +7,6 @@
 
 * mxid: @test:example.com
 * username: test
-* password: TODO
+* password: TODO64
 
 > in case of any issues: https://etke.cc/en/help

@@ -4,8 +4,8 @@
 matrix_nginx_proxy_proxy_matrix_metrics_enabled: yes
 matrix_prometheus_node_exporter_metrics_proxying_enabled: yes
 matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_enabled: yes
-matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_username: TODO
-matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_password: TODO
+matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_username: TODO64
+matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_password: TODO64
 matrix_prometheus_node_exporter_enabled: yes
 matrix_prometheus_node_exporter_process_extra_arguments:
   - "--collector.disable-defaults"
@@ -60,23 +60,23 @@ matrix_synapse_redaction_retention_period: 5m
 
 # synapse::extensions::shared_secret_auth
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
-matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO
+matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO64
 
 # synapse::mailer
 matrix_synapse_email_enabled: yes
 matrix_synapse_email_smtp_host: smtp.migadu.com
 matrix_synapse_email_smtp_port: 587
 matrix_synapse_email_smtp_user: "matrix@{{ matrix_domain }}"
-matrix_synapse_email_smtp_pass: TODO
+matrix_synapse_email_smtp_pass: TODO64
 matrix_synapse_email_notif_from: "Matrix <matrix@{{ matrix_domain }}>"
 matrix_synapse_email_client_base_url: "https://{{ matrix_server_fqn_element }}"
 matrix_synapse_email_invite_client_location: "https://{{ matrix_server_fqn_element }}"
 
 # synapse::credentials
-matrix_synapse_macaroon_secret_key: TODO
-matrix_postgres_connection_password: TODO
-matrix_synapse_password_config_pepper: TODO
-matrix_coturn_turn_static_auth_secret: TODO
+matrix_synapse_macaroon_secret_key: TODO64
+matrix_postgres_connection_password: TODO64
+matrix_synapse_password_config_pepper: TODO64
+matrix_coturn_turn_static_auth_secret: TODO64
 matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
 # nginx proxy
@@ -93,7 +93,7 @@ matrix_nginx_proxy_website_dist: "public"
 # borg
 matrix_backup_borg_enabled: yes
 matrix_backup_borg_location_repositories: [] # TODO
-matrix_backup_borg_storage_encryption_passphrase: TODO
+matrix_backup_borg_storage_encryption_passphrase: TODO64
 matrix_backup_borg_ssh_key_private: |
   -----BEGIN OPENSSH PRIVATE KEY-----
   TODO
@@ -125,11 +125,11 @@ matrix_client_cinny_enabled: yes
 
 # dimension https://dimension.higenjitsuteki.etke.host
 matrix_dimension_enabled: yes
-matrix_dimension_access_token: TODO # password: TODO
+matrix_dimension_access_token: TODO # password: TODO64
 matrix_dimension_admins:
   - "{{ matrix_admin }}"# TODO
-# matrix-synapse-register-user dimension TODO 0
-# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO", "type": "m.login.password"}' 'https://matrix.higenjitsuteki.etke.host/_matrix/client/r0/login'
+# matrix-synapse-register-user dimension TODO64 0
+# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO64", "type": "m.login.password"}' 'https://matrix.higenjitsuteki.etke.host/_matrix/client/r0/login'
 
 # element https://element.higenjitsuteki.etke.host
 matrix_client_element_enabled: yes
@@ -138,7 +138,7 @@ matrix_client_element_default_theme: dark
 # etherpad
 matrix_etherpad_enabled: yes
 matrix_etherpad_admin_username: test
-matrix_etherpad_admin_password: TODO
+matrix_etherpad_admin_password: TODO64
 
 # hydrogen https://hydrogen.higenjitsuteki.etke.host
 matrix_client_hydrogen_enabled: yes
@@ -148,13 +148,13 @@ matrix_client_hydrogen_default_theme: dark
 matrix_jitsi_enabled: yes
 # matrix_jitsi_enable_auth: yes
 # matrix_jitsi_enable_guests: yes
-matrix_jitsi_jvb_auth_password: TODO
-matrix_jitsi_jibri_xmpp_password: TODO
-matrix_jitsi_jibri_recorder_password: TODO
-matrix_jitsi_jicofo_auth_password: TODO
+matrix_jitsi_jvb_auth_password: TODO64
+matrix_jitsi_jibri_xmpp_password: TODO64
+matrix_jitsi_jibri_recorder_password: TODO64
+matrix_jitsi_jicofo_auth_password: TODO64
 # matrix_jitsi_prosody_auth_internal_accounts:
 #  - username: test
-#    password: TODO
+#    password: TODO64
 
 # stats https://stats.higenjitsuteki.etke.host
 matrix_grafana_enabled: yes
@@ -163,7 +163,7 @@ matrix_grafana_anonymous_access: no
 matrix_prometheus_node_exporter_enabled: yes
 matrix_prometheus_node_exporter_process_extra_arguments: []
 matrix_grafana_default_admin_user: test
-matrix_grafana_default_admin_password: TODO
+matrix_grafana_default_admin_password: TODO64
 
 # synapse-admin https://matrix.higenjitsuteki.etke.host/synapse-admin
 matrix_synapse_admin_enabled: yes
@@ -171,22 +171,22 @@ matrix_synapse_admin_enabled: yes
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_login: buscarron
-matrix_bot_buscarron_password: TODO
+matrix_bot_buscarron_password: TODO64
 matrix_bot_buscarron_forms: [] # TODO
-# TODO: matrix-synapse-register-user buscarron TODO 0
+# TODO: matrix-synapse-register-user buscarron TODO64 0
 
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
-matrix_bot_honoroit_password: TODO
+matrix_bot_honoroit_password: TODO64
 matrix_bot_honoroit_roomid: TODO
-# TODO: matrix-synapse-register-user honoroit TODO 0
+# TODO: matrix-synapse-register-user honoroit TODO64 0
 
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
 matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder
-matrix_bot_matrix_reminder_bot_matrix_user_password: TODO
-# TODO: matrix-synapse-register-user reminder TODO 0
+matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
+# TODO: matrix-synapse-register-user reminder TODO64 0
 
 # bridges::discord
 matrix_mautrix_discord_enabled: yes
@@ -233,7 +233,7 @@ matrix_mautrix_twitter_enabled: yes
 
 # bridges::webhooks
 matrix_appservice_webhooks_enabled: yes
-matrix_appservice_webhooks_api_secret: TODO
+matrix_appservice_webhooks_api_secret: TODO64
 
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes
