@@ -9,7 +9,7 @@ var defaultConfig = &Config{
 	},
 	Ban: &Ban{
 		Duration: 24,
-		Size:     10000,
+		Size:     1000000,
 	},
 	SMTP: &SMTP{
 		From: "test@ilydeen.org", // used only for SMTP validation

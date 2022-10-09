@@ -61,7 +61,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 
-	result, err := handler.POST("test", nil)
+	result, err := handler.POST("test", "test", nil)
 
 	s.Require().Error(err)
 	s.Equal(ErrNotFound, err)
@@ -74,7 +74,7 @@ func (s *HandlerSuite) TestPOST_NoData() {
 	handler := NewHandler(forms, s.v, nil, s.sender, "TRACE")
 	request, rerr := http.NewRequest("POST", "", nil)
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST("test", "test", request)
 
 	s.Require().NoError(rerr)
 	s.Require().NoError(err)
@@ -91,7 +91,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST("test", "test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -110,7 +110,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST("test", "test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -142,7 +142,7 @@ func (s *HandlerSuite) TestPOST() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST("test", "test", request)
 
 	s.NoError(rerr)
 	s.Require().NoError(err)

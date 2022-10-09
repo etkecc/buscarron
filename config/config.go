@@ -25,6 +25,7 @@ func New() *Config {
 		Ban: &Ban{
 			Duration: env.Int("ban.duration", defaultConfig.Ban.Duration),
 			Size:     env.Int("ban.size", defaultConfig.Ban.Size),
+			List:     env.Slice("ban.list"),
 		},
 		Spam: &Spam{
 			Hosts:      env.Slice("spam.hosts"),

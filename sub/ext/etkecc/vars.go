@@ -241,9 +241,6 @@ func (o *order) generateVarsSynapseMailer() string {
 	txt.WriteString("matrix_synapse_email_smtp_port: 587\n")
 	txt.WriteString("matrix_synapse_email_smtp_user: \"matrix@{{ matrix_domain }}\"\n")
 	txt.WriteString("matrix_synapse_email_smtp_pass: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_synapse_email_notif_from: \"Matrix <matrix@{{ matrix_domain }}>\"\n")
-	txt.WriteString("matrix_synapse_email_client_base_url: \"https://{{ matrix_server_fqn_element }}\"\n")
-	txt.WriteString("matrix_synapse_email_invite_client_location: \"https://{{ matrix_server_fqn_element }}\"\n")
 
 	return txt.String()
 }

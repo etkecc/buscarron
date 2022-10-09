@@ -16,8 +16,11 @@ type banhandler struct {
 var donotban = []string{"/favicon.ico", "/robots.txt"}
 
 // NewBanHanlder creates banhandler
-func NewBanHanlder(duration int, size int, loglevel string) *banhandler {
+func NewBanHanlder(duration int, size int, banlist []string, loglevel string) *banhandler {
 	store := cache.NewTLRU[bool](size, time.Duration(duration)*time.Hour, false)
+	for _, id := range banlist {
+		store.Set(id, true)
+	}
 	log := logger.New("ban.", loglevel)
 
 	return &banhandler{store, log}

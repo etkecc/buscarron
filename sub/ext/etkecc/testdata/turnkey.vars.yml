@@ -57,9 +57,6 @@ matrix_synapse_email_smtp_host: smtp.migadu.com
 matrix_synapse_email_smtp_port: 587
 matrix_synapse_email_smtp_user: "matrix@{{ matrix_domain }}"
 matrix_synapse_email_smtp_pass: TODO64
-matrix_synapse_email_notif_from: "Matrix <matrix@{{ matrix_domain }}>"
-matrix_synapse_email_client_base_url: "https://{{ matrix_server_fqn_element }}"
-matrix_synapse_email_invite_client_location: "https://{{ matrix_server_fqn_element }}"
 
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64

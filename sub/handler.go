@@ -85,7 +85,7 @@ func (h *Handler) GET(name string, _ *http.Request) (string, error) {
 }
 
 // POST request handler
-func (h *Handler) POST(name string, r *http.Request) (string, error) {
+func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 	form, ok := h.forms[name]
 	if !ok {
 		h.log.Warn("submission attempt to the %s form (does not exist)", name)
@@ -111,6 +111,8 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 		h.log.Info("submission to the %s form marked as spam, reason: domain", form.Name)
 		return h.redirect(form.Redirect, data), ErrSpam
 	}
+
+	h.log.Info("submission attempt to the %s form by %v passed the tests", name, rID)
 
 	text, files := h.generate(form, data)
 	form.Lock()

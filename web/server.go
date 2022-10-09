@@ -13,7 +13,7 @@ import (
 // FormHandler for web server
 type FormHandler interface {
 	GET(string, *http.Request) (string, error)
-	POST(string, *http.Request) (string, error)
+	POST(string, string, *http.Request) (string, error)
 }
 
 // DomainValidator for the web server
@@ -36,10 +36,10 @@ type Server struct {
 }
 
 // New web server
-func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bd int, bs int) *Server {
+func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bd int, bs int, bl []string) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
-	bh := NewBanHanlder(bd, bs, loglevel)
+	bh := NewBanHanlder(bd, bs, bl, loglevel)
 	iph := &iphasher{}
 	ctxm := &ctxMiddleware{iph}
 	srv := &Server{
@@ -146,7 +146,7 @@ func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Reques
 		return
 	}
 
-	body, err := s.fh.POST(name, r)
+	body, err := s.fh.POST(id, name, r)
 	if err == sub.ErrNotFound || err == sub.ErrSpam {
 		s.bh.Ban(r)
 	}

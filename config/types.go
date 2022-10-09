@@ -59,6 +59,7 @@ type Spam struct {
 type Ban struct {
 	Duration int
 	Size     int
+	List     []string
 }
 
 // Postmark config

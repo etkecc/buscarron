@@ -64,7 +64,7 @@ func (s *ConfigSuite) TestNew() {
 	s.ElementsMatch([]string{"ima@spammer.com", "definetelynotspam@gmail.com"}, config.Spam.Emails)
 	s.ElementsMatch([]string{"spamer.com", "unitedspammers.org"}, config.Spam.Hosts)
 	s.Equal(1, config.Ban.Duration)
-	s.Equal(10000, config.Ban.Size)
+	s.Equal(1000000, config.Ban.Size)
 	s.Equal("test1", form1.Name)
 	s.Equal("https://example.org", form1.Redirect)
 	s.Equal(id.RoomID("!test1@example.com"), form1.RoomID)

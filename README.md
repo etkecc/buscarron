@@ -46,6 +46,7 @@ env vars
 * **BUSCARRON_SPAM_LOCALPARTS** - list of spam localparts, eg: `export BUSCARRON_SPAM_LOCALPARTS="annoy spammer noreply"`
 * **BUSCARRON_BAN_DURATION** - duration of automatic ban of spammers, scanners and bots in hours
 * **BUSCARRON_BAN_SIZE** - jail size of banned users
+* **BUSCARRON_BAN_LIST** - list of IP hashes / IDs for permanent ban
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
 * **BUSCARRON_PM_FROM** - [Postmark](https://postmarkapp.com) sender signature
 * **BUSCARRON_PM_REPLYTO** - reply-to email header
