@@ -619,13 +619,12 @@ func (o *order) generateVarsTwitter() string {
 }
 
 func (o *order) generateVarsWebhooks() string {
-	if !o.has("webhooks") {
+	if !o.has("webhooks") && !o.has("hookshot") {
 		return ""
 	}
 	var txt strings.Builder
-	txt.WriteString("\n# bridges::webhooks\n")
-	txt.WriteString("matrix_appservice_webhooks_enabled: yes\n")
-	txt.WriteString("matrix_appservice_webhooks_api_secret: " + o.pwgen() + "\n")
+	txt.WriteString("\n# bridges::hookshot\n")
+	txt.WriteString("matrix_hookshot_enabled: yes\n")
 
 	return txt.String()
 }

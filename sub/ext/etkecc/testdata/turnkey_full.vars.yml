@@ -228,9 +228,8 @@ matrix_mautrix_telegram_api_hash: TODO
 # bridges::twitter
 matrix_mautrix_twitter_enabled: yes
 
-# bridges::webhooks
-matrix_appservice_webhooks_enabled: yes
-matrix_appservice_webhooks_api_secret: TODO64
+# bridges::hookshot
+matrix_hookshot_enabled: yes
 
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes
