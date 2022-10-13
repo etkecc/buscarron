@@ -20,8 +20,10 @@ var values = map[string]string{
 	"BUSCARRON_LOGIN":      "@test:example.com",
 	"BUSCARRON_PASSWORD":   "password",
 
-	"BUSCARRON_SPAM_EMAILS": "ima@spammer.com definetelynotspam@gmail.com",
-	"BUSCARRON_SPAM_HOSTS":  "spamer.com unitedspammers.org",
+	"BUSCARRON_SPAM_EMAILS":     "ima@spammer.com definetelynotspam@gmail.com",
+	"BUSCARRON_SPAM_HOSTS":      "spamer.com unitedspammers.org",
+	"BUSCARRON_SPAM_LOCALPARTS": "",
+	"BUSCARRON_SPAMLIST":        "spam@*  ",
 
 	"BUSCARRON_BAN_DURATION": "1",
 	"BUSCARRON_BAN_SIZE":     "invalid",
@@ -61,8 +63,7 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal("https://example.com", config.Homeserver)
 	s.Equal("@test:example.com", config.Login)
 	s.Equal("password", config.Password)
-	s.ElementsMatch([]string{"ima@spammer.com", "definetelynotspam@gmail.com"}, config.Spam.Emails)
-	s.ElementsMatch([]string{"spamer.com", "unitedspammers.org"}, config.Spam.Hosts)
+	s.ElementsMatch([]string{"ima@spammer.com", "definetelynotspam@gmail.com", "*@spamer.com", "*@unitedspammers.org", "spam@*"}, config.Spamlist)
 	s.Equal(1, config.Ban.Duration)
 	s.Equal(1000000, config.Ban.Size)
 	s.Equal("test1", form1.Name)

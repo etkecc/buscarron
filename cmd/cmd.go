@@ -102,13 +102,23 @@ func initSrv(cfg *config.Config) {
 	for name, item := range cfg.Forms {
 		rls[name] = item.Ratelimit
 	}
-	spam := validator.Spam(*cfg.Spam)
 	log := logger.New("v.", cfg.LogLevel)
-	enforce := validator.Enforce{MX: true, SMTP: cfg.SMTP.EnforceValidation}
-	v := validator.New(spam, enforce, cfg.SMTP.From, log)
+	vs := make(map[string]sub.Validator, len(cfg.Forms))
+	for name := range cfg.Forms {
+		enforce := validator.Enforce{
+			Email:  cfg.Forms[name].HasEmail,
+			Domain: cfg.Forms[name].HasDomain,
+			MX:     true,
+			SMTP:   cfg.SMTP.EnforceValidation,
+		}
+		v := validator.New(cfg.Spamlist, enforce, cfg.SMTP.From, log)
+		vs[name] = v
+	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, cfg.LogLevel)
-	fh := sub.NewHandler(cfg.Forms, v, pm, mxb, cfg.LogLevel)
-	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, v, cfg.Ban.Duration, cfg.Ban.Size, cfg.Ban.List)
+	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, cfg.LogLevel)
+
+	srvv := validator.New(nil, validator.Enforce{}, "", log)
+	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, srvv, cfg.Ban.Duration, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug("web server has been created")
 }

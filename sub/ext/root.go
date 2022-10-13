@@ -6,17 +6,18 @@ import (
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
 type root struct{}
 
 // NewRoot extension
-func NewRoot(_ Validator) *root {
+func NewRoot() *root {
 	return &root{}
 }
 
 // Execute extension
-func (e *root) Execute(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	fields := e.sort(data)
 	out := "**New " + form.Name + "**"
 	if data["email"] != "" {

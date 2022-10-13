@@ -13,7 +13,7 @@ require (
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.1.1
-	gitlab.com/etke.cc/go/validator v1.0.1
+	gitlab.com/etke.cc/go/validator v1.0.2
 	gitlab.com/etke.cc/linkpearl v0.0.0-20221008191655-865ae3362a01
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.12.1

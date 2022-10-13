@@ -5,6 +5,8 @@ import (
 
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
+
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
 type order struct {
@@ -12,7 +14,7 @@ type order struct {
 	name string
 	data map[string]string
 	pm   EmailSender
-	v    NetworkValidator
+	v    common.Validator
 
 	txt   strings.Builder
 	eml   strings.Builder

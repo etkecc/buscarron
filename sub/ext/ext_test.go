@@ -4,8 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/suite"
-
-	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
 type ExtSuite struct {
@@ -17,7 +15,7 @@ func (s *ExtSuite) SetupTest() {
 }
 
 func (s *ExtSuite) TestNew() {
-	exts := New(&mocks.Validator{}, nil)
+	exts := New(nil)
 
 	s.IsType(&root{}, exts["root"])
 }

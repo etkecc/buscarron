@@ -24,6 +24,7 @@ env vars
 ### optional form configs
 
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s`, `54r/m`, `7r/h`
+* **BUSCARRON_NAME_HASEMAIL** - if the form has an `email` field and you want to enforce email validation
 * **BUSCARRON_NAME_HASDOMAIN** - if the form has a `domain` field and you want to enforce domain validation
 * **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`
 * **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
@@ -41,9 +42,7 @@ env vars
 * **BUSCARRON_NOENCRYPTION** - disable encryption
 * **BUSCARRON_DB_DSN** - database connection string
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
-* **BUSCARRON_SPAM_HOSTS** - list of spam domains, eg: `export BUSCARRON_SPAM_HOSTS="spammer.com notspammer.com"`
-* **BUSCARRON_SPAM_EMAILS** - list of spam emails: eg: `export BUSCARRON_SPAM_EMAILS="annoy@gmail.com spammer@live.com"`
-* **BUSCARRON_SPAM_LOCALPARTS** - list of spam localparts, eg: `export BUSCARRON_SPAM_LOCALPARTS="annoy spammer noreply"`
+* **BUSCARRON_SPAMLIST** - list of spam emails with wildcards, eg: `export BUSCARRON_SPAMLIST=*@spammer.com annoy@gmail.com spammer@*`
 * **BUSCARRON_BAN_DURATION** - duration of automatic ban of spammers, scanners and bots in hours
 * **BUSCARRON_BAN_SIZE** - jail size of banned users
 * **BUSCARRON_BAN_LIST** - list of IP hashes / IDs for permanent ban

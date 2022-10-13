@@ -4,6 +4,7 @@ package mocks
 
 import (
 	config "gitlab.com/etke.cc/buscarron/config"
+	common "gitlab.com/etke.cc/buscarron/sub/ext/common"
 
 	mautrix "maunium.net/go/mautrix"
 
@@ -15,20 +16,20 @@ type Extension struct {
 	mock.Mock
 }
 
-// Execute provides a mock function with given fields: _a0, _a1
-func (_m *Extension) Execute(_a0 *config.Form, _a1 map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	ret := _m.Called(_a0, _a1)
+// Execute provides a mock function with given fields: _a0, _a1, _a2
+func (_m *Extension) Execute(_a0 common.Validator, _a1 *config.Form, _a2 map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 string
-	if rf, ok := ret.Get(0).(func(*config.Form, map[string]string) string); ok {
-		r0 = rf(_a0, _a1)
+	if rf, ok := ret.Get(0).(func(common.Validator, *config.Form, map[string]string) string); ok {
+		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
 	var r1 []*mautrix.ReqUploadMedia
-	if rf, ok := ret.Get(1).(func(*config.Form, map[string]string) []*mautrix.ReqUploadMedia); ok {
-		r1 = rf(_a0, _a1)
+	if rf, ok := ret.Get(1).(func(common.Validator, *config.Form, map[string]string) []*mautrix.ReqUploadMedia); ok {
+		r1 = rf(_a0, _a1, _a2)
 	} else {
 		if ret.Get(1) != nil {
 			r1 = ret.Get(1).([]*mautrix.ReqUploadMedia)

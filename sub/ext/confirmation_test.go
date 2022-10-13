@@ -53,7 +53,7 @@ func (s *ConfirmationSuite) TestExecute() {
 	}
 	s.s.On("Send", req).Return(nil, nil).Once()
 
-	s.ext.Execute(form, data)
+	s.ext.Execute(nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NoPostmark() {
@@ -70,7 +70,7 @@ func (s *ConfirmationSuite) TestExecute_NoPostmark() {
 		"testfield": "testvalue",
 	}
 
-	ext.Execute(form, data)
+	ext.Execute(nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NotConfigured() {
@@ -82,7 +82,7 @@ func (s *ConfirmationSuite) TestExecute_NotConfigured() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(form, data)
+	s.ext.Execute(nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NoEmail() {
@@ -97,7 +97,7 @@ func (s *ConfirmationSuite) TestExecute_NoEmail() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(form, data)
+	s.ext.Execute(nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_ErrorParsingSubject() {
@@ -113,7 +113,7 @@ func (s *ConfirmationSuite) TestExecute_ErrorParsingSubject() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(form, data)
+	s.ext.Execute(nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_ErrorParsingBody() {
@@ -128,7 +128,7 @@ func (s *ConfirmationSuite) TestExecute_ErrorParsingBody() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(form, data)
+	s.ext.Execute(nil, form, data)
 }
 
 func TestConfirmationSuite(t *testing.T) {

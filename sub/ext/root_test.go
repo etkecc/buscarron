@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"gitlab.com/etke.cc/buscarron/config"
-	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
 type RootSuite struct {
@@ -16,11 +15,11 @@ type RootSuite struct {
 
 func (s *RootSuite) SetupTest() {
 	s.T().Helper()
-	s.ext = NewRoot(&mocks.Validator{})
+	s.ext = NewRoot()
 }
 
 func (s *RootSuite) TestNew() {
-	rootExt := NewRoot(&mocks.Validator{})
+	rootExt := NewRoot()
 
 	s.IsType(&root{}, rootExt)
 }
@@ -31,7 +30,7 @@ func (s *RootSuite) TestExecute() {
 		"test": "on",
 	}
 
-	actual, _ := s.ext.Execute(&config.Form{Name: "test"}, data)
+	actual, _ := s.ext.Execute(nil, &config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }
@@ -43,7 +42,7 @@ func (s *RootSuite) TestExecute_Email() {
 		"test":  "on",
 	}
 
-	actual, _ := s.ext.Execute(&config.Form{Name: "test"}, data)
+	actual, _ := s.ext.Execute(nil, &config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }

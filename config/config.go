@@ -10,6 +10,7 @@ const prefix = "buscarron"
 // New config
 func New() *Config {
 	env.SetPrefix(prefix)
+	spamlist := migrateSpam(env.Slice("spam.emails"), env.Slice("spam.localparts"), env.Slice("spam.hosts"), env.Slice("spamlist"))
 	cfg := &Config{
 		Homeserver:   env.String("homeserver", defaultConfig.Homeserver),
 		Login:        env.String("login", defaultConfig.Login),
@@ -27,11 +28,7 @@ func New() *Config {
 			Size:     env.Int("ban.size", defaultConfig.Ban.Size),
 			List:     env.Slice("ban.list"),
 		},
-		Spam: &Spam{
-			Hosts:      env.Slice("spam.hosts"),
-			Emails:     env.Slice("spam.emails"),
-			Localparts: env.Slice("spam.localparts"),
-		},
+		Spamlist: spamlist,
 		Postmark: &Postmark{
 			Token:   env.String("pm.token", ""),
 			From:    env.String("pm.from", ""),
@@ -56,6 +53,7 @@ func parseForms() map[string]*Form {
 			Name:      name,
 			Redirect:  env.String(name+".redirect", ""),
 			Ratelimit: env.String(name+".ratelimit", ""),
+			HasEmail:  env.Bool(name + ".hasemail"),
 			HasDomain: env.Bool(name + ".hasdomain"),
 			Confirmation: Confirmation{
 				Subject: env.String(name+".confirmation.subject", ""),
@@ -66,4 +64,42 @@ func parseForms() map[string]*Form {
 		forms[name] = form
 	}
 	return forms
+}
+
+func migrateSpam(emails, localparts, hosts, list []string) []string {
+	uniq := map[string]struct{}{}
+	for _, email := range emails {
+		if email == "" {
+			continue
+		}
+		uniq[email] = struct{}{}
+	}
+
+	for _, localpart := range localparts {
+		if localpart == "" {
+			continue
+		}
+		uniq[localpart+"@*"] = struct{}{}
+	}
+
+	for _, host := range hosts {
+		if host == "" {
+			continue
+		}
+		uniq["*@"+host] = struct{}{}
+	}
+
+	for _, item := range list {
+		if item == "" {
+			continue
+		}
+		uniq[item] = struct{}{}
+	}
+
+	spamlist := make([]string, 0, len(uniq))
+	for item := range uniq {
+		spamlist = append(spamlist, item)
+	}
+
+	return spamlist
 }

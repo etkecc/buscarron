@@ -14,7 +14,7 @@ import (
 
 type EtkeccSuite struct {
 	suite.Suite
-	v           *mocks.NetworkValidator
+	v           *mocks.Validator
 	ext         *Etkecc
 	save        bool
 	byos        map[string]string
@@ -25,8 +25,8 @@ type EtkeccSuite struct {
 
 func (s *EtkeccSuite) SetupTest() {
 	s.T().Helper()
-	s.v = &mocks.NetworkValidator{}
-	s.ext = New(s.v, nil)
+	s.v = &mocks.Validator{}
+	s.ext = New(nil)
 	s.ext.test = true
 	s.save = false
 
@@ -168,7 +168,7 @@ func (s *EtkeccSuite) rts(r io.Reader) string {
 }
 
 func (s *EtkeccSuite) TestNew() {
-	etkeccExt := New(s.v, nil)
+	etkeccExt := New(nil)
 
 	s.IsType(&Etkecc{}, etkeccExt)
 }
@@ -192,7 +192,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkey)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -218,7 +218,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkey)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -245,7 +245,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
 	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
 	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -271,7 +271,7 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
 	s.v.On("A", "higenjitsuteki.etke.host").Return(true).Once()
 	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "turnkey"}, s.turnkeyFull)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -298,7 +298,7 @@ func (s *EtkeccSuite) TestExecute_Byos() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byos)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -324,7 +324,7 @@ func (s *EtkeccSuite) TestExecute_Byos_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byos)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -351,7 +351,7 @@ func (s *EtkeccSuite) TestExecute_Byos_Full() {
 	s.v.On("CNAME", "example.com").Return(false).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byosFull)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)
@@ -377,7 +377,7 @@ func (s *EtkeccSuite) TestExecute_Byos_Full_A() {
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 
-	actualQuestions, files := s.ext.Execute(&config.Form{Name: "byos"}, s.byosFull)
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
 	actualOnboardingHTML := s.rts(files[2].Content)

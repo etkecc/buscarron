@@ -3,6 +3,7 @@
 ### Features :sparkles:
 
 * Advanced email validation, using using actual connection to the sender's SMTP address
+* Email spamlist with wildcards support
 * Permanent ban list, based on IP hashes / IDs
 
 ### Misc :zzz:

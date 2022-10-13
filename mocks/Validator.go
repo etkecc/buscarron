@@ -37,13 +37,13 @@ func (_m *Validator) CNAME(_a0 string) bool {
 	return r0
 }
 
-// Domain provides a mock function with given fields: _a0, _a1
-func (_m *Validator) Domain(_a0 string, _a1 bool) bool {
-	ret := _m.Called(_a0, _a1)
+// Domain provides a mock function with given fields: _a0
+func (_m *Validator) Domain(_a0 string) bool {
+	ret := _m.Called(_a0)
 
 	var r0 bool
-	if rf, ok := ret.Get(0).(func(string, bool) bool); ok {
-		r0 = rf(_a0, _a1)
+	if rf, ok := ret.Get(0).(func(string) bool); ok {
+		r0 = rf(_a0)
 	} else {
 		r0 = ret.Get(0).(bool)
 	}

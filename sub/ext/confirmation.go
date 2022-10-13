@@ -5,8 +5,10 @@ import (
 	"text/template"
 
 	"github.com/mattevans/postmark-go"
-	"gitlab.com/etke.cc/buscarron/config"
 	"maunium.net/go/mautrix"
+
+	"gitlab.com/etke.cc/buscarron/config"
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
 type confirmation struct {
@@ -20,7 +22,7 @@ func NewConfirmation(sender EmailSender) *confirmation {
 
 // Execute extension
 // nolint:unparam // interface constraints
-func (e *confirmation) Execute(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	if e.s == nil {
 		return "", []*mautrix.ReqUploadMedia{}
 	}

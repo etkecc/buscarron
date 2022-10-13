@@ -22,8 +22,8 @@ type Config struct {
 	Port string
 	// Forms map
 	Forms map[string]*Form
-	// Spam config
-	Spam *Spam
+	// Spamlist with wildcards
+	Spamlist []string
 	// Ban config
 	Ban *Ban
 
@@ -46,13 +46,6 @@ type DB struct {
 	DSN string
 	// Dialect of the db, allowed values: postgres, sqlite3
 	Dialect string
-}
-
-// Spam config
-type Spam struct {
-	Hosts      []string
-	Emails     []string
-	Localparts []string
 }
 
 // Ban config
@@ -86,8 +79,10 @@ type Form struct {
 	RoomID id.RoomID
 	// Ratelimit config
 	Ratelimit string
-	// HasDomain if form has "domain" field
+	// HasDomain enforces "domain" field check
 	HasDomain bool
+	// HasEmail enforces "email" field check
+	HasEmail bool
 	// Confirmation email config
 	Confirmation Confirmation
 	// Extensions list
