@@ -23,6 +23,7 @@ matrix_prometheus_node_exporter_container_extra_arguments:
 matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
+matrix_vars_yml_snapshotting_enabled: no
 matrix_mailer_enabled: no
 
 # synapse
@@ -161,9 +162,6 @@ matrix_prometheus_node_exporter_enabled: yes
 matrix_prometheus_node_exporter_process_extra_arguments: []
 matrix_grafana_default_admin_user: test
 matrix_grafana_default_admin_password: TODO64
-
-# synapse-admin https://matrix.example.com/synapse-admin
-matrix_synapse_admin_enabled: yes
 
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes

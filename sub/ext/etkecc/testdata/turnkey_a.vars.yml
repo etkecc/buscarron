@@ -23,6 +23,7 @@ matrix_prometheus_node_exporter_container_extra_arguments:
 matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
+matrix_vars_yml_snapshotting_enabled: no
 matrix_mailer_enabled: no
 matrix_client_element_enabled: no
 
@@ -76,6 +77,3 @@ matrix_postgres_backup_schedule: '@daily'
 matrix_postgres_backup_keep_days: 7
 matrix_postgres_backup_keep_weeks: 0
 matrix_postgres_backup_keep_months: 0
-
-# synapse-admin https://matrix.example.com/synapse-admin
-matrix_synapse_admin_enabled: yes

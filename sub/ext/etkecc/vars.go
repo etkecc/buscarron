@@ -99,6 +99,7 @@ func (o *order) generateVarsHomeserver() string {
 	txt.WriteString("matrix_domain: " + o.get("domain") + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("matrix_ssl_lets_encrypt_support_email: " + o.get("email") + "\n")
+	txt.WriteString("matrix_vars_yml_snapshotting_enabled: no\n")
 	txt.WriteString("matrix_mailer_enabled: no\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
@@ -259,8 +260,11 @@ func (o *order) generateVarsSynapseCredentials() string {
 }
 
 func (o *order) generateVarsSynapseAdmin() string {
-	var txt strings.Builder
+	if !o.has("synapse-admin") {
+		return ""
+	}
 
+	var txt strings.Builder
 	txt.WriteString("\n# synapse-admin https://matrix." + o.get("domain") + "/synapse-admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
 

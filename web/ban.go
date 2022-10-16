@@ -2,6 +2,7 @@ package web
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"git.sr.ht/~xn/cache/v2"
@@ -17,11 +18,13 @@ var donotban = []string{"/favicon.ico", "/robots.txt"}
 
 // NewBanHanlder creates banhandler
 func NewBanHanlder(duration int, size int, banlist []string, loglevel string) *banhandler {
+	log := logger.New("ban.", loglevel)
 	store := cache.NewTLRU[bool](size, time.Duration(duration)*time.Hour, false)
 	for _, id := range banlist {
+		id = strings.TrimSpace(id)
+		log.Info("preemptive banning %s...", id)
 		store.Set(id, true)
 	}
-	log := logger.New("ban.", loglevel)
 
 	return &banhandler{store, log}
 }
@@ -51,8 +54,9 @@ func (b *banhandler) Handle(handler http.Handler) http.HandlerFunc {
 		if !ok {
 			b.log.Error("cannot convert ctxID to string: %v", ctxIDv)
 		}
-		if b.store.Get(id) {
-			b.log.Debug("%s %s %v (banned) request attempt", r.Method, r.URL.String(), id)
+		id = strings.TrimSpace(id)
+		if b.store.Has(id) {
+			b.log.Info("%s %s %v (banned) request attempt", r.Method, r.URL.String(), id)
 			http.Error(w, "", http.StatusTooManyRequests)
 			return
 		}

@@ -31,11 +31,12 @@ func (s *EtkeccSuite) SetupTest() {
 	s.save = false
 
 	s.byos = map[string]string{
-		"homeserver": "synapse",
-		"domain":     "https://matrix.ExAmPlE.com ",
-		"username":   " tEsT ",
-		"email":      "tEsT@TEST.cOm",
-		"type":       "byos",
+		"homeserver":    "synapse",
+		"domain":        "https://matrix.ExAmPlE.com ",
+		"username":      " tEsT ",
+		"email":         "tEsT@TEST.cOm",
+		"type":          "byos",
+		"synapse-admin": "on",
 	}
 	s.turnkey = map[string]string{
 		"homeserver": "synapse",
