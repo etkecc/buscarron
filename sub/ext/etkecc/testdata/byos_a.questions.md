@@ -6,7 +6,7 @@ We see that you have something on your base domain. In that case, you should add
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
 
-Server: please, create a VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
+Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
 Add our SSH keys (https://etke.cc/ssh.key) to your server, send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
 ```
