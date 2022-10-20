@@ -1,7 +1,6 @@
 # links
 
 * homeserver: https://matrix.example.com
-* synapse-admin: https://matrix.example.com/synapse-admin
 * etherpad admin: https://dimension.example.com/etherpad/admin
 * buscarron: https://buscarron.example.com
 * cinny: https://cinny.example.com

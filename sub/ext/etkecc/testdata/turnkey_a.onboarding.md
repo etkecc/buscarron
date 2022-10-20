@@ -1,7 +1,7 @@
 # links
 
+* web: https://app.etke.host
 * homeserver: https://matrix.example.com
-* synapse-admin: https://matrix.example.com/synapse-admin
 
 # credentials
 

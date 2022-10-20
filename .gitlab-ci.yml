@@ -26,5 +26,3 @@ docker:
     - apk --no-cache add make
   script:
     - make login docker
-  tags:
-    - docker

@@ -41,11 +41,17 @@ func (o *order) generateOnboardingLinks() string {
 	var txt strings.Builder
 
 	txt.WriteString("# " + o.t("links") + "\n\n")
+	if !o.has("element-web") {
+		txt.WriteString("* web: https://app.etke.host\n")
+	}
 	txt.WriteString("* homeserver: https://matrix." + o.get("domain") + "\n")
-	txt.WriteString("* synapse-admin: https://matrix." + o.get("domain") + "/synapse-admin\n")
+	if o.has("synapse-admin") {
+		txt.WriteString("* synapse-admin: https://matrix." + o.get("domain") + "/synapse-admin\n")
+	}
 	if o.has("etherpad") {
 		txt.WriteString("* etherpad admin: https://dimension." + o.get("domain") + "/etherpad/admin\n")
 	}
+
 	items := []string{}
 	for item := range dnsmap {
 		if o.has(item) {

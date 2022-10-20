@@ -1,7 +1,6 @@
 # ссылки
 
 * homeserver: https://matrix.higenjitsuteki.etke.host
-* synapse-admin: https://matrix.higenjitsuteki.etke.host/synapse-admin
 * etherpad admin: https://dimension.higenjitsuteki.etke.host/etherpad/admin
 * buscarron: https://buscarron.higenjitsuteki.etke.host
 * cinny: https://cinny.higenjitsuteki.etke.host
