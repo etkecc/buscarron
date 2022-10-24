@@ -6,6 +6,10 @@
 * Email spamlist with wildcards support
 * Permanent ban list, based on IP hashes / IDs
 
+### Breaking changes :warning:
+
+* ARMv7 (arm32/aarch32) architecture is deprecated
+
 ### Misc :zzz:
 
 * Updated deps

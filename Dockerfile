@@ -1,21 +1,16 @@
-FROM registry.gitlab.com/etke.cc/base AS builder
+FROM registry.gitlab.com/etke.cc/base/build AS builder
 
 WORKDIR /buscarron
 COPY . .
 RUN make build
 
-FROM alpine:latest
+FROM registry.gitlab.com/etke.cc/base/app
 
 ENV BUSCARRON_DB_DSN /data/buscarron.db
 
-RUN apk --no-cache add ca-certificates tzdata olm && update-ca-certificates && \
-    adduser -D -g '' buscarron && \
-    mkdir /data && chown -R buscarron /data
+COPY --from=builder /buscarron/buscarron /bin/buscarron
 
-COPY --from=builder /buscarron/buscarron /opt/buscarron/buscarron
+USER app
 
-WORKDIR /opt/buscarron
-USER buscarron
-
-ENTRYPOINT ["/opt/buscarron/buscarron"]
+ENTRYPOINT ["/bin/buscarron"]
 
