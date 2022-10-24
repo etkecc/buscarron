@@ -1,6 +1,6 @@
 # links
 
-* web: https://app.etke.host
+* web: https://app.etke.cc
 * homeserver: https://matrix.example.com
 
 # credentials

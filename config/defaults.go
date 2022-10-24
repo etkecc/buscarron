@@ -8,8 +8,7 @@ var defaultConfig = &Config{
 		Dialect: "sqlite3",
 	},
 	Ban: &Ban{
-		Duration: 24,
-		Size:     1000000,
+		Size: 1000000,
 	},
 	SMTP: &SMTP{
 		From: "test@ilydeen.org", // used only for SMTP validation

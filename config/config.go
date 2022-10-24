@@ -24,9 +24,8 @@ func New() *Config {
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),
 		},
 		Ban: &Ban{
-			Duration: env.Int("ban.duration", defaultConfig.Ban.Duration),
-			Size:     env.Int("ban.size", defaultConfig.Ban.Size),
-			List:     env.Slice("ban.list"),
+			Size: env.Int("ban.size", defaultConfig.Ban.Size),
+			List: env.Slice("ban.list"),
 		},
 		Spamlist: spamlist,
 		Postmark: &Postmark{

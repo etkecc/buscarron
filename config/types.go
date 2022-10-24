@@ -50,9 +50,8 @@ type DB struct {
 
 // Ban config
 type Ban struct {
-	Duration int
-	Size     int
-	List     []string
+	Size int
+	List []string
 }
 
 // Postmark config

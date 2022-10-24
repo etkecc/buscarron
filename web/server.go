@@ -36,10 +36,10 @@ type Server struct {
 }
 
 // New web server
-func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bd int, bs int, bl []string) *Server {
+func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
-	bh := NewBanHanlder(bd, bs, bl, loglevel)
+	bh := NewBanHanlder(bs, bl, loglevel)
 	iph := &iphasher{}
 	ctxm := &ctxMiddleware{iph}
 	srv := &Server{

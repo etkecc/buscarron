@@ -64,7 +64,6 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal("@test:example.com", config.Login)
 	s.Equal("password", config.Password)
 	s.ElementsMatch([]string{"ima@spammer.com", "definetelynotspam@gmail.com", "*@spamer.com", "*@unitedspammers.org", "spam@*"}, config.Spamlist)
-	s.Equal(1, config.Ban.Duration)
 	s.Equal(1000000, config.Ban.Size)
 	s.Equal("test1", form1.Name)
 	s.Equal("https://example.org", form1.Redirect)

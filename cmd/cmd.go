@@ -118,7 +118,7 @@ func initSrv(cfg *config.Config) {
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, cfg.LogLevel)
 
 	srvv := validator.New(nil, validator.Enforce{}, "", log)
-	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, srvv, cfg.Ban.Duration, cfg.Ban.Size, cfg.Ban.List)
+	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug("web server has been created")
 }

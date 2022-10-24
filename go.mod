@@ -3,8 +3,8 @@ module gitlab.com/etke.cc/buscarron
 go 1.18
 
 require (
-	git.sr.ht/~xn/cache/v2 v2.0.0
 	github.com/getsentry/sentry-go v0.13.0
+	github.com/hashicorp/golang-lru v0.5.4
 	github.com/lib/pq v1.10.7
 	github.com/mattevans/postmark-go v0.1.5
 	github.com/mattn/go-sqlite3 v1.14.15
@@ -26,7 +26,6 @@ require (
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
-	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.16 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect

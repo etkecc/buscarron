@@ -43,7 +43,6 @@ env vars
 * **BUSCARRON_DB_DSN** - database connection string
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
 * **BUSCARRON_SPAMLIST** - list of spam emails with wildcards, eg: `export BUSCARRON_SPAMLIST=*@spammer.com annoy@gmail.com spammer@*`
-* **BUSCARRON_BAN_DURATION** - duration of automatic ban of spammers, scanners and bots in hours
 * **BUSCARRON_BAN_SIZE** - jail size of banned users
 * **BUSCARRON_BAN_LIST** - list of IP hashes / IDs for permanent ban
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token

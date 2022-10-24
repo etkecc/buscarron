@@ -42,7 +42,7 @@ func (o *order) generateOnboardingLinks() string {
 
 	txt.WriteString("# " + o.t("links") + "\n\n")
 	if !o.has("element-web") {
-		txt.WriteString("* web: https://app.etke.host\n")
+		txt.WriteString("* web: https://app.etke.cc\n")
 	}
 	txt.WriteString("* homeserver: https://matrix." + o.get("domain") + "\n")
 	if o.has("synapse-admin") {
