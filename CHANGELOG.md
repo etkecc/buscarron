@@ -1,4 +1,4 @@
-# Buscarron v1.x.x (in development)
+# Buscarron v1.3.0 (2022-10-25)
 
 ### Features :sparkles:
 
