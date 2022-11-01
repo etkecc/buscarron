@@ -26,6 +26,12 @@ matrix_ssl_lets_encrypt_support_email: test@test.com
 matrix_vars_yml_snapshotting_enabled: no
 matrix_mailer_enabled: no
 
+# initial users
+matrix_user_creator_users_additional:
+ - username: test
+   initial_password: TODO64
+   initial_type: admin
+
 # synapse
 matrix_homeserver_implementation: synapse
 matrix_synapse_presence_enabled: yes
@@ -126,7 +132,6 @@ matrix_dimension_enabled: yes
 matrix_dimension_access_token: TODO # password: TODO64
 matrix_dimension_admins:
   - "{{ matrix_admin }}"# TODO
-# matrix-synapse-register-user dimension TODO64 0
 # curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO64", "type": "m.login.password"}' 'https://matrix.example.com/_matrix/client/r0/login'
 
 # element https://element.example.com
@@ -168,26 +173,22 @@ matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_login: buscarron
 matrix_bot_buscarron_password: TODO64
 matrix_bot_buscarron_forms: [] # TODO
-# TODO: matrix-synapse-register-user buscarron TODO64 0
 
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO64
 matrix_bot_honoroit_roomid: TODO
-# TODO: matrix-synapse-register-user honoroit TODO64 0
 
 # bots::postmoogle
 matrix_bot_postmoogle_enabled: yes
 matrix_bot_postmoogle_password: TODO64
 matrix_bot_postmoogle_data_secret: TODO32
-# TODO: matrix-synapse-register-user postmoogle TODO64 0
 
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
 matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder
 matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
-# TODO: matrix-synapse-register-user reminder TODO64 0
 
 # bridges::discord
 matrix_mautrix_discord_enabled: yes

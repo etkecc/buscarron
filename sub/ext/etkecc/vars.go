@@ -12,6 +12,7 @@ func (o *order) generateVars() {
 	// base
 	txt.WriteString(o.generateVarsAll())
 	txt.WriteString(o.generateVarsHomeserver())
+	txt.WriteString(o.generateVarsUsers())
 	txt.WriteString(o.generateVarsSynapse())
 	txt.WriteString(o.generateVarsNginx())
 
@@ -104,6 +105,18 @@ func (o *order) generateVarsHomeserver() string {
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}
+
+	return txt.String()
+}
+
+func (o *order) generateVarsUsers() string {
+	var txt strings.Builder
+
+	txt.WriteString("\n# initial users\n")
+	txt.WriteString("matrix_user_creator_users_additional:\n")
+	txt.WriteString(" - username: " + o.get("username") + "\n")
+	txt.WriteString("   initial_password: " + o.password("matrix") + "\n")
+	txt.WriteString("   initial_type: admin\n")
 
 	return txt.String()
 }
@@ -323,7 +336,6 @@ func (o *order) generateVarsDimension() string {
 	txt.WriteString("matrix_dimension_admins:\n")
 	txt.WriteString("  - \"{{ matrix_admin }}\"")
 	txt.WriteString("# TODO\n")
-	txt.WriteString("# matrix-synapse-register-user dimension " + password + " 0\n")
 	txt.WriteString("# curl -X POST -H 'Content-Type: application/json' -d '{\"identifier\": { \"type\": \"m.id.user\", \"user\": \"dimension\" },\"password\": \"" + password + "\", \"type\": \"m.login.password\"}' 'https://matrix." + o.get("domain") + "/_matrix/client/r0/login'\n")
 
 	return txt.String()
@@ -413,14 +425,12 @@ func (o *order) generateVarsBuscarron() string {
 		return ""
 	}
 	var txt strings.Builder
-	password := o.pwgen()
 
 	txt.WriteString("\n# bots::buscarron\n")
 	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
 	txt.WriteString("matrix_bot_buscarron_login: buscarron\n")
-	txt.WriteString("matrix_bot_buscarron_password: " + password + "\n")
+	txt.WriteString("matrix_bot_buscarron_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_buscarron_forms: [] # TODO\n")
-	txt.WriteString("# TODO: matrix-synapse-register-user buscarron " + password + " 0\n")
 
 	return txt.String()
 }
@@ -431,12 +441,10 @@ func (o *order) generateVarsHonoroit() string {
 	}
 	var txt strings.Builder
 
-	pass := o.pwgen()
 	txt.WriteString("\n# bots::honoroit\n")
 	txt.WriteString("matrix_bot_honoroit_enabled: yes\n")
-	txt.WriteString("matrix_bot_honoroit_password: " + pass + "\n")
+	txt.WriteString("matrix_bot_honoroit_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_honoroit_roomid: TODO\n")
-	txt.WriteString("# TODO: matrix-synapse-register-user honoroit " + pass + " 0\n")
 
 	return txt.String()
 }
@@ -446,13 +454,11 @@ func (o *order) generateVarsPostmoogle() string {
 		return ""
 	}
 	var txt strings.Builder
-	password := o.pwgen()
 
 	txt.WriteString("\n# bots::postmoogle\n")
 	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
-	txt.WriteString("matrix_bot_postmoogle_password: " + password + "\n")
+	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
-	txt.WriteString("# TODO: matrix-synapse-register-user postmoogle " + password + " 0\n")
 
 	return txt.String()
 }
@@ -462,14 +468,12 @@ func (o *order) generateVarsReminder() string {
 		return ""
 	}
 	var txt strings.Builder
-	password := o.pwgen()
 
 	txt.WriteString("\n# bots::reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_enabled: yes\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: TODO\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder\n")
-	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + password + "\n")
-	txt.WriteString("# TODO: matrix-synapse-register-user reminder " + password + " 0\n")
+	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + o.pwgen() + "\n")
 
 	return txt.String()
 }

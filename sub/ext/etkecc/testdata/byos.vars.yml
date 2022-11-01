@@ -11,6 +11,12 @@ matrix_vars_yml_snapshotting_enabled: no
 matrix_mailer_enabled: no
 matrix_client_element_enabled: no
 
+# initial users
+matrix_user_creator_users_additional:
+ - username: test
+   initial_password: TODO64
+   initial_type: admin
+
 # synapse
 matrix_homeserver_implementation: synapse
 matrix_synapse_presence_enabled: yes
