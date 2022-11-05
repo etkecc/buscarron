@@ -12,8 +12,6 @@ SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter 
 
 Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
 
-Etherpad (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es handelt sich um einen selbst gehosteten kollaborativen Editor, der nur in Verbindung mit Dimension verwendet werden kann (auch dazu wurde eine Frage gestellt). Denken Sie daran, dass Sie mit dem Standard-Integrationsmanager ohnehin ein Etherpad erhalten, das jedoch von Element Inc. gehostet wird (Entwickler der Element-Clientanwendungen).
-
 Dimension (nur mit Abonnement oder Komplettpaket): Sind Sie sicher, dass Sie das wollen? Es ist ein selbst gehosteter Integrationsmanager. Sie erhalten standardmäßig einen Integrationsmanager mit jeder Element-Client-Anwendung. Bitte prüfen Sie https://github.com/turt2live/matrix-dimension bevor Sie sich entscheiden.
 
 Website (nur mit Abonnement oder Komplettpaket): Um eine statische Website einzurichten, müssen Sie Ihre Basisdomäne (den @ DNS eintrag) auf die IP-Adresse des Matrix-Servers verweisen, und der Quellcode der Website muss in einem öffentlichen git repo verfügbar sein. Sind Sie sicher, dass Sie das wollen? Wenn ja, geben Sie bitte die URL des Website-Repositorys, den Befehl (-s) zum Erstellen der Website und den Ordner an, in dem die Build-Distribution gespeichert ist (normalerweise public oder dist).
@@ -45,6 +43,7 @@ buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com
 dimension	CNAME record	matrix.example.com
 element	CNAME record	matrix.example.com
+etherpad	CNAME record	matrix.example.com
 hydrogen	CNAME record	matrix.example.com
 jitsi	CNAME record	matrix.example.com
 ntfy	CNAME record	matrix.example.com

@@ -61,9 +61,6 @@ func (o *order) generateQuestionsServices() string {
 	if o.has("stats") && o.get("type") != "turnkey" {
 		txt.WriteString("Prometheus+Grafana: " + o.t("q_stats") + "\n\n")
 	}
-	if o.has("etherpad") && o.get("dimension") == "auto" {
-		txt.WriteString("Etherpad (" + o.t("only_with_subscription") + "): " + o.t("q_etherpad") + "\n\n")
-	}
 	if o.has("dimension") {
 		txt.WriteString("Dimension (" + o.t("only_with_subscription") + "): " + o.t("q_dimension") + "\n\n")
 	}

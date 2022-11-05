@@ -18,5 +18,6 @@ ___
 
 DNS - please, add the following entries:
 matrix	A record	server IP
+etherpad	CNAME record	matrix.example.com
 ```
 

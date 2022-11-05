@@ -49,12 +49,19 @@ func (o *order) generateOnboardingLinks() string {
 		txt.WriteString("* synapse-admin: https://matrix." + o.get("domain") + "/synapse-admin\n")
 	}
 	if o.has("etherpad") {
-		txt.WriteString("* etherpad admin: https://dimension." + o.get("domain") + "/etherpad/admin\n")
+		url := "https://etherpad." + o.get("domain") + "/admin"
+		if o.has("dimension") {
+			url = "https://dimension." + o.get("domain") + "/etherpad/admin"
+		}
+		txt.WriteString("* etherpad admin: " + url + "\n")
 	}
 
 	items := []string{}
 	for item := range dnsmap {
 		if o.has(item) {
+			if item == "etherpad" && o.has("dimension") {
+				continue
+			}
 			items = append(items, item)
 		}
 	}
@@ -173,7 +180,7 @@ func (o *order) generateOnboardingPayment() string {
 }
 
 func (o *order) generateOnboardingAfter() string {
-	has := o.has("etherpad") || o.has("honoroit")
+	has := (o.has("etherpad") && o.has("dimension")) || o.has("honoroit")
 	if !has {
 		return ""
 	}
@@ -188,7 +195,7 @@ func (o *order) generateOnboardingAfter() string {
 }
 
 func (o *order) generateOnboardingAfterEtherpad() string {
-	if !o.has("etherpad") {
+	if !(o.has("etherpad") && o.has("dimension")) {
 		return ""
 	}
 	var txt strings.Builder

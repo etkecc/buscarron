@@ -23,7 +23,6 @@ matrix_prometheus_node_exporter_container_extra_arguments:
 matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
-matrix_vars_yml_snapshotting_enabled: no
 matrix_mailer_enabled: no
 
 # initial users
@@ -140,6 +139,7 @@ matrix_client_element_default_theme: dark
 
 # etherpad
 matrix_etherpad_enabled: yes
+matrix_etherpad_mode: dimension
 matrix_etherpad_admin_username: test
 matrix_etherpad_admin_password: TODO64
 

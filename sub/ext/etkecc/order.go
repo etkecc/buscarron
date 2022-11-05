@@ -102,10 +102,6 @@ func (o *order) preprocess() {
 		o.data["lang"] = i18nDefault
 	}
 
-	if o.has("etherpad") {
-		o.data["dimension"] = "auto"
-	}
-
 	o.password("matrix")
 }
 

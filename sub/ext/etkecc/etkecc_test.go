@@ -37,6 +37,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"email":         "tEsT@TEST.cOm",
 		"type":          "byos",
 		"synapse-admin": "on",
+		"etherpad":      "on",
 	}
 	s.turnkey = map[string]string{
 		"homeserver": "synapse",
