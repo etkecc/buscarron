@@ -61,7 +61,8 @@ func (o *order) generateDNSInstructions() string {
 
 func (o *order) generateDNSCommand() string {
 	req := &bulkRecordsRequest{Records: []dnsRecord{}}
-	subdomain := strings.Split(o.get("domain"), ".")[0]
+	domain := o.get("domain")
+	subdomain := strings.Split(domain, ".")[0]
 	suffix := "." + subdomain
 
 	req.
@@ -71,9 +72,9 @@ func (o *order) generateDNSCommand() string {
 		add(subdomain, "MX", "20 aspmx2.migadu.com.").
 		add("autoconfig"+suffix, "CNAME", "autoconfig.migadu.com.").
 		add("_autodiscover._tcp"+suffix, "SRV", "0 1 443 autodiscover.migadu.com").
-		add("key1._domainkey"+suffix, "CNAME", "key1"+suffix+"._domainkey.migadu.com.").
-		add("key2._domainkey"+suffix, "CNAME", "key2"+suffix+"._domainkey.migadu.com.").
-		add("key3._domainkey"+suffix, "CNAME", "key3"+suffix+"._domainkey.migadu.com.").
+		add("key1._domainkey"+suffix, "CNAME", "key1."+domain+"._domainkey.migadu.com.").
+		add("key2._domainkey"+suffix, "CNAME", "key2."+domain+"._domainkey.migadu.com.").
+		add("key3._domainkey"+suffix, "CNAME", "key3."+domain+"._domainkey.migadu.com.").
 		add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;").
 		add(subdomain, "TXT", "v=spf1 include:spf.migadu.com -all")
 

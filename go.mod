@@ -4,19 +4,19 @@ go 1.18
 
 require (
 	github.com/getsentry/sentry-go v0.13.0
-	github.com/hashicorp/golang-lru v0.5.4
+	github.com/hashicorp/golang-lru/v2 v2.0.1
 	github.com/lib/pq v1.10.7
 	github.com/mattevans/postmark-go v0.1.5
-	github.com/mattn/go-sqlite3 v1.14.15
+	github.com/mattn/go-sqlite3 v1.14.16
 	github.com/microcosm-cc/bluemonday v1.0.20
-	github.com/stretchr/testify v1.8.0
+	github.com/stretchr/testify v1.8.1
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator v1.0.3
-	gitlab.com/etke.cc/linkpearl v0.0.0-20221016165514-11958fcb76ab
+	gitlab.com/etke.cc/linkpearl v0.0.0-20221116205701-65547c5608e6
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
-	maunium.net/go/mautrix v0.12.2
+	maunium.net/go/mautrix v0.12.3
 )
 
 require (
@@ -31,16 +31,16 @@ require (
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.28.0 // indirect
-	github.com/stretchr/objx v0.4.0 // indirect
+	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/tidwall/gjson v1.14.3 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tidwall/sjson v1.2.5 // indirect
-	github.com/yuin/goldmark v1.5.2 // indirect
+	github.com/yuin/goldmark v1.5.3 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.0.0 // indirect
-	golang.org/x/crypto v0.0.0-20221012134737-56aed061732a // indirect
-	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
-	golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43 // indirect
+	golang.org/x/crypto v0.3.0 // indirect
+	golang.org/x/net v0.2.0 // indirect
+	golang.org/x/sys v0.2.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.3.2 // indirect
 )

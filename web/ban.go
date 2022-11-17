@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"strings"
 
-	lru "github.com/hashicorp/golang-lru"
+	lru "github.com/hashicorp/golang-lru/v2"
 	"gitlab.com/etke.cc/go/logger"
 )
 
 type banhandler struct {
-	store *lru.Cache
+	store *lru.Cache[string, struct{}]
 	log   *logger.Logger
 }
 
@@ -18,7 +18,7 @@ var donotban = []string{"/favicon.ico", "/robots.txt"}
 // NewBanHanlder creates banhandler
 func NewBanHanlder(size int, banlist []string, loglevel string) *banhandler {
 	log := logger.New("ban.", loglevel)
-	store, err := lru.New(size)
+	store, err := lru.New[string, struct{}](size)
 	if err != nil {
 		log.Error("cannot init cache: %v", err)
 	}
