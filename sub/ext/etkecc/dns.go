@@ -86,12 +86,12 @@ func (o *order) generateDNSCommand() string {
 	}
 	sort.Strings(items)
 	for _, key := range items {
-		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.get("domain"))
+		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.get("domain")+".")
 	}
 
 	if o.has("email2matrix") || o.has("postmoogle") {
 		req.
-			add("matrix"+suffix, "MX", "0 matrix."+o.get("domain")).
+			add("matrix"+suffix, "MX", "0 matrix."+o.get("domain")+".").
 			add("matrix"+suffix, "TXT", "v=spf1 ip4:$HETZNER_SERVER_IP -all").
 			add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;")
 	}
