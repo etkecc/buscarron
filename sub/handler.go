@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"html/template"
+	"net"
 	"net/http"
 	"strings"
 
@@ -32,7 +33,7 @@ type EmailSender interface {
 type Validator interface {
 	Domain(string) bool
 	DomainString(string) bool
-	Email(string) bool
+	Email(string, ...net.IP) bool
 	A(string) bool
 	CNAME(string) bool
 	MX(string) bool

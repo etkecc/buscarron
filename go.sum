@@ -1,3 +1,5 @@
+blitiri.com.ar/go/spf v1.5.1 h1:CWUEasc44OrANJD8CzceRnRn1Jv0LttY68cYym2/pbE=
+blitiri.com.ar/go/spf v1.5.1/go.mod h1:E71N92TfL4+Yyd5lpKuE9CAF2pd4JrUq1xQfkTxoNdk=
 github.com/DATA-DOG/go-sqlmock v1.5.0 h1:Shsta01QNfFxHCfpW6YH2STWB0MudeXXEWMr20OEh60=
 github.com/aymerick/douceur v0.2.0 h1:Mv+mAeH1Q+n9Fr+oyamOlAkUNPWPlA8PPGR0QAaYuPk=
 github.com/aymerick/douceur v0.2.0/go.mod h1:wlT5vV2O3h55X9m7iVYN0TBM0NH/MmbLnd30/FjWUq4=
@@ -71,8 +73,8 @@ gitlab.com/etke.cc/go/secgen v1.1.1 h1:RmKOki725HIhWJHzPtAc9X4YvBneczndchpMgoDkE
 gitlab.com/etke.cc/go/secgen v1.1.1/go.mod h1:3pJqRGeWApzx7qXjABqz2o2SMCNpKSZao/gXVdasqE8=
 gitlab.com/etke.cc/go/trysmtp v1.0.0 h1:f/7gSmzohKniVeLSLevI+ZsySYcPUGkT9cRlOTwjOr8=
 gitlab.com/etke.cc/go/trysmtp v1.0.0/go.mod h1:KqRuIB2IPElEEbAxXmFyKtm7S5YiuEb4lxwWthccqyE=
-gitlab.com/etke.cc/go/validator v1.0.3 h1:qkMskwtA3Uiv1q7HTlNZaaZcIJTO4mp2p0KZAl53Xmo=
-gitlab.com/etke.cc/go/validator v1.0.3/go.mod h1:3vdssRG4LwgdTr9IHz9MjGSEO+3/FO9hXPGMuSeweJ8=
+gitlab.com/etke.cc/go/validator v1.0.6 h1:w0Muxf9Pqw7xvF7NaaswE6d7r9U3nB2t2l5PnFMrecQ=
+gitlab.com/etke.cc/go/validator v1.0.6/go.mod h1:Id0SxRj0J3IPhiKlj0w1plxVLZfHlkwipn7HfRZsDts=
 gitlab.com/etke.cc/linkpearl v0.0.0-20221116205701-65547c5608e6 h1:+HDT2/bx3Hug++aeDE/PaoRRcnKdYzEm6i2RlOAzPXo=
 gitlab.com/etke.cc/linkpearl v0.0.0-20221116205701-65547c5608e6/go.mod h1:Dgtu0qvymNjjky4Bu5WC8+iSohcb5xZ9CtkD3ezDqIA=
 golang.org/x/crypto v0.3.0 h1:a06MkbcxBrEFc0w0QIZWXrH/9cCX6KJyWbBOIwAn+7A=

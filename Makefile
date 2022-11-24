@@ -19,7 +19,6 @@ update:
 	go mod verify
 
 mock:
-	-@rm -rf mocks
 	@mockery --all
 
 # run linter
@@ -32,7 +31,7 @@ lintfix:
 
 # run unit tests
 test:
-	@go test ${BUILDFLAGS} -coverprofile=cover.out ./...
+	@go test ${BUILDFLAGS} -coverpkg=$(shell echo $(go list ./... | grep -v mocks | tr '\n' ',')) -coverprofile=cover.out ./...
 	@go tool cover -func=cover.out
 	-@rm -f cover.out
 

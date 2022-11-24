@@ -1,7 +1,5 @@
 ### all:start
 ### all:end
-### allmonitoring:start
-### allmonitoring:end
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com

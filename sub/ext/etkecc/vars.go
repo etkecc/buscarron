@@ -69,27 +69,6 @@ func (o *order) generateVarsAll() string {
 	txt.WriteString("### all:start\n")
 	txt.WriteString("### all:end\n")
 
-	txt.WriteString("### allmonitoring:start\n")
-	if o.get("type") == "turnkey" || o.has("service-maintenance") || o.has("service-email") {
-		txt.WriteString("matrix_nginx_proxy_proxy_matrix_metrics_enabled: yes\n")
-		txt.WriteString("matrix_prometheus_node_exporter_metrics_proxying_enabled: yes\n")
-		txt.WriteString("matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_enabled: yes\n")
-		txt.WriteString("matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_username: " + o.pwgen() + "\n")
-		txt.WriteString("matrix_nginx_proxy_proxy_matrix_metrics_basic_auth_password: " + o.pwgen() + "\n")
-		txt.WriteString("matrix_prometheus_node_exporter_enabled: yes\n")
-		txt.WriteString("matrix_prometheus_node_exporter_process_extra_arguments:\n")
-		txt.WriteString("  - \"--collector.disable-defaults\"\n")
-		txt.WriteString("  - \"--collector.cpu\"\n")
-		txt.WriteString("  - \"--collector.filesystem\"\n")
-		txt.WriteString("  - \"--collector.meminfo\"\n")
-		txt.WriteString("  - \"--collector.systemd\"\n")
-		txt.WriteString("  - \"--collector.uname\"\n")
-		txt.WriteString("matrix_prometheus_node_exporter_container_extra_arguments:\n")
-		txt.WriteString("  - \"--security-opt apparmor=unconfined\"\n")
-		txt.WriteString("  - \"--mount type=bind,src=/var/run/dbus/system_bus_socket,dst=/var/run/dbus/system_bus_socket,ro\"\n")
-	}
-	txt.WriteString("### allmonitoring:end\n")
-
 	return txt.String()
 }
 
@@ -415,7 +394,8 @@ func (o *order) generateVarsStats() string {
 	txt.WriteString("matrix_prometheus_enabled: yes\n")
 	txt.WriteString("matrix_grafana_anonymous_access: no\n")
 	txt.WriteString("matrix_prometheus_node_exporter_enabled: yes\n")
-	txt.WriteString("matrix_prometheus_node_exporter_process_extra_arguments: []\n")
+	txt.WriteString("matrix_prometheus_node_exporter_process_extra_arguments:\n")
+	txt.WriteString("  - \"--collector.systemd\"\n")
 	txt.WriteString("matrix_grafana_default_admin_user: " + o.get("username") + "\n")
 	txt.WriteString("matrix_grafana_default_admin_password: " + o.password("grafana") + "\n")
 

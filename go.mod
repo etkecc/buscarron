@@ -13,13 +13,14 @@ require (
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.1.1
-	gitlab.com/etke.cc/go/validator v1.0.3
+	gitlab.com/etke.cc/go/validator v1.0.6
 	gitlab.com/etke.cc/linkpearl v0.0.0-20221116205701-65547c5608e6
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.12.3
 )
 
 require (
+	blitiri.com.ar/go/spf v1.5.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/google/go-cmp v0.5.8 // indirect
