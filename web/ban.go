@@ -42,6 +42,11 @@ func (b *banhandler) Ban(r *http.Request) {
 	id, ok := ctxIDv.(string)
 	if !ok {
 		b.log.Error("cannot convert ctxID to string: %v", ctxIDv)
+		return
+	}
+	if id == "" || id == "1" {
+		b.log.Error("hashed IP is empty")
+		return
 	}
 	b.store.Add(id, struct{}{})
 
