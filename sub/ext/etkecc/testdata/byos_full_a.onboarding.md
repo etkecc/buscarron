@@ -34,7 +34,7 @@
 * steam: @_steampuppet_bot:example.com
 * telegram: @telegrambot:example.com
 * twitter: @twitterbot:example.com
-* webhooks: @_webhook:example.com
+* webhooks: @hookshot:example.com
 * whatsapp: @whatsappbot:example.com
 
 > https://etke.cc/de/bridges - Authentifizierungsanweisungen

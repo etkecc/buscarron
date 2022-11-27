@@ -33,7 +33,7 @@
 * steam: @_steampuppet_bot:higenjitsuteki.etke.host
 * telegram: @telegrambot:higenjitsuteki.etke.host
 * twitter: @twitterbot:higenjitsuteki.etke.host
-* webhooks: @_webhook:higenjitsuteki.etke.host
+* webhooks: @hookshot:higenjitsuteki.etke.host
 * whatsapp: @whatsappbot:higenjitsuteki.etke.host
 
 > https://etke.cc/ru/bridges - инструкции по авторизации

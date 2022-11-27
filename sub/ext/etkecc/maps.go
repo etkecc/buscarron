@@ -40,6 +40,6 @@ var bridgemap = map[string]string{
 	"steam":      "@_steampuppet_bot",
 	"telegram":   "@telegrambot",
 	"twitter":    "@twitterbot",
-	"webhooks":   "@_webhook",
+	"webhooks":   "@hookshot",
 	"whatsapp":   "@whatsappbot",
 }
