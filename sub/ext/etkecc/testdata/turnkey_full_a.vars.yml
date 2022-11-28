@@ -59,7 +59,7 @@ matrix_synapse_email_smtp_pass: TODO64
 
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64
-matrix_postgres_connection_password: TODO64
+devture_postgres_connection_password: TODO64
 matrix_synapse_password_config_pepper: TODO64
 matrix_coturn_turn_static_auth_secret: TODO64
 matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"

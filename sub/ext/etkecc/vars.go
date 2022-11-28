@@ -242,7 +242,7 @@ func (o *order) generateVarsSynapseCredentials() string {
 
 	txt.WriteString("\n# synapse::credentials\n")
 	txt.WriteString("matrix_synapse_macaroon_secret_key: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_postgres_connection_password: " + o.pwgen() + "\n")
+	txt.WriteString("devture_postgres_connection_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_synapse_password_config_pepper: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_coturn_turn_static_auth_secret: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_homeserver_generic_secret_key: \"{{ matrix_synapse_macaroon_secret_key }}\"\n")
