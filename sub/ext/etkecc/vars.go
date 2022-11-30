@@ -11,6 +11,7 @@ func (o *order) generateVars() {
 
 	// base
 	txt.WriteString(o.generateVarsAll())
+	txt.WriteString(o.generateVarsPostgres())
 	txt.WriteString(o.generateVarsHomeserver())
 	txt.WriteString(o.generateVarsUsers())
 	txt.WriteString(o.generateVarsSynapse())
@@ -68,6 +69,15 @@ func (o *order) generateVarsAll() string {
 
 	txt.WriteString("### all:start\n")
 	txt.WriteString("### all:end\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsPostgres() string {
+	var txt strings.Builder
+
+	txt.WriteString("\n# postgres\n")
+	txt.WriteString("devture_postgres_connection_password: " + o.pwgen() + "\n")
 
 	return txt.String()
 }
@@ -144,11 +154,11 @@ func (o *order) generateVarsPostgresBackup() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres::backups\n")
-	txt.WriteString("matrix_postgres_backup_enabled: yes\n")
-	txt.WriteString("matrix_postgres_backup_schedule: '@daily'\n")
-	txt.WriteString("matrix_postgres_backup_keep_days: 7\n")
-	txt.WriteString("matrix_postgres_backup_keep_weeks: 0\n")
-	txt.WriteString("matrix_postgres_backup_keep_months: 0\n")
+	txt.WriteString("devture_postgres_backup_enabled: yes\n")
+	txt.WriteString("devture_postgres_backup_schedule: '@daily'\n")
+	txt.WriteString("devture_postgres_backup_keep_days: 7\n")
+	txt.WriteString("devture_postgres_backup_keep_weeks: 0\n")
+	txt.WriteString("devture_postgres_backup_keep_months: 0\n")
 
 	return txt.String()
 }
@@ -242,7 +252,6 @@ func (o *order) generateVarsSynapseCredentials() string {
 
 	txt.WriteString("\n# synapse::credentials\n")
 	txt.WriteString("matrix_synapse_macaroon_secret_key: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_postgres_connection_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_synapse_password_config_pepper: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_coturn_turn_static_auth_secret: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_homeserver_generic_secret_key: \"{{ matrix_synapse_macaroon_secret_key }}\"\n")
