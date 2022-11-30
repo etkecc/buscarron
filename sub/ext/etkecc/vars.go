@@ -154,11 +154,11 @@ func (o *order) generateVarsPostgresBackup() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres::backups\n")
-	txt.WriteString("matrix_postgres_backup_enabled: yes\n")
-	txt.WriteString("matrix_postgres_backup_schedule: '@daily'\n")
-	txt.WriteString("matrix_postgres_backup_keep_days: 7\n")
-	txt.WriteString("matrix_postgres_backup_keep_weeks: 0\n")
-	txt.WriteString("matrix_postgres_backup_keep_months: 0\n")
+	txt.WriteString("devture_postgres_backup_enabled: yes\n")
+	txt.WriteString("devture_postgres_backup_schedule: '@daily'\n")
+	txt.WriteString("devture_postgres_backup_keep_days: 7\n")
+	txt.WriteString("devture_postgres_backup_keep_weeks: 0\n")
+	txt.WriteString("devture_postgres_backup_keep_months: 0\n")
 
 	return txt.String()
 }
