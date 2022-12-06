@@ -14,7 +14,7 @@ require (
 	gitlab.com/etke.cc/go/logger v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator v1.0.6
-	gitlab.com/etke.cc/linkpearl v0.0.0-20221116205701-65547c5608e6
+	gitlab.com/etke.cc/linkpearl v0.0.0-20221206075837-9838c21f599f
 	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 	maunium.net/go/mautrix v0.12.3
 )
@@ -33,15 +33,15 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rs/zerolog v1.28.0 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
-	github.com/tidwall/gjson v1.14.3 // indirect
+	github.com/tidwall/gjson v1.14.4 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tidwall/sjson v1.2.5 // indirect
 	github.com/yuin/goldmark v1.5.3 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.0.0 // indirect
 	golang.org/x/crypto v0.3.0 // indirect
-	golang.org/x/net v0.2.0 // indirect
-	golang.org/x/sys v0.2.0 // indirect
+	golang.org/x/net v0.3.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.3.2 // indirect
 )

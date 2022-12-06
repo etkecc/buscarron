@@ -10,6 +10,10 @@ SSH: You are ordering a hosted/managed server. We will set up and manage the ser
 ___
 
 ```yaml
+curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"example.com\",\"server_type\":\"cx11\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}"
+```
+
+```yaml
 
 DNS - please, add the following entries:
 @	A record	server IP

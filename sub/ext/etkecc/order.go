@@ -36,6 +36,12 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.txt.WriteString("```\n\n")
 	o.txt.WriteString("\n___\n\n")
 
+	if o.get("type") == "turnkey" {
+		o.txt.WriteString("```yaml\n")
+		o.txt.WriteString(o.generateVPSCommand())
+		o.txt.WriteString("```\n\n")
+	}
+
 	o.txt.WriteString("```yaml\n")
 	o.txt.WriteString(dns)
 	o.txt.WriteString("```\n\n")
