@@ -24,6 +24,7 @@ env vars
 ### optional form configs
 
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s`, `54r/m`, `7r/h`
+* **BUSCARRON_NAME_RATELIMIT_SHARED** - enable shared rate limit between forms with that option enabled
 * **BUSCARRON_NAME_HASEMAIL** - if the form has an `email` field and you want to enforce email validation
 * **BUSCARRON_NAME_HASDOMAIN** - if the form has a `domain` field and you want to enforce domain validation
 * **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`

@@ -48,12 +48,13 @@ func parseForms() map[string]*Form {
 	forms := make(map[string]*Form, len(list))
 	for _, name := range list {
 		form := &Form{
-			RoomID:    id.RoomID(env.String(name+".room", "")),
-			Name:      name,
-			Redirect:  env.String(name+".redirect", ""),
-			Ratelimit: env.String(name+".ratelimit", ""),
-			HasEmail:  env.Bool(name + ".hasemail"),
-			HasDomain: env.Bool(name + ".hasdomain"),
+			RoomID:          id.RoomID(env.String(name+".room", "")),
+			Name:            name,
+			Redirect:        env.String(name+".redirect", ""),
+			Ratelimit:       env.String(name+".ratelimit", ""),
+			RatelimitShared: env.Bool(name + ".ratelimit.shared"),
+			HasEmail:        env.Bool(name + ".hasemail"),
+			HasDomain:       env.Bool(name + ".hasdomain"),
 			Confirmation: Confirmation{
 				Subject: env.String(name+".confirmation.subject", ""),
 				Body:    env.String(name+".confirmation.body", ""),

@@ -98,9 +98,13 @@ func initBot(cfg *config.Config) {
 }
 
 func initSrv(cfg *config.Config) {
+	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	for name, item := range cfg.Forms {
 		rls[name] = item.Ratelimit
+		if item.RatelimitShared {
+			srl[name] = item.Ratelimit
+		}
 	}
 	log := logger.New("v.", cfg.LogLevel)
 	vs := make(map[string]sub.Validator, len(cfg.Forms))
@@ -118,7 +122,7 @@ func initSrv(cfg *config.Config) {
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, cfg.LogLevel)
 
 	srvv := validator.New(nil, validator.Enforce{}, "", log)
-	srv = web.New(cfg.Port, rls, cfg.LogLevel, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
+	srv = web.New(cfg.Port, srl, rls, cfg.LogLevel, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug("web server has been created")
 }

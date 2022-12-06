@@ -78,6 +78,8 @@ type Form struct {
 	RoomID id.RoomID
 	// Ratelimit config
 	Ratelimit string
+	// RatelimitShared means that rate limit will be shared across other forms with that option enabled
+	RatelimitShared bool
 	// HasDomain enforces "domain" field check
 	HasDomain bool
 	// HasEmail enforces "email" field check

@@ -1,3 +1,9 @@
+# Buscarron v1.4.0 (in development)
+
+### Features :sparkles:
+
+* Shared rate limit across forms
+
 # Buscarron v1.3.0 (2022-10-25)
 
 ### Features :sparkles:

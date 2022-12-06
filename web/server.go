@@ -36,7 +36,7 @@ type Server struct {
 }
 
 // New web server
-func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
+func New(port string, srl, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
 	bh := NewBanHanlder(bs, bl, loglevel)
@@ -49,7 +49,7 @@ func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv
 		sh:  sh,
 		log: log,
 		iph: &iphasher{},
-		rls: initRateLimiters(rls, log),
+		rls: initRateLimiters(srl, rls, log),
 	}
 
 	mux := http.NewServeMux()
@@ -66,9 +66,23 @@ func New(port string, rls map[string]string, loglevel string, fh FormHandler, dv
 	return srv
 }
 
-func initRateLimiters(rlCfg map[string]string, log *logger.Logger) map[string]*ratelimiter {
+func initRateLimiters(srl, rlCfg map[string]string, log *logger.Logger) map[string]*ratelimiter {
+	var shared *ratelimiter
+	for _, cfg := range srl {
+		if cfg == "" {
+			continue
+		}
+		shared = NewRateLimiter(cfg, log)
+		break
+	}
+
 	rls := map[string]*ratelimiter{}
 	for name, cfg := range rlCfg {
+		if _, ok := srl[name]; ok {
+			rls[name] = shared
+			continue
+		}
+
 		if cfg == "" {
 			continue
 		}
