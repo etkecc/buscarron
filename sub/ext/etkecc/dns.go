@@ -67,16 +67,20 @@ func (o *order) generateDNSCommand() string {
 
 	req.
 		add(subdomain, "A", "$HETZNER_SERVER_IP").
-		add("matrix"+suffix, "A", "$HETZNER_SERVER_IP").
-		add(subdomain, "MX", "10 aspmx1.migadu.com.").
-		add(subdomain, "MX", "20 aspmx2.migadu.com.").
-		add("autoconfig"+suffix, "CNAME", "autoconfig.migadu.com.").
-		add("_autodiscover._tcp"+suffix, "SRV", "0 1 443 autodiscover.migadu.com").
-		add("key1._domainkey"+suffix, "CNAME", "key1."+domain+"._domainkey.migadu.com.").
-		add("key2._domainkey"+suffix, "CNAME", "key2."+domain+"._domainkey.migadu.com.").
-		add("key3._domainkey"+suffix, "CNAME", "key3."+domain+"._domainkey.migadu.com.").
-		add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;").
-		add(subdomain, "TXT", "v=spf1 include:spf.migadu.com -all")
+		add("matrix"+suffix, "A", "$HETZNER_SERVER_IP")
+
+	if o.get("type") == "turnkey" || o.has("service-email") {
+		req.
+			add(subdomain, "MX", "10 aspmx1.migadu.com.").
+			add(subdomain, "MX", "20 aspmx2.migadu.com.").
+			add("autoconfig"+suffix, "CNAME", "autoconfig.migadu.com.").
+			add("_autodiscover._tcp"+suffix, "SRV", "0 1 443 autodiscover.migadu.com").
+			add("key1._domainkey"+suffix, "CNAME", "key1."+domain+"._domainkey.migadu.com.").
+			add("key2._domainkey"+suffix, "CNAME", "key2."+domain+"._domainkey.migadu.com.").
+			add("key3._domainkey"+suffix, "CNAME", "key3."+domain+"._domainkey.migadu.com.").
+			add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;").
+			add(subdomain, "TXT", "v=spf1 include:spf.migadu.com -all")
+	}
 
 	items := []string{}
 	for key := range dnsmap {

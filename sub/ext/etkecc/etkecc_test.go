@@ -18,6 +18,7 @@ type EtkeccSuite struct {
 	ext         *Etkecc
 	save        bool
 	byos        map[string]string
+	byosSub     map[string]string
 	turnkey     map[string]string
 	byosFull    map[string]string
 	turnkeyFull map[string]string
@@ -46,6 +47,14 @@ func (s *EtkeccSuite) SetupTest() {
 		"email":      "tEsT@TEST.cOm",
 		"type":       "turnkey",
 		"lang":       "wrong",
+	}
+	s.byosSub = map[string]string{
+		"domain":        "https://higenjitsuteki.etke.host",
+		"domain-type":   "subdomain",
+		"username":      " tEsT ",
+		"email":         "tEsT@TEST.cOm",
+		"type":          "byos",
+		"synapse-admin": "on",
 	}
 	s.byosFull = map[string]string{
 		"homeserver":          "synapse",
@@ -310,6 +319,33 @@ func (s *EtkeccSuite) TestExecute_Byos() {
 		s.write("byos.onboarding.md", actualOnboarding)
 		s.write("byos.onboarding.html", actualOnboardingHTML)
 		s.write("byos.vars.yml", actualVars)
+	}
+
+	s.Equal(expectedQuestions, actualQuestions)
+	s.Equal(expectedOnboarding, actualOnboarding)
+	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
+	s.Equal(expectedVars, actualVars)
+}
+
+func (s *EtkeccSuite) TestExecute_Byos_Sub() {
+	expectedQuestions := s.read("byos_sub.questions.md")
+	expectedOnboarding := s.read("byos_sub.onboarding.md")
+	expectedOnboardingHTML := s.read("byos_sub.onboarding.html")
+	expectedVars := s.read("byos_sub.vars.yml")
+	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
+	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
+	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
+
+	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosSub)
+	actualVars := s.rts(files[0].Content)
+	actualOnboarding := s.rts(files[1].Content)
+	actualOnboardingHTML := s.rts(files[2].Content)
+	// to generate output
+	if s.save {
+		s.write("byos_sub.questions.md", actualQuestions)
+		s.write("byos_sub.onboarding.md", actualOnboarding)
+		s.write("byos_sub.onboarding.html", actualOnboardingHTML)
+		s.write("byos_sub.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
