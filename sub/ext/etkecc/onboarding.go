@@ -16,7 +16,6 @@ func (o *order) generateOnboarding() {
 	txt.WriteString(o.generateOnboardingBridges())
 
 	txt.WriteString(o.generateOnboardingCredentials())
-	txt.WriteString(o.generateOnboardingPayment())
 
 	txt.WriteString(o.generateOnboardingAfter())
 
@@ -130,7 +129,7 @@ func (o *order) generateOnboardingBridges() string {
 		txt.WriteString("* " + bridge + ": " + bridgemap[bridge] + ":" + o.get("domain") + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> https://etke.cc/" + o.get("lang") + "/bridges - " + o.t("auth_instructions") + "\n\n")
+	txt.WriteString("> https://etke.cc/" + o.get("lang") + "/help/bridges - " + o.t("auth_instructions") + "\n\n")
 
 	return txt.String()
 }
@@ -157,24 +156,6 @@ func (o *order) generateOnboardingCredentials() string {
 	txt.WriteString("\n\n")
 	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/" + o.get("lang") + "/help\n\n")
 	o.pass["matrix"] = mxpass
-
-	return txt.String()
-}
-
-func (o *order) generateOnboardingPayment() string {
-	if o.get("type") == "turnkey" {
-		return ""
-	}
-	membership := "Maintenance"
-	if o.has("service-email") {
-		membership = "Maintenance+Email"
-	}
-
-	var txt strings.Builder
-	txt.WriteString("# " + o.t("payment") + "\n\n")
-	txt.WriteString(o.t("buy_setup") + "(https://etke.cc/setup)")
-	txt.WriteString(" " + o.t("and") + " " + o.t("join_the") + " **" + membership + "** " + o.t("membership_on") + " [https://etke.cc/membership](https://etke.cc/membership).\n")
-	txt.WriteString("\n" + o.t("note_pwyw") + "\n\n")
 
 	return txt.String()
 }

@@ -38,7 +38,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 
 	if o.get("type") == "turnkey" {
 		o.txt.WriteString("```yaml\n")
-		o.txt.WriteString(o.generateVPSCommand())
+		o.txt.WriteString(o.generateHVPSCommand())
 		o.txt.WriteString("```\n\n")
 	}
 

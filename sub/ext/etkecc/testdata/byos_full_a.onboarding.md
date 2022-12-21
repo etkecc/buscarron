@@ -37,7 +37,7 @@
 * webhooks: @hookshot:example.com
 * whatsapp: @whatsappbot:example.com
 
-> https://etke.cc/de/bridges - Authentifizierungsanweisungen
+> https://etke.cc/de/help/bridges - Authentifizierungsanweisungen
 
 # Anmeldeinformationen
 
@@ -48,12 +48,6 @@
 * grafana password: TODO64
 
 > im Falle irgendwelcher Probleme: https://etke.cc/de/help
-
-# Bezahlung
-
-Bitte, [kaufen Sie das Einrichtungselement](https://etke.cc/setup) und Beitritt zur **Maintenance+Email** Mitgliedschaft auf https://etke.cc/membership.
-
-> **HINWEIS**: Alle Preise basieren auf dem [Pay What You Want]-Modell (https://de.wikipedia.org/wiki/Pay_what_you_want).
 
 # Schritte nach dem Einrichten
 

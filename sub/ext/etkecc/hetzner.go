@@ -2,6 +2,7 @@ package etkecc
 
 import (
 	"encoding/json"
+	"sort"
 	"strings"
 )
 
@@ -9,6 +10,9 @@ import (
 const hImage = "ubuntu-22.04"
 
 var (
+	hDomains = map[string]string{
+		".etke.host": "enTDpM8y67STAZcQMpmqr7",
+	}
 	// hLocations between human-readable name and actual name
 	hLocations = map[string]string{
 		"ashburn":     "ash",
@@ -36,7 +40,30 @@ type hVPSRequest struct {
 	Location  string           `json:"location"`
 }
 
-func (o *order) generateVPSCommand() string {
+type hDNSRecord struct {
+	Subdomain string `json:"name"`
+	Type      string `json:"type"`
+	Value     string `json:"value"`
+	ZoneID    string `json:"zone_id"`
+}
+
+type hDNSRequest struct {
+	Records    []hDNSRecord `json:"records"`
+	WithMigadu bool         `json:"-"`
+}
+
+func (r *hDNSRequest) add(subdomain, rtype, value, zoneID string) *hDNSRequest {
+	r.Records = append(r.Records, hDNSRecord{
+		Subdomain: subdomain,
+		Type:      rtype,
+		Value:     value,
+		ZoneID:    zoneID,
+	})
+
+	return r
+}
+
+func (o *order) generateHVPSCommand() string {
 	location, ok := hLocations[strings.ToLower(o.get("turnkey-location"))]
 	if !ok {
 		location = "fsn1"
@@ -58,10 +85,10 @@ func (o *order) generateVPSCommand() string {
 		Location:  location,
 	}
 
-	return o.getVPSCurl(req)
+	return o.getHVPSCurl(req)
 }
 
-func (o *order) getVPSCurl(req *hVPSRequest) string {
+func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	reqb, _ := json.Marshal(&req) //nolint:errcheck
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
@@ -69,6 +96,77 @@ func (o *order) getVPSCurl(req *hVPSRequest) string {
 	cmd.WriteString("curl -X \"POST\" \"https://api.hetzner.cloud/v1/servers\" ")
 	cmd.WriteString("-H \"Content-Type: application/json\" ")
 	cmd.WriteString("-H \"Authorization: Bearer $HETZNER_API_TOKEN_CLOUD\" ")
+	cmd.WriteString("-d \"")
+	cmd.WriteString(reqs)
+	cmd.WriteString("\"\n")
+
+	return cmd.String()
+}
+
+func (o *order) generateHDNSCommand() string {
+	req := &hDNSRequest{Records: []hDNSRecord{}}
+	domain := o.get("domain")
+	subdomain := strings.Split(domain, ".")[0]
+	suffix := "." + subdomain
+	var zoneID string
+	for sufix, zone := range hDomains {
+		if strings.HasSuffix(domain, sufix) {
+			zoneID = zone
+			break
+		}
+	}
+
+	req.
+		add(subdomain, "A", "$HETZNER_SERVER_IP", zoneID).
+		add("matrix"+suffix, "A", "$HETZNER_SERVER_IP", zoneID)
+
+	if o.get("type") == "turnkey" || o.has("service-email") {
+		req.WithMigadu = true
+		req.
+			add(subdomain, "MX", "10 aspmx1.migadu.com.", zoneID).
+			add(subdomain, "MX", "20 aspmx2.migadu.com.", zoneID).
+			add("autoconfig"+suffix, "CNAME", "autoconfig.migadu.com.", zoneID).
+			add("_autodiscover._tcp"+suffix, "SRV", "0 1 443 autodiscover.migadu.com", zoneID).
+			add("key1._domainkey"+suffix, "CNAME", "key1."+domain+"._domainkey.migadu.com.", zoneID).
+			add("key2._domainkey"+suffix, "CNAME", "key2."+domain+"._domainkey.migadu.com.", zoneID).
+			add("key3._domainkey"+suffix, "CNAME", "key3."+domain+"._domainkey.migadu.com.", zoneID).
+			add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID).
+			add(subdomain, "TXT", "v=spf1 include:spf.migadu.com -all", zoneID).
+			add(subdomain, "TXT", "hosted-email-verify=$MIGADU_VERIFICATION", zoneID)
+	}
+
+	items := []string{}
+	for key := range dnsmap {
+		if o.has(key) {
+			items = append(items, key)
+		}
+	}
+	sort.Strings(items)
+	for _, key := range items {
+		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.get("domain")+".", zoneID)
+	}
+
+	if o.has("email2matrix") || o.has("postmoogle") {
+		req.
+			add("matrix"+suffix, "MX", "0 matrix."+o.get("domain")+".", zoneID).
+			add("matrix"+suffix, "TXT", "v=spf1 ip4:$HETZNER_SERVER_IP -all", zoneID).
+			add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
+	}
+	return o.getHDNSCurl(req)
+}
+
+func (o *order) getHDNSCurl(req *hDNSRequest) string {
+	reqb, _ := json.Marshal(&req) //nolint:errcheck
+	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
+
+	var cmd strings.Builder
+	cmd.WriteString("export HETZNER_SERVER_IP=SERVER_IP\n")
+	if req.WithMigadu {
+		cmd.WriteString("export MIGADU_VERIFICATION=CODE\n")
+	}
+	cmd.WriteString("curl -X \"POST\" \"https://dns.hetzner.com/api/v1/records/bulk\" ")
+	cmd.WriteString("-H \"Content-Type: application/json\" ")
+	cmd.WriteString("-H \"Auth-API-Token: $HETZNER_API_TOKEN\" ")
 	cmd.WriteString("-d \"")
 	cmd.WriteString(reqs)
 	cmd.WriteString("\"\n")
