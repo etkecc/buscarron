@@ -62,25 +62,25 @@ func (o *order) generateQuestionsServices() string {
 		txt.WriteString("Prometheus+Grafana: " + o.t("q_stats") + "\n\n")
 	}
 	if o.has("dimension") {
-		txt.WriteString("Dimension (" + o.t("only_with_subscription") + "): " + o.t("q_dimension") + "\n\n")
+		txt.WriteString("Dimension: " + o.t("q_dimension") + "\n\n")
 	}
 	if o.has("nginx-proxy-website") {
-		txt.WriteString("Website (" + o.t("only_with_subscription") + "): " + o.t("q_nginx-proxy-website") + "\n\n")
+		txt.WriteString("Website: " + o.t("q_nginx-proxy-website") + "\n\n")
 	}
 	if o.has("buscarron") {
-		txt.WriteString("buscarron (" + o.t("only_with_subscription") + "): " + o.t("q_buscarron") + "\n\n")
+		txt.WriteString("buscarron: " + o.t("q_buscarron") + "\n\n")
 	}
 	if o.has("sso") {
-		txt.WriteString("SSO (" + o.t("only_with_subscription") + "): " + o.t("q_sso") + "\n\n")
+		txt.WriteString("SSO: " + o.t("q_sso") + "\n\n")
 	}
 	if o.has("sygnal") {
-		txt.WriteString("Sygnal (" + o.t("only_with_subscription") + "): " + o.t("q_sygnal") + "\n\n")
+		txt.WriteString("Sygnal: " + o.t("q_sygnal") + "\n\n")
 	}
 	if o.has("borg") {
-		txt.WriteString("BorgBackup (" + o.t("only_with_subscription") + "): " + o.t("q_borg") + "\n\n")
+		txt.WriteString("BorgBackup: " + o.t("q_borg") + "\n\n")
 	}
 	if o.has("jitsi") {
-		txt.WriteString("Jitsi (" + o.t("only_with_subscription") + "): " + o.t("q_jitsi") + "\n\n")
+		txt.WriteString("Jitsi: " + o.t("q_jitsi") + "\n\n")
 	}
 
 	return txt.String()
