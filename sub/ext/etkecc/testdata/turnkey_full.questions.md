@@ -1,28 +1,28 @@
 ```yaml
-Привет,
-Мы получили Ваш заказ и хотели задать несколько вопросов перед установкой.
+Hi there,
+We got your order and have some questions before the setup.
 
-Reminder bot: Какой у Вас часовой пояс (в формате IANA)? Например, America/Chicago, Asia/Seoul или Europe/Berlin
+Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
 
-Honoroit: Вы точно хотите это? Это хелпдеск бот с поддержкой e2e шифрования. Пожалуйста, посмотрите на https://gitlab.com/etke.cc/honoroit и решите.
+Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
 
-Telegram: пожалуйста, сходите на https://my.telegram.org/apps и создайте новое приложение. Отправьте нам API ID и Hash
+Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
 
-Dimension: Вы точно хотите это? Это менеджер интеграций на Вашем сервере. По умолчанию у Вас и так будет доступен стандартный менеджер интеграций. Пожалуйста, посмотрите на https://github.com/turt2live/matrix-dimension и решите
+Dimension: are you sure you want it? It's a self-hosted integration manager. You will get an integration manager by default with any Element client app. Please check https://github.com/turt2live/matrix-dimension before deciding
 
-Website: чтобы задеплоить статичный вебсайт, Вам придется настроить свой базовый домен на сервер matrix (@ DNS запись), а исходники самого вебсайта должны быть доступны в публичном git репозитории. Вы точно хотите этого? Если да, пожалуйста, отправьте нам адрес git репозитория Вашего статичного сайта, список команд для сборки и в какой директории будет собран артефакт (обычно это public или dist).
+Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
 
-buscarron: Вы точно хотите это? Это бот, который принимает отправку веб форм (HTML/HTTP POST) и отправляет их в (зашифрованные) Matrix комнаты. Пожалуйста, посмотрите на https://gitlab.com/etke.cc/buscarron и решите.
+buscarron: are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
 
-SSO: Мы не получили информацию о том, какого OIDC/OAuth2 провайдера Вы хотите интегрировать, так что вот список популярных провайдеров - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Пожалуйста, отправьте нам требуемую информацию для настройки (обычно это название провайдера, issuer, client_id и client_secret, но все зависит от выбранного провайдера)
+SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send us the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
 
-Sygnal: Вы точно хотите это? Это push gateway, нужен только разработчикам мобильных приложений matrix, так что он будет бесполезен, если Вы не разрабатываете собственное мобильное приложение для matrix. Если Вы все же хотите его добавить, пожалуйста, отправьте следующую информацию: ID приложений (например org.matrix.app), API ключ FCM и/или сертификат APNS (если используется)
+Sygnal: are you sure you want it? It's a push gateway, usable only for matrix client app developers, so you can't use it if you don't develop your mobile matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
 
-BorgBackup: пожалуйста, предоставьте желаемый адрес репозитория (user@host:repo). Мы сгенерируем ssh ключ и пароль шифрования на стороне Вашего сервера и отправим Вам публичную часть ключа. Вам нужно будет добавить этот ключ на стороне Вашего borg провайдера.
+BorgBackup: please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
 
-Jitsi: Вы точно хотите это? По умолчанию у Вас будет интегрирован публичный сервер jitsi, а мы предлагаем то же самое установить на Ваш сервер. Имейте в виду, что jitsi на Вашем сервере сильно увеличивает требования к конфигурации сервера.
+Jitsi: are you sure you want it? You will get jitsi integration by default with a public instance. The jitsi item we offer is a self-hosted version. Keep in mind that jitsi significantly increases compute power requirements.
 
-SSH: Вы заказываете хостинг, мы подготовим Ваш сервер и будем его обслуживать. **Если** Вы хотите иметь полный SSH доступ к Вашему серверу, пришлите нам свой публичный SSH ключ и список IP адресов, с которых Вы хотите подключаться к серверу по SSH.
+SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.
 
 ```
 

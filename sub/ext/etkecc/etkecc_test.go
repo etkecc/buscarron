@@ -114,7 +114,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"service-setup":       "on",
 		"service-maintenance": "on",
 		"service-email":       "on",
-		"lang":                "ru",
+		"lang":                "invalid",
 		"type":                "turnkey",
 		"borg":                "on",
 		"buscarron":           "on",

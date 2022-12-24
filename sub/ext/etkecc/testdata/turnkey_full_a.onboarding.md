@@ -1,4 +1,4 @@
-# ссылки
+# links
 
 * homeserver: https://matrix.higenjitsuteki.etke.host
 * etherpad admin: https://dimension.higenjitsuteki.etke.host/etherpad/admin
@@ -12,13 +12,13 @@
 * stats: https://stats.higenjitsuteki.etke.host
 * sygnal: https://sygnal.higenjitsuteki.etke.host
 
-# боты
+# bots
 
 * buscarron: @buscarron:higenjitsuteki.etke.host
 * honoroit: @honoroit:higenjitsuteki.etke.host
 * reminder-bot: @reminder:higenjitsuteki.etke.host
 
-# интеграции
+# bridges
 
 * discord: @discordbot:higenjitsuteki.etke.host
 * facebook: @facebookbot:higenjitsuteki.etke.host
@@ -36,9 +36,9 @@
 * webhooks: @hookshot:higenjitsuteki.etke.host
 * whatsapp: @whatsappbot:higenjitsuteki.etke.host
 
-> https://etke.cc/ru/help/bridges - инструкции по авторизации
+> https://etke.cc/en/help/bridges - auth instructions
 
-# доступы
+# credentials
 
 * mxid: @test:higenjitsuteki.etke.host
 * username: test
@@ -46,24 +46,24 @@
 * etherpad admin password: TODO64
 * grafana password: TODO64
 
-> в случае проблем: https://etke.cc/ru/help
+> in case of any issues: https://etke.cc/en/help
 
-# после установки
+# steps after the setup
 
 ### etherpad
 
-1. Откройте менеджер интеграций в любом приложении Element
-2. Нажмите на иконку шестеренки и перейдите в таб Widgets
-3. Откройте конфигурацию виджета Etherpad и замените `scalar.vector.im` на `dimension.higenjitsuteki.etke.host`
+1. Open integration manager in any element client app
+2. Click on the sprocket icon and go to the Widgets tab
+3. Open the Etherpad widget configuration and replace `scalar.vector.im` with `dimension.higenjitsuteki.etke.host`
 
 ### buscarron
 
-1. Создайте (зашифрованные) комнаты matrix для всех форм, которые Вы собираетесь сделать и пригласите пользователя buscarron в каждую из них
-2. Отправьте список (название формы, id комнаты matrix, URL для перенаправления пользователя после отправки) на @support:etke.cc
+1. Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
+2. Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc
 
 ### honoroit
 
-1. Создайте matrix комнату (шифрование поддерживается) и пригласите пользователя honoroit в нее
-2. Отправьте ID этой комнаты на @support:etke.cc
+1. Create a matrix room (encryption supported) and invite the honoroit user into it
+2. Send the room id to the @support:etke.cc
 
-Если Вы хотите изменить текст сообщений, отправьте желаемый вариант на @support:etke.cc (используйте https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go в качесте справки)
+if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
