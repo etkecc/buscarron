@@ -119,7 +119,6 @@ matrix_dimension_admins:
 
 # element https://element.example.com
 matrix_client_element_enabled: yes
-matrix_client_element_default_theme: dark
 
 # etherpad
 matrix_etherpad_enabled: yes
@@ -129,7 +128,6 @@ matrix_etherpad_admin_password: TODO64
 
 # hydrogen https://hydrogen.example.com
 matrix_client_hydrogen_enabled: yes
-matrix_client_hydrogen_default_theme: dark
 
 # jitsi https://jitsi.example.com
 matrix_jitsi_enabled: yes

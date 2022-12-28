@@ -353,7 +353,6 @@ func (o *order) generateVarsElement() string {
 
 	txt.WriteString("\n# element https://element." + o.get("domain") + "\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")
-	txt.WriteString("matrix_client_element_default_theme: dark\n")
 
 	return txt.String()
 }
@@ -366,7 +365,6 @@ func (o *order) generateVarsHydrogen() string {
 
 	txt.WriteString("\n# hydrogen https://hydrogen." + o.get("domain") + "\n")
 	txt.WriteString("matrix_client_hydrogen_enabled: yes\n")
-	txt.WriteString("matrix_client_hydrogen_default_theme: dark\n")
 
 	return txt.String()
 }
