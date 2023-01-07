@@ -120,7 +120,7 @@ func (o *order) generateHDNSCommand() string {
 		add(subdomain, "A", "$HETZNER_SERVER_IP", zoneID).
 		add("matrix"+suffix, "A", "$HETZNER_SERVER_IP", zoneID)
 
-	if o.get("type") == "turnkey" || o.has("service-email") {
+	if o.has("service-email") {
 		req.WithMigadu = true
 		req.
 			add(subdomain, "MX", "10 aspmx1.migadu.com.", zoneID).
