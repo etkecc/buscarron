@@ -98,10 +98,6 @@ func (o *order) preprocess() {
 		o.data["serve_base_domain"] = "yes"
 	}
 
-	if o.get("type") == "turnkey" {
-		o.data["smtp-relay"] = "yes"
-	}
-
 	lang := o.get("lang")
 	_, ok := i18n[lang]
 	if !ok {
