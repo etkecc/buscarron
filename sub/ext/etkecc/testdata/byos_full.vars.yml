@@ -203,7 +203,7 @@ matrix_mautrix_signal_enabled: yes
 matrix_go_skype_bridge_enabled: yes
 
 # bridges::slack
-matrix_mx_puppet_slack_enabled: yes
+matrix_mautrix_slack_enabled: yes
 
 # bridges::steam
 matrix_mx_puppet_steam_enabled: yes

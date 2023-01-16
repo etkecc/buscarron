@@ -495,7 +495,7 @@ func (o *order) generateVarsSlack() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::slack\n")
-	txt.WriteString("matrix_mx_puppet_slack_enabled: yes\n")
+	txt.WriteString("matrix_mautrix_slack_enabled: yes\n")
 
 	return txt.String()
 }

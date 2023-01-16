@@ -29,7 +29,7 @@
 * linkedin: @linkedinbot:higenjitsuteki.etke.host
 * signal: @signalbot:higenjitsuteki.etke.host
 * skype: @skypebridgebot:higenjitsuteki.etke.host
-* slack: @_slackpuppet_bot:higenjitsuteki.etke.host
+* slack: @slackbot:higenjitsuteki.etke.host
 * steam: @_steampuppet_bot:higenjitsuteki.etke.host
 * telegram: @telegrambot:higenjitsuteki.etke.host
 * twitter: @twitterbot:higenjitsuteki.etke.host

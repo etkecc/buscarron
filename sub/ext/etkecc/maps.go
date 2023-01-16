@@ -36,7 +36,7 @@ var bridgemap = map[string]string{
 	"linkedin":   "@linkedinbot",
 	"signal":     "@signalbot",
 	"skype":      "@skypebridgebot",
-	"slack":      "@_slackpuppet_bot",
+	"slack":      "@slackbot",
 	"steam":      "@_steampuppet_bot",
 	"telegram":   "@telegrambot",
 	"twitter":    "@twitterbot",
