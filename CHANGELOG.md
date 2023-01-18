@@ -1,8 +1,17 @@
-# Buscarron v1.4.0 (in development)
+# Buscarron v1.3.1 (2023-01-18)
 
 ### Features :sparkles:
 
 * Shared rate limit across forms
+
+### Bugfixes :bug:
+
+* Do not ban internal IPs
+
+### Misc :zzz:
+
+* Updated deps
+* Enabled vendoring
 
 # Buscarron v1.3.0 (2022-10-25)
 
