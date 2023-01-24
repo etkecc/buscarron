@@ -19,10 +19,11 @@ env vars
 * **BUSCARRON_LOGIN** - user login/localpart, eg: `buscarron`
 * **BUSCARRON_PASSWORD** - user password
 * **BUSCARRON_NAME_ROOM** - Matrix Room ID of the `name` form
-* **BUSCARRON_NAME_REDIRECT** - URL to redirect after handling form `name` data, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to the redirect string as `{{ .email }}`)
+* **BUSCARRON_NAME_REDIRECT** - URL to redirect after handling form `name` data submission, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to the redirect string as `{{ .email }}`)
 
 ### optional form configs
 
+* **BUSCARRON_NAME_REDIRECT_REJECT** - URL to redirect after handling form `name` (doesn't support templates) for **rejected** submissions
 * **BUSCARRON_NAME_RATELIMIT** - rate limit of the form, format: `<max requests>r/<interval:s,m>`, eg: `1r/s`, `54r/m`, `7r/h`
 * **BUSCARRON_NAME_RATELIMIT_SHARED** - enable shared rate limit between forms with that option enabled
 * **BUSCARRON_NAME_HASEMAIL** - if the form has an `email` field and you want to enforce email validation

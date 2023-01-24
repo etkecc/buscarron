@@ -51,6 +51,7 @@ func parseForms() map[string]*Form {
 			RoomID:          id.RoomID(env.String(name+".room", "")),
 			Name:            name,
 			Redirect:        env.String(name+".redirect", ""),
+			RejectRedirect:  env.String(name+".redirect.reject", ""),
 			Ratelimit:       env.String(name+".ratelimit", ""),
 			RatelimitShared: env.Bool(name + ".ratelimit.shared"),
 			HasEmail:        env.Bool(name + ".hasemail"),

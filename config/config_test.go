@@ -30,9 +30,10 @@ var values = map[string]string{
 
 	"BUSCARRON_LIST": "test1 test2",
 
-	"BUSCARRON_TEST1_REDIRECT":  "https://example.org",
-	"BUSCARRON_TEST1_RATELIMIT": "1r/s",
-	"BUSCARRON_TEST1_ROOM":      "!test1@example.com",
+	"BUSCARRON_TEST1_REDIRECT":        "https://example.org",
+	"BUSCARRON_TEST1_REDIRECT_REJECT": "https://stop.org",
+	"BUSCARRON_TEST1_RATELIMIT":       "1r/s",
+	"BUSCARRON_TEST1_ROOM":            "!test1@example.com",
 
 	"BUSCARRON_TEST2_REDIRECT":  "https://example.com",
 	"BUSCARRON_TEST2_RATELIMIT": "1r/m",
@@ -67,6 +68,7 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal(1000000, config.Ban.Size)
 	s.Equal("test1", form1.Name)
 	s.Equal("https://example.org", form1.Redirect)
+	s.Equal("https://stop.org", form1.RejectRedirect)
 	s.Equal(id.RoomID("!test1@example.com"), form1.RoomID)
 	s.Equal("1r/s", form1.Ratelimit)
 	s.Equal("test2", form2.Name)

@@ -74,6 +74,8 @@ type Form struct {
 	Name string
 	// Redirect is an url to redirect after submission
 	Redirect string
+	// RejectRedirect is an url to redirect after a rejected submission (both rate limit and spam)
+	RejectRedirect string
 	// RoomID to send submission
 	RoomID id.RoomID
 	// Ratelimit config

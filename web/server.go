@@ -32,11 +32,12 @@ type Server struct {
 	log *logger.Logger
 	iph *iphasher
 	rls map[string]*ratelimiter
+	frr map[string]string
 	srv *http.Server
 }
 
 // New web server
-func New(port string, srl, rls map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
+func New(port string, srl, rls map[string]string, frr map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
 	log := logger.New("web.", loglevel)
 	sh := sentryhttp.New(sentryhttp.Options{})
 	bh := NewBanHanlder(bs, bl, loglevel)
@@ -49,6 +50,7 @@ func New(port string, srl, rls map[string]string, loglevel string, fh FormHandle
 		sh:  sh,
 		log: log,
 		iph: &iphasher{},
+		frr: frr,
 		rls: initRateLimiters(srl, rls, log),
 	}
 
@@ -137,11 +139,23 @@ func (s *Server) forms() http.HandlerFunc {
 	}
 }
 
+func (s *Server) formReject(name, reason string, w http.ResponseWriter, r *http.Request) {
+	target, ok := s.frr[name]
+	s.log.Info("%s %s submission to %s rejected, reason: %s", r.Method, r.URL.Path, name, reason)
+	if !ok {
+		return
+	}
+	w.Write([]byte(`<html><head><title>Redirecting...</title><meta http-equiv="Refresh" content="0; url='` + target + `'" /></head><body>Redirecting to <a href='` + target + `'>` + target + `</a>...`)) //nolint:errcheck
+}
+
 func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
 	body, err := s.fh.GET(name, r)
 	if err == sub.ErrNotFound || err == sub.ErrSpam {
 		s.bh.Ban(r)
+		s.formReject(name, err.Error(), w, r)
+		return
 	}
+
 	if _, err := w.Write([]byte(body)); err != nil {
 		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
 	}
@@ -156,13 +170,15 @@ func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Reques
 
 	if limited {
 		http.Error(w, "", http.StatusTooManyRequests)
-		s.log.Error("%s %s too many requests", r.Method, r.URL.Path)
+		s.formReject(name, "too many requests", w, r)
 		return
 	}
 
 	body, err := s.fh.POST(id, name, r)
 	if err == sub.ErrNotFound || err == sub.ErrSpam {
 		s.bh.Ban(r)
+		s.formReject(name, err.Error(), w, r)
+		return
 	}
 
 	if _, err := w.Write([]byte(body)); err != nil {
