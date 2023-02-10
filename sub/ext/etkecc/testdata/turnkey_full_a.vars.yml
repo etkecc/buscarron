@@ -145,8 +145,8 @@ matrix_jitsi_jicofo_auth_password: TODO64
 matrix_grafana_enabled: yes
 matrix_prometheus_enabled: yes
 matrix_grafana_anonymous_access: no
-matrix_prometheus_node_exporter_enabled: yes
-matrix_prometheus_node_exporter_process_extra_arguments:
+prometheus_node_exporter_enabled: yes
+prometheus_node_exporter_process_extra_arguments:
   - "--collector.systemd"
 matrix_grafana_default_admin_user: test
 matrix_grafana_default_admin_password: TODO64
