@@ -171,10 +171,10 @@ func (o *order) generateVarsBorgBackup() string {
 	pub, priv := o.keygen()
 
 	txt.WriteString("\n# borg\n")
-	txt.WriteString("matrix_backup_borg_enabled: yes\n")
-	txt.WriteString("matrix_backup_borg_location_repositories: [] # TODO\n")
-	txt.WriteString("matrix_backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_backup_borg_ssh_key_private: |\n")
+	txt.WriteString("backup_borg_enabled: yes\n")
+	txt.WriteString("backup_borg_location_repositories: [] # TODO\n")
+	txt.WriteString("backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
+	txt.WriteString("backup_borg_ssh_key_private: |\n")
 	for _, line := range strings.Split(priv, "\n") {
 		txt.WriteString("  " + line + "\n")
 	}

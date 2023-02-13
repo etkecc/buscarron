@@ -78,10 +78,10 @@ matrix_nginx_proxy_website_command: TODO
 matrix_nginx_proxy_website_dist: "public"
 
 # borg
-matrix_backup_borg_enabled: yes
-matrix_backup_borg_location_repositories: [] # TODO
-matrix_backup_borg_storage_encryption_passphrase: TODO64
-matrix_backup_borg_ssh_key_private: |
+backup_borg_enabled: yes
+backup_borg_location_repositories: [] # TODO
+backup_borg_storage_encryption_passphrase: TODO64
+backup_borg_ssh_key_private: |
   -----BEGIN OPENSSH PRIVATE KEY-----
   TODO
   -----END OPENSSH PRIVATE KEY-----

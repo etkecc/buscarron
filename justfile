@@ -20,6 +20,11 @@ lint:
 lintfix:
     golangci-lint run --fix ./...
 
+# generate mocks
+mocks:
+    @rm -rf mocks
+    @mockery --all
+
 # run unit tests
 test:
     @go test -coverprofile=cover.out ./...
