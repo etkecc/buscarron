@@ -142,14 +142,14 @@ matrix_jitsi_jicofo_auth_password: TODO64
 #    password: TODO64
 
 # stats https://stats.example.com
-matrix_grafana_enabled: yes
+grafana_enabled: yes
 matrix_prometheus_enabled: yes
-matrix_grafana_anonymous_access: no
+grafana_anonymous_access: no
 prometheus_node_exporter_enabled: yes
 prometheus_node_exporter_process_extra_arguments:
   - "--collector.systemd"
-matrix_grafana_default_admin_user: test
-matrix_grafana_default_admin_password: TODO64
+grafana_default_admin_user: test
+grafana_default_admin_password: TODO64
 
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes

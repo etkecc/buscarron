@@ -397,14 +397,14 @@ func (o *order) generateVarsStats() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# stats https://stats." + o.get("domain") + "\n")
-	txt.WriteString("matrix_grafana_enabled: yes\n")
+	txt.WriteString("grafana_enabled: yes\n")
 	txt.WriteString("matrix_prometheus_enabled: yes\n")
-	txt.WriteString("matrix_grafana_anonymous_access: no\n")
+	txt.WriteString("grafana_anonymous_access: no\n")
 	txt.WriteString("prometheus_node_exporter_enabled: yes\n")
 	txt.WriteString("prometheus_node_exporter_process_extra_arguments:\n")
 	txt.WriteString("  - \"--collector.systemd\"\n")
-	txt.WriteString("matrix_grafana_default_admin_user: " + o.get("username") + "\n")
-	txt.WriteString("matrix_grafana_default_admin_password: " + o.password("grafana") + "\n")
+	txt.WriteString("grafana_default_admin_user: " + o.get("username") + "\n")
+	txt.WriteString("grafana_default_admin_password: " + o.password("grafana") + "\n")
 
 	return txt.String()
 }
