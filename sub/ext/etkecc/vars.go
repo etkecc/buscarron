@@ -142,7 +142,7 @@ func (o *order) generateVarsNtfy() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# ntfy https://ntfy." + o.get("domain") + "\n")
-	txt.WriteString("matrix_ntfy_enabled: yes\n")
+	txt.WriteString("ntfy_enabled: yes\n")
 
 	return txt.String()
 }
