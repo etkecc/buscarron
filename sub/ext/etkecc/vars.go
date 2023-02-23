@@ -89,7 +89,9 @@ func (o *order) generateVarsHomeserver() string {
 	txt.WriteString("matrix_domain: " + o.get("domain") + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("matrix_ssl_lets_encrypt_support_email: " + o.get("email") + "\n")
-	txt.WriteString("matrix_mailer_enabled: no\n")
+	if o.has("smtp-relay") {
+		txt.WriteString("matrix_mailer_enabled: no\n")
+	}
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}

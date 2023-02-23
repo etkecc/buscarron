@@ -8,7 +8,6 @@ devture_postgres_connection_password: TODO64
 matrix_domain: higenjitsuteki.etke.host
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
-matrix_mailer_enabled: no
 matrix_client_element_enabled: no
 
 # initial users
