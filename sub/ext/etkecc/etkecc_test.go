@@ -29,7 +29,7 @@ func (s *EtkeccSuite) SetupTest() {
 	s.v = &mocks.Validator{}
 	s.ext = New(nil)
 	s.ext.test = true
-	s.save = false
+	s.save = true
 
 	s.byos = map[string]string{
 		"homeserver":    "synapse",
@@ -39,6 +39,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"type":          "byos",
 		"synapse-admin": "on",
 		"etherpad":      "on",
+		"smtp-relay":    "on",
 	}
 	s.turnkey = map[string]string{
 		"homeserver": "synapse",

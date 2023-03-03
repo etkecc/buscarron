@@ -121,10 +121,11 @@ matrix_dimension_admins:
 matrix_client_element_enabled: yes
 
 # etherpad
-matrix_etherpad_enabled: yes
-matrix_etherpad_mode: dimension
-matrix_etherpad_admin_username: test
-matrix_etherpad_admin_password: TODO64
+etherpad_enabled: yes
+etherpad_nginx_proxy_dimension_integration_enabled: yes
+etherpad_hostname: "{{ matrix_server_fqn_dimension }}"
+etherpad_admin_username: test
+etherpad_admin_password: TODO64
 
 # hydrogen https://hydrogen.higenjitsuteki.etke.host
 matrix_client_hydrogen_enabled: yes

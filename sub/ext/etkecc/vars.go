@@ -241,10 +241,17 @@ func (o *order) generateVarsSynapseMailer() string {
 
 	txt.WriteString("\n# synapse::mailer\n")
 	txt.WriteString("matrix_synapse_email_enabled: yes\n")
-	txt.WriteString("matrix_synapse_email_smtp_host: smtp.migadu.com\n")
-	txt.WriteString("matrix_synapse_email_smtp_port: 587\n")
-	txt.WriteString("matrix_synapse_email_smtp_user: \"matrix@{{ matrix_domain }}\"\n")
-	txt.WriteString("matrix_synapse_email_smtp_pass: " + o.pwgen() + "\n")
+	if o.has("service-email") {
+		txt.WriteString("matrix_synapse_email_smtp_host: smtp.migadu.com\n")
+		txt.WriteString("matrix_synapse_email_smtp_port: 587\n")
+		txt.WriteString("matrix_synapse_email_smtp_user: \"matrix@{{ matrix_domain }}\"\n")
+		txt.WriteString("matrix_synapse_email_smtp_pass: " + o.pwgen() + "\n")
+	} else {
+		txt.WriteString("matrix_synapse_email_smtp_host: TODO\n")
+		txt.WriteString("matrix_synapse_email_smtp_port: TODO\n")
+		txt.WriteString("matrix_synapse_email_smtp_user: TODO\n")
+		txt.WriteString("matrix_synapse_email_smtp_pass: TODO\n")
+	}
 
 	return txt.String()
 }
@@ -337,12 +344,15 @@ func (o *order) generateVarsEtherpad() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# etherpad\n")
-	txt.WriteString("matrix_etherpad_enabled: yes\n")
+	txt.WriteString("etherpad_enabled: yes\n")
 	if o.has("dimension") {
-		txt.WriteString("matrix_etherpad_mode: dimension\n")
+		txt.WriteString("etherpad_nginx_proxy_dimension_integration_enabled: yes\n")
+		txt.WriteString("etherpad_hostname: \"{{ matrix_server_fqn_dimension }}\"\n")
+	} else {
+		txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
 	}
-	txt.WriteString("matrix_etherpad_admin_username: " + o.get("username") + "\n")
-	txt.WriteString("matrix_etherpad_admin_password: " + o.password("etherpad admin") + "\n")
+	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
+	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
 
 	return txt.String()
 }

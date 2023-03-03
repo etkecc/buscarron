@@ -8,6 +8,7 @@ devture_postgres_connection_password: TODO64
 matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
+matrix_mailer_enabled: no
 matrix_client_element_enabled: no
 
 # initial users
@@ -41,6 +42,13 @@ matrix_synapse_redaction_retention_period: 5m
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
 matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO64
 
+# synapse::mailer
+matrix_synapse_email_enabled: yes
+matrix_synapse_email_smtp_host: TODO
+matrix_synapse_email_smtp_port: TODO
+matrix_synapse_email_smtp_user: TODO
+matrix_synapse_email_smtp_pass: TODO
+
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64
 matrix_synapse_password_config_pepper: TODO64
@@ -60,9 +68,10 @@ devture_postgres_backup_keep_weeks: 0
 devture_postgres_backup_keep_months: 0
 
 # etherpad
-matrix_etherpad_enabled: yes
-matrix_etherpad_admin_username: test
-matrix_etherpad_admin_password: TODO64
+etherpad_enabled: yes
+etherpad_hostname: "etherpad.{{ matrix_domain }}"
+etherpad_admin_username: test
+etherpad_admin_password: TODO64
 
 # synapse-admin https://matrix.example.com/synapse-admin
 matrix_synapse_admin_enabled: yes
