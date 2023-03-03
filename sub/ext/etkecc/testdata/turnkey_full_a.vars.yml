@@ -123,7 +123,8 @@ matrix_client_element_enabled: yes
 # etherpad
 etherpad_enabled: yes
 etherpad_nginx_proxy_dimension_integration_enabled: yes
-etherpad_hostname: "{{ matrix_server_fqn_dimension }}"
+matrix_server_fqn_etherpad: "{{ matrix_server_fqn_dimension }}"
+etherpad_prefix: /etherpad
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 

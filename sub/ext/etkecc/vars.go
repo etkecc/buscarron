@@ -347,9 +347,10 @@ func (o *order) generateVarsEtherpad() string {
 	txt.WriteString("etherpad_enabled: yes\n")
 	if o.has("dimension") {
 		txt.WriteString("etherpad_nginx_proxy_dimension_integration_enabled: yes\n")
-		txt.WriteString("etherpad_hostname: \"{{ matrix_server_fqn_dimension }}\"\n")
+		txt.WriteString("matrix_server_fqn_etherpad: \"{{ matrix_server_fqn_dimension }}\"\n")
+		txt.WriteString("etherpad_prefix: /etherpad\n")
 	} else {
-		txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
+		txt.WriteString("matrix_server_fqn_etherpad: \"etherpad.{{ matrix_domain }}\"\n")
 	}
 	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
