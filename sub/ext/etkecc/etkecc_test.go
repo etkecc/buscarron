@@ -29,7 +29,7 @@ func (s *EtkeccSuite) SetupTest() {
 	s.v = &mocks.Validator{}
 	s.ext = New(nil)
 	s.ext.test = true
-	s.save = true
+	s.save = false
 
 	s.byos = map[string]string{
 		"homeserver":    "synapse",
