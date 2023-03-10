@@ -55,7 +55,7 @@ func (o *order) generateQuestionsBridges() string {
 func (o *order) generateQuestionsServices() string {
 	var txt strings.Builder
 
-	if o.has("smtp-relay") && o.get("type") != "turnkey" {
+	if o.has("smtp-relay") {
 		txt.WriteString("SMTP relay: " + o.t("q_smtp-relay") + "\n\n")
 	}
 	if o.has("stats") && o.get("type") != "turnkey" {

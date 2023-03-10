@@ -8,6 +8,8 @@ Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption supp
 
 Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
 
+SMTP relay: please, select a suitable email provider (big providers like Gmail or Outlook will ban you for automated emails, so you need to find a service that allows sending of verification emails. Optionally, we provide such service). Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email (usually login and email are the same thing, but that depends on the provider).
+
 Dimension: are you sure you want it? It's a self-hosted integration manager. You will get an integration manager by default with any Element client app. Please check https://github.com/turt2live/matrix-dimension before deciding
 
 Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
