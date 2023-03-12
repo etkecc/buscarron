@@ -348,7 +348,7 @@ func (o *order) generateVarsEtherpad() string {
 	if o.has("dimension") {
 		txt.WriteString("etherpad_nginx_proxy_dimension_integration_enabled: yes\n")
 		txt.WriteString("matrix_server_fqn_etherpad: \"{{ matrix_server_fqn_dimension }}\"\n")
-		txt.WriteString("etherpad_prefix: /etherpad\n")
+		txt.WriteString("etherpad_path_prefix: /etherpad\n")
 	} else {
 		txt.WriteString("matrix_server_fqn_etherpad: \"etherpad.{{ matrix_domain }}\"\n")
 	}
