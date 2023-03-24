@@ -411,7 +411,7 @@ func (o *order) generateVarsStats() string {
 
 	txt.WriteString("\n# stats https://stats." + o.get("domain") + "\n")
 	txt.WriteString("grafana_enabled: yes\n")
-	txt.WriteString("matrix_prometheus_enabled: yes\n")
+	txt.WriteString("prometheus_enabled: yes\n")
 	txt.WriteString("grafana_anonymous_access: no\n")
 	txt.WriteString("prometheus_node_exporter_enabled: yes\n")
 	txt.WriteString("prometheus_node_exporter_process_extra_arguments:\n")

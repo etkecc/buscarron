@@ -145,7 +145,7 @@ matrix_jitsi_jicofo_auth_password: TODO64
 
 # stats https://stats.higenjitsuteki.etke.host
 grafana_enabled: yes
-matrix_prometheus_enabled: yes
+prometheus_enabled: yes
 grafana_anonymous_access: no
 prometheus_node_exporter_enabled: yes
 prometheus_node_exporter_process_extra_arguments:
