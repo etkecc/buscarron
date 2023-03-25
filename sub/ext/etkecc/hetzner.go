@@ -93,13 +93,28 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
-	cmd.WriteString("curl -X \"POST\" \"https://api.hetzner.cloud/v1/servers\" ")
-	cmd.WriteString("-H \"Content-Type: application/json\" ")
-	cmd.WriteString("-H \"Authorization: Bearer $HETZNER_API_TOKEN_CLOUD\" ")
-	cmd.WriteString("-d \"")
+	cmd.WriteString(`SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" `)
+	cmd.WriteString(`-H "Content-Type: application/json" `)
+	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" `)
+	cmd.WriteString(`-d "`)
 	cmd.WriteString(reqs)
-	cmd.WriteString("\"\n")
+	cmd.WriteString(`")`)
+	cmd.WriteString("\n")
 
+	cmd.WriteString(`SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')`)
+	cmd.WriteString("\n")
+	cmd.WriteString(`SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')`)
+	cmd.WriteString("\n")
+	cmd.WriteString(`SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')`)
+	cmd.WriteString("\n")
+
+	cmd.WriteString(`curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_backup" `)
+	cmd.WriteString(`-H "Content-Type: application/json" `)
+	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"`)
+	cmd.WriteString("\n")
+
+	cmd.WriteString(`echo -e "---\nIPv4: $SERVER_IP4\nIPv6: $SERVER_IP6"`)
+	cmd.WriteString("\n")
 	return cmd.String()
 }
 
