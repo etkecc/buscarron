@@ -150,7 +150,7 @@ func (o *order) generateVarsNtfy() string {
 }
 
 func (o *order) generateVarsPostgresBackup() string {
-	if o.has("borg") {
+	if o.has("borg") || o.get("type") == "turnkey" {
 		return ""
 	}
 	var txt strings.Builder
