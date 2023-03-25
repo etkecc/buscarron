@@ -41,7 +41,7 @@ github.com/mattevans/postmark-go
 # github.com/mattn/go-colorable v0.1.13
 ## explicit; go 1.15
 github.com/mattn/go-colorable
-# github.com/mattn/go-isatty v0.0.17
+# github.com/mattn/go-isatty v0.0.18
 ## explicit; go 1.15
 github.com/mattn/go-isatty
 # github.com/mattn/go-sqlite3 v1.14.16
@@ -109,12 +109,12 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator v1.0.6
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator
-# gitlab.com/etke.cc/linkpearl v0.0.0-20230213101923-10ee6beb7577
+# gitlab.com/etke.cc/linkpearl v0.0.0-20230325195630-6747eef55738
 ## explicit; go 1.18
 gitlab.com/etke.cc/linkpearl
 gitlab.com/etke.cc/linkpearl/config
 gitlab.com/etke.cc/linkpearl/store
-# golang.org/x/crypto v0.6.0
+# golang.org/x/crypto v0.7.0
 ## explicit; go 1.17
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/chacha20
@@ -154,10 +154,10 @@ golang.org/x/time/rate
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/maulogger/v2 v2.3.2
-## explicit; go 1.11
+# maunium.net/go/maulogger/v2 v2.4.1
+## explicit; go 1.19
 maunium.net/go/maulogger/v2
-# maunium.net/go/mautrix v0.13.0
+# maunium.net/go/mautrix v0.14.0
 ## explicit; go 1.18
 maunium.net/go/mautrix
 maunium.net/go/mautrix/appservice

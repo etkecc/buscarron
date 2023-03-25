@@ -1,3 +1,19 @@
+## v0.14.0 (2023-02-16)
+
+* **Breaking change *(format)*** Refactored the HTML parser `Context` to have
+  more data.
+* *(id)* Fixed escaping path components when forming matrix.to URLs
+  or `matrix:` URIs.
+* *(bridge)* Bumped default timeouts for decrypting incoming messages.
+* *(bridge)* Added `RawArgs` to commands to allow accessing non-split input.
+* *(bridge)* Added `ReplyAdvanced` to commands to allow setting markdown
+  settings.
+* *(event)* Added `notifications` key to `PowerLevelEventContent`.
+* *(event)* Changed `SetEdit` to cut off edit fallback if the message is long.
+* *(util)* Added `SyncMap` as a simple generic wrapper for a map with a mutex.
+* *(util)* Added `ReturnableOnce` as a wrapper for `sync.Once` with a return
+  value.
+
 ## v0.13.0 (2023-01-16)
 
 * **Breaking change:** Removed `IsTyping` and `SetTyping` in `appservice.StateStore`
