@@ -15,6 +15,7 @@ import (
 	"maunium.net/go/mautrix/id"
 
 	"gitlab.com/etke.cc/buscarron/config"
+	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub/ext"
 )
 
@@ -118,6 +119,7 @@ func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
+	metrics.Submission(form.Name)
 	h.log.Info("submission attempt to the %s form by %v passed the tests", name, rID)
 
 	text, files := h.generate(form, data)

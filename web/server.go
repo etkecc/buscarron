@@ -7,6 +7,7 @@ import (
 	sentryhttp "github.com/getsentry/sentry-go/http"
 	"gitlab.com/etke.cc/go/logger"
 
+	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub"
 )
 
@@ -55,6 +56,7 @@ func New(port string, srl, rls map[string]string, frr map[string]string, logleve
 	}
 
 	mux := http.NewServeMux()
+	metrics.InitMetrics(mux)
 	mux.Handle("/_health", srv.healthcheck())
 	mux.Handle("/_domain", srv.domainValidator())
 	mux.Handle("/", srv.forms())
@@ -151,7 +153,7 @@ func (s *Server) formReject(name, reason string, w http.ResponseWriter, r *http.
 func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
 	body, err := s.fh.GET(name, r)
 	if err == sub.ErrNotFound || err == sub.ErrSpam {
-		s.bh.Ban(r)
+		s.bh.Ban(r, err.Error())
 		s.formReject(name, err.Error(), w, r)
 		return
 	}
@@ -176,7 +178,7 @@ func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Reques
 
 	body, err := s.fh.POST(id, name, r)
 	if err == sub.ErrNotFound || err == sub.ErrSpam {
-		s.bh.Ban(r)
+		s.bh.Ban(r, err.Error())
 		s.formReject(name, err.Error(), w, r)
 		return
 	}
