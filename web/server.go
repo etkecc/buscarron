@@ -131,6 +131,7 @@ func (s *Server) forms() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.Context().Value(ctxID).(string)
 		name := r.Context().Value(ctxName).(string)
+		w.Header().Set("Content-Type", "text/html; charset=utf8")
 
 		if r.Method == http.MethodPost {
 			s.formPOST(id, name, w, r)
@@ -147,7 +148,7 @@ func (s *Server) formReject(name, reason string, w http.ResponseWriter, r *http.
 	if !ok {
 		return
 	}
-	w.Write([]byte(`<html><head><title>Redirecting...</title><meta http-equiv="Refresh" content="0; url='` + target + `'" /></head><body>Redirecting to <a href='` + target + `'>` + target + `</a>...`)) //nolint:errcheck
+	w.Write([]byte(`<html><head><title>Redirecting...</title><meta http-equiv="Refresh" content="0; url='` + target + `'" /></head><body>Redirecting to <a href="` + target + `">` + target + `</a>...`)) //nolint:errcheck
 }
 
 func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
@@ -157,6 +158,7 @@ func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
 		s.formReject(name, err.Error(), w, r)
 		return
 	}
+	w.Header().Set("Content-Type", "text/html")
 
 	if _, err := w.Write([]byte(body)); err != nil {
 		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
@@ -171,7 +173,6 @@ func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Reques
 	}
 
 	if limited {
-		http.Error(w, "", http.StatusTooManyRequests)
 		s.formReject(name, "too many requests", w, r)
 		return
 	}
