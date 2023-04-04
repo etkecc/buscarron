@@ -1,3 +1,14 @@
+# Buscarron v1.4.0 (in development)
+
+### Features :sparkles:
+
+* Allow redirect rejected submissions to specific URL
+* Prometheus metrics
+
+### Misc :zzz:
+
+* Updated deps
+
 # Buscarron v1.3.1 (2023-01-18)
 
 ### Features :sparkles:

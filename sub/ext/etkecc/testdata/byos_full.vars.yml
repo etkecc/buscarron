@@ -1,5 +1,3 @@
-### all:start
-### all:end
 
 # postgres
 devture_postgres_connection_password: TODO64
