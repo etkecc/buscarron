@@ -85,6 +85,9 @@ func (o *order) generateVarsHomeserver() string {
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}
+	if o.has("bridges-encryption") {
+		txt.WriteString("matrix_bridges_encryption_enabled: yes\n")
+	}
 
 	return txt.String()
 }
