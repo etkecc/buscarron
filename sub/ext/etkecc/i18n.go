@@ -7,6 +7,7 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 		"intro": "Hi there,\nWe got your order and have some questions before the setup.",
 
 		"q_delegation":          "We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301)",
+		"q_delegation_details":  "Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (DOMAIN) and the Matrix domain (matrix.DOMAIN) is.",
 		"q_reminder-bot":        "What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin",
 		"q_buscarron":           "are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.",
 		"q_honoroit":            "are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.",
@@ -52,6 +53,7 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 		"intro": "Hallo zusammen,\nWir haben Ihre Bestellung erhalten und haben einige Fragen vor der Einrichtung.",
 
 		"q_delegation":          "Wir sehen, dass Sie etwas auf Ihrer Basisdomain haben. In diesem Fall sollten Sie die folgenden HTTPS-Weiterleitungen (HTTP 301) hinzufügen",
+		"q_delegation_details":  "Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (DOMAIN) and the Matrix domain (matrix.DOMAIN) is.",
 		"q_reminder-bot":        "Was ist Ihre Zeitzone (IANA)? Wie America/Chicago, Asia/Seoul, oder Europe/Berlin",
 		"q_buscarron":           "Sind Sie sicher, dass Sie es wollen? Es ist ein Bot, der Webformulare (HTML/HTTP POST) empfängt und sie an (verschlüsselte) Matrixräume sendet. Bitte prüfen Sie https://gitlab.com/etke.cc/buscarron, bevor Sie sich entscheiden.",
 		"q_honoroit":            "Sind Sie sicher, dass Sie es wollen? Es ist ein Helpdesk-Bot mit Ende-Zu-Ende-Verschlüsselungsunterstützung. Bitte prüfen Sie https://gitlab.com/etke.cc/honoroit, bevor Sie sich entscheiden.",

@@ -5,6 +5,7 @@ We got your order and have some questions before the setup.
 We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
 * https://higenjitsuteki.etke.host/.well-known/matrix/server -> https://matrix.higenjitsuteki.etke.host/.well-known/matrix/server
 * https://higenjitsuteki.etke.host/.well-known/matrix/client -> https://matrix.higenjitsuteki.etke.host/.well-known/matrix/client
+Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (higenjitsuteki.etke.host) and the Matrix domain (matrix.higenjitsuteki.etke.host) is.
 
 Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
 

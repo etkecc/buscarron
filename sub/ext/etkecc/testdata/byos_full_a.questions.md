@@ -5,6 +5,7 @@ Wir haben Ihre Bestellung erhalten und haben einige Fragen vor der Einrichtung.
 Wir sehen, dass Sie etwas auf Ihrer Basisdomain haben. In diesem Fall sollten Sie die folgenden HTTPS-Weiterleitungen (HTTP 301) hinzufügen:
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
+Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (example.com) and the Matrix domain (matrix.example.com) is.
 
 Reminder bot: Was ist Ihre Zeitzone (IANA)? Wie America/Chicago, Asia/Seoul, oder Europe/Berlin
 

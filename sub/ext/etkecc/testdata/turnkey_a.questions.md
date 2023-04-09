@@ -5,6 +5,7 @@ We got your order and have some questions before the setup.
 We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
+Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (example.com) and the Matrix domain (matrix.example.com) is.
 
 SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.
 

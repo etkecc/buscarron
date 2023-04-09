@@ -7,6 +7,7 @@ matrix_domain: example.com
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
 matrix_mailer_enabled: no
+matrix_bridges_encryption_enabled: yes
 
 # initial users
 matrix_user_creator_users_additional:

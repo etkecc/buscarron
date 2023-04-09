@@ -68,8 +68,8 @@ func (s *EtkeccSuite) SetupTest() {
 		"service-maintenance": "on",
 		"service-email":       "on",
 		"lang":                "de",
-		"type":                "byos",
 		"borg":                "on",
+		"bridges-encryption":  "on",
 		"buscarron":           "on",
 		"cinny":               "on",
 		"dimension":           "on",
@@ -101,6 +101,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"sygnal":              "on",
 		"telegram":            "on",
 		"twitter":             "on",
+		"type":                "byos",
 		"webhooks":            "on",
 		"whatsapp":            "on",
 	}
