@@ -29,7 +29,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
 	questions := o.generateQuestions()
-	dns := o.generateDNSInstructions()
+	dns, dnsInternal := o.generateDNSInstructions()
 
 	o.txt.WriteString("```yaml\n")
 	o.txt.WriteString(questions)
@@ -50,7 +50,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.generateOnboarding()
 
 	o.eml.WriteString(questions)
-	if o.get("type") != "turnkey" {
+	if o.get("type") == "byos" && !dnsInternal {
 		o.eml.WriteString(dns)
 	}
 	o.eml.WriteString("\n" + o.t("ps_automatic_email"))

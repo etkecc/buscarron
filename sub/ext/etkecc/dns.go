@@ -5,9 +5,9 @@ import (
 	"strings"
 )
 
-func (o *order) generateDNSInstructions() string {
+func (o *order) generateDNSInstructions() (string, bool) {
 	if o.get("domain-type") == "subdomain" {
-		return o.generateHDNSCommand()
+		return o.generateHDNSCommand(), true
 	}
 	dns := "\n" + o.t("dns_add_entries") + ":\n"
 	if o.get("serve_base_domain") == "yes" {
@@ -33,5 +33,5 @@ func (o *order) generateDNSInstructions() string {
 		dns += strings.Join([]string{"_dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
 	}
 
-	return dns
+	return dns, false
 }
