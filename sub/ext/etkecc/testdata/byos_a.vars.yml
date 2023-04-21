@@ -71,7 +71,7 @@ devture_postgres_backup_keep_months: 0
 
 # etherpad
 etherpad_enabled: yes
-matrix_server_fqn_etherpad: "etherpad.{{ matrix_domain }}"
+etherpad_hostname: "etherpad.{{ matrix_domain }}"
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 
