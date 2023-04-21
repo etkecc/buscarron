@@ -14,6 +14,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsHomeserver())
 	txt.WriteString(o.generateVarsUsers())
 	txt.WriteString(o.generateVarsSynapse())
+	txt.WriteString(o.generateVarsTraefik())
 	txt.WriteString(o.generateVarsNginx())
 
 	// additional low-level services
@@ -269,6 +270,16 @@ func (o *order) generateVarsSynapseAdmin() string {
 	var txt strings.Builder
 	txt.WriteString("\n# synapse-admin https://matrix." + o.get("domain") + "/synapse-admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsTraefik() string {
+	var txt strings.Builder
+
+	txt.WriteString("\n# traefik\n")
+	txt.WriteString("matrix_playbook_reverse_proxy_type: playbook-managed-traefik\n")
+	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
 
 	return txt.String()
 }
