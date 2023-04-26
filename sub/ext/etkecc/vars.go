@@ -392,14 +392,14 @@ func (o *order) generateVarsJitsi() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# jitsi https://jitsi." + o.get("domain") + "\n")
-	txt.WriteString("matrix_jitsi_enabled: yes\n")
-	txt.WriteString("# matrix_jitsi_enable_auth: yes\n")
-	txt.WriteString("# matrix_jitsi_enable_guests: yes\n")
-	txt.WriteString("matrix_jitsi_jvb_auth_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_jitsi_jibri_xmpp_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_jitsi_jibri_recorder_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_jitsi_jicofo_auth_password: " + o.pwgen() + "\n")
-	txt.WriteString("# matrix_jitsi_prosody_auth_internal_accounts:\n")
+	txt.WriteString("jitsi_enabled: yes\n")
+	txt.WriteString("# jitsi_enable_auth: yes\n")
+	txt.WriteString("# jitsi_enable_guests: yes\n")
+	txt.WriteString("jitsi_jvb_auth_password: " + o.pwgen() + "\n")
+	txt.WriteString("jitsi_jibri_xmpp_password: " + o.pwgen() + "\n")
+	txt.WriteString("jitsi_jibri_recorder_password: " + o.pwgen() + "\n")
+	txt.WriteString("jitsi_jicofo_auth_password: " + o.pwgen() + "\n")
+	txt.WriteString("# jitsi_prosody_auth_internal_accounts:\n")
 	txt.WriteString("#  - username: " + o.get("username") + "\n")
 	txt.WriteString("#    password: " + o.pwgen() + "\n")
 

@@ -133,14 +133,14 @@ etherpad_admin_password: TODO64
 matrix_client_hydrogen_enabled: yes
 
 # jitsi https://jitsi.higenjitsuteki.etke.host
-matrix_jitsi_enabled: yes
-# matrix_jitsi_enable_auth: yes
-# matrix_jitsi_enable_guests: yes
-matrix_jitsi_jvb_auth_password: TODO64
-matrix_jitsi_jibri_xmpp_password: TODO64
-matrix_jitsi_jibri_recorder_password: TODO64
-matrix_jitsi_jicofo_auth_password: TODO64
-# matrix_jitsi_prosody_auth_internal_accounts:
+jitsi_enabled: yes
+# jitsi_enable_auth: yes
+# jitsi_enable_guests: yes
+jitsi_jvb_auth_password: TODO64
+jitsi_jibri_xmpp_password: TODO64
+jitsi_jibri_recorder_password: TODO64
+jitsi_jicofo_auth_password: TODO64
+# jitsi_prosody_auth_internal_accounts:
 #  - username: test
 #    password: TODO64
 
