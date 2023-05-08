@@ -1,3 +1,7 @@
+Halo!
+
+Your Matrix server is ready, here is your onboarding list:
+
 # links
 
 * homeserver: https://matrix.example.com
@@ -48,6 +52,10 @@
 * grafana password: TODO64
 
 > im Falle irgendwelcher Probleme: https://etke.cc/de/help
+
+Happy Matrixing!
+
+PS: To help you with first steps in the world of Matrix we've built special project - [MatrixRooms.info](https://matrixrooms.info) - it may help you to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
 # Schritte nach dem Einrichten
 

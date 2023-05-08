@@ -11,11 +11,14 @@ import (
 func (o *order) generateOnboarding() {
 	var txt strings.Builder
 
+	txt.WriteString(o.generateOnboardingIntro())
 	txt.WriteString(o.generateOnboardingLinks())
 	txt.WriteString(o.generateOnboardingBots())
 	txt.WriteString(o.generateOnboardingBridges())
 
 	txt.WriteString(o.generateOnboardingCredentials())
+
+	txt.WriteString(o.generateOnboardingOutro())
 
 	txt.WriteString(o.generateOnboardingAfter())
 
@@ -34,6 +37,17 @@ func (o *order) generateOnboarding() {
 			ContentLength: int64(len(content.FormattedBody)),
 		},
 	)
+}
+
+func (o *order) generateOnboardingIntro() string {
+	var txt strings.Builder
+	txt.WriteString(o.t("hello"))
+	txt.WriteString("\n\n")
+
+	txt.WriteString(o.t("server_is_ready"))
+	txt.WriteString("\n\n")
+
+	return txt.String()
 }
 
 func (o *order) generateOnboardingLinks() string {
@@ -156,6 +170,17 @@ func (o *order) generateOnboardingCredentials() string {
 	txt.WriteString("\n\n")
 	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/" + o.get("lang") + "/help\n\n")
 	o.pass["matrix"] = mxpass
+
+	return txt.String()
+}
+
+func (o *order) generateOnboardingOutro() string {
+	var txt strings.Builder
+	txt.WriteString(o.t("happy_matrixing"))
+	txt.WriteString("\n\n")
+
+	txt.WriteString(o.t("ps_matrixrooms"))
+	txt.WriteString("\n\n")
 
 	return txt.String()
 }

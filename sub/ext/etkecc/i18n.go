@@ -25,6 +25,10 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 
 		"dns_add_entries":    "DNS - please, add the following entries",
 		"ps_automatic_email": "PS: this is an automated email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers",
+		"hello":              "Hello!",
+		"server_is_ready":    "Your Matrix server is ready, here is your onboarding list:",
+		"happy_matrixing":    "Happy Matrixing!",
+		"ps_matrixrooms":     "PS: To help you with first steps in the world of Matrix we've built special project - [MatrixRooms.info](https://matrixrooms.info) - it may help you to discover rooms over the Matrix Federation and find amazing communities you wish to join!",
 		"matrix_server_on":   "Matrix server on",
 		"auth_instructions":  "auth instructions",
 		"in_case_of_issues":  "in case of any issues",
@@ -71,6 +75,10 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 
 		"dns_add_entries":    "DNS - bitte fügen Sie die folgenden Einträge hinzu",
 		"ps_automatic_email": "PS: Dies ist eine automatisierte E-Mail. Bitte antworten Sie auf diese E-Mail und beantworten Sie die oben gestellten Fragen (falls vorhanden). Ein Operator (Mensch) wird Ihre Antworten bearbeiten.",
+		"hello":              "Halo!",
+		"server_is_ready":    "Your Matrix server is ready, here is your onboarding list:",
+		"happy_matrixing":    "Happy Matrixing!",
+		"ps_matrixrooms":     "PS: To help you with first steps in the world of Matrix we've built special project - [MatrixRooms.info](https://matrixrooms.info) - it may help you to discover rooms over the Matrix Federation and find amazing communities you wish to join!",
 		"matrix_server_on":   "Matrix-Server an",
 		"auth_instructions":  "Authentifizierungsanweisungen",
 		"in_case_of_issues":  "im Falle irgendwelcher Probleme",

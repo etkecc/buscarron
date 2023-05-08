@@ -37,7 +37,7 @@ SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')
 SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')
 SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')
 curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_backup" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"
-echo -e "---\nIPv4: $SERVER_IP4\nIPv6: $SERVER_IP6"
+echo -e "---\nHello,\nWe've received your payment and have prepared a server for you. Its IP addresses are:\n- IPv4: $SERVER_IP4\n- IPv6: $SERVER_IP6\n"
 ```
 
 ```yaml

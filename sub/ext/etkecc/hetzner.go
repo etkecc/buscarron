@@ -113,7 +113,19 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"`)
 	cmd.WriteString("\n")
 
-	cmd.WriteString(`echo -e "---\nIPv4: $SERVER_IP4\nIPv6: $SERVER_IP6"`)
+	cmd.WriteString(`echo -e "---\n`)
+	cmd.WriteString(`Hello,\n`)
+	cmd.WriteString(`We've received your payment and have prepared a server for you. Its IP addresses are:\n`)
+	cmd.WriteString(`- IPv4: $SERVER_IP4\n`)
+	cmd.WriteString(`- IPv6: $SERVER_IP6\n`)
+	if o.get("domain-type") != "subdomain" {
+		dnsEntries, _ := o.generateDNSInstructions()
+		cmd.WriteString(strings.ReplaceAll(dnsEntries, "\n", `\n`))
+		cmd.WriteString(`\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n`)
+		cmd.WriteString(`Let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n`)
+		cmd.WriteString(`Regards\n`)
+	}
+	cmd.WriteString(`"`)
 	cmd.WriteString("\n")
 	return cmd.String()
 }
