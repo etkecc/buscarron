@@ -2,7 +2,7 @@ Halo!
 
 Your Matrix server is ready, here is your onboarding list:
 
-# links
+# Links
 
 * homeserver: https://matrix.example.com
 * etherpad admin: https://dimension.example.com/etherpad/admin
@@ -16,14 +16,14 @@ Your Matrix server is ready, here is your onboarding list:
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
 
-# bots
+# Bots
 
 * buscarron: @buscarron:example.com
 * honoroit: @honoroit:example.com
 * postmoogle: @postmoogle:example.com
 * reminder-bot: @reminder:example.com
 
-# bridges
+# Bridges
 
 * discord: @discordbot:example.com
 * facebook: @facebookbot:example.com
@@ -55,7 +55,7 @@ Your Matrix server is ready, here is your onboarding list:
 
 Happy Matrixing!
 
-PS: To help you with first steps in the world of Matrix we've built special project - [MatrixRooms.info](https://matrixrooms.info) - it may help you to discover rooms over the Matrix Federation and find amazing communities you wish to join!
+PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
 # Schritte nach dem Einrichten
 

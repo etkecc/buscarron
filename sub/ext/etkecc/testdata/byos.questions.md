@@ -14,7 +14,7 @@ ___
 
 ```yaml
 
-DNS - please, add the following entries:
+Please, add the following DNS entries:
 @	A record	server IP
 matrix	A record	server IP
 etherpad	CNAME record	matrix.example.com

@@ -14,11 +14,11 @@ Dimension: are you sure you want it? It's a self-hosted integration manager. You
 
 Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
 
-buscarron: are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
+buscarron: are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) Matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
 
 SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send us the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
 
-Sygnal: are you sure you want it? It's a push gateway, usable only for matrix client app developers, so you can't use it if you don't develop your mobile matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
+Sygnal: are you sure you want it? It's a push gateway, usable only for Matrix client app developers, so you can't use it if you don't develop your mobile Matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
 
 BorgBackup: please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
 

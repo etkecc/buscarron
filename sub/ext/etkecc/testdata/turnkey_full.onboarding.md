@@ -2,7 +2,7 @@ Hello!
 
 Your Matrix server is ready, here is your onboarding list:
 
-# links
+# Links
 
 * homeserver: https://matrix.higenjitsuteki.etke.host
 * etherpad admin: https://dimension.higenjitsuteki.etke.host/etherpad/admin
@@ -16,13 +16,13 @@ Your Matrix server is ready, here is your onboarding list:
 * stats: https://stats.higenjitsuteki.etke.host
 * sygnal: https://sygnal.higenjitsuteki.etke.host
 
-# bots
+# Bots
 
 * buscarron: @buscarron:higenjitsuteki.etke.host
 * honoroit: @honoroit:higenjitsuteki.etke.host
 * reminder-bot: @reminder:higenjitsuteki.etke.host
 
-# bridges
+# Bridges
 
 * discord: @discordbot:higenjitsuteki.etke.host
 * facebook: @facebookbot:higenjitsuteki.etke.host
@@ -42,7 +42,7 @@ Your Matrix server is ready, here is your onboarding list:
 
 > https://etke.cc/en/help/bridges - auth instructions
 
-# credentials
+# Credentials
 
 * mxid: @test:higenjitsuteki.etke.host
 * username: test
@@ -50,13 +50,13 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin password: TODO64
 * grafana password: TODO64
 
-> in case of any issues: https://etke.cc/en/help
+> In case of any issues: https://etke.cc/en/help
 
 Happy Matrixing!
 
-PS: To help you with first steps in the world of Matrix we've built special project - [MatrixRooms.info](https://matrixrooms.info) - it may help you to discover rooms over the Matrix Federation and find amazing communities you wish to join!
+PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
-# steps after the setup
+# Steps after the setup
 
 ### etherpad
 
@@ -66,12 +66,12 @@ PS: To help you with first steps in the world of Matrix we've built special proj
 
 ### buscarron
 
-1. Create (encrypted) matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
-2. Send the list of (form name, matrix room id, redirect URL after submission) to the @support:etke.cc
+1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
+2. Send the list of (form name, Matrix room id, redirect URL after submission) to @support:etke.cc
 
 ### honoroit
 
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
-2. Send the room id to the @support:etke.cc
+2. Send the room id to @support:etke.cc
 
 if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
