@@ -6,7 +6,7 @@ Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or 
 
 Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
 
-Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with me
+Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with us
 
 SMTP relay: please, select a suitable email provider (big providers like Gmail or Outlook will ban you for automated emails, so you need to find a service that allows sending of verification emails. Optionally, we provide such service). Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email (usually login and email are the same thing, but that depends on the provider).
 
