@@ -37,8 +37,9 @@ ___
 ```yaml
 
 DNS - bitte fügen Sie die folgenden Einträge hinzu:
-@	A record	server IP
-matrix	A record	server IP
+
+@	A record	$SERVER_IP4
+matrix	A record	$SERVER_IP4
 buscarron	CNAME record	matrix.example.com
 cinny	CNAME record	matrix.example.com
 dimension	CNAME record	matrix.example.com
@@ -50,7 +51,7 @@ ntfy	CNAME record	matrix.example.com
 stats	CNAME record	matrix.example.com
 sygnal	CNAME record	matrix.example.com
 matrix	MX record	matrix.example.com
-matrix	TXT record	v=spf1 ip4:SERVER_IP -all
+matrix	TXT record	v=spf1 ip4:$SERVER_IP4 -all
 _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 

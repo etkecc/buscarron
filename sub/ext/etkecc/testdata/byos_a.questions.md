@@ -20,7 +20,8 @@ ___
 ```yaml
 
 Please, add the following DNS entries:
-matrix	A record	server IP
+
+matrix	A record	$SERVER_IP4
 etherpad	CNAME record	matrix.example.com
 ```
 
