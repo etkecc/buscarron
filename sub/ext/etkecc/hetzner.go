@@ -13,6 +13,11 @@ var (
 	hDomains = map[string]string{
 		".etke.host": "enTDpM8y67STAZcQMpmqr7",
 	}
+	hDNSPatch = map[string]string{
+		"\n":            `\n`,
+		"server IP":     "$SERVER_IP4",
+		"ip4:SERVER_IP": "ip4:$SERVER_IP4",
+	}
 	// hLocations between human-readable name and actual name
 	hLocations = map[string]string{
 		"ashburn":     "ash",
@@ -118,16 +123,31 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	cmd.WriteString(`We've received your payment and have prepared a server for you. Its IP addresses are:\n\n`)
 	cmd.WriteString(`- IPv4: $SERVER_IP4\n`)
 	cmd.WriteString(`- IPv6: $SERVER_IP6\n`)
-	if o.get("domain-type") != "subdomain" {
-		dnsEntries, _ := o.generateDNSInstructions()
-		cmd.WriteString(strings.ReplaceAll(dnsEntries, "\n", `\n`))
-		cmd.WriteString(`\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n\n`)
-		cmd.WriteString(`Let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\n`)
-		cmd.WriteString(`Regards\n`)
+	dnsInstructions := o.adaptTurnkeyDNS()
+	if dnsInstructions != "" {
+		cmd.WriteString(dnsInstructions)
 	}
 	cmd.WriteString(`"`)
 	cmd.WriteString("\n")
 	return cmd.String()
+}
+
+func (o *order) adaptTurnkeyDNS() string {
+	dnsEntries, internal := o.generateDNSInstructions()
+	if internal {
+		return ""
+	}
+	for from, to := range hDNSPatch {
+		dnsEntries = strings.ReplaceAll(dnsEntries, from, to)
+	}
+
+	var msg strings.Builder
+	msg.WriteString(dnsEntries)
+	msg.WriteString(`\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n\n`)
+	msg.WriteString(`Let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\n`)
+	msg.WriteString(`Regards\n`)
+
+	return msg.String()
 }
 
 func (o *order) generateHDNSCommand() string {
