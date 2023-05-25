@@ -43,19 +43,19 @@ ___
 
 DNS - bitte fügen Sie die folgenden Einträge hinzu:
 
-matrix	A record	$SERVER_IP4
-buscarron	CNAME record	matrix.example.com
-cinny	CNAME record	matrix.example.com
-dimension	CNAME record	matrix.example.com
-element	CNAME record	matrix.example.com
-etherpad	CNAME record	matrix.example.com
-hydrogen	CNAME record	matrix.example.com
-jitsi	CNAME record	matrix.example.com
-ntfy	CNAME record	matrix.example.com
-stats	CNAME record	matrix.example.com
-sygnal	CNAME record	matrix.example.com
-matrix	MX record	matrix.example.com
-matrix	TXT record	v=spf1 ip4:$SERVER_IP4 -all
-_dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
+- matrix	A record	server IP
+- buscarron	CNAME record	matrix.example.com
+- cinny	CNAME record	matrix.example.com
+- dimension	CNAME record	matrix.example.com
+- element	CNAME record	matrix.example.com
+- etherpad	CNAME record	matrix.example.com
+- hydrogen	CNAME record	matrix.example.com
+- jitsi	CNAME record	matrix.example.com
+- ntfy	CNAME record	matrix.example.com
+- stats	CNAME record	matrix.example.com
+- sygnal	CNAME record	matrix.example.com
+- matrix	MX record	matrix.example.com
+- matrix	TXT record	v=spf1 ip4:server IP -all
+- _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 

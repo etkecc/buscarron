@@ -42,9 +42,11 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString("```\n\n")
 	}
 
-	o.txt.WriteString("```yaml\n")
-	o.txt.WriteString(dns)
-	o.txt.WriteString("```\n\n")
+	if o.get("type") == "byos" || dnsInternal {
+		o.txt.WriteString("```yaml\n")
+		o.txt.WriteString(dns)
+		o.txt.WriteString("```\n\n")
+	}
 
 	o.generateVars()
 	o.generateOnboarding()

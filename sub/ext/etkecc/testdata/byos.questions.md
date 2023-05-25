@@ -16,8 +16,8 @@ ___
 
 Please, add the following DNS entries:
 
-@	A record	$SERVER_IP4
-matrix	A record	$SERVER_IP4
-etherpad	CNAME record	matrix.example.com
+- @	A record	server IP
+- matrix	A record	server IP
+- etherpad	CNAME record	matrix.example.com
 ```
 
