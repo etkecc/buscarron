@@ -1,6 +1,7 @@
 package etkecc
 
 import (
+	"reflect"
 	"strings"
 
 	"github.com/mattevans/postmark-go"
@@ -110,7 +111,7 @@ func (o *order) preprocess() {
 }
 
 func (o *order) sendmail() {
-	if o.pm == nil {
+	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Ptr && reflect.ValueOf(o.pm).IsNil()) {
 		return
 	}
 

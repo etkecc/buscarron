@@ -2,6 +2,7 @@ package ext
 
 import (
 	"bytes"
+	"reflect"
 	"text/template"
 
 	"github.com/mattevans/postmark-go"
@@ -48,8 +49,13 @@ func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[s
 		Subject:  subject,
 		TextBody: body,
 	}
-	e.s.Send(req) // nolint // not ready to handle errors
 
+	// special case with nil interface
+	if e.s == nil || (reflect.ValueOf(e.s).Kind() == reflect.Ptr && reflect.ValueOf(e.s).IsNil()) {
+		return "", []*mautrix.ReqUploadMedia{}
+	}
+
+	e.s.Send(req) // nolint // not ready to handle errors
 	return "", []*mautrix.ReqUploadMedia{}
 }
 
