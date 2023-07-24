@@ -42,6 +42,7 @@ func (o *order) generateVars() {
 	// bridges
 	txt.WriteString(o.generateVarsDiscord())
 	txt.WriteString(o.generateVarsFacebook())
+	txt.WriteString(o.generateVarsGmessages())
 	txt.WriteString(o.generateVarsGooglechat())
 	txt.WriteString(o.generateVarsGroupme())
 	txt.WriteString(o.generateVarsHeisenbridge())
@@ -534,6 +535,17 @@ func (o *order) generateVarsFacebook() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::facebook\n")
 	txt.WriteString("matrix_mautrix_facebook_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsGmessages() string {
+	if !o.has("gmessages") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::gmessages\n")
+	txt.WriteString("matrix_mautrix_gmessages_enabled: yes\n")
 
 	return txt.String()
 }

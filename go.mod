@@ -8,7 +8,7 @@ require (
 	github.com/lib/pq v1.10.7
 	github.com/mattevans/postmark-go v0.1.6
 	github.com/mattn/go-sqlite3 v1.14.16
-	github.com/microcosm-cc/bluemonday v1.0.23
+	github.com/microcosm-cc/bluemonday v1.0.25
 	github.com/prometheus/client_golang v1.14.0
 	github.com/stretchr/testify v1.8.1
 	gitlab.com/etke.cc/go/env v1.0.0
@@ -46,10 +46,10 @@ require (
 	github.com/tidwall/sjson v1.2.5 // indirect
 	github.com/yuin/goldmark v1.5.4 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
-	golang.org/x/crypto v0.7.0 // indirect
-	golang.org/x/net v0.8.0 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/text v0.8.0 // indirect
+	golang.org/x/crypto v0.11.0 // indirect
+	golang.org/x/net v0.12.0 // indirect
+	golang.org/x/sys v0.10.0 // indirect
+	golang.org/x/text v0.11.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.4.1 // indirect

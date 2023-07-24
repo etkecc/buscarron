@@ -77,6 +77,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"element-web":         "on",
 		"etherpad":            "on",
 		"facebook":            "on",
+		"gmessages":           "on",
 		"googlechat":          "on",
 		"groupme":             "on",
 		"hangouts":            "on",

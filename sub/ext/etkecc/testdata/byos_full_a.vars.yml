@@ -183,6 +183,9 @@ matrix_mautrix_discord_enabled: yes
 # bridges::facebook
 matrix_mautrix_facebook_enabled: yes
 
+# bridges::gmessages
+matrix_mautrix_gmessages_enabled: yes
+
 # bridges::googlechat
 matrix_mautrix_googlechat_enabled: yes
 
