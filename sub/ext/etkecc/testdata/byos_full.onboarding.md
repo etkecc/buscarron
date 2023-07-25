@@ -5,16 +5,17 @@ Your Matrix server is ready, here is your onboarding list:
 # Links
 
 * homeserver: https://matrix.example.com
-* etherpad admin: https://dimension.example.com/etherpad/admin
+* etherpad admin: https://etherpad.example.com/admin
 * buscarron: https://buscarron.example.com
 * cinny: https://cinny.example.com
-* dimension: https://dimension.example.com
 * element-web: https://element.example.com
+* etherpad: https://etherpad.example.com
 * hydrogen: https://hydrogen.example.com
 * jitsi: https://jitsi.example.com
 * ntfy: https://ntfy.example.com
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
+
 
 # Bots
 
@@ -23,10 +24,12 @@ Your Matrix server is ready, here is your onboarding list:
 * postmoogle: @postmoogle:example.com
 * reminder-bot: @reminder:example.com
 
+
 # Bridges
 
 * discord: @discordbot:example.com
 * facebook: @facebookbot:example.com
+* gmessages: @gmessagesbot:example.com
 * googlechat: @googlechatbot:example.com
 * groupme: @_groupmepuppet_bot:example.com
 * instagram: @instagrambot:example.com
@@ -41,6 +44,7 @@ Your Matrix server is ready, here is your onboarding list:
 * webhooks: @hookshot:example.com
 * whatsapp: @whatsappbot:example.com
 
+
 > https://etke.cc/de/help/bridges - Authentifizierungsanweisungen
 
 # Anmeldeinformationen
@@ -51,6 +55,7 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin password: TODO64
 * grafana password: TODO64
 
+
 > im Falle irgendwelcher Probleme: https://etke.cc/de/help
 
 Happy Matrixing!
@@ -58,12 +63,6 @@ Happy Matrixing!
 PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
 # Schritte nach dem Einrichten
-
-### etherpad
-
-1. Öffnen Sie den Integrationsmanager in einer beliebigen Element-Client-Anwendung
-2. Klicken Sie auf das Zahnradsymbol und gehen Sie auf die Registerkarte Widgets
-3. Öffnen Sie die Etherpad-Widget-Konfiguration und ersetzen Sie `scalar.vector.im` durch `dimension.example.com`
 
 ### buscarron
 
@@ -76,3 +75,4 @@ PS: To help with your first steps in the world of Matrix, we've built the [Matri
 2. Senden Sie die Raum-ID an @support:etke.cc
 
 Wenn Sie die Nachrichten von honoroit ändern möchten, senden Sie die gewünschten Texte an @support:etke.cc (Sie können https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go als Referenz verwenden)
+

@@ -144,7 +144,7 @@ func (o *order) adaptTurnkeyDNS() string {
 	var msg strings.Builder
 	msg.WriteString(dnsEntries)
 	msg.WriteString(`\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n\n`)
-	msg.WriteString(`Let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\n`)
+	msg.WriteString(`Please let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\n`)
 	msg.WriteString(`Regards\n`)
 
 	return msg.String()

@@ -5,22 +5,24 @@ Your Matrix server is ready, here is your onboarding list:
 # Links
 
 * homeserver: https://matrix.higenjitsuteki.etke.host
-* etherpad admin: https://dimension.higenjitsuteki.etke.host/etherpad/admin
+* etherpad admin: https://etherpad.higenjitsuteki.etke.host/admin
 * buscarron: https://buscarron.higenjitsuteki.etke.host
 * cinny: https://cinny.higenjitsuteki.etke.host
-* dimension: https://dimension.higenjitsuteki.etke.host
 * element-web: https://element.higenjitsuteki.etke.host
+* etherpad: https://etherpad.higenjitsuteki.etke.host
 * hydrogen: https://hydrogen.higenjitsuteki.etke.host
 * jitsi: https://jitsi.higenjitsuteki.etke.host
 * ntfy: https://ntfy.higenjitsuteki.etke.host
 * stats: https://stats.higenjitsuteki.etke.host
 * sygnal: https://sygnal.higenjitsuteki.etke.host
 
+
 # Bots
 
 * buscarron: @buscarron:higenjitsuteki.etke.host
 * honoroit: @honoroit:higenjitsuteki.etke.host
 * reminder-bot: @reminder:higenjitsuteki.etke.host
+
 
 # Bridges
 
@@ -40,6 +42,7 @@ Your Matrix server is ready, here is your onboarding list:
 * webhooks: @hookshot:higenjitsuteki.etke.host
 * whatsapp: @whatsappbot:higenjitsuteki.etke.host
 
+
 > https://etke.cc/en/help/bridges - auth instructions
 
 # Credentials
@@ -50,6 +53,7 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin password: TODO64
 * grafana password: TODO64
 
+
 > In case of any issues: https://etke.cc/en/help
 
 Happy Matrixing!
@@ -57,12 +61,6 @@ Happy Matrixing!
 PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
 # Steps after the setup
-
-### etherpad
-
-1. Open integration manager in any element client app
-2. Click on the sprocket icon and go to the Widgets tab
-3. Open the Etherpad widget configuration and replace `scalar.vector.im` with `dimension.higenjitsuteki.etke.host`
 
 ### buscarron
 
@@ -75,3 +73,4 @@ PS: To help with your first steps in the world of Matrix, we've built the [Matri
 2. Send the room id to @support:etke.cc
 
 if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
+

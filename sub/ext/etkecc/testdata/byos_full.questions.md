@@ -12,8 +12,6 @@ SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter 
 
 Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
 
-Dimension: Sind Sie sicher, dass Sie das wollen? Es ist ein selbst gehosteter Integrationsmanager. Sie erhalten standardmäßig einen Integrationsmanager mit jeder Element-Client-Anwendung. Bitte prüfen Sie https://github.com/turt2live/matrix-dimension bevor Sie sich entscheiden.
-
 Website: Um eine statische Website einzurichten, müssen Sie Ihre Basisdomäne (den @ DNS eintrag) auf die IP-Adresse des Matrix-Servers verweisen, und der Quellcode der Website muss in einem öffentlichen git repo verfügbar sein. Sind Sie sicher, dass Sie das wollen? Wenn ja, geben Sie bitte die URL des Website-Repositorys, den Befehl (-s) zum Erstellen der Website und den Ordner an, in dem die Build-Distribution gespeichert ist (normalerweise public oder dist).
 
 buscarron: Sind Sie sicher, dass Sie es wollen? Es ist ein Bot, der Webformulare (HTML/HTTP POST) empfängt und sie an (verschlüsselte) Matrixräume sendet. Bitte prüfen Sie https://gitlab.com/etke.cc/buscarron, bevor Sie sich entscheiden.
@@ -42,7 +40,6 @@ DNS - bitte fügen Sie die folgenden Einträge hinzu:
 - matrix	A record	server IP
 - buscarron	CNAME record	matrix.example.com
 - cinny	CNAME record	matrix.example.com
-- dimension	CNAME record	matrix.example.com
 - element	CNAME record	matrix.example.com
 - etherpad	CNAME record	matrix.example.com
 - hydrogen	CNAME record	matrix.example.com

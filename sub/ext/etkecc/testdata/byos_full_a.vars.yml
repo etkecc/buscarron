@@ -113,20 +113,12 @@ ntfy_enabled: yes
 # cinny https://cinny.example.com
 matrix_client_cinny_enabled: yes
 
-# dimension https://dimension.example.com
-matrix_dimension_enabled: yes
-matrix_dimension_access_token: TODO # password: TODO64
-matrix_dimension_admins:
-  - "{{ matrix_admin }}"# TODO
-# curl -X POST -H 'Content-Type: application/json' -d '{"identifier": { "type": "m.id.user", "user": "dimension" },"password": "TODO64", "type": "m.login.password"}' 'https://matrix.example.com/_matrix/client/r0/login'
-
 # element https://element.example.com
 matrix_client_element_enabled: yes
 
 # etherpad
 etherpad_enabled: yes
-etherpad_hostname: "{{ matrix_server_fqn_dimension }}"
-etherpad_path_prefix: /etherpad
+etherpad_hostname: "etherpad.{{ matrix_domain }}"
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 

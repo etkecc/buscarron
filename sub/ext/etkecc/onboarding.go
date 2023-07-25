@@ -25,16 +25,10 @@ func (o *order) generateOnboarding() {
 	content := format.RenderMarkdown(txt.String(), true, true)
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(content.Body),
+			Content:       strings.NewReader(txt.String()),
 			FileName:      "onboarding.md",
 			ContentType:   "text/markdown",
 			ContentLength: int64(len(content.Body)),
-		},
-		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(content.FormattedBody),
-			FileName:      "onboarding.html",
-			ContentType:   "text/html",
-			ContentLength: int64(len(content.FormattedBody)),
 		},
 	)
 }
@@ -63,18 +57,12 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	if o.has("etherpad") {
 		url := "https://etherpad." + o.get("domain") + "/admin"
-		if o.has("dimension") {
-			url = "https://dimension." + o.get("domain") + "/etherpad/admin"
-		}
 		txt.WriteString("* etherpad admin: " + url + "\n")
 	}
 
 	items := []string{}
 	for item := range dnsmap {
 		if o.has(item) {
-			if item == "etherpad" && o.has("dimension") {
-				continue
-			}
 			items = append(items, item)
 		}
 	}
@@ -186,30 +174,14 @@ func (o *order) generateOnboardingOutro() string {
 }
 
 func (o *order) generateOnboardingAfter() string {
-	has := (o.has("etherpad") && o.has("dimension")) || o.has("honoroit")
-	if !has {
+	if !o.has("honoroit") {
 		return ""
 	}
 	var txt strings.Builder
 
 	txt.WriteString("# " + o.t("steps_after_setup") + "\n\n")
-	txt.WriteString(o.generateOnboardingAfterEtherpad())
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
-
-	return txt.String()
-}
-
-func (o *order) generateOnboardingAfterEtherpad() string {
-	if !(o.has("etherpad") && o.has("dimension")) {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("### etherpad\n\n")
-	txt.WriteString("1. " + o.t("as_etherpad_1") + "\n")
-	txt.WriteString("2. " + o.t("as_etherpad_2") + "\n")
-	txt.WriteString("3. " + o.t("as_etherpad_3") + " `dimension." + o.get("domain") + "`\n\n")
 
 	return txt.String()
 }

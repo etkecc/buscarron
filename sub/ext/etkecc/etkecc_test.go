@@ -72,7 +72,6 @@ func (s *EtkeccSuite) SetupTest() {
 		"bridges-encryption":  "on",
 		"buscarron":           "on",
 		"cinny":               "on",
-		"dimension":           "on",
 		"discord":             "on",
 		"element-web":         "on",
 		"etherpad":            "on",
@@ -122,7 +121,6 @@ func (s *EtkeccSuite) SetupTest() {
 		"borg":                "on",
 		"buscarron":           "on",
 		"cinny":               "on",
-		"dimension":           "on",
 		"discord":             "on",
 		"dnsmasq":             "on",
 		"element-web":         "on",
@@ -200,7 +198,6 @@ func (s *EtkeccSuite) TestPassword() {
 func (s *EtkeccSuite) TestExecute_Turnkey() {
 	expectedQuestions := s.read("turnkey.questions.md")
 	expectedOnboarding := s.read("turnkey.onboarding.md")
-	expectedOnboardingHTML := s.read("turnkey.onboarding.html")
 	expectedVars := s.read("turnkey.vars.yml")
 	s.v.On("A", "example.com").Return(false).Once()
 	s.v.On("CNAME", "example.com").Return(false).Once()
@@ -209,25 +206,21 @@ func (s *EtkeccSuite) TestExecute_Turnkey() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("turnkey.questions.md", actualQuestions)
 		s.write("turnkey.onboarding.md", actualOnboarding)
-		s.write("turnkey.onboarding.html", actualOnboardingHTML)
 		s.write("turnkey.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Turnkey_A() {
 	expectedQuestions := s.read("turnkey_a.questions.md")
 	expectedOnboarding := s.read("turnkey_a.onboarding.md")
-	expectedOnboardingHTML := s.read("turnkey_a.onboarding.html")
 	expectedVars := s.read("turnkey_a.vars.yml")
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
@@ -235,25 +228,21 @@ func (s *EtkeccSuite) TestExecute_Turnkey_A() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("turnkey_a.questions.md", actualQuestions)
 		s.write("turnkey_a.onboarding.md", actualOnboarding)
-		s.write("turnkey_a.onboarding.html", actualOnboardingHTML)
 		s.write("turnkey_a.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
 	expectedQuestions := s.read("turnkey_full.questions.md")
 	expectedOnboarding := s.read("turnkey_full.onboarding.md")
-	expectedOnboardingHTML := s.read("turnkey_full.onboarding.html")
 	expectedVars := s.read("turnkey_full.vars.yml")
 	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
 	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
@@ -262,25 +251,21 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("turnkey_full.questions.md", actualQuestions)
 		s.write("turnkey_full.onboarding.md", actualOnboarding)
-		s.write("turnkey_full.onboarding.html", actualOnboardingHTML)
 		s.write("turnkey_full.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
 	expectedQuestions := s.read("turnkey_full_a.questions.md")
 	expectedOnboarding := s.read("turnkey_full_a.onboarding.md")
-	expectedOnboardingHTML := s.read("turnkey_full_a.onboarding.html")
 	expectedVars := s.read("turnkey_full_a.vars.yml")
 	s.v.On("A", "higenjitsuteki.etke.host").Return(true).Once()
 	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
@@ -288,25 +273,21 @@ func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("turnkey_full_a.questions.md", actualQuestions)
 		s.write("turnkey_full_a.onboarding.md", actualOnboarding)
-		s.write("turnkey_full_a.onboarding.html", actualOnboardingHTML)
 		s.write("turnkey_full_a.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Byos() {
 	expectedQuestions := s.read("byos.questions.md")
 	expectedOnboarding := s.read("byos.onboarding.md")
-	expectedOnboardingHTML := s.read("byos.onboarding.html")
 	expectedVars := s.read("byos.vars.yml")
 	s.v.On("A", "example.com").Return(false).Once()
 	s.v.On("CNAME", "example.com").Return(false).Once()
@@ -315,25 +296,21 @@ func (s *EtkeccSuite) TestExecute_Byos() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("byos.questions.md", actualQuestions)
 		s.write("byos.onboarding.md", actualOnboarding)
-		s.write("byos.onboarding.html", actualOnboardingHTML)
 		s.write("byos.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Byos_Sub() {
 	expectedQuestions := s.read("byos_sub.questions.md")
 	expectedOnboarding := s.read("byos_sub.onboarding.md")
-	expectedOnboardingHTML := s.read("byos_sub.onboarding.html")
 	expectedVars := s.read("byos_sub.vars.yml")
 	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
 	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
@@ -342,25 +319,21 @@ func (s *EtkeccSuite) TestExecute_Byos_Sub() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosSub)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("byos_sub.questions.md", actualQuestions)
 		s.write("byos_sub.onboarding.md", actualOnboarding)
-		s.write("byos_sub.onboarding.html", actualOnboardingHTML)
 		s.write("byos_sub.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Byos_A() {
 	expectedQuestions := s.read("byos_a.questions.md")
 	expectedOnboarding := s.read("byos_a.onboarding.md")
-	expectedOnboardingHTML := s.read("byos_a.onboarding.html")
 	expectedVars := s.read("byos_a.vars.yml")
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
@@ -368,25 +341,21 @@ func (s *EtkeccSuite) TestExecute_Byos_A() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("byos_a.questions.md", actualQuestions)
 		s.write("byos_a.onboarding.md", actualOnboarding)
-		s.write("byos_a.onboarding.html", actualOnboardingHTML)
 		s.write("byos_a.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Byos_Full() {
 	expectedQuestions := s.read("byos_full.questions.md")
 	expectedOnboarding := s.read("byos_full.onboarding.md")
-	expectedOnboardingHTML := s.read("byos_full.onboarding.html")
 	expectedVars := s.read("byos_full.vars.yml")
 	s.v.On("A", "example.com").Return(false).Once()
 	s.v.On("CNAME", "example.com").Return(false).Once()
@@ -395,25 +364,21 @@ func (s *EtkeccSuite) TestExecute_Byos_Full() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("byos_full.questions.md", actualQuestions)
 		s.write("byos_full.onboarding.md", actualOnboarding)
-		s.write("byos_full.onboarding.html", actualOnboardingHTML)
 		s.write("byos_full.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 
 func (s *EtkeccSuite) TestExecute_Byos_Full_A() {
 	expectedQuestions := s.read("byos_full_a.questions.md")
 	expectedOnboarding := s.read("byos_full_a.onboarding.md")
-	expectedOnboardingHTML := s.read("byos_full_a.onboarding.html")
 	expectedVars := s.read("byos_full_a.vars.yml")
 	s.v.On("A", "example.com").Return(true).Once()
 	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
@@ -421,18 +386,15 @@ func (s *EtkeccSuite) TestExecute_Byos_Full_A() {
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
 	actualVars := s.rts(files[0].Content)
 	actualOnboarding := s.rts(files[1].Content)
-	actualOnboardingHTML := s.rts(files[2].Content)
 	// to generate output
 	if s.save {
 		s.write("byos_full_a.questions.md", actualQuestions)
 		s.write("byos_full_a.onboarding.md", actualOnboarding)
-		s.write("byos_full_a.onboarding.html", actualOnboardingHTML)
 		s.write("byos_full_a.vars.yml", actualVars)
 	}
 
 	s.Equal(expectedQuestions, actualQuestions)
 	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedOnboardingHTML, actualOnboardingHTML)
 	s.Equal(expectedVars, actualVars)
 }
 

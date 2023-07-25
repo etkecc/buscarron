@@ -5,7 +5,7 @@ Wir haben Ihre Bestellung erhalten und haben einige Fragen vor der Einrichtung.
 Wir sehen, dass Sie etwas auf Ihrer Basisdomain haben. In diesem Fall sollten Sie die folgenden HTTPS-Weiterleitungen (HTTP 301) hinzufügen:
 * https://example.com/.well-known/matrix/server -> https://matrix.example.com/.well-known/matrix/server
 * https://example.com/.well-known/matrix/client -> https://matrix.example.com/.well-known/matrix/client
-Click [here](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain) to learn more about why these redirects are necessary and what the connection between the base domain (example.com) and the Matrix domain (matrix.example.com) is.
+To learn more about why these redirects are necessary and what the connection between the base domain (example.com) and the Matrix domain (matrix.example.com) is, read the following guide: https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain
 
 Reminder bot: Was ist Ihre Zeitzone (IANA)? Wie America/Chicago, Asia/Seoul, oder Europe/Berlin
 
@@ -16,8 +16,6 @@ Telegram: gehen Sie bitte auf https://my.telegram.org/apps und erstellen Sie ein
 SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter wie Gmail oder Outlook sperren Sie für automatisierte E-Mails, daher müssen Sie einen Dienst finden, der den Versand von Verifizierungs-E-Mails erlaubt. Optional bieten wir einen solchen Dienst an). Bitte senden Sie uns einen SMTP Host, einen SMTP STARTTLS Port, ein SMTP Login, ein SMTP Passwort und eine SMTP E-Mail (normalerweise sind Login und E-Mail dasselbe, aber das hängt vom Anbieter ab).
 
 Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
-
-Dimension: Sind Sie sicher, dass Sie das wollen? Es ist ein selbst gehosteter Integrationsmanager. Sie erhalten standardmäßig einen Integrationsmanager mit jeder Element-Client-Anwendung. Bitte prüfen Sie https://github.com/turt2live/matrix-dimension bevor Sie sich entscheiden.
 
 Website: Um eine statische Website einzurichten, müssen Sie Ihre Basisdomäne (den @ DNS eintrag) auf die IP-Adresse des Matrix-Servers verweisen, und der Quellcode der Website muss in einem öffentlichen git repo verfügbar sein. Sind Sie sicher, dass Sie das wollen? Wenn ja, geben Sie bitte die URL des Website-Repositorys, den Befehl (-s) zum Erstellen der Website und den Ordner an, in dem die Build-Distribution gespeichert ist (normalerweise public oder dist).
 
@@ -46,7 +44,6 @@ DNS - bitte fügen Sie die folgenden Einträge hinzu:
 - matrix	A record	server IP
 - buscarron	CNAME record	matrix.example.com
 - cinny	CNAME record	matrix.example.com
-- dimension	CNAME record	matrix.example.com
 - element	CNAME record	matrix.example.com
 - etherpad	CNAME record	matrix.example.com
 - hydrogen	CNAME record	matrix.example.com

@@ -10,6 +10,7 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin: https://etherpad.example.com/admin
 * etherpad: https://etherpad.example.com
 
+
 # Credentials
 
 * mxid: @test:example.com
@@ -17,8 +18,10 @@ Your Matrix server is ready, here is your onboarding list:
 * password: TODO64
 * etherpad admin password: TODO64
 
+
 > In case of any issues: https://etke.cc/en/help
 
 Happy Matrixing!
 
 PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
+

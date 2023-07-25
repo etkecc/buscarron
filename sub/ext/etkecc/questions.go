@@ -62,9 +62,6 @@ func (o *order) generateQuestionsServices() string {
 	if o.has("stats") && o.get("type") != "turnkey" {
 		txt.WriteString("Prometheus+Grafana: " + o.t("q_stats") + "\n\n")
 	}
-	if o.has("dimension") {
-		txt.WriteString("Dimension: " + o.t("q_dimension") + "\n\n")
-	}
 	if o.has("nginx-proxy-website") {
 		txt.WriteString("Website: " + o.t("q_nginx-proxy-website") + "\n\n")
 	}

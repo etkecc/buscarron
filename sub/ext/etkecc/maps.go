@@ -9,7 +9,6 @@ var defaults = map[string]string{
 var dnsmap = map[string]string{
 	"buscarron":   "buscarron",
 	"cinny":       "cinny",
-	"dimension":   "dimension",
 	"element-web": "element",
 	"etherpad":    "etherpad",
 	"hydrogen":    "hydrogen",
@@ -29,6 +28,7 @@ var botmap = map[string]string{
 var bridgemap = map[string]string{
 	"discord":    "@discordbot",
 	"facebook":   "@facebookbot",
+	"gmessages":  "@gmessagesbot",
 	"googlechat": "@googlechatbot",
 	"groupme":    "@_groupmepuppet_bot",
 	"instagram":  "@instagrambot",

@@ -25,7 +25,6 @@ func (o *order) generateVars() {
 
 	// additional services
 	txt.WriteString(o.generateVarsCinny())
-	txt.WriteString(o.generateVarsDimension())
 	txt.WriteString(o.generateVarsElement())
 	txt.WriteString(o.generateVarsEtherpad())
 	txt.WriteString(o.generateVarsHydrogen())
@@ -324,24 +323,6 @@ func (o *order) generateVarsCinny() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsDimension() string {
-	if !o.has("dimension") {
-		return ""
-	}
-	var txt strings.Builder
-	password := o.pwgen()
-
-	txt.WriteString("\n# dimension https://dimension." + o.get("domain") + "\n")
-	txt.WriteString("matrix_dimension_enabled: yes\n")
-	txt.WriteString("matrix_dimension_access_token: TODO # password: " + password + "\n")
-	txt.WriteString("matrix_dimension_admins:\n")
-	txt.WriteString("  - \"{{ matrix_admin }}\"")
-	txt.WriteString("# TODO\n")
-	txt.WriteString("# curl -X POST -H 'Content-Type: application/json' -d '{\"identifier\": { \"type\": \"m.id.user\", \"user\": \"dimension\" },\"password\": \"" + password + "\", \"type\": \"m.login.password\"}' 'https://matrix." + o.get("domain") + "/_matrix/client/r0/login'\n")
-
-	return txt.String()
-}
-
 func (o *order) generateVarsEtherpad() string {
 	if !o.has("etherpad") {
 		return ""
@@ -350,12 +331,7 @@ func (o *order) generateVarsEtherpad() string {
 
 	txt.WriteString("\n# etherpad\n")
 	txt.WriteString("etherpad_enabled: yes\n")
-	if o.has("dimension") {
-		txt.WriteString("etherpad_hostname: \"{{ matrix_server_fqn_dimension }}\"\n")
-		txt.WriteString("etherpad_path_prefix: /etherpad\n")
-	} else {
-		txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
-	}
+	txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
 	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
 
