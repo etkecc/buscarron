@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"maunium.net/go/mautrix"
-	"maunium.net/go/mautrix/format"
 )
 
 func (o *order) generateOnboarding() {
@@ -22,13 +21,13 @@ func (o *order) generateOnboarding() {
 
 	txt.WriteString(o.generateOnboardingAfter())
 
-	content := format.RenderMarkdown(txt.String(), true, true)
+	text := txt.String()
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(txt.String()),
+			Content:       strings.NewReader(text),
 			FileName:      "onboarding.md",
 			ContentType:   "text/markdown",
-			ContentLength: int64(len(content.Body)),
+			ContentLength: int64(len(text)),
 		},
 	)
 }
