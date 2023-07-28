@@ -10,6 +10,7 @@ func (o *order) generateVars() {
 	var txt strings.Builder
 
 	// base
+	txt.WriteString(o.generateVarsSSH())
 	txt.WriteString(o.generateVarsPostgres())
 	txt.WriteString(o.generateVarsHomeserver())
 	txt.WriteString(o.generateVarsUsers())
@@ -64,6 +65,28 @@ func (o *order) generateVars() {
 	})
 }
 
+func (o *order) generateVarsSSH() string {
+	var txt strings.Builder
+	if (o.has("ssh-port") && o.get("ssh-port") != "22") || o.has("ssh-client-key") {
+		txt.WriteString("\n# ssh\n")
+	}
+
+	if o.has("ssh-port") && o.get("ssh-port") != "22" {
+		txt.WriteString("system_security_ssh_port: ")
+		txt.WriteString(o.get("ssh-port"))
+		txt.WriteString("\n")
+	}
+
+	if o.has("ssh-client-key") {
+		txt.WriteString("system_security_ssh_authorizedkeys_host:\n")
+		txt.WriteString("  - ")
+		txt.WriteString(o.get("ssh-client-key"))
+		txt.WriteString("\n")
+	}
+
+	return txt.String()
+}
+
 func (o *order) generateVarsPostgres() string {
 	var txt strings.Builder
 
@@ -114,9 +137,9 @@ func (o *order) generateVarsSygnal() string {
 	txt.WriteString("\n# sygnal https://sygnal." + o.get("domain") + "\n")
 	txt.WriteString("matrix_sygnal_enabled: yes\n")
 	txt.WriteString("matrix_sygnal_apps:\n")
-	txt.WriteString("  TODO:\n")
+	txt.WriteString("  " + o.get("sygnal-app-id") + ":\n")
 	txt.WriteString("    type: gcm\n")
-	txt.WriteString("    api_key: TODO\n")
+	txt.WriteString("    api_key: " + o.get("sygnal-gcm-apikey") + "\n")
 	txt.WriteString("matrix_sygnal_configuration_extension_yaml:\n")
 	txt.WriteString("  log:\n")
 	txt.WriteString("    setup:\n")
@@ -168,7 +191,8 @@ func (o *order) generateVarsBorgBackup() string {
 
 	txt.WriteString("\n# borg\n")
 	txt.WriteString("backup_borg_enabled: yes\n")
-	txt.WriteString("backup_borg_location_repositories: [] # TODO\n")
+	txt.WriteString("backup_borg_location_repositories:\n")
+	txt.WriteString("- " + o.get("borg-repository") + "\n")
 	txt.WriteString("backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
 	txt.WriteString("backup_borg_ssh_key_private: |\n")
 	for _, line := range strings.Split(priv, "\n") {
@@ -200,12 +224,12 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("  disable_msisdn_registration: yes\n")
 	if o.has("sso") {
 		txt.WriteString("  oidc_providers:\n")
-		txt.WriteString("  - idp_id: todo\n")
-		txt.WriteString("    idp_name: Todo\n")
-		txt.WriteString("    idp_brand: \"todo\"\n")
-		txt.WriteString("    issuer: \"https://TODO/\"\n")
-		txt.WriteString("    client_id: \"TODO\"\n")
-		txt.WriteString("    client_secret: \"TODO\"\n")
+		txt.WriteString("  - idp_id: " + strings.ToLower(o.get("sso-idp-id")) + "\n")
+		txt.WriteString("    idp_name: " + o.get("sso-idp-name") + "\n")
+		txt.WriteString("    idp_brand: \"" + strings.ToLower(o.get("sso-idp-brand")) + "\"\n")
+		txt.WriteString("    issuer: \"" + o.get("sso-issuer") + "\"\n")
+		txt.WriteString("    client_id: \"" + o.get("sso-client-id") + "\"\n")
+		txt.WriteString("    client_secret: \"" + o.get("sso-client-secret") + "\"\n")
 		txt.WriteString("    scopes: [\"openid\", \"profile\"]\n")
 		txt.WriteString("    user_mapping_provider:\n")
 		txt.WriteString("      config:\n")
@@ -241,10 +265,11 @@ func (o *order) generateVarsSynapseMailer() string {
 		txt.WriteString("matrix_synapse_email_smtp_user: \"matrix@{{ matrix_domain }}\"\n")
 		txt.WriteString("matrix_synapse_email_smtp_pass: " + o.pwgen() + "\n")
 	} else {
-		txt.WriteString("matrix_synapse_email_smtp_host: TODO\n")
-		txt.WriteString("matrix_synapse_email_smtp_port: TODO\n")
-		txt.WriteString("matrix_synapse_email_smtp_user: TODO\n")
-		txt.WriteString("matrix_synapse_email_smtp_pass: TODO\n")
+		txt.WriteString("matrix_synapse_email_smtp_host: " + o.get("smtp-relay-host") + "\n")
+		txt.WriteString("matrix_synapse_email_smtp_port: " + o.get("smtp-relay-port") + "\n")
+		txt.WriteString("matrix_synapse_email_smtp_user: " + o.get("smtp-relay-login") + "\n")
+		txt.WriteString("matrix_synapse_email_smtp_pass: " + o.get("smtp-relay-password") + "\n")
+		txt.WriteString("matrix_synapse_email_notif_from: " + o.get("smtp-relay-email") + "\n")
 	}
 
 	return txt.String()
@@ -304,9 +329,9 @@ func (o *order) generateVarsNginxWebsite() string {
 
 	txt.WriteString("\n# nginx proxy website\n")
 	txt.WriteString("matrix_nginx_proxy_website_enabled: yes\n")
-	txt.WriteString("matrix_nginx_proxy_website_repo: TODO\n")
-	txt.WriteString("matrix_nginx_proxy_website_command: TODO\n")
-	txt.WriteString("matrix_nginx_proxy_website_dist: \"public\"\n")
+	txt.WriteString("matrix_nginx_proxy_website_repo: " + o.get("nginx-proxy-website-repo") + "\n")
+	txt.WriteString("matrix_nginx_proxy_website_command: " + o.get("nginx-proxy-website-command") + "\n")
+	txt.WriteString("matrix_nginx_proxy_website_dist: \"" + o.get("nginx-proxy-website-dist") + "\"\n")
 
 	return txt.String()
 }
@@ -453,7 +478,7 @@ func (o *order) generateVarsReminder() string {
 
 	txt.WriteString("\n# bots::reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_enabled: yes\n")
-	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: TODO\n")
+	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: " + o.get("reminder-bot-tz") + "\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + o.pwgen() + "\n")
 
@@ -602,8 +627,8 @@ func (o *order) generateVarsTelegram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::telegram\n")
 	txt.WriteString("matrix_mautrix_telegram_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_telegram_api_id: TODO\n")
-	txt.WriteString("matrix_mautrix_telegram_api_hash: TODO\n")
+	txt.WriteString("matrix_mautrix_telegram_api_id: " + o.get("telegram-api-id") + "\n")
+	txt.WriteString("matrix_mautrix_telegram_api_hash: " + o.get("telegram-api-hash") + "\n")
 
 	return txt.String()
 }

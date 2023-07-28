@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sync"
 
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/format"
@@ -14,12 +14,12 @@ import (
 // Bot represents matrix bot
 type Bot struct {
 	sync.Mutex
-	log *logger.Logger
+	log *zerolog.Logger
 	lp  Linkpearl
 }
 
 // New creates a new matrix bot
-func New(lp Linkpearl, log *logger.Logger) *Bot {
+func New(lp Linkpearl, log *zerolog.Logger) *Bot {
 	return &Bot{
 		lp:  lp,
 		log: log,
@@ -28,7 +28,7 @@ func New(lp Linkpearl, log *logger.Logger) *Bot {
 
 // Error message to the log and matrix room
 func (b *Bot) Error(roomID id.RoomID, message string, args ...interface{}) {
-	b.log.Error(message, args...)
+	b.log.Error().Msgf(message, args...)
 
 	if b.lp == nil {
 		return
@@ -67,7 +67,7 @@ func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia) {
 // Start performs matrix /sync
 func (b *Bot) Start() {
 	if err := b.lp.Start(); err != nil {
-		b.log.Fatal("matrix bot crashed: %v", err)
+		b.log.Panic().Err(err).Msg("matrix bot crashed")
 		return
 	}
 }

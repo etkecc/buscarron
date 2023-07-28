@@ -9,6 +9,7 @@ default:
 # update go deps
 update:
     go get ./cmd
+    go get gitlab.com/etke.cc/linkpearl@latest
     go mod tidy
     go mod vendor
 
@@ -23,7 +24,7 @@ lintfix:
 # generate mocks
 mocks:
     @rm -rf mocks
-    @mockery --all
+    @mockery --all --exclude vendor
 
 # run unit tests
 test:

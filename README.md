@@ -41,7 +41,6 @@ env vars
 
 * **BUSCARRON_SENTRY** - sentry DSN
 * **BUSCARRON_LOGLEVEL** - log level
-* **BUSCARRON_NOENCRYPTION** - disable encryption
 * **BUSCARRON_DB_DSN** - database connection string
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)
 * **BUSCARRON_SPAMLIST** - list of spam emails with wildcards, eg: `export BUSCARRON_SPAMLIST=*@spammer.com annoy@gmail.com spammer@*`

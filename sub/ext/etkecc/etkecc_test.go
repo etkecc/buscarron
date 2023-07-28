@@ -40,14 +40,20 @@ func (s *EtkeccSuite) SetupTest() {
 		"synapse-admin": "on",
 		"etherpad":      "on",
 		"smtp-relay":    "on",
+		"ssh-host":      "1.2.3.4",
+		"ssh-port":      "22",
+		"ssh-user":      "user",
+		"ssh-password":  "password",
 	}
 	s.turnkey = map[string]string{
-		"homeserver": "synapse",
-		"domain":     "https://matrix.ExAmPlE.com ",
-		"username":   " tEsT ",
-		"email":      "tEsT@TEST.cOm",
-		"type":       "turnkey",
-		"lang":       "wrong",
+		"homeserver":     "synapse",
+		"domain":         "https://matrix.ExAmPlE.com ",
+		"username":       " tEsT ",
+		"email":          "tEsT@TEST.cOm",
+		"type":           "turnkey",
+		"lang":           "wrong",
+		"ssh-client-ips": "1.2.3.4, 5.6.7.8",
+		"ssh-client-key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host",
 	}
 	s.byosSub = map[string]string{
 		"domain":        "https://higenjitsuteki.etke.host",

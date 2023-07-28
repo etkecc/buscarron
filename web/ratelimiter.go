@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 	"golang.org/x/time/rate"
 )
 
@@ -17,7 +17,7 @@ const DefaultFrequency = 1 * time.Minute
 type ratelimiter struct {
 	sync.RWMutex
 
-	log       *logger.Logger
+	log       *zerolog.Logger
 	burst     int
 	frequency time.Duration
 	visitors  map[string]*rlVisitor
@@ -30,10 +30,10 @@ type rlVisitor struct {
 }
 
 // NewRateLimiter with defined pattern
-func NewRateLimiter(pattern string, log *logger.Logger) *ratelimiter {
+func NewRateLimiter(pattern string, log *zerolog.Logger) *ratelimiter {
 	burst, frequency, err := parseFrequency(pattern)
 	if err != nil {
-		log.Error("cannot parse rate limiter frequency pattern '%s', error: %v", pattern, err)
+		log.Error().Str("pattern", pattern).Err(err).Msg("cannot parse rate limiter frequency pattern")
 	}
 
 	rl := &ratelimiter{log: log, frequency: frequency, burst: burst}
@@ -71,7 +71,7 @@ func parseFrequency(pattern string) (int, time.Duration, error) {
 func (l *ratelimiter) start() {
 	ticker := time.NewTicker(l.frequency)
 	for range ticker.C {
-		l.log.Debug("cleanup")
+		l.log.Debug().Msg("cleanup")
 		l.Lock()
 		for id, v := range l.visitors {
 			if time.Since(v.last) >= l.frequency {

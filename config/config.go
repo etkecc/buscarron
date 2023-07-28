@@ -12,13 +12,12 @@ func New() *Config {
 	env.SetPrefix(prefix)
 	spamlist := migrateSpam(env.Slice("spam.emails"), env.Slice("spam.localparts"), env.Slice("spam.hosts"), env.Slice("spamlist"))
 	cfg := &Config{
-		Homeserver:   env.String("homeserver", defaultConfig.Homeserver),
-		Login:        env.String("login", defaultConfig.Login),
-		Password:     env.String("password", defaultConfig.Password),
-		Sentry:       env.String("sentry", defaultConfig.Sentry),
-		LogLevel:     env.String("loglevel", defaultConfig.LogLevel),
-		NoEncryption: env.Bool("noencryption"),
-		Port:         env.String("port", defaultConfig.Port),
+		Homeserver: env.String("homeserver", defaultConfig.Homeserver),
+		Login:      env.String("login", defaultConfig.Login),
+		Password:   env.String("password", defaultConfig.Password),
+		Sentry:     env.String("sentry", defaultConfig.Sentry),
+		LogLevel:   env.String("loglevel", defaultConfig.LogLevel),
+		Port:       env.String("port", defaultConfig.Port),
 		DB: DB{
 			DSN:     env.String("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),

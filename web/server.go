@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	sentryhttp "github.com/getsentry/sentry-go/http"
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 
 	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub"
@@ -30,7 +30,7 @@ type Server struct {
 	dv  DomainValidator
 	sh  *sentryhttp.Handler
 	bh  *banhandler
-	log *logger.Logger
+	log *zerolog.Logger
 	iph *iphasher
 	rls map[string]*ratelimiter
 	frr map[string]string
@@ -38,10 +38,9 @@ type Server struct {
 }
 
 // New web server
-func New(port string, srl, rls map[string]string, frr map[string]string, loglevel string, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
-	log := logger.New("web.", loglevel)
+func New(port string, srl, rls map[string]string, frr map[string]string, log *zerolog.Logger, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
 	sh := sentryhttp.New(sentryhttp.Options{})
-	bh := NewBanHanlder(bs, bl, loglevel)
+	bh := NewBanHanlder(bs, bl, log)
 	iph := &iphasher{}
 	ctxm := &ctxMiddleware{iph}
 	srv := &Server{
@@ -70,7 +69,7 @@ func New(port string, srl, rls map[string]string, frr map[string]string, logleve
 	return srv
 }
 
-func initRateLimiters(srl, rlCfg map[string]string, log *logger.Logger) map[string]*ratelimiter {
+func initRateLimiters(srl, rlCfg map[string]string, log *zerolog.Logger) map[string]*ratelimiter {
 	var shared *ratelimiter
 	for _, cfg := range srl {
 		if cfg == "" {
@@ -100,7 +99,7 @@ func (s *Server) healthcheck() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if _, err := w.Write([]byte(`{"status":"ok"}`)); err != nil {
-			s.log.Error("%s %s %v", r.Method, r.URL.String(), err)
+			s.log.Error().Str("method", r.Method).Str("url", r.URL.String()).Err(err).Msg("error")
 		}
 	}
 }
@@ -115,14 +114,14 @@ func (s *Server) domainValidator() http.HandlerFunc {
 		domain = s.dv.GetBase(domain)
 
 		if s.dv.DomainString(domain) && !s.dv.A(domain) {
-			s.log.Info("%s %s %s is valid", r.Method, r.URL.String(), domain)
+			s.log.Info().Str("method", r.Method).Str("url", r.URL.String()).Str("domain", domain).Msg("domain is valid")
 			w.Header().Set("Content-Type", "text/plain; charset=utf-8")
 			w.Header().Set("X-Content-Type-Options", "nosniff")
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}
 
-		s.log.Info("%s %s %s is invalid", r.Method, r.URL.String(), domain)
+		s.log.Info().Str("method", r.Method).Str("url", r.URL.String()).Str("domain", domain).Msg("domain is invalid")
 		http.Error(w, "", http.StatusConflict)
 	}
 }
@@ -144,7 +143,7 @@ func (s *Server) forms() http.HandlerFunc {
 
 func (s *Server) formReject(name, reason string, w http.ResponseWriter, r *http.Request) {
 	target, ok := s.frr[name]
-	s.log.Info("%s %s submission to %s rejected, reason: %s", r.Method, r.URL.Path, name, reason)
+	s.log.Info().Str("method", r.Method).Str("path", r.URL.Path).Str("name", name).Str("reason", reason).Msg("submission has been rejected")
 	if !ok {
 		return
 	}
@@ -161,7 +160,7 @@ func (s *Server) formGET(name string, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	if _, err := w.Write([]byte(body)); err != nil {
-		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
+		s.log.Error().Str("method", r.Method).Str("url", r.URL.String()).Err(err).Msg("error")
 	}
 }
 
@@ -185,7 +184,7 @@ func (s *Server) formPOST(id, name string, w http.ResponseWriter, r *http.Reques
 	}
 
 	if _, err := w.Write([]byte(body)); err != nil {
-		s.log.Error("%s %s %v", r.Method, r.URL.Path, err)
+		s.log.Error().Str("method", r.Method).Str("url", r.URL.String()).Err(err).Msg("error")
 	}
 }
 
@@ -200,6 +199,6 @@ func (s *Server) Start() error {
 // Stop web server
 func (s *Server) Stop() {
 	if err := s.srv.Shutdown(context.Background()); err != nil {
-		s.log.Error("cannot stop web server: %v", err)
+		s.log.Error().Err(err).Msg("cannot stop web server")
 	}
 }

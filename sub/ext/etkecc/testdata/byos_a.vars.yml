@@ -46,6 +46,7 @@ matrix_synapse_email_smtp_host: TODO
 matrix_synapse_email_smtp_port: TODO
 matrix_synapse_email_smtp_user: TODO
 matrix_synapse_email_smtp_pass: TODO
+matrix_synapse_email_notif_from: TODO
 
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64
