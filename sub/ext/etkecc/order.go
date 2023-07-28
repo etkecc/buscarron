@@ -31,6 +31,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 
 	questions := o.generateQuestions()
 	dns, dnsInternal := o.generateDNSInstructions()
+	hosts := o.generateHosts()
 
 	o.txt.WriteString("```yaml\n")
 	o.txt.WriteString(questions)
@@ -46,6 +47,13 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	if o.get("type") == "byos" || dnsInternal {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(dns)
+		o.txt.WriteString("```\n\n")
+	}
+
+	if hosts != "" {
+		o.txt.WriteString("hosts:\n")
+		o.txt.WriteString("```\n")
+		o.txt.WriteString(hosts)
 		o.txt.WriteString("```\n\n")
 	}
 
@@ -70,7 +78,11 @@ func (o *order) get(key string) string {
 		return val
 	}
 
-	return defaults[key]
+	val, ok = defaults[key]
+	if ok {
+		return val
+	}
+	return "TODO"
 }
 
 // has check if key exists in the data store

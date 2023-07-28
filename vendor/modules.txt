@@ -2,6 +2,9 @@
 ## explicit; go 1.15
 blitiri.com.ar/go/spf
 blitiri.com.ar/go/spf/internal/dnstest
+# github.com/archdx/zerolog-sentry v1.3.0
+## explicit; go 1.20
+github.com/archdx/zerolog-sentry
 # github.com/aymerick/douceur v0.2.0
 ## explicit
 github.com/aymerick/douceur/css
@@ -9,14 +12,17 @@ github.com/aymerick/douceur/parser
 # github.com/beorn7/perks v1.0.1
 ## explicit; go 1.11
 github.com/beorn7/perks/quantile
+# github.com/buger/jsonparser v1.1.1
+## explicit; go 1.13
+github.com/buger/jsonparser
 # github.com/cespare/xxhash/v2 v2.1.2
 ## explicit; go 1.11
 github.com/cespare/xxhash/v2
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
-# github.com/getsentry/sentry-go v0.18.0
-## explicit; go 1.19
+# github.com/getsentry/sentry-go v0.21.0
+## explicit; go 1.18
 github.com/getsentry/sentry-go
 github.com/getsentry/sentry-go/http
 github.com/getsentry/sentry-go/internal/debug
@@ -30,17 +36,11 @@ github.com/golang/protobuf/ptypes/timestamp
 # github.com/gorilla/css v1.0.0
 ## explicit
 github.com/gorilla/css/scanner
-# github.com/gorilla/mux v1.8.0
-## explicit; go 1.12
-github.com/gorilla/mux
-# github.com/gorilla/websocket v1.5.0
-## explicit; go 1.12
-github.com/gorilla/websocket
 # github.com/hashicorp/golang-lru/v2 v2.0.1
 ## explicit; go 1.18
 github.com/hashicorp/golang-lru/v2
 github.com/hashicorp/golang-lru/v2/simplelru
-# github.com/lib/pq v1.10.7
+# github.com/lib/pq v1.10.9
 ## explicit; go 1.13
 github.com/lib/pq
 github.com/lib/pq/oid
@@ -51,10 +51,10 @@ github.com/mattevans/postmark-go
 # github.com/mattn/go-colorable v0.1.13
 ## explicit; go 1.15
 github.com/mattn/go-colorable
-# github.com/mattn/go-isatty v0.0.18
+# github.com/mattn/go-isatty v0.0.19
 ## explicit; go 1.15
 github.com/mattn/go-isatty
-# github.com/mattn/go-sqlite3 v1.14.16
+# github.com/mattn/go-sqlite3 v1.14.17
 ## explicit; go 1.16
 github.com/mattn/go-sqlite3
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
@@ -89,7 +89,7 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
-# github.com/rs/zerolog v1.29.0
+# github.com/rs/zerolog v1.29.1
 ## explicit; go 1.15
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
@@ -97,8 +97,8 @@ github.com/rs/zerolog/internal/json
 # github.com/stretchr/objx v0.5.0
 ## explicit; go 1.12
 github.com/stretchr/objx
-# github.com/stretchr/testify v1.8.1
-## explicit; go 1.13
+# github.com/stretchr/testify v1.8.4
+## explicit; go 1.20
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/mock
 github.com/stretchr/testify/require
@@ -129,9 +129,6 @@ github.com/yuin/goldmark/util
 # gitlab.com/etke.cc/go/env v1.0.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/env
-# gitlab.com/etke.cc/go/logger v1.1.0
-## explicit; go 1.18
-gitlab.com/etke.cc/go/logger
 # gitlab.com/etke.cc/go/secgen v1.1.1
 ## explicit; go 1.19
 gitlab.com/etke.cc/go/secgen
@@ -141,11 +138,9 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator v1.0.6
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator
-# gitlab.com/etke.cc/linkpearl v0.0.0-20230325195630-6747eef55738
+# gitlab.com/etke.cc/linkpearl v0.0.0-20230716111104-e2ea4522e19d
 ## explicit; go 1.18
 gitlab.com/etke.cc/linkpearl
-gitlab.com/etke.cc/linkpearl/config
-gitlab.com/etke.cc/linkpearl/store
 # golang.org/x/crypto v0.11.0
 ## explicit; go 1.17
 golang.org/x/crypto/blowfish
@@ -159,6 +154,9 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
+# golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
+## explicit; go 1.20
+golang.org/x/exp/maps
 # golang.org/x/net v0.12.0
 ## explicit; go 1.17
 golang.org/x/net/context
@@ -185,7 +183,7 @@ golang.org/x/text/unicode/norm
 # golang.org/x/time v0.3.0
 ## explicit
 golang.org/x/time/rate
-# google.golang.org/protobuf v1.28.1
+# google.golang.org/protobuf v1.29.1
 ## explicit; go 1.11
 google.golang.org/protobuf/encoding/prototext
 google.golang.org/protobuf/encoding/protowire
@@ -221,14 +219,14 @@ gopkg.in/yaml.v3
 # maunium.net/go/maulogger/v2 v2.4.1
 ## explicit; go 1.19
 maunium.net/go/maulogger/v2
-# maunium.net/go/mautrix v0.14.0
-## explicit; go 1.18
+maunium.net/go/maulogger/v2/maulogadapt
+# maunium.net/go/mautrix v0.15.4
+## explicit; go 1.19
 maunium.net/go/mautrix
-maunium.net/go/mautrix/appservice
-maunium.net/go/mautrix/bridge/bridgeconfig
 maunium.net/go/mautrix/crypto
 maunium.net/go/mautrix/crypto/attachment
 maunium.net/go/mautrix/crypto/canonicaljson
+maunium.net/go/mautrix/crypto/cryptohelper
 maunium.net/go/mautrix/crypto/olm
 maunium.net/go/mautrix/crypto/sql_store_upgrade
 maunium.net/go/mautrix/crypto/ssss
@@ -239,8 +237,8 @@ maunium.net/go/mautrix/format/mdext
 maunium.net/go/mautrix/id
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/pushrules/glob
+maunium.net/go/mautrix/sqlstatestore
 maunium.net/go/mautrix/util
 maunium.net/go/mautrix/util/base58
-maunium.net/go/mautrix/util/configupgrade
 maunium.net/go/mautrix/util/dbutil
 maunium.net/go/mautrix/util/jsontime

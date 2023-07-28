@@ -25,3 +25,8 @@ Please, add the following DNS entries:
 - etherpad	CNAME record	matrix.example.com
 ```
 
+hosts:
+```
+example.com ansible_host=1.2.3.4 ansible_user=user ansible_become_password=password
+```
+

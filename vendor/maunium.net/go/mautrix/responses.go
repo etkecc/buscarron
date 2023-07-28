@@ -108,11 +108,12 @@ type RespMediaUpload struct {
 	ContentURI id.ContentURI `json:"content_uri"`
 }
 
-// RespCreateMXC is the JSON response for /_matrix/media/v3/create as specified in https://github.com/matrix-org/matrix-spec-proposals/pull/2246
+// RespCreateMXC is the JSON response for https://spec.matrix.org/v1.7/client-server-api/#post_matrixmediav1create
 type RespCreateMXC struct {
 	ContentURI      id.ContentURI `json:"content_uri"`
 	UnusedExpiresAt int           `json:"unused_expires_at,omitempty"`
-	UploadURL       string        `json:"upload_url,omitempty"`
+
+	UnstableUploadURL string `json:"com.beeper.msc3870.upload_url,omitempty"`
 }
 
 // RespPreviewURL is the JSON response for https://spec.matrix.org/v1.2/client-server-api/#get_matrixmediav3preview_url
@@ -401,6 +402,7 @@ type RespDeviceInfo struct {
 	LastSeenTS  int64       `json:"last_seen_ts"`
 }
 
+// Deprecated: MSC2716 was abandoned
 type RespBatchSend struct {
 	StateEventIDs []id.EventID `json:"state_event_ids"`
 	EventIDs      []id.EventID `json:"event_ids"`
@@ -410,6 +412,10 @@ type RespBatchSend struct {
 	BaseInsertionEventID id.EventID `json:"base_insertion_event_id"`
 
 	NextBatchID id.BatchID `json:"next_batch_id"`
+}
+
+type RespBeeperBatchSend struct {
+	EventIDs []id.EventID `json:"event_ids"`
 }
 
 // RespCapabilities is the JSON response for https://spec.matrix.org/v1.3/client-server-api/#get_matrixclientv3capabilities
@@ -552,6 +558,10 @@ type StrippedStateWithTime struct {
 	Timestamp jsontime.UnixMilli `json:"origin_server_ts"`
 }
 
+type RespAppservicePing struct {
+	DurationMS int64 `json:"duration_ms"`
+}
+
 type RespBeeperMergeRoom RespCreateRoom
 
 type RespBeeperSplitRoom struct {
@@ -561,4 +571,36 @@ type RespBeeperSplitRoom struct {
 type RespTimestampToEvent struct {
 	EventID   id.EventID         `json:"event_id"`
 	Timestamp jsontime.UnixMilli `json:"origin_server_ts"`
+}
+
+type RespRoomKeysVersionCreate struct {
+	Version string `json:"version"`
+}
+
+type RespRoomKeysVersion struct {
+	Algorithm string          `json:"algorithm"`
+	AuthData  json.RawMessage `json:"auth_data"`
+	Count     int             `json:"count"`
+	ETag      string          `json:"etag"`
+	Version   string          `json:"version"`
+}
+
+type RespRoomKeys struct {
+	Rooms map[id.RoomID]RespRoomKeysRoom `json:"rooms"`
+}
+
+type RespRoomKeysRoom struct {
+	Sessions map[id.SessionID]RespRoomKeysSession `json:"sessions"`
+}
+
+type RespRoomKeysSession struct {
+	FirstMessageIndex int             `json:"first_message_index"`
+	ForwardedCount    int             `json:"forwarded_count"`
+	IsVerified        bool            `json:"is_verified"`
+	SessionData       json.RawMessage `json:"session_data"`
+}
+
+type RespRoomKeysUpdate struct {
+	Count int    `json:"count"`
+	ETag  string `json:"etag"`
 }

@@ -21,6 +21,8 @@ const (
 	AuthTypeToken      AuthType = "m.login.token"
 	AuthTypeDummy      AuthType = "m.login.dummy"
 	AuthTypeAppservice AuthType = "m.login.application_service"
+
+	AuthTypeSynapseJWT AuthType = "org.matrix.login.jwt"
 )
 
 type IdentifierType string
@@ -329,6 +331,7 @@ type ReqPutPushRule struct {
 	Pattern    string                     `json:"pattern"`
 }
 
+// Deprecated: MSC2716 was abandoned
 type ReqBatchSend struct {
 	PrevEventID id.EventID `json:"-"`
 	BatchID     id.BatchID `json:"-"`
@@ -338,6 +341,15 @@ type ReqBatchSend struct {
 
 	StateEventsAtStart []*event.Event `json:"state_events_at_start"`
 	Events             []*event.Event `json:"events"`
+}
+
+type ReqBeeperBatchSend struct {
+	// ForwardIfNoMessages should be set to true if the batch should be forward
+	// backfilled if there are no messages currently in the room.
+	ForwardIfNoMessages bool           `json:"forward_if_no_messages"`
+	Forward             bool           `json:"forward"`
+	MarkReadBy          id.UserID      `json:"mark_read_by,omitempty"`
+	Events              []*event.Event `json:"events"`
 }
 
 type ReqSetReadMarkers struct {
@@ -392,6 +404,10 @@ func (req *ReqHierarchy) Query() map[string]string {
 	return query
 }
 
+type ReqAppservicePing struct {
+	TxnID string `json:"transaction_id,omitempty"`
+}
+
 type ReqBeeperMergeRoom struct {
 	NewRoom ReqCreateRoom `json:"create"`
 	Key     string        `json:"key"`
@@ -410,4 +426,24 @@ type ReqBeeperSplitRoom struct {
 
 	Key   string                `json:"key"`
 	Parts []BeeperSplitRoomPart `json:"parts"`
+}
+
+type ReqRoomKeysVersionCreate struct {
+	Algorithm string          `json:"algorithm"`
+	AuthData  json.RawMessage `json:"auth_data"`
+}
+
+type ReqRoomKeysUpdate struct {
+	Rooms map[id.RoomID]ReqRoomKeysRoomUpdate `json:"rooms"`
+}
+
+type ReqRoomKeysRoomUpdate struct {
+	Sessions map[id.SessionID]ReqRoomKeysSessionUpdate `json:"sessions"`
+}
+
+type ReqRoomKeysSessionUpdate struct {
+	FirstMessageIndex int             `json:"first_message_index"`
+	ForwardedCount    int             `json:"forwarded_count"`
+	IsVerified        bool            `json:"is_verified"`
+	SessionData       json.RawMessage `json:"session_data"`
 }

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/suite"
-	"gitlab.com/etke.cc/go/logger"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
@@ -16,14 +16,15 @@ import (
 type BotSuite struct {
 	suite.Suite
 	lp  *mocks.Linkpearl
+	log zerolog.Logger
 	bot *Bot
 }
 
 func (s *BotSuite) SetupTest() {
 	s.T().Helper()
-	log := logger.New("matrix.", "TRACE")
+	s.log = zerolog.Nop()
 	s.lp = &mocks.Linkpearl{}
-	s.bot = New(s.lp, log)
+	s.bot = New(s.lp, &s.log)
 }
 
 func (s *BotSuite) TearDownTest() {
@@ -31,13 +32,13 @@ func (s *BotSuite) TearDownTest() {
 }
 
 func (s *BotSuite) TestNew() {
-	bot := New(s.lp, logger.New("matrix.", "TRACE"))
+	bot := New(s.lp, &s.log)
 
 	s.IsType(&Bot{}, bot)
 }
 
 func (s *BotSuite) TestError_NoLinkpearl() {
-	bot := New(nil, logger.New("matrix.", "TRACE"))
+	bot := New(nil, &s.log)
 
 	bot.Error(id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
 }

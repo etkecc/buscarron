@@ -32,9 +32,9 @@ matrix_synapse_configuration_extension_yaml: |
   disable_msisdn_registration: yes
   oidc_providers:
   - idp_id: todo
-    idp_name: Todo
+    idp_name: TODO
     idp_brand: "todo"
-    issuer: "https://TODO/"
+    issuer: "TODO"
     client_id: "TODO"
     client_secret: "TODO"
     scopes: ["openid", "profile"]
@@ -77,11 +77,12 @@ matrix_nginx_proxy_base_domain_homepage_enabled: no
 matrix_nginx_proxy_website_enabled: yes
 matrix_nginx_proxy_website_repo: TODO
 matrix_nginx_proxy_website_command: TODO
-matrix_nginx_proxy_website_dist: "public"
+matrix_nginx_proxy_website_dist: "TODO"
 
 # borg
 backup_borg_enabled: yes
-backup_borg_location_repositories: [] # TODO
+backup_borg_location_repositories:
+- TODO
 backup_borg_storage_encryption_passphrase: TODO64
 backup_borg_ssh_key_private: |
   -----BEGIN OPENSSH PRIVATE KEY-----

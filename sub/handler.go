@@ -10,7 +10,7 @@ import (
 
 	"github.com/mattevans/postmark-go"
 	"github.com/microcosm-cc/bluemonday"
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/id"
 
@@ -47,7 +47,7 @@ type Handler struct {
 	sanitizer   *bluemonday.Policy
 	sender      Sender
 	forms       map[string]*config.Form
-	log         *logger.Logger
+	log         *zerolog.Logger
 	ext         map[string]ext.Extension
 	vs          map[string]Validator
 }
@@ -62,13 +62,13 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, vs map[string]Validator, pm EmailSender, sender Sender, loglevel string) *Handler {
+func NewHandler(forms map[string]*config.Form, vs map[string]Validator, pm EmailSender, sender Sender, log *zerolog.Logger) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
 		sender:      sender,
 		forms:       forms,
-		log:         logger.New("sub.", loglevel),
+		log:         log,
 		ext:         ext.New(pm),
 		vs:          vs,
 	}
@@ -90,17 +90,17 @@ func (h *Handler) GET(name string, _ *http.Request) (string, error) {
 func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 	form, ok := h.forms[name]
 	if !ok {
-		h.log.Warn("submission attempt to the %s form (does not exist)", name)
+		h.log.Warn().Str("name", name).Msg("submission attempt to a nonexistent form")
 		return "", ErrNotFound
 	}
 	v, ok := h.vs[name]
 	if !ok {
-		h.log.Warn("submission attempt to the %s form (validator does not exists)", name)
+		h.log.Warn().Str("name", name).Msg("submission attempt to the a nonexistent form (validator does not exists)")
 		return "", ErrNotFound
 	}
 
 	if err := r.ParseForm(); err != nil {
-		h.log.Error("cannot parse a submission to the %s form: %v", name, err)
+		h.log.Error().Str("name", name).Err(err).Msg("cannot parse a submission to the form")
 		return h.redirect(form.Redirect, nil), nil
 	}
 
@@ -110,17 +110,17 @@ func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 	}
 
 	if !v.Email(data["email"]) {
-		h.log.Info("submission to the %s form marked as spam, reason: email", form.Name)
+		h.log.Info().Str("name", form.Name).Str("reason", "email").Msg("submission to the form marked as spam")
 		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
 	if !v.Domain(data["domain"]) {
-		h.log.Info("submission to the %s form marked as spam, reason: domain", form.Name)
+		h.log.Info().Str("name", form.Name).Str("reason", "domain").Msg("submission to the form marked as spam")
 		return h.redirect(form.Redirect, data), ErrSpam
 	}
 
 	metrics.Submission(form.Name)
-	h.log.Info("submission attempt to the %s form by %v passed the tests", name, rID)
+	h.log.Info().Str("name", form.Name).Str("id", rID).Msg("submission to the form passed the tests")
 
 	text, files := h.generate(form, data)
 	form.Lock()
@@ -138,12 +138,12 @@ func (h *Handler) redirect(target string, vars map[string]string) string {
 	var targetBytes bytes.Buffer
 	targetTpl, err := template.New("target").Parse(target)
 	if err != nil {
-		h.log.Error("cannot parse redirect url template: %v", err)
+		h.log.Error().Err(err).Msg("cannot parse redirect url template")
 	}
 	if targetTpl != nil {
 		err = targetTpl.Execute(&targetBytes, vars)
 		if err != nil {
-			h.log.Error("cannot execute redirect url template: %v", err)
+			h.log.Error().Err(err).Msg("cannot execute redirect url template")
 		} else {
 			target = targetBytes.String()
 		}
@@ -156,7 +156,7 @@ func (h *Handler) redirect(target string, vars map[string]string) string {
 	}
 	err = h.redirectTpl.Execute(&html, data)
 	if err != nil {
-		h.log.Error("cannot execute redirect template: %v", err)
+		h.log.Error().Err(err).Msg("cannot execute redirect template")
 	}
 
 	return html.String()

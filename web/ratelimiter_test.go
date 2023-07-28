@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/suite"
-	"gitlab.com/etke.cc/go/logger"
 	"golang.org/x/time/rate"
 )
 
@@ -15,7 +15,7 @@ type RatelimiterSuite struct {
 
 func (s *RatelimiterSuite) TestNewRateLimiter() {
 	s.T().Parallel()
-	log := logger.New("rl.", "TRACE")
+	log := zerolog.Nop()
 	tests := []struct {
 		input string
 		burst int
@@ -31,7 +31,7 @@ func (s *RatelimiterSuite) TestNewRateLimiter() {
 
 	for _, test := range tests {
 		s.Run(test.input, func() {
-			rl := NewRateLimiter(test.input, log)
+			rl := NewRateLimiter(test.input, &log)
 
 			s.Equal(test.burst, rl.burst)
 		})
@@ -40,8 +40,8 @@ func (s *RatelimiterSuite) TestNewRateLimiter() {
 
 func (s *RatelimiterSuite) TestAllow() {
 	s.T().Parallel()
-	log := logger.New("rl.", "TRACE")
-	rl := NewRateLimiter("1r/s", log)
+	log := zerolog.Nop()
+	rl := NewRateLimiter("1r/s", &log)
 
 	first := rl.Allow("1")
 	second := rl.Allow("1")

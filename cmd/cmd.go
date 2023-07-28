@@ -2,18 +2,19 @@ package main
 
 import (
 	"database/sql"
+	"io"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	zlogsentry "github.com/archdx/zerolog-sentry"
 	"github.com/getsentry/sentry-go"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 	"gitlab.com/etke.cc/go/validator"
 	"gitlab.com/etke.cc/linkpearl"
-	lpcfg "gitlab.com/etke.cc/linkpearl/config"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
@@ -26,75 +27,70 @@ var (
 	version = "development"
 	mxb     *bot.Bot
 	srv     *web.Server
-	log     *logger.Logger
+	log     *zerolog.Logger
 )
 
 func main() {
 	cfg := config.New()
-	log = logger.New("buscarron.", cfg.LogLevel)
-	initSentry(cfg)
+
+	initLog(cfg)
 	defer recovery()
 
-	log.Info("#############################")
-	log.Info("Buscarron " + version)
-	log.Info("Matrix: true")
-	log.Info("HTTP: true")
-	log.Info("Forms: %d", len(cfg.Forms))
-	log.Info("#############################")
+	log.Info().Msg("#############################")
+	log.Info().Str("version", version).Msg("Buscarron")
+	log.Info().Msg("Matrix: true")
+	log.Info().Msg("HTTP: true")
+	log.Info().Int("count", len(cfg.Forms)).Msg("Forms")
+	log.Info().Msg("#############################")
 
 	initBot(cfg)
 	initSrv(cfg)
 	initShutdown()
 
-	log.Debug("starting matrix bot...")
+	log.Debug().Msg("starting matrix bot...")
 	go mxb.Start()
 	if err := srv.Start(); err != nil {
-		// nolint // log.Fatal calls panic, not exit
-		log.Fatal("web server crashed: %v", err)
+		log.Panic().Err(err).Msg("web server crashed")
 	}
 }
 
-func initSentry(cfg *config.Config) {
-	env := version
-	if env != "development" {
-		env = "production"
-	}
-	err := sentry.Init(sentry.ClientOptions{
-		Dsn:              cfg.Sentry,
-		Release:          "buscarron@" + version,
-		Environment:      env,
-		TracesSampleRate: 0.2,
-	})
+func initLog(cfg *config.Config) {
+	loglevel, err := zerolog.ParseLevel(cfg.LogLevel)
 	if err != nil {
-		log.Fatal("cannot initialize sentry: %v", err)
+		loglevel = zerolog.InfoLevel
 	}
+	zerolog.SetGlobalLevel(loglevel)
+	var w io.Writer
+	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, PartsExclude: []string{zerolog.TimestampFieldName}}
+	sentryWriter, err := zlogsentry.New(cfg.Sentry)
+	if err == nil {
+		w = io.MultiWriter(sentryWriter, consoleWriter)
+	} else {
+		w = consoleWriter
+	}
+	logger := zerolog.New(w).With().Timestamp().Caller().Logger()
+	log = &logger
 }
 
 func initBot(cfg *config.Config) {
 	db, err := sql.Open(cfg.DB.Dialect, cfg.DB.DSN)
 	if err != nil {
-		log.Fatal("cannot initialize SQL database: %v", err)
+		log.Panic().Err(err).Msg("cannot initialize SQL database")
 	}
 
-	mxlog := logger.New("matrix.", cfg.LogLevel)
-	lp, err := linkpearl.New(&lpcfg.Config{
-		Homeserver:   cfg.Homeserver,
-		Login:        cfg.Login,
-		Password:     cfg.Password,
-		DB:           db,
-		Dialect:      cfg.DB.Dialect,
-		NoEncryption: cfg.NoEncryption,
-		LPLogger:     mxlog,
-		APILogger:    logger.New("api.", cfg.LogLevel),
-		StoreLogger:  logger.New("store.", cfg.LogLevel),
-		CryptoLogger: logger.New("olm.", cfg.LogLevel),
+	lp, err := linkpearl.New(&linkpearl.Config{
+		Homeserver: cfg.Homeserver,
+		Login:      cfg.Login,
+		Password:   cfg.Password,
+		DB:         db,
+		Dialect:    cfg.DB.Dialect,
+		Logger:     *log,
 	})
 	if err != nil {
-		// nolint // Fatal = panic, not os.Exit()
-		log.Fatal("cannot initialize matrix bot: %v", err)
+		log.Panic().Err(err).Msg("cannot initialize matrix bot")
 	}
-	mxb = bot.New(lp, mxlog)
-	log.Debug("bot has been created")
+	mxb = bot.New(lp, log)
+	log.Debug().Msg("bot has been created")
 }
 
 func initSrv(cfg *config.Config) {
@@ -108,7 +104,7 @@ func initSrv(cfg *config.Config) {
 			srl[name] = item.Ratelimit
 		}
 	}
-	log := logger.New("v.", cfg.LogLevel)
+	logwrap := sub.NewLogWrapper(log)
 	vs := make(map[string]sub.Validator, len(cfg.Forms))
 	for name := range cfg.Forms {
 		enforce := validator.Enforce{
@@ -117,16 +113,16 @@ func initSrv(cfg *config.Config) {
 			MX:     true,
 			SMTP:   cfg.SMTP.EnforceValidation,
 		}
-		v := validator.New(cfg.Spamlist, enforce, cfg.SMTP.From, log)
+		v := validator.New(cfg.Spamlist, enforce, cfg.SMTP.From, logwrap)
 		vs[name] = v
 	}
-	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, cfg.LogLevel)
-	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, cfg.LogLevel)
+	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, log)
+	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, log)
 
-	srvv := validator.New(nil, validator.Enforce{}, "", log)
-	srv = web.New(cfg.Port, srl, rls, frr, cfg.LogLevel, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
+	srvv := validator.New(nil, validator.Enforce{}, "", logwrap)
+	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
 
-	log.Debug("web server has been created")
+	log.Debug().Msg("web server has been created")
 }
 
 func initShutdown() {

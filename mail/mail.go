@@ -4,18 +4,18 @@ import (
 	"net/http"
 
 	"github.com/mattevans/postmark-go"
-	"gitlab.com/etke.cc/go/logger"
+	"github.com/rs/zerolog"
 )
 
 // Client to send mail
 type Client struct {
-	log     *logger.Logger
+	log     *zerolog.Logger
 	from    string
 	replyto string
 	sender  *postmark.Client
 }
 
-func New(token, from, replyto, loglevel string) *Client {
+func New(token, from, replyto string, log *zerolog.Logger) *Client {
 	if token == "" {
 		return nil
 	}
@@ -29,7 +29,7 @@ func New(token, from, replyto, loglevel string) *Client {
 		from:    from,
 		replyto: replyto,
 		sender:  pm,
-		log:     logger.New("mail.", loglevel),
+		log:     log,
 	}
 }
 
@@ -39,10 +39,10 @@ func (c *Client) Send(req *postmark.Email) error {
 
 	_, resp, err := c.sender.Email.Send(req)
 	if err != nil {
-		c.log.Error("cannot send email: %v (response: %+v)", err, resp)
+		c.log.Error().Err(err).Any("response", resp).Msg("cannot send email")
 		return err
 	}
 
-	c.log.Debug("email '%s' was sent to %s", req.Subject, req.To)
+	c.log.Debug().Str("subject", req.Subject).Str("to", req.To).Msg("email has been sent")
 	return nil
 }

@@ -1,5 +1,118 @@
 # Changelog
 
+## 0.21.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Go SDK v0.21.0.
+
+Note: this release includes one **breaking change** and some **deprecations**, which are listed below.
+
+### Breaking Changes
+
+**This change does not apply if you use [https://sentry.io](https://sentry.io)**
+
+- Remove support for the `/store` endpoint ([#631](https://github.com/getsentry/sentry-go/pull/631))
+  - This change requires a self-hosted version of Sentry 20.6.0 or higher. If you are using a version of [self-hosted Sentry](https://develop.sentry.dev/self-hosted/) (aka *on-premise*) older than 20.6.0, then you will need to [upgrade](https://develop.sentry.dev/self-hosted/releases/) your instance.
+
+### Features
+
+- Rename four span option functions ([#611](https://github.com/getsentry/sentry-go/pull/611), [#624](https://github.com/getsentry/sentry-go/pull/624))
+  - `TransctionSource` -> `WithTransactionSource`
+  - `SpanSampled` -> `WithSpanSampled`
+  - `OpName` -> `WithOpName`
+  - `TransactionName` -> `WithTransactionName`
+  - Old functions `TransctionSource`, `SpanSampled`, `OpName`, and `TransactionName` are still available but are now **deprecated** and will be removed in a future release.
+- Make `client.EventFromMessage` and `client.EventFromException` methods public ([#607](https://github.com/getsentry/sentry-go/pull/607))
+- Add `client.SetException` method ([#607](https://github.com/getsentry/sentry-go/pull/607))
+  - This allows to set or add errors to an existing `Event`.
+
+### Bug Fixes
+
+- Protect from panics while doing concurrent reads/writes to Span data fields ([#609](https://github.com/getsentry/sentry-go/pull/609))
+- [otel] Improve detection of Sentry-related spans ([#632](https://github.com/getsentry/sentry-go/pull/632), [#636](https://github.com/getsentry/sentry-go/pull/636))
+  - Fixes cases when HTTP spans containing requests to Sentry were captured by Sentry ([#627](https://github.com/getsentry/sentry-go/issues/627))
+
+### Misc
+
+- Drop testing in (legacy) GOPATH mode ([#618](https://github.com/getsentry/sentry-go/pull/618))
+- Remove outdated documentation from https://pkg.go.dev/github.com/getsentry/sentry-go ([#623](https://github.com/getsentry/sentry-go/pull/623))
+
+## 0.20.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Go SDK v0.20.0.
+
+Note: this release has some **breaking changes**, which are listed below.
+
+### Breaking Changes
+
+- Remove the following methods: `Scope.SetTransaction()`, `Scope.Transaction()` ([#605](https://github.com/getsentry/sentry-go/pull/605))
+
+  Span.Name should be used instead to access the transaction's name.
+
+  For example, the following [`TracesSampler`](https://docs.sentry.io/platforms/go/configuration/sampling/#setting-a-sampling-function) function should be now written as follows:
+
+  **Before:**
+  ```go
+  TracesSampler: func(ctx sentry.SamplingContext) float64 {
+    hub := sentry.GetHubFromContext(ctx.Span.Context())
+    if hub.Scope().Transaction() == "GET /health" {
+      return 0
+    }
+    return 1
+  },
+  ```
+
+  **After:**
+  ```go
+  TracesSampler: func(ctx sentry.SamplingContext) float64 {
+    if ctx.Span.Name == "GET /health" {
+      return 0
+    }
+    return 1
+  },
+  ```
+
+### Features
+
+- Add `Span.SetContext()` method ([#599](https://github.com/getsentry/sentry-go/pull/599/))
+  - It is recommended to use it instead of `hub.Scope().SetContext` when setting or updating context on transactions.
+- Add `DebugMeta` interface to `Event` and extend `Frame` structure with more fields ([#606](https://github.com/getsentry/sentry-go/pull/606))
+  - More about DebugMeta interface [here](https://develop.sentry.dev/sdk/event-payloads/debugmeta/).
+
+### Bug Fixes
+
+- [otel] Fix missing OpenTelemetry context on some events ([#599](https://github.com/getsentry/sentry-go/pull/599), [#605](https://github.com/getsentry/sentry-go/pull/605))
+  - Fixes ([#596](https://github.com/getsentry/sentry-go/issues/596)).
+- [otel] Better handling for HTTP span attributes ([#610](https://github.com/getsentry/sentry-go/pull/610))
+
+### Misc
+
+- Bump minimum versions: `github.com/kataras/iris/v12` to 12.2.0, `github.com/labstack/echo/v4` to v4.10.0 ([#595](https://github.com/getsentry/sentry-go/pull/595))
+  - Resolves [GO-2022-1144 / CVE-2022-41717](https://deps.dev/advisory/osv/GO-2022-1144), [GO-2023-1495 / CVE-2022-41721](https://deps.dev/advisory/osv/GO-2023-1495), [GO-2022-1059 / CVE-2022-32149](https://deps.dev/advisory/osv/GO-2022-1059).
+- Bump `google.golang.org/protobuf` minimum required version to 1.29.1  ([#604](https://github.com/getsentry/sentry-go/pull/604))
+  - This fixes a potential denial of service issue ([CVE-2023-24535](https://github.com/advisories/GHSA-hw7c-3rfg-p46j)).
+- Exclude the `otel` module when building in GOPATH mode ([#615](https://github.com/getsentry/sentry-go/pull/615))
+
+## 0.19.0
+
+The Sentry SDK team is happy to announce the immediate availability of Sentry Go SDK v0.19.0.
+
+### Features
+
+- Add support for exception mechanism metadata ([#564](https://github.com/getsentry/sentry-go/pull/564/))
+  - More about exception mechanisms [here](https://develop.sentry.dev/sdk/event-payloads/exception/#exception-mechanism).
+
+### Bug Fixes
+- [otel] Use the correct "trace" context when sending a Sentry error ([#580](https://github.com/getsentry/sentry-go/pull/580/))
+
+
+### Misc
+- Drop support for Go 1.17, add support for Go 1.20 ([#563](https://github.com/getsentry/sentry-go/pull/563/))
+  - According to our policy, we're officially supporting the last three minor releases of Go.
+- Switch repository license to MIT ([#583](https://github.com/getsentry/sentry-go/pull/583/))
+  - More about Sentry licensing [here](https://open.sentry.io/licensing/).
+- Bump `golang.org/x/text` minimum required version to 0.3.8 ([#586](https://github.com/getsentry/sentry-go/pull/586))
+  - This fixes [CVE-2022-32149](https://github.com/advisories/GHSA-69ch-w2m2-3vjp) vulnerability.
+
 ## 0.18.0
 
 The Sentry SDK team is happy to announce the immediate availability of Sentry Go SDK v0.18.0.
