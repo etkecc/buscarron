@@ -100,9 +100,10 @@ var i18n map[string]map[string]string = map[string]map[string]string{
 // t is translation func
 func t(lang, key string) string {
 	if _, ok := i18n[lang]; !ok {
-		lang = i18nDefault
+		lang = i18nDefault //nolint:ineffassign
 	}
 
+	lang = i18nDefault //nolint:ineffassign // first phase of disabling transations
 	v, ok := i18n[lang][key]
 	if !ok {
 		return key

@@ -1,4 +1,4 @@
-Halo!
+Hello!
 
 Your Matrix server is ready, here is your onboarding list:
 
@@ -45,9 +45,9 @@ Your Matrix server is ready, here is your onboarding list:
 * whatsapp: @whatsappbot:example.com
 
 
-> https://etke.cc/de/help/bridges - Authentifizierungsanweisungen
+> https://etke.cc/de/help/bridges - auth instructions
 
-# Anmeldeinformationen
+# Credentials
 
 * mxid: @test:example.com
 * username: test
@@ -56,23 +56,23 @@ Your Matrix server is ready, here is your onboarding list:
 * grafana password: TODO64
 
 
-> im Falle irgendwelcher Probleme: https://etke.cc/de/help
+> In case of any issues: https://etke.cc/de/help
 
 Happy Matrixing!
 
 PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
-# Schritte nach dem Einrichten
+# Steps after the setup
 
 ### buscarron
 
-1. Erstellen Sie (verschlüsselte) Matrixräume für die gewünschten Formulare und laden Sie den buscarron-Benutzer zu allen Räumen ein
-2. Senden Sie die Liste (Formularname, Matrix-Raum-ID, Umleitungs-URL nach Übermittlung) an @support:etke.cc
+1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
+2. Send the list of (form name, Matrix room id, redirect URL after submission) to @support:etke.cc
 
 ### honoroit
 
-1. Erstellen Sie einen Matrixraum (Verschlüsselung unterstützt) und laden Sie den honoroit-Benutzer dazu ein
-2. Senden Sie die Raum-ID an @support:etke.cc
+1. Create a matrix room (encryption supported) and invite the honoroit user into it
+2. Send the room id to @support:etke.cc
 
-Wenn Sie die Nachrichten von honoroit ändern möchten, senden Sie die gewünschten Texte an @support:etke.cc (Sie können https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go als Referenz verwenden)
+if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
 

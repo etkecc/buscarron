@@ -1,31 +1,31 @@
 ```yaml
-Hallo zusammen,
-Wir haben Ihre Bestellung erhalten und haben einige Fragen vor der Einrichtung.
+Hi there,
+We got your order and have some questions before the setup.
 
-Reminder bot: Was ist Ihre Zeitzone (IANA)? Wie America/Chicago, Asia/Seoul, oder Europe/Berlin
+Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin
 
-Honoroit: Sind Sie sicher, dass Sie es wollen? Es ist ein Helpdesk-Bot mit Ende-Zu-Ende-Verschlüsselungsunterstützung. Bitte prüfen Sie https://gitlab.com/etke.cc/honoroit, bevor Sie sich entscheiden.
+Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. Please, check https://gitlab.com/etke.cc/honoroit before deciding.
 
-Telegram: gehen Sie bitte auf https://my.telegram.org/apps und erstellen Sie eine neue App. Teilen Sie mir die API-ID und den Hash mit
+Telegram: please, go to https://my.telegram.org/apps and create a new app. Share the API ID and Hash with us
 
-SMTP relay: Bitte wählen Sie einen geeigneten E-Mail-Anbieter (große Anbieter wie Gmail oder Outlook sperren Sie für automatisierte E-Mails, daher müssen Sie einen Dienst finden, der den Versand von Verifizierungs-E-Mails erlaubt. Optional bieten wir einen solchen Dienst an). Bitte senden Sie uns einen SMTP Host, einen SMTP STARTTLS Port, ein SMTP Login, ein SMTP Passwort und eine SMTP E-Mail (normalerweise sind Login und E-Mail dasselbe, aber das hängt vom Anbieter ab).
+SMTP relay: please, select a suitable email provider (big providers like Gmail or Outlook will ban you for automated emails, so you need to find a service that allows sending of verification emails. Optionally, we provide such service). Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email (usually login and email are the same thing, but that depends on the provider).
 
-Prometheus+Grafana: Sind Sie sicher, dass Sie das wollen? Cloud-Anbieter bieten in der Regel ein Dashboard mit Server-Statistiken, warum also nicht stattdessen dieses Dashboard verwenden? Ein Prometheus+Grafana-Stack bietet einige interne Matrix-Statistiken (z. B. die Anzahl der Ereignisse), ist aber zu viel des Guten, wenn Sie nur die Serverauslastung sehen wollen.
+Prometheus+Grafana: are you sure you want it? Cloud providers usually provide a dashboard with server stats, so why not use that dashboard instead? A Prometheus+Grafana stack provides some internal Matrix stats (like count of events), but it's overkill if you just want to see server utilization.
 
-Website: Um eine statische Website einzurichten, müssen Sie Ihre Basisdomäne (den @ DNS eintrag) auf die IP-Adresse des Matrix-Servers verweisen, und der Quellcode der Website muss in einem öffentlichen git repo verfügbar sein. Sind Sie sicher, dass Sie das wollen? Wenn ja, geben Sie bitte die URL des Website-Repositorys, den Befehl (-s) zum Erstellen der Website und den Ordner an, in dem die Build-Distribution gespeichert ist (normalerweise public oder dist).
+Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).
 
-buscarron: Sind Sie sicher, dass Sie es wollen? Es ist ein Bot, der Webformulare (HTML/HTTP POST) empfängt und sie an (verschlüsselte) Matrixräume sendet. Bitte prüfen Sie https://gitlab.com/etke.cc/buscarron, bevor Sie sich entscheiden.
+buscarron: are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) Matrix rooms. Please, check https://gitlab.com/etke.cc/buscarron before deciding.
 
-SSO: Sie haben nicht erwähnt, welchen OIDC/OAuth2-Anbieter Sie integrieren möchten. Hier ist eine Liste der gängigen Anbieter - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Bitte senden Sie uns die Informationen, die für die Konfiguration erforderlich sind (in der Regel sind es Anbietername, issuer, client_id, client_secret, aber das hängt vom Anbieter ab)
+SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - https://github.com/matrix-org/synapse/blob/develop/docs/openid.md#sample-configs. Please, send us the information required to configure it (usually it's provider name, issuer, client_id, client_secret, but that depends on the provider)
 
-Sygnal: Sind Sie sicher, dass Sie es wollen? Es ist ein Push Gateway, das nur für Matrix-Client-App-Entwickler nutzbar ist. Sie können es also nicht verwenden, wenn Sie Ihre mobile Matrix-App nicht entwickeln. Wenn Sie es hinzufügen möchten, geben Sie bitte die folgenden Informationen an: App ID(-s) (z.B. org.matrix.app), FCM api key, und/oder APNS certificate (falls verwendet)
+Sygnal: are you sure you want it? It's a push gateway, usable only for Matrix client app developers, so you can't use it if you don't develop your mobile Matrix app. If you want to add it, please, provide the following information: app ID(-s) (eg org.matrix.app), FCM api key, and/or APNS certificate (if used)
 
-BorgBackup: geben Sie bitte die gewünschte Repository-URL an (user@host:repo). Wir werden einen SSH-Schlüssel und eine Verschlüsselungspassphrase auf Ihrem Server generieren. Wir senden Ihnen den öffentlichen Teil des generierten SSH-Schlüssels zu. Sie müssen diesen SSH-Schlüssel zu Ihrem Provider hinzufügen.
+BorgBackup: please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
 
-Jitsi: Sind Sie sicher, dass Sie es wollen? Sie erhalten die jitsi-Integration standardmäßig mit einer öffentlichen Instanz. Das von uns angebotene jitsi ist eine selbst gehostete Version. Denken Sie daran, dass Jitsi die Anforderungen an die Rechenleistung deutlich erhöht.
+Jitsi: are you sure you want it? You will get jitsi integration by default with a public instance. The jitsi item we offer is a self-hosted version. Keep in mind that jitsi significantly increases compute power requirements.
 
-Server: Bitte erstellen Sie einen x86/amd64 VPS mit einer beliebigen Debian-basierten Distribution. Minimale komfortable Konfiguration für einen einfachen Matrix-Server: 1vCPU, 2GB RAM.
- Fügen Sie unsere SSH-Schlüssel (https://etke.cc/ssh.key) zu Ihrem Server hinzu, senden Sie uns die IP-Adresse Ihres Servers, den Benutzernamen (mit der Berechtigung, sudo aufzurufen) und das Passwort (falls festgelegt).
+Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
+Add our SSH keys (https://etke.cc/ssh.key) to your server, send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
 ```
 
@@ -34,7 +34,7 @@ ___
 
 ```yaml
 
-DNS - bitte fügen Sie die folgenden Einträge hinzu:
+Please, add the following DNS entries:
 
 - @	A record	server IP
 - matrix	A record	server IP
