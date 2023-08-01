@@ -19,5 +19,5 @@ func (l validatorLoggerWrapper) Info(msg string, args ...interface{}) {
 }
 
 func (l validatorLoggerWrapper) Error(msg string, args ...interface{}) {
-	l.log.Error().Msgf(msg, args...)
+	l.log.Warn().Msgf(msg, args...)
 }
