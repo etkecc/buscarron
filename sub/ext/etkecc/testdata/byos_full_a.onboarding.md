@@ -45,7 +45,7 @@ Your Matrix server is ready, here is your onboarding list:
 * whatsapp: @whatsappbot:example.com
 
 
-> https://etke.cc/de/help/bridges - auth instructions
+> https://etke.cc/help/bridges - auth instructions
 
 # Credentials
 
@@ -56,7 +56,7 @@ Your Matrix server is ready, here is your onboarding list:
 * grafana password: TODO64
 
 
-> In case of any issues: https://etke.cc/de/help
+> In case of any issues: https://etke.cc/help
 
 Happy Matrixing!
 

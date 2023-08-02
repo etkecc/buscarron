@@ -130,7 +130,7 @@ func (o *order) generateOnboardingBridges() string {
 		txt.WriteString("* " + bridge + ": " + bridgemap[bridge] + ":" + o.get("domain") + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> https://etke.cc/" + o.get("lang") + "/help/bridges - " + o.t("auth_instructions") + "\n\n")
+	txt.WriteString("> https://etke.cc/help/bridges - " + o.t("auth_instructions") + "\n\n")
 
 	return txt.String()
 }
@@ -155,7 +155,7 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("* " + name + " password: " + o.pass[name] + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/" + o.get("lang") + "/help\n\n")
+	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/help\n\n")
 	o.pass["matrix"] = mxpass
 
 	return txt.String()
@@ -186,7 +186,7 @@ func (o *order) generateOnboardingAfter() string {
 }
 
 func (o *order) generateOnboardingAfterBuscarron() string {
-	if !o.has("honoroit") {
+	if !o.has("buscarron") {
 		return ""
 	}
 	var txt strings.Builder

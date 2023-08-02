@@ -16,7 +16,7 @@ Your Matrix server is ready, here is your onboarding list:
 * password: TODO64
 
 
-> In case of any issues: https://etke.cc/en/help
+> In case of any issues: https://etke.cc/help
 
 Happy Matrixing!
 
