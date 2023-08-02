@@ -14,10 +14,10 @@ type banhandler struct {
 	log   *zerolog.Logger
 }
 
-var donotban = []string{"/favicon.ico", "/robots.txt", "/metrics"}
+var donotban = []string{"/favicon.ico", "/robots.txt", "/metrics", "/_domain"}
 
-// NewBanHanlder creates banhandler
-func NewBanHanlder(size int, banlist []string, log *zerolog.Logger) *banhandler {
+// NewBanHandler creates banhandler
+func NewBanHandler(size int, banlist []string, log *zerolog.Logger) *banhandler {
 	store, err := lru.New[string, struct{}](size)
 	if err != nil {
 		log.Error().Err(err).Msg("cannot init cache")

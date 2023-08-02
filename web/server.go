@@ -40,7 +40,7 @@ type Server struct {
 // New web server
 func New(port string, srl, rls map[string]string, frr map[string]string, log *zerolog.Logger, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
 	sh := sentryhttp.New(sentryhttp.Options{})
-	bh := NewBanHanlder(bs, bl, log)
+	bh := NewBanHandler(bs, bl, log)
 	iph := &iphasher{}
 	ctxm := &ctxMiddleware{iph}
 	srv := &Server{
@@ -107,7 +107,7 @@ func (s *Server) healthcheck() http.HandlerFunc {
 func (s *Server) domainValidator() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		domain := r.URL.Query().Get("domain")
-		if domain == "" {
+		if domain == "" || len(domain) < 11 {
 			http.Error(w, "", http.StatusNotFound)
 			return
 		}
