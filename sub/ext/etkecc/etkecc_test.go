@@ -56,7 +56,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"ssh-client-key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host",
 	}
 	s.byosSub = map[string]string{
-		"domain":        "https://higenjitsuteki.etke.host",
+		"domain":        "https://higenjitsuteki.onmatrix.chat",
 		"domain-type":   "subdomain",
 		"username":      " tEsT ",
 		"email":         "tEsT@TEST.cOm",
@@ -318,9 +318,9 @@ func (s *EtkeccSuite) TestExecute_Byos_Sub() {
 	expectedQuestions := s.read("byos_sub.questions.md")
 	expectedOnboarding := s.read("byos_sub.onboarding.md")
 	expectedVars := s.read("byos_sub.vars.yml")
-	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
-	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
-	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
+	s.v.On("A", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+	s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+	s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
 
 	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosSub)
 	actualVars := s.rts(files[0].Content)

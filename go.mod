@@ -15,7 +15,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/secgen v1.1.1
-	gitlab.com/etke.cc/go/validator v1.0.6
+	gitlab.com/etke.cc/go/validator v1.0.7
 	gitlab.com/etke.cc/linkpearl v0.0.0-20230716111104-e2ea4522e19d
 	golang.org/x/time v0.3.0
 	maunium.net/go/mautrix v0.15.4

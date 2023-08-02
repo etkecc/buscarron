@@ -135,7 +135,7 @@ gitlab.com/etke.cc/go/secgen
 # gitlab.com/etke.cc/go/trysmtp v1.1.3
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/trysmtp
-# gitlab.com/etke.cc/go/validator v1.0.6
+# gitlab.com/etke.cc/go/validator v1.0.7
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator
 # gitlab.com/etke.cc/linkpearl v0.0.0-20230716111104-e2ea4522e19d

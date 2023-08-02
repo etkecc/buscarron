@@ -2,8 +2,8 @@
 # postgres
 devture_postgres_connection_password: TODO64
 
-# homeserver https://matrix.higenjitsuteki.etke.host
-matrix_domain: higenjitsuteki.etke.host
+# homeserver https://matrix.higenjitsuteki.onmatrix.chat
+matrix_domain: higenjitsuteki.onmatrix.chat
 matrix_admin: "@test:{{ matrix_domain }}"
 matrix_ssl_lets_encrypt_support_email: test@test.com
 matrix_client_element_enabled: no
@@ -61,5 +61,5 @@ devture_postgres_backup_keep_days: 7
 devture_postgres_backup_keep_weeks: 0
 devture_postgres_backup_keep_months: 0
 
-# synapse-admin https://matrix.higenjitsuteki.etke.host/synapse-admin
+# synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
 matrix_synapse_admin_enabled: yes

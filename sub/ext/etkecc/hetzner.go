@@ -11,7 +11,8 @@ const hImage = "ubuntu-22.04"
 
 var (
 	hDomains = map[string]string{
-		".etke.host": "enTDpM8y67STAZcQMpmqr7",
+		".etke.host":     "enTDpM8y67STAZcQMpmqr7",
+		".onmatrix.chat": "zVNMf3dur7oHP8dcGETZs",
 	}
 	hDNSPatch = map[string]string{
 		"\n":            `\n`,
