@@ -30,6 +30,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsEtherpad())
 	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
+	txt.WriteString(o.generateVarsSlidingSync())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
 
@@ -404,6 +405,18 @@ func (o *order) generateVarsJitsi() string {
 	txt.WriteString("# jitsi_prosody_auth_internal_accounts:\n")
 	txt.WriteString("#  - username: " + o.get("username") + "\n")
 	txt.WriteString("#    password: " + o.pwgen() + "\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsSlidingSync() string {
+	if !o.has("sliding-sync") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# sliding-sync\n")
+	txt.WriteString("matrix_sliding_sync_enabled: yes\n")
 
 	return txt.String()
 }

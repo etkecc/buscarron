@@ -62,6 +62,7 @@ func (s *EtkeccSuite) SetupTest() {
 		"email":         "tEsT@TEST.cOm",
 		"type":          "byos",
 		"synapse-admin": "on",
+		"sliding-sync":  "on",
 	}
 	s.byosFull = map[string]string{
 		"homeserver":          "synapse",
