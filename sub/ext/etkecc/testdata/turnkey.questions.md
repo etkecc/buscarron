@@ -18,3 +18,6 @@ curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_b
 echo -e "---\nHello,\n\nWe've received your payment and have prepared a server for you. Its IP addresses are:\n\n- IPv4: $SERVER_IP4\n- IPv6: $SERVER_IP6\n\nPlease, add the following DNS entries:\n\n- @	A record	$SERVER_IP4\n- matrix	A record	$SERVER_IP4\n\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n\nPlease let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\nRegards\n"
 ```
 
+
+
+**price**: $0/month

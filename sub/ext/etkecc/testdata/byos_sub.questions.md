@@ -15,3 +15,6 @@ export HETZNER_SERVER_IP=SERVER_IP
 curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: application/json" -H "Auth-API-Token: $HETZNER_API_TOKEN" -d "{\"records\":[{\"name\":\"higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"}]}"
 ```
 
+
+
+**price**: $0/month

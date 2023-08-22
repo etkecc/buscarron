@@ -2,18 +2,21 @@ package etkecc
 
 import (
 	"reflect"
+	"strconv"
 	"strings"
 
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc/pricify"
 )
 
 type order struct {
 	test bool
 	name string
 	data map[string]string
+	pd   *pricify.Data
 	pm   EmailSender
 	v    common.Validator
 
@@ -67,6 +70,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.eml.WriteString("\n" + o.t("ps_automatic_email"))
 
 	o.sendmail()
+	o.pricify()
 
 	return o.txt.String(), o.files
 }
@@ -140,4 +144,15 @@ func (o *order) sendmail() {
 	}
 
 	o.txt.WriteString("\n\n**confirmation email**: ✅\n")
+}
+
+func (o *order) pricify() {
+	if o.pd == nil {
+		return
+	}
+
+	price := strconv.Itoa(o.pd.Calculate(o.data))
+	o.txt.WriteString("\n\n**price**: $")
+	o.txt.WriteString(price)
+	o.txt.WriteString("/month\n")
 }

@@ -6,12 +6,16 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc/pricify"
 )
+
+const pricifyDataURL = "https://gitlab.com/etke.cc/website/-/raw/svelte-order-form/svelte/src/lib/provider/dataConfig.json"
 
 // Etkecc extension
 type Etkecc struct {
-	pm   EmailSender
-	test bool
+	pm      EmailSender
+	pricify *pricify.Data
+	test    bool
 }
 
 // EmailSender interface
@@ -21,21 +25,22 @@ type EmailSender interface {
 
 // New etke.cc extension
 func New(pm EmailSender) *Etkecc {
-	return &Etkecc{pm: pm}
+	ext := &Etkecc{
+		pm: pm,
+	}
+	ext.pricify, _ = pricify.New(pricifyDataURL) //nolint:errcheck // proof-of-concept
+	return ext
 }
 
 // Execute extension
 func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	return parseOrder(form.Name, data, v, e.pm, e.test)
-}
-
-func parseOrder(name string, data map[string]string, v common.Validator, pm EmailSender, test bool) (string, []*mautrix.ReqUploadMedia) {
 	o := &order{
-		name:  name,
+		name:  form.Name,
 		data:  data,
-		test:  test,
+		test:  e.test,
 		v:     v,
-		pm:    pm,
+		pd:    e.pricify,
+		pm:    e.pm,
 		pass:  map[string]string{},
 		files: make([]*mautrix.ReqUploadMedia, 0, 3),
 	}

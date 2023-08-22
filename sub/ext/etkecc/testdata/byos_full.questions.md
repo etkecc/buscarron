@@ -52,3 +52,6 @@ Please, add the following DNS entries:
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 
+
+
+**price**: $22/month
