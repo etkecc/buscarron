@@ -14,9 +14,9 @@ type Sender struct {
 	mock.Mock
 }
 
-// Send provides a mock function with given fields: _a0, _a1
-func (_m *Sender) Send(_a0 id.RoomID, _a1 string) {
-	_m.Called(_a0, _a1)
+// Send provides a mock function with given fields: _a0, _a1, _a2
+func (_m *Sender) Send(_a0 id.RoomID, _a1 string, _a2 map[string]interface{}) {
+	_m.Called(_a0, _a1, _a2)
 }
 
 // SendFile provides a mock function with given fields: _a0, _a1

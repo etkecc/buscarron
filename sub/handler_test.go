@@ -131,6 +131,9 @@ func (s *HandlerSuite) TestPOST() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
 	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n"
+	expectedAttrs := map[string]interface{}{
+		"email": "email@dkimvalidator.com",
+	}
 	roomID := id.RoomID("!test:example.com")
 	forms := map[string]*config.Form{
 		"test": {
@@ -142,7 +145,7 @@ func (s *HandlerSuite) TestPOST() {
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
-	s.sender.On("Send", roomID, expectedMessage).Once()
+	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	data := url.Values{}
 	data.Add("email", "email@dkimvalidator.com")

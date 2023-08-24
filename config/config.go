@@ -18,6 +18,7 @@ func New() *Config {
 		Sentry:     env.String("sentry", defaultConfig.Sentry),
 		LogLevel:   env.String("loglevel", defaultConfig.LogLevel),
 		Port:       env.String("port", defaultConfig.Port),
+		KoFiToken:  env.String("kofi.token", defaultConfig.KoFiToken),
 		DB: DB{
 			DSN:     env.String("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),

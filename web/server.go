@@ -38,9 +38,10 @@ type Server struct {
 }
 
 // New web server
-func New(port string, srl, rls map[string]string, frr map[string]string, log *zerolog.Logger, fh FormHandler, dv DomainValidator, bs int, bl []string) *Server {
+func New(port string, srl, rls map[string]string, frr map[string]string, log *zerolog.Logger, fh FormHandler, dv DomainValidator, koficfg *KoFiConfig, bs int, bl []string) *Server {
 	sh := sentryhttp.New(sentryhttp.Options{})
 	bh := NewBanHandler(bs, bl, log)
+	kfh := NewKoFiHandler(koficfg)
 	iph := &iphasher{}
 	ctxm := &ctxMiddleware{iph}
 	srv := &Server{
@@ -58,6 +59,7 @@ func New(port string, srl, rls map[string]string, frr map[string]string, log *ze
 	metrics.InitMetrics(mux)
 	mux.Handle("/_health", srv.healthcheck())
 	mux.Handle("/_domain", srv.domainValidator())
+	mux.Handle("/_kofi", kfh.handler())
 	mux.Handle("/", srv.forms())
 
 	h := cors(ctxm.Handle(sh.Handle(bh.Handle(mux))))

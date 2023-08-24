@@ -20,6 +20,8 @@ type Config struct {
 	NoEncryption bool
 	// Port of the web server
 	Port string
+	// KoFiToken is Ko-Fi webhook verification token
+	KoFiToken string
 	// Forms map
 	Forms map[string]*Form
 	// Spamlist with wildcards

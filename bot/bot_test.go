@@ -55,26 +55,30 @@ func (s *BotSuite) TestError() {
 
 func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", roomID, &event.MessageEventContent{
-		MsgType: event.MsgText,
-		Body:    "msg",
+	s.lp.On("Send", roomID, &event.Content{
+		Parsed: &event.MessageEventContent{
+			MsgType: event.MsgText,
+			Body:    "msg",
+		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
-	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg")
+	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg", nil)
 }
 
 func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", roomID, &event.MessageEventContent{
-		MsgType: event.MsgText,
-		Body:    "msg",
+	s.lp.On("Send", roomID, &event.Content{
+		Parsed: &event.MessageEventContent{
+			MsgType: event.MsgText,
+			Body:    "msg",
+		},
 	}).Return(id.EventID("$doesnt:matt.er"), errors.New("test")).Once()
 	s.lp.On("Send", roomID, &event.MessageEventContent{
 		MsgType: event.MsgNotice,
 		Body:    "ERROR: cannot send message: test",
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
-	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg")
+	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg", nil)
 }
 
 func (s *BotSuite) TestSendFile() {

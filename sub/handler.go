@@ -21,7 +21,7 @@ import (
 
 // Sender interface to send messages
 type Sender interface {
-	Send(id.RoomID, string)
+	Send(id.RoomID, string, map[string]interface{})
 	SendFile(id.RoomID, *mautrix.ReqUploadMedia)
 }
 
@@ -123,8 +123,16 @@ func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 	h.log.Info().Str("name", form.Name).Str("id", rID).Msg("submission to the form passed the tests")
 
 	text, files := h.generate(form, data)
+	attrs := map[string]interface{}{}
+	if data["email"] != "" {
+		attrs["email"] = data["email"]
+	}
+	if data["domain"] != "" {
+		attrs["domain"] = data["domain"]
+	}
+
 	form.Lock()
-	h.sender.Send(form.RoomID, text)
+	h.sender.Send(form.RoomID, text, attrs)
 	for _, file := range files {
 		h.sender.SendFile(form.RoomID, file)
 	}

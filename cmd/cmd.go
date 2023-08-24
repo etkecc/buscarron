@@ -15,6 +15,7 @@ import (
 	"github.com/rs/zerolog"
 	"gitlab.com/etke.cc/go/validator"
 	"gitlab.com/etke.cc/linkpearl"
+	"maunium.net/go/mautrix/id"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
@@ -94,19 +95,20 @@ func initBot(cfg *config.Config) {
 }
 
 func initSrv(cfg *config.Config) {
+	var rooms []id.RoomID
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
+	logwrap := sub.NewLogWrapper(log)
+	vs := make(map[string]sub.Validator, len(cfg.Forms))
 	for name, item := range cfg.Forms {
+		rooms = append(rooms, item.RoomID)
 		rls[name] = item.Ratelimit
 		frr[name] = item.RejectRedirect
 		if item.RatelimitShared {
 			srl[name] = item.Ratelimit
 		}
-	}
-	logwrap := sub.NewLogWrapper(log)
-	vs := make(map[string]sub.Validator, len(cfg.Forms))
-	for name := range cfg.Forms {
+
 		enforce := validator.Enforce{
 			Email:  cfg.Forms[name].HasEmail,
 			Domain: cfg.Forms[name].HasDomain,
@@ -118,9 +120,15 @@ func initSrv(cfg *config.Config) {
 	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, log)
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, log)
+	kfcfg := &web.KoFiConfig{
+		VerificationToken: cfg.KoFiToken,
+		Logger:            log,
+		Sender:            mxb,
+		Rooms:             rooms,
+	}
 
 	srvv := validator.New(nil, validator.Enforce{}, "", logwrap)
-	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, cfg.Ban.Size, cfg.Ban.List)
+	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, kfcfg, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug().Msg("web server has been created")
 }

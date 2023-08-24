@@ -16,6 +16,22 @@ type Linkpearl struct {
 	mock.Mock
 }
 
+// GetClient provides a mock function with given fields:
+func (_m *Linkpearl) GetClient() *mautrix.Client {
+	ret := _m.Called()
+
+	var r0 *mautrix.Client
+	if rf, ok := ret.Get(0).(func() *mautrix.Client); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*mautrix.Client)
+		}
+	}
+
+	return r0
+}
+
 // Send provides a mock function with given fields: roomID, content
 func (_m *Linkpearl) Send(roomID id.RoomID, content interface{}) (id.EventID, error) {
 	ret := _m.Called(roomID, content)
