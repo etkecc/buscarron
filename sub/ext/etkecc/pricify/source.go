@@ -3,6 +3,7 @@ package pricify
 import "encoding/json"
 
 type sourceModel struct {
+	Bases     []sourceItem `json:"bases"`
 	Instances []sourceItem `json:"instances"`
 
 	MatrixApps         []sourceItem `json:"matrixApps"`
@@ -33,6 +34,7 @@ func convertToData(source *sourceModel) *Data {
 		iidmap: map[string]*Item{},
 	}
 
+	data.fromSource(source.Bases, "bases", 0)
 	data.fromSource(source.Instances, "instances", 0)
 
 	data.fromSource(source.MatrixApps, "matrix_apps", 0)

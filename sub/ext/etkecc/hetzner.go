@@ -74,17 +74,10 @@ func (o *order) generateHVPSCommand() string {
 	if !ok {
 		location = "fsn1"
 	}
-	var size string
-	sizeParts := strings.Split(o.get("turnkey"), "-")
-	if len(sizeParts) < 2 {
-		size = "cx11"
-	} else {
-		size = sizeParts[1]
-	}
 
 	req := &hVPSRequest{
 		Name:      o.get("domain"),
-		Size:      size,
+		Size:      o.getHostingSize(),
 		Image:     hImage,
 		Firewalls: []map[string]int{hFirewall},
 		SSHKeys:   hKeys,

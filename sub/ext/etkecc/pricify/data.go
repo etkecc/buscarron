@@ -19,9 +19,10 @@ type Item struct {
 }
 
 var allowedValues = map[string]bool{
-	"yes":  true,
-	"true": true,
-	"on":   true,
+	"yes":     true,
+	"true":    true,
+	"on":      true,
+	"synapse": true, // matrix_homeserver_implementation
 }
 
 func (d *Data) fromSource(sItems []sourceItem, section string, sectionPrice int) {

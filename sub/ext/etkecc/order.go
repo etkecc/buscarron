@@ -26,7 +26,16 @@ type order struct {
 	files []*mautrix.ReqUploadMedia
 }
 
-var preprocessFields = []string{"email", "domain", "username"}
+var (
+	preprocessFields = []string{"email", "domain", "username"}
+	hostingFields    = []string{
+		"etke_service_server_cpx11",
+		"etke_service_server_cpx21",
+		"etke_service_server_cpx31",
+		"etke_service_server_cpx41",
+		"etke_service_server_cpx51",
+	}
+)
 
 // execute converts order to special message and files
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
@@ -100,6 +109,37 @@ func (o *order) t(key string) string {
 	return t(o.get("lang"), key)
 }
 
+func (o *order) getHostingSize() string {
+	// new approach
+	for _, hostingField := range hostingFields {
+		if !o.has(hostingField) {
+			continue
+		}
+
+		value := o.get(hostingField)
+
+		if value == "" {
+			continue
+		}
+		return strings.ReplaceAll(hostingField, "etke_service_server_", "")
+	}
+
+	// old approach
+	if !o.has("turnkey") {
+		return ""
+	}
+
+	var size string
+	sizeParts := strings.Split(o.get("turnkey"), "-")
+	if len(sizeParts) < 2 {
+		size = "cx11"
+	} else {
+		size = sizeParts[1]
+	}
+
+	return size
+}
+
 // preprocess data
 func (o *order) preprocess() {
 	for _, key := range preprocessFields {
@@ -107,7 +147,7 @@ func (o *order) preprocess() {
 	}
 	o.data["homeserver"] = "synapse"
 
-	if o.name == "turnkey" {
+	if o.name == "turnkey" || o.getHostingSize() != "" {
 		o.data["type"] = "turnkey"
 	}
 
