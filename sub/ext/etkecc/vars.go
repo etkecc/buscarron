@@ -30,6 +30,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsEtherpad())
 	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
+	txt.WriteString(o.generateVarsSchildiChat())
 	txt.WriteString(o.generateVarsSlidingSync())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
@@ -405,6 +406,18 @@ func (o *order) generateVarsJitsi() string {
 	txt.WriteString("# jitsi_prosody_auth_internal_accounts:\n")
 	txt.WriteString("#  - username: " + o.get("username") + "\n")
 	txt.WriteString("#    password: " + o.pwgen() + "\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsSchildiChat() string {
+	if !o.has("schildichat") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# schildichat https://schildichat." + o.get("domain") + "\n")
+	txt.WriteString("matrix_client_schildichat_enabled: yes\n")
 
 	return txt.String()
 }

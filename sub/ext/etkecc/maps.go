@@ -10,6 +10,7 @@ var dnsmap = map[string]string{
 	"buscarron":   "buscarron",
 	"cinny":       "cinny",
 	"element-web": "element",
+	"schildichat": "schildichat",
 	"etherpad":    "etherpad",
 	"hydrogen":    "hydrogen",
 	"jitsi":       "jitsi",

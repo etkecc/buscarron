@@ -45,6 +45,7 @@ Please, add the following DNS entries:
 - hydrogen	CNAME record	matrix.example.com
 - jitsi	CNAME record	matrix.example.com
 - ntfy	CNAME record	matrix.example.com
+- schildichat	CNAME record	matrix.example.com
 - stats	CNAME record	matrix.example.com
 - sygnal	CNAME record	matrix.example.com
 - matrix	MX record	matrix.example.com

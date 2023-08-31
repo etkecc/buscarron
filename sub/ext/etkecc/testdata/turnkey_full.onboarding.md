@@ -13,6 +13,7 @@ Your Matrix server is ready, here is your onboarding list:
 * hydrogen: https://hydrogen.higenjitsuteki.etke.host
 * jitsi: https://jitsi.higenjitsuteki.etke.host
 * ntfy: https://ntfy.higenjitsuteki.etke.host
+* schildichat: https://schildichat.higenjitsuteki.etke.host
 * stats: https://stats.higenjitsuteki.etke.host
 * sygnal: https://sygnal.higenjitsuteki.etke.host
 

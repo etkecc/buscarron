@@ -138,6 +138,12 @@ jitsi_jicofo_auth_password: TODO64
 #  - username: test
 #    password: TODO64
 
+# schildichat https://schildichat.example.com
+matrix_client_schildichat_enabled: yes
+
+# sliding-sync
+matrix_sliding_sync_enabled: yes
+
 # stats https://stats.example.com
 grafana_enabled: yes
 prometheus_enabled: yes

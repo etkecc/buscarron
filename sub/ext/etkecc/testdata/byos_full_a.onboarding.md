@@ -13,6 +13,7 @@ Your Matrix server is ready, here is your onboarding list:
 * hydrogen: https://hydrogen.example.com
 * jitsi: https://jitsi.example.com
 * ntfy: https://ntfy.example.com
+* schildichat: https://schildichat.example.com
 * stats: https://stats.example.com
 * sygnal: https://sygnal.example.com
 
