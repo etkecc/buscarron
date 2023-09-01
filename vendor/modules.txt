@@ -89,7 +89,7 @@ github.com/prometheus/common/model
 github.com/prometheus/procfs
 github.com/prometheus/procfs/internal/fs
 github.com/prometheus/procfs/internal/util
-# github.com/rs/zerolog v1.29.1
+# github.com/rs/zerolog v1.30.0
 ## explicit; go 1.15
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
@@ -103,7 +103,7 @@ github.com/stretchr/testify/assert
 github.com/stretchr/testify/mock
 github.com/stretchr/testify/require
 github.com/stretchr/testify/suite
-# github.com/tidwall/gjson v1.14.4
+# github.com/tidwall/gjson v1.16.0
 ## explicit; go 1.12
 github.com/tidwall/gjson
 # github.com/tidwall/match v1.1.1
@@ -115,7 +115,7 @@ github.com/tidwall/pretty
 # github.com/tidwall/sjson v1.2.5
 ## explicit; go 1.14
 github.com/tidwall/sjson
-# github.com/yuin/goldmark v1.5.4
+# github.com/yuin/goldmark v1.5.5
 ## explicit; go 1.18
 github.com/yuin/goldmark
 github.com/yuin/goldmark/ast
@@ -138,10 +138,18 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator v1.0.7
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator
-# gitlab.com/etke.cc/linkpearl v0.0.0-20230716111104-e2ea4522e19d
+# gitlab.com/etke.cc/linkpearl v0.0.0-20230817223627-f26a0a2db9cc
 ## explicit; go 1.18
 gitlab.com/etke.cc/linkpearl
-# golang.org/x/crypto v0.11.0
+# go.mau.fi/util v0.0.0-20230805171708-199bf3eec776
+## explicit; go 1.20
+go.mau.fi/util/base58
+go.mau.fi/util/dbutil
+go.mau.fi/util/exerrors
+go.mau.fi/util/exgjson
+go.mau.fi/util/jsontime
+go.mau.fi/util/random
+# golang.org/x/crypto v0.12.0
 ## explicit; go 1.17
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/chacha20
@@ -154,23 +162,23 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20230713183714-613f0c0eb8a1
+# golang.org/x/exp v0.0.0-20230810033253-352e893a4cad
 ## explicit; go 1.20
 golang.org/x/exp/maps
-# golang.org/x/net v0.12.0
+# golang.org/x/net v0.14.0
 ## explicit; go 1.17
 golang.org/x/net/context
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/publicsuffix
-# golang.org/x/sys v0.10.0
+# golang.org/x/sys v0.11.0
 ## explicit; go 1.17
 golang.org/x/sys/cpu
 golang.org/x/sys/execabs
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.11.0
+# golang.org/x/text v0.12.0
 ## explicit; go 1.17
 golang.org/x/text/cases
 golang.org/x/text/internal
@@ -220,8 +228,8 @@ gopkg.in/yaml.v3
 ## explicit; go 1.19
 maunium.net/go/maulogger/v2
 maunium.net/go/maulogger/v2/maulogadapt
-# maunium.net/go/mautrix v0.15.4
-## explicit; go 1.19
+# maunium.net/go/mautrix v0.16.0
+## explicit; go 1.20
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
 maunium.net/go/mautrix/crypto/attachment
@@ -238,7 +246,3 @@ maunium.net/go/mautrix/id
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/pushrules/glob
 maunium.net/go/mautrix/sqlstatestore
-maunium.net/go/mautrix/util
-maunium.net/go/mautrix/util/base58
-maunium.net/go/mautrix/util/dbutil
-maunium.net/go/mautrix/util/jsontime

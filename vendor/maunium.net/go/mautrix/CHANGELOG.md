@@ -1,3 +1,12 @@
+## v0.16.0 (2023-08-16)
+
+* Bumped minimum Go version to 1.20.
+* **Breaking change *(util)*** Moved package to [go.mau.fi/util](https://go.mau.fi/util/)
+* *(event)* Removed MSC2716 `historical` field in the `m.room.power_levels`
+  event content struct.
+* *(bridge)* Added `--version-json` flag to print bridge version info as JSON.
+* *(appservice)* Added option to use custom transaction handler for websocket mode.
+
 ## v0.15.4 (2023-07-16)
 
 * *(client)* Deprecated MSC2716 methods and added new Beeper-specific batch

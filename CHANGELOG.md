@@ -3,7 +3,9 @@
 ### Features :sparkles:
 
 * Allow redirect rejected submissions to specific URL
-* Prometheus metrics
+* Added Prometheus metrics on `/metrics` endpoint
+* The `email` and `domain` fields as properties to the submission matrix event
+* Added an option to redirect to a different address if submission was rejected
 
 ### Misc :zzz:
 
