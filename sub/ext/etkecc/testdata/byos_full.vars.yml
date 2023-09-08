@@ -1,3 +1,5 @@
+# etke services
+etke_service_email: yes
 
 # postgres
 devture_postgres_connection_password: TODO64

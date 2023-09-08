@@ -1,6 +1,7 @@
 package etkecc
 
 import (
+	"sort"
 	"strings"
 
 	"maunium.net/go/mautrix"
@@ -10,6 +11,7 @@ func (o *order) generateVars() {
 	var txt strings.Builder
 
 	// base
+	txt.WriteString(o.generateVarsEtke())
 	txt.WriteString(o.generateVarsSSH())
 	txt.WriteString(o.generateVarsPostgres())
 	txt.WriteString(o.generateVarsHomeserver())
@@ -65,6 +67,35 @@ func (o *order) generateVars() {
 		ContentType:   "text/yaml",
 		ContentLength: int64(txt.Len()),
 	})
+}
+
+func (o *order) generateVarsEtke() string {
+	enabledServices := []string{}
+	for field := range o.data {
+		if strings.HasPrefix(field, "etke_service") {
+			enabledServices = append(enabledServices, field)
+		}
+	}
+	if o.has("service-email") {
+		enabledServices = append(enabledServices, "etke_service_email")
+	}
+	if o.has("service-support-dedicated") {
+		enabledServices = append(enabledServices, "etke_service_support_dedicated")
+	}
+	sort.Strings(enabledServices)
+
+	if len(enabledServices) == 0 {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("# etke services\n")
+	for _, service := range enabledServices {
+		txt.WriteString(service)
+		txt.WriteString(": yes\n")
+	}
+
+	return txt.String()
 }
 
 func (o *order) generateVarsSSH() string {
