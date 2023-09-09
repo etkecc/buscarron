@@ -41,7 +41,8 @@ var (
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
-	questions := o.generateQuestions()
+	hostingSize := o.getHostingSize()
+	questions, count := o.generateQuestions()
 	dns, dnsInternal := o.generateDNSInstructions()
 	hosts := o.generateHosts()
 
@@ -50,13 +51,13 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.txt.WriteString("```\n\n")
 	o.txt.WriteString("\n___\n\n")
 
-	if o.get("type") == "turnkey" {
+	if hostingSize != "" {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(o.generateHVPSCommand())
 		o.txt.WriteString("```\n\n")
 	}
 
-	if o.get("type") == "byos" || dnsInternal {
+	if hostingSize == "" || dnsInternal {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(dns)
 		o.txt.WriteString("```\n\n")
@@ -69,11 +70,15 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString("```\n\n")
 	}
 
+	o.txt.WriteString("questions: ")
+	o.txt.WriteString(strconv.Itoa(count))
+	o.txt.WriteString("\n\n")
+
 	o.generateVars()
 	o.generateOnboarding()
 
 	o.eml.WriteString(questions)
-	if o.get("type") == "byos" && !dnsInternal {
+	if hostingSize == "" && !dnsInternal {
 		o.eml.WriteString(dns)
 	}
 	o.eml.WriteString("\n" + o.t("ps_automatic_email"))
