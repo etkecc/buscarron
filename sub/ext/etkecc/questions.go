@@ -82,7 +82,7 @@ func (o *order) generateQuestionsTelegramBridge() string {
 func (o *order) generateQuestionsServices() string {
 	var txt strings.Builder
 
-	if o.has("smtp-relay") && !(o.has("smtp-relay-host") && o.has("smtp-relay-port") && o.has("smtp-relay-login") && o.has("smtp-relay-password") && o.has("smtp-relay-email")) {
+	if o.has("smtp-relay") && (!o.has("service-email") || !(o.has("smtp-relay-host") && o.has("smtp-relay-port") && o.has("smtp-relay-login") && o.has("smtp-relay-password") && o.has("smtp-relay-email"))) {
 		txt.WriteString("SMTP relay: " + o.t("q_smtp-relay") + "\n\n")
 	}
 	if o.has("stats") && o.get("type") != "turnkey" {
@@ -111,11 +111,12 @@ func (o *order) generateQuestionsServices() string {
 }
 
 func (o *order) generateQuestionsType() string {
-	if o.getHostingSize() != "" {
+	hostingSize := o.getHostingSize()
+	if hostingSize != "" && !o.has("ssh-client-key") {
 		return o.t("q_turnkey_ssh") + "\n\n"
 	}
 
-	if !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
+	if hostingSize == "" && !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
 		return o.t("q_byos_ssh") + "\n\n"
 	}
 	return ""
