@@ -5,7 +5,7 @@ devture_postgres_connection_password: TODO64
 # homeserver https://matrix.higenjitsuteki.onmatrix.chat
 matrix_domain: higenjitsuteki.onmatrix.chat
 matrix_admin: "@test:{{ matrix_domain }}"
-matrix_ssl_lets_encrypt_support_email: test@test.com
+devture_traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 
 # initial users
