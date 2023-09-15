@@ -67,10 +67,6 @@ matrix_synapse_password_config_pepper: TODO64
 matrix_coturn_turn_static_auth_secret: TODO64
 matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
-# traefik
-matrix_playbook_reverse_proxy_type: playbook-managed-traefik
-devture_traefik_config_certificatesResolvers_acme_email: test@test.com
-
 # nginx proxy
 matrix_nginx_proxy_access_log_enabled: no
 matrix_nginx_proxy_base_domain_serving_enabled: no
