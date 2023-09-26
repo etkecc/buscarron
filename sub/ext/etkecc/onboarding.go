@@ -34,11 +34,8 @@ func (o *order) generateOnboarding() {
 
 func (o *order) generateOnboardingIntro() string {
 	var txt strings.Builder
-	txt.WriteString(o.t("hello"))
-	txt.WriteString("\n\n")
-
-	txt.WriteString(o.t("server_is_ready"))
-	txt.WriteString("\n\n")
+	txt.WriteString("Hello!\n\n")
+	txt.WriteString("Your Matrix server is ready, here is your onboarding list:\n\n")
 
 	return txt.String()
 }
@@ -46,7 +43,7 @@ func (o *order) generateOnboardingIntro() string {
 func (o *order) generateOnboardingLinks() string {
 	var txt strings.Builder
 
-	txt.WriteString("# " + o.t("links") + "\n\n")
+	txt.WriteString("# Links\n\n")
 	if !o.has("element-web") {
 		txt.WriteString("* web: " + link("app.etke.cc") + "\n")
 	}
@@ -86,7 +83,7 @@ func (o *order) generateOnboardingBots() string {
 	}
 
 	var txt strings.Builder
-	txt.WriteString("# " + o.t("bots") + "\n\n")
+	txt.WriteString("# Bots\n\n")
 	items := []string{}
 	for item := range botmap {
 		if o.has(item) {
@@ -117,7 +114,7 @@ func (o *order) generateOnboardingBridges() string {
 	}
 
 	var txt strings.Builder
-	txt.WriteString("# " + o.t("bridges") + "\n\n")
+	txt.WriteString("# Bridges\n\n")
 	items := []string{}
 	for item := range bridgemap {
 		if o.has(item) {
@@ -129,7 +126,7 @@ func (o *order) generateOnboardingBridges() string {
 		txt.WriteString("* " + bridge + ": " + matrixLink(bridgemap[bridge]+":"+o.get("domain")) + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> " + o.t("auth_instructions") + ": " + link("etke.cc/help/bridges") + "\n\n")
+	txt.WriteString("> auth instruction and support: " + link("etke.cc/help/bridges") + "\n\n")
 
 	return txt.String()
 }
@@ -141,7 +138,7 @@ func (o *order) generateOnboardingCredentials() string {
 	mxpass := o.pass["matrix"]
 	delete(o.pass, "matrix")
 
-	txt.WriteString("# " + o.t("credentials") + "\n\n")
+	txt.WriteString("# Credentials\n\n")
 	txt.WriteString("* mxid: " + matrixLink("@"+o.get("username")+":"+o.get("domain")) + "\n")
 	txt.WriteString("* username: " + o.get("username") + "\n")
 	txt.WriteString("* password: " + mxpass + "\n")
@@ -154,7 +151,7 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("* " + name + " password: " + o.pass[name] + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> " + o.t("in_case_of_issues") + ": " + link("https://etke.cc/help") + "\n\n")
+	txt.WriteString("> in case of any issues: " + link("etke.cc/help") + "\n\n")
 	o.pass["matrix"] = mxpass
 
 	return txt.String()
@@ -162,11 +159,9 @@ func (o *order) generateOnboardingCredentials() string {
 
 func (o *order) generateOnboardingOutro() string {
 	var txt strings.Builder
-	txt.WriteString(o.t("happy_matrixing"))
-	txt.WriteString("\n\n")
+	txt.WriteString("Happy Matrixing!\n\n")
 
-	txt.WriteString(o.t("ps_matrixrooms"))
-	txt.WriteString("\n\n")
+	txt.WriteString("PS: To help with your first steps in the world of Matrix, we've built the " + link("MatrixRooms.info") + " search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!\n\n")
 
 	return txt.String()
 }
@@ -177,7 +172,7 @@ func (o *order) generateOnboardingAfter() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("# " + o.t("steps_after_setup") + "\n\n")
+	txt.WriteString("# Steps after the setup\n\n")
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
 
@@ -191,8 +186,8 @@ func (o *order) generateOnboardingAfterBuscarron() string {
 	var txt strings.Builder
 
 	txt.WriteString("### buscarron\n\n")
-	txt.WriteString("1. " + o.t("as_buscarron_1") + "\n")
-	txt.WriteString("2. " + o.t("as_buscarron_2") + "\n\n")
+	txt.WriteString("1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them\n")
+	txt.WriteString("2. Send the list of (form name, Matrix room id, redirect URL after submission) to " + matrixLink("@support:etke.cc") + "\n\n")
 
 	return txt.String()
 }
@@ -204,8 +199,8 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 	var txt strings.Builder
 
 	txt.WriteString("### honoroit\n\n")
-	txt.WriteString("1. " + o.t("as_honoroit_1") + "\n")
-	txt.WriteString("2. " + o.t("as_honoroit_2") + "\n\n")
+	txt.WriteString("1. Create a matrix room (encryption supported) and invite the honoroit user into it\n")
+	txt.WriteString("2. Send the room id to " + matrixLink("@support:etke.cc") + "\n\n")
 
 	return txt.String()
 }

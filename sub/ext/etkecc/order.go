@@ -73,7 +73,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	if hostingSize == "" && !dnsInternal {
 		o.eml.WriteString(dns)
 	}
-	o.eml.WriteString("\n" + o.t("ps_automatic_email"))
+	o.eml.WriteString("\nPS: this is an automated email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers")
 
 	o.sendmail()
 	o.pricify()
@@ -99,11 +99,6 @@ func (o *order) get(key string) string {
 func (o *order) has(key string) bool {
 	val, ok := o.data[key]
 	return ok || val != ""
-}
-
-// t is a wrapper of the package's t with lang set
-func (o *order) t(key string) string {
-	return t(o.get("lang"), key)
 }
 
 func (o *order) getHostingSize() string {
@@ -137,12 +132,6 @@ func (o *order) preprocess() {
 		o.data["serve_base_domain"] = "yes"
 	}
 
-	lang := o.get("lang")
-	_, ok := i18n[lang]
-	if !ok {
-		o.data["lang"] = i18nDefault
-	}
-
 	o.password("matrix")
 }
 
@@ -155,7 +144,7 @@ func (o *order) sendmail() {
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
-		Subject:  o.t("matrix_server_on") + " " + o.get("domain"),
+		Subject:  "Matrix server on " + o.get("domain"),
 		TextBody: content.Body,
 		HTMLBody: content.FormattedBody,
 	}

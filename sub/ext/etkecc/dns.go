@@ -9,7 +9,7 @@ func (o *order) generateDNSInstructions() (string, bool) {
 	if o.get("domain-type") == "subdomain" {
 		return o.generateHDNSCommand(), true
 	}
-	dns := "\n" + o.t("dns_add_entries") + ":\n\n"
+	dns := "\nPlease, add the following DNS entries:\n\n"
 	if o.get("serve_base_domain") == "yes" {
 		dns += strings.Join([]string{"- @", "A record", "server IP\n"}, "\t")
 	}

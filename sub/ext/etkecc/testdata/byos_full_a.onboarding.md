@@ -66,7 +66,7 @@ Your Matrix server is ready, here is your onboarding list:
 
 
 
-> auth instructions: [etke.cc/help/bridges](https://etke.cc/help/bridges)
+> auth instruction and support: [etke.cc/help/bridges](https://etke.cc/help/bridges)
 
 # Credentials
 
@@ -78,7 +78,7 @@ Your Matrix server is ready, here is your onboarding list:
 * grafana password: TODO64
 
 
-> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
+> in case of any issues: [etke.cc/help](https://etke.cc/help)
 
 Happy Matrixing!
 
@@ -89,10 +89,12 @@ PS: To help with your first steps in the world of Matrix, we've built the [Matri
 ### buscarron
 
 1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
-2. Send the list of (form name, Matrix room id, redirect URL after submission) to @support:etke.cc
+2. Send the list of (form name, Matrix room id, redirect URL after submission) to [@support:etke.cc](https://matrix.to/#/@support:etke.cc)
+
 
 ### honoroit
 
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
-2. Send the room id to @support:etke.cc
+2. Send the room id to [@support:etke.cc](https://matrix.to/#/@support:etke.cc)
+
 

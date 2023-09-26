@@ -20,7 +20,7 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin password: TODO64
 
 
-> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
+> in case of any issues: [etke.cc/help](https://etke.cc/help)
 
 Happy Matrixing!
 
