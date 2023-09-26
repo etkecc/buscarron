@@ -19,13 +19,6 @@ type Item struct {
 	SectionPrice int
 }
 
-var allowedValues = map[string]bool{
-	"yes":     true,
-	"true":    true,
-	"on":      true,
-	"synapse": true, // matrix_homeserver_implementation
-}
-
 func (d *Data) fromSourceItem(sItems []sourceItem, section string, sectionPrice int) {
 	for _, sItem := range sItems {
 		item := &Item{

@@ -26,16 +26,7 @@ type order struct {
 	files []*mautrix.ReqUploadMedia
 }
 
-var (
-	preprocessFields = []string{"email", "domain", "username"}
-	hostingFields    = []string{
-		"etke_service_server_cpx11",
-		"etke_service_server_cpx21",
-		"etke_service_server_cpx31",
-		"etke_service_server_cpx41",
-		"etke_service_server_cpx51",
-	}
-)
+var preprocessFields = []string{"email", "domain", "username"}
 
 // execute converts order to special message and files
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
@@ -115,34 +106,16 @@ func (o *order) t(key string) string {
 }
 
 func (o *order) getHostingSize() string {
-	// new approach
-	for _, hostingField := range hostingFields {
-		if !o.has(hostingField) {
-			continue
-		}
-
-		value := o.get(hostingField)
-
-		if value == "" {
-			continue
-		}
-		return strings.ReplaceAll(hostingField, "etke_service_server_", "")
-	}
-
-	// old approach
 	if !o.has("turnkey") {
 		return ""
 	}
 
-	var size string
-	sizeParts := strings.Split(o.get("turnkey"), "-")
-	if len(sizeParts) < 2 {
-		size = "cx11"
-	} else {
-		size = sizeParts[1]
+	value := o.get("turnkey")
+	parts := strings.Split(value, "-")
+	if len(parts) < 2 {
+		return value // new approach
 	}
-
-	return size
+	return parts[1] // old approach
 }
 
 // preprocess data
