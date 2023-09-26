@@ -34,12 +34,19 @@ func New(pm EmailSender) *Etkecc {
 
 // Execute extension
 func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	var p *pricify.Data
+	var err error
+	p, err = pricify.New(pricifyDataURL)
+	if err != nil {
+		p = e.pricify
+	}
+
 	o := &order{
 		name:  form.Name,
 		data:  data,
 		test:  e.test,
 		v:     v,
-		pd:    e.pricify,
+		pd:    p,
 		pm:    e.pm,
 		pass:  map[string]string{},
 		files: make([]*mautrix.ReqUploadMedia, 0, 3),

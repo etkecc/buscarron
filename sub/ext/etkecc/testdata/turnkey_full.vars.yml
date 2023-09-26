@@ -1,5 +1,7 @@
 # etke services
 etke_service_email: yes
+etke_service_server: cpx21
+etke_service_support: dedicated
 
 # postgres
 devture_postgres_connection_password: TODO64

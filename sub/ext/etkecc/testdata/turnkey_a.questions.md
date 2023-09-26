@@ -13,7 +13,7 @@ To learn more about why these redirects are necessary and what the connection be
 ___
 
 ```yaml
-SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"example.com\",\"server_type\":\"cpx21\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}")
+SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"example.com\",\"server_type\":\"cx11\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}")
 SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')
 SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')
 SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')
@@ -23,3 +23,6 @@ echo -e "---\nHello,\n\nWe've received your payment and have prepared a server f
 
 questions: 1
 
+
+
+**price**: $15/month

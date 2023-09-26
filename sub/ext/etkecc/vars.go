@@ -69,29 +69,38 @@ func (o *order) generateVars() {
 }
 
 func (o *order) generateVarsEtke() string {
-	enabledServices := []string{}
+	enabledServices := map[string]string{}
 	for field := range o.data {
 		if strings.HasPrefix(field, "etke_service") {
-			enabledServices = append(enabledServices, field)
+			enabledServices[field] = "yes"
 		}
 	}
 	if o.has("service-email") {
-		enabledServices = append(enabledServices, "etke_service_email")
+		enabledServices["etke_service_email"] = "yes"
 	}
-	if o.has("service-support-dedicated") {
-		enabledServices = append(enabledServices, "etke_service_support_dedicated")
+	if o.has("service-support") {
+		enabledServices["etke_service_support"] = o.get("service-support")
 	}
-	sort.Strings(enabledServices)
+	if o.has("turnkey") {
+		enabledServices["etke_service_server"] = o.get("turnkey")
+	}
 
 	if len(enabledServices) == 0 {
 		return ""
 	}
+
+	keys := make([]string, 0, len(enabledServices))
+	for k := range enabledServices {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
 	var txt strings.Builder
 
 	txt.WriteString("# etke services\n")
-	for _, service := range enabledServices {
+	for _, service := range keys {
 		txt.WriteString(service)
-		txt.WriteString(": yes\n")
+		txt.WriteString(": " + enabledServices[service] + "\n")
 	}
 
 	return txt.String()

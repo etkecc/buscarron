@@ -55,3 +55,6 @@ Please, add the following DNS entries:
 
 questions: 5
 
+
+
+**price**: $25/month

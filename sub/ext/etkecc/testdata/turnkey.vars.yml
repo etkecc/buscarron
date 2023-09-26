@@ -1,5 +1,5 @@
 # etke services
-etke_service_server_cpx21: yes
+etke_service_server: cpx21
 
 # ssh
 system_security_ssh_authorizedkeys_host:

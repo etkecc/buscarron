@@ -3,8 +3,9 @@ package pricify
 import "encoding/json"
 
 type sourceModel struct {
-	Bases     []sourceItem `json:"bases"`
-	Instances []sourceItem `json:"instances"`
+	Bases     []sourceItem      `json:"bases"`
+	Instances sourceSectionItem `json:"instances"`
+	Support   sourceSectionItem `json:"support"`
 
 	MatrixApps         []sourceItem `json:"matrixApps"`
 	MatrixBots         []sourceItem `json:"matrixBots"`
@@ -13,6 +14,12 @@ type sourceModel struct {
 
 	AdditionalServices []sourceItem `json:"additionalServices"`
 	AdvancedServices   []sourceItem `json:"advancedServices"`
+}
+
+type sourceSectionItem struct {
+	ID          string       `json:"id"`
+	InventoryID string       `json:"iid"`
+	Options     []sourceItem `json:"options"`
 }
 
 type sourceItem struct {
@@ -34,15 +41,16 @@ func convertToData(source *sourceModel) *Data {
 		iidmap: map[string]*Item{},
 	}
 
-	data.fromSource(source.Bases, "bases", 0)
-	data.fromSource(source.Instances, "instances", 0)
+	data.fromSourceItem(source.Bases, "bases", 0)
+	data.fromSourceSection(source.Instances, "instances", 0)
+	data.fromSourceSection(source.Support, "support", 0)
 
-	data.fromSource(source.MatrixApps, "matrix_apps", 0)
-	data.fromSource(source.MatrixBots, "matrix_bots", 0)
-	data.fromSource(source.MatrixBridges, "matrix_bridges", source.MatrixBridgesPrice)
+	data.fromSourceItem(source.MatrixApps, "matrix_apps", 0)
+	data.fromSourceItem(source.MatrixBots, "matrix_bots", 0)
+	data.fromSourceItem(source.MatrixBridges, "matrix_bridges", source.MatrixBridgesPrice)
 
-	data.fromSource(source.AdditionalServices, "additional", 0)
-	data.fromSource(source.AdvancedServices, "advanced", 0)
+	data.fromSourceItem(source.AdditionalServices, "additional", 0)
+	data.fromSourceItem(source.AdvancedServices, "advanced", 0)
 
 	return data
 }
