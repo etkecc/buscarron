@@ -124,6 +124,7 @@ func (o *order) preprocess() {
 		o.data[key] = strings.TrimSpace(strings.ToLower(o.data[key]))
 	}
 	o.data["homeserver"] = "synapse"
+	o.data["matrix"] = "yes"
 
 	if o.name == "turnkey" || o.getHostingSize() != "" {
 		o.data["type"] = "turnkey"

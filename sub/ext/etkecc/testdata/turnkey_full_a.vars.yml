@@ -1,4 +1,5 @@
 # etke services
+etke_base_matrix: yes
 etke_service_email: yes
 etke_service_server: cpx21
 etke_service_support: dedicated

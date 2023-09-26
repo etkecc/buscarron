@@ -75,6 +75,11 @@ func (o *order) generateVarsEtke() string {
 			enabledServices[field] = "yes"
 		}
 	}
+
+	if o.has("matrix") {
+		enabledServices["etke_base_matrix"] = "yes"
+	}
+
 	if o.has("service-email") {
 		enabledServices["etke_service_email"] = "yes"
 	}

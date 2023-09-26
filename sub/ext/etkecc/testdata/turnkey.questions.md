@@ -20,4 +20,4 @@ questions: 0
 
 
 
-**price**: $15/month
+**price**: $20/month

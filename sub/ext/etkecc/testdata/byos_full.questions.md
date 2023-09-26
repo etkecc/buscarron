@@ -57,4 +57,4 @@ questions: 5
 
 
 
-**price**: $25/month
+**price**: $30/month

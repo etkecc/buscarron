@@ -27,4 +27,4 @@ questions: 1
 
 
 
-**price**: $2/month
+**price**: $7/month

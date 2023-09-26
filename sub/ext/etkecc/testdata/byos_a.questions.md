@@ -31,4 +31,4 @@ questions: 2
 
 
 
-**price**: $2/month
+**price**: $7/month
