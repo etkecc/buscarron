@@ -24,5 +24,5 @@ Your Matrix server is ready, here is your onboarding list:
 
 Happy Matrixing!
 
-PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
+PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://MatrixRooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 

@@ -7,6 +7,7 @@ import (
 
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
+	"maunium.net/go/mautrix/format"
 
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc/pricify"
@@ -150,11 +151,13 @@ func (o *order) sendmail() {
 		return
 	}
 
+	content := format.RenderMarkdown(o.eml.String(), true, true)
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
 		Subject:  o.t("matrix_server_on") + " " + o.get("domain"),
-		TextBody: o.eml.String(),
+		TextBody: content.Body,
+		HTMLBody: content.FormattedBody,
 	}
 	err := o.pm.Send(req)
 	if err != nil {

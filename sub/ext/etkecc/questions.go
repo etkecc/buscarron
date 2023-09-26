@@ -41,8 +41,8 @@ func (o *order) generateQuestionsDelegation() string {
 	var txt strings.Builder
 	domain := o.get("domain")
 	txt.WriteString(o.t("q_delegation") + ":\n")
-	txt.WriteString("* https://" + domain + "/.well-known/matrix/server -> https://matrix." + domain + "/.well-known/matrix/server\n")
-	txt.WriteString("* https://" + domain + "/.well-known/matrix/client -> https://matrix." + domain + "/.well-known/matrix/client\n")
+	txt.WriteString("* " + link(domain+"/.well-known/matrix/server") + " -> " + link("matrix."+domain+"/.well-known/matrix/server") + "\n")
+	txt.WriteString("* " + link(domain+"/.well-known/matrix/client") + " -> " + link("matrix."+domain+"/.well-known/matrix/client") + "\n")
 	txt.WriteString(strings.ReplaceAll(o.t("q_delegation_details"), "DOMAIN", domain) + "\n\n")
 
 	return txt.String()

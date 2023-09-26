@@ -78,7 +78,7 @@ Your Matrix server is ready, here is your onboarding list:
 
 Happy Matrixing!
 
-PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://matrixrooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
+PS: To help with your first steps in the world of Matrix, we've built the [MatrixRooms.info](https://MatrixRooms.info) search engine. You can use it to discover rooms over the Matrix Federation and find amazing communities you wish to join!
 
 # Steps after the setup
 
@@ -91,6 +91,4 @@ PS: To help with your first steps in the world of Matrix, we've built the [Matri
 
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
 2. Send the room id to @support:etke.cc
-
-if you want to change honoroit's messages, send the texts you want to use to @support:etke.cc (you can use https://gitlab.com/etke.cc/honoroit/-/blob/main/config/defaults.go as a reference)
 

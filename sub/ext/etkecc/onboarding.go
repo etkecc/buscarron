@@ -207,8 +207,6 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 	txt.WriteString("1. " + o.t("as_honoroit_1") + "\n")
 	txt.WriteString("2. " + o.t("as_honoroit_2") + "\n\n")
 
-	txt.WriteString(o.t("as_honoroit_3") + "\n\n")
-
 	return txt.String()
 }
 
