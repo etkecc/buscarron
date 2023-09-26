@@ -23,6 +23,3 @@ echo -e "---\nHello,\n\nWe've received your payment and have prepared a server f
 
 questions: 1
 
-
-
-**price**: $15/month

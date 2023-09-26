@@ -29,6 +29,3 @@ example.com ansible_host=1.2.3.4 ansible_user=user ansible_become_password=passw
 
 questions: 2
 
-
-
-**price**: $2/month

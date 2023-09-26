@@ -4,19 +4,20 @@ Your Matrix server is ready, here is your onboarding list:
 
 # Links
 
-* web: https://app.etke.cc
-* homeserver: https://matrix.higenjitsuteki.onmatrix.chat
-* synapse-admin: https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
+* web: [app.etke.cc](https://app.etke.cc)
+* homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
+* synapse-admin: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin)
 
 
 # Credentials
 
-* mxid: @test:higenjitsuteki.onmatrix.chat
+* mxid: [@test:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test:higenjitsuteki.onmatrix.chat)
+
 * username: test
 * password: TODO64
 
 
-> In case of any issues: https://etke.cc/help
+> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
 
 Happy Matrixing!
 

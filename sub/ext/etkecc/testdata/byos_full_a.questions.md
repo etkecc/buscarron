@@ -59,6 +59,3 @@ Please, add the following DNS entries:
 
 questions: 6
 
-
-
-**price**: $22/month

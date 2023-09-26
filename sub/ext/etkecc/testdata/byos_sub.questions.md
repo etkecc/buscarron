@@ -17,6 +17,3 @@ curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: a
 
 questions: 1
 
-
-
-**price**: $0/month

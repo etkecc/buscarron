@@ -4,18 +4,19 @@ Your Matrix server is ready, here is your onboarding list:
 
 # Links
 
-* web: https://app.etke.cc
-* homeserver: https://matrix.example.com
+* web: [app.etke.cc](https://app.etke.cc)
+* homeserver: [matrix.example.com](https://matrix.example.com)
 
 
 # Credentials
 
-* mxid: @test:example.com
+* mxid: [@test:example.com](https://matrix.to/#/@test:example.com)
+
 * username: test
 * password: TODO64
 
 
-> In case of any issues: https://etke.cc/help
+> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
 
 Happy Matrixing!
 

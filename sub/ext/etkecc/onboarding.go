@@ -48,15 +48,14 @@ func (o *order) generateOnboardingLinks() string {
 
 	txt.WriteString("# " + o.t("links") + "\n\n")
 	if !o.has("element-web") {
-		txt.WriteString("* web: https://app.etke.cc\n")
+		txt.WriteString("* web: " + link("app.etke.cc") + "\n")
 	}
-	txt.WriteString("* homeserver: https://matrix." + o.get("domain") + "\n")
+	txt.WriteString("* homeserver: " + link("matrix."+o.get("domain")) + "\n")
 	if o.has("synapse-admin") {
-		txt.WriteString("* synapse-admin: https://matrix." + o.get("domain") + "/synapse-admin\n")
+		txt.WriteString("* synapse-admin: " + link("matrix."+o.get("domain")+"/synapse-admin") + "\n")
 	}
 	if o.has("etherpad") {
-		url := "https://etherpad." + o.get("domain") + "/admin"
-		txt.WriteString("* etherpad admin: " + url + "\n")
+		txt.WriteString("* etherpad admin: " + link("etherpad."+o.get("domain")+"/admin") + "\n")
 	}
 
 	items := []string{}
@@ -67,7 +66,7 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	sort.Strings(items)
 	for _, item := range items {
-		txt.WriteString("* " + item + ": https://" + dnsmap[item] + "." + o.get("domain") + "\n")
+		txt.WriteString("* " + item + ": " + link(dnsmap[item]+"."+o.get("domain")) + "\n")
 	}
 	txt.WriteString("\n\n")
 
@@ -97,7 +96,7 @@ func (o *order) generateOnboardingBots() string {
 	sort.Strings(items)
 	for _, bot := range items {
 		if o.has(bot) {
-			txt.WriteString("* " + bot + ": " + botmap[bot] + ":" + o.get("domain") + "\n")
+			txt.WriteString("* " + bot + ": " + matrixLink(botmap[bot]+":"+o.get("domain")) + "\n")
 		}
 	}
 	txt.WriteString("\n\n")
@@ -127,10 +126,10 @@ func (o *order) generateOnboardingBridges() string {
 	}
 	sort.Strings(items)
 	for _, bridge := range items {
-		txt.WriteString("* " + bridge + ": " + bridgemap[bridge] + ":" + o.get("domain") + "\n")
+		txt.WriteString("* " + bridge + ": " + matrixLink(bridgemap[bridge]+":"+o.get("domain")) + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> https://etke.cc/help/bridges - " + o.t("auth_instructions") + "\n\n")
+	txt.WriteString("> " + o.t("auth_instructions") + ": " + link("etke.cc/help/bridges") + "\n\n")
 
 	return txt.String()
 }
@@ -143,7 +142,7 @@ func (o *order) generateOnboardingCredentials() string {
 	delete(o.pass, "matrix")
 
 	txt.WriteString("# " + o.t("credentials") + "\n\n")
-	txt.WriteString("* mxid: @" + o.get("username") + ":" + o.get("domain") + "\n")
+	txt.WriteString("* mxid: " + matrixLink("@"+o.get("username")+":"+o.get("domain")) + "\n")
 	txt.WriteString("* username: " + o.get("username") + "\n")
 	txt.WriteString("* password: " + mxpass + "\n")
 	items := []string{}
@@ -155,7 +154,7 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("* " + name + " password: " + o.pass[name] + "\n")
 	}
 	txt.WriteString("\n\n")
-	txt.WriteString("> " + o.t("in_case_of_issues") + ": https://etke.cc/help\n\n")
+	txt.WriteString("> " + o.t("in_case_of_issues") + ": " + link("https://etke.cc/help") + "\n\n")
 	o.pass["matrix"] = mxpass
 
 	return txt.String()
@@ -173,7 +172,7 @@ func (o *order) generateOnboardingOutro() string {
 }
 
 func (o *order) generateOnboardingAfter() string {
-	if !o.has("honoroit") {
+	if !o.has("honoroit") || !o.has("buscarron") {
 		return ""
 	}
 	var txt strings.Builder
@@ -211,4 +210,12 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 	txt.WriteString(o.t("as_honoroit_3") + "\n\n")
 
 	return txt.String()
+}
+
+func matrixLink(id string) string {
+	return "[" + id + "](https://matrix.to/#/" + id + ")\n"
+}
+
+func link(address string) string {
+	return "[" + address + "](https://" + address + ")"
 }

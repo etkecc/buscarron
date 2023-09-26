@@ -4,58 +4,77 @@ Your Matrix server is ready, here is your onboarding list:
 
 # Links
 
-* homeserver: https://matrix.higenjitsuteki.etke.host
-* etherpad admin: https://etherpad.higenjitsuteki.etke.host/admin
-* buscarron: https://buscarron.higenjitsuteki.etke.host
-* cinny: https://cinny.higenjitsuteki.etke.host
-* element-web: https://element.higenjitsuteki.etke.host
-* etherpad: https://etherpad.higenjitsuteki.etke.host
-* hydrogen: https://hydrogen.higenjitsuteki.etke.host
-* jitsi: https://jitsi.higenjitsuteki.etke.host
-* ntfy: https://ntfy.higenjitsuteki.etke.host
-* schildichat: https://schildichat.higenjitsuteki.etke.host
-* stats: https://stats.higenjitsuteki.etke.host
-* sygnal: https://sygnal.higenjitsuteki.etke.host
+* homeserver: [matrix.higenjitsuteki.etke.host](https://matrix.higenjitsuteki.etke.host)
+* etherpad admin: [etherpad.higenjitsuteki.etke.host/admin](https://etherpad.higenjitsuteki.etke.host/admin)
+* buscarron: [buscarron.higenjitsuteki.etke.host](https://buscarron.higenjitsuteki.etke.host)
+* cinny: [cinny.higenjitsuteki.etke.host](https://cinny.higenjitsuteki.etke.host)
+* element-web: [element.higenjitsuteki.etke.host](https://element.higenjitsuteki.etke.host)
+* etherpad: [etherpad.higenjitsuteki.etke.host](https://etherpad.higenjitsuteki.etke.host)
+* hydrogen: [hydrogen.higenjitsuteki.etke.host](https://hydrogen.higenjitsuteki.etke.host)
+* jitsi: [jitsi.higenjitsuteki.etke.host](https://jitsi.higenjitsuteki.etke.host)
+* ntfy: [ntfy.higenjitsuteki.etke.host](https://ntfy.higenjitsuteki.etke.host)
+* schildichat: [schildichat.higenjitsuteki.etke.host](https://schildichat.higenjitsuteki.etke.host)
+* stats: [stats.higenjitsuteki.etke.host](https://stats.higenjitsuteki.etke.host)
+* sygnal: [sygnal.higenjitsuteki.etke.host](https://sygnal.higenjitsuteki.etke.host)
 
 
 # Bots
 
-* buscarron: @buscarron:higenjitsuteki.etke.host
-* honoroit: @honoroit:higenjitsuteki.etke.host
-* reminder-bot: @reminder:higenjitsuteki.etke.host
+* buscarron: [@buscarron:higenjitsuteki.etke.host](https://matrix.to/#/@buscarron:higenjitsuteki.etke.host)
+
+* honoroit: [@honoroit:higenjitsuteki.etke.host](https://matrix.to/#/@honoroit:higenjitsuteki.etke.host)
+
+* reminder-bot: [@reminder:higenjitsuteki.etke.host](https://matrix.to/#/@reminder:higenjitsuteki.etke.host)
+
 
 
 # Bridges
 
-* discord: @discordbot:higenjitsuteki.etke.host
-* facebook: @facebookbot:higenjitsuteki.etke.host
-* googlechat: @googlechatbot:higenjitsuteki.etke.host
-* groupme: @_groupmepuppet_bot:higenjitsuteki.etke.host
-* instagram: @instagrambot:higenjitsuteki.etke.host
-* irc: @heisenbridge:higenjitsuteki.etke.host
-* linkedin: @linkedinbot:higenjitsuteki.etke.host
-* signal: @signalbot:higenjitsuteki.etke.host
-* skype: @skypebridgebot:higenjitsuteki.etke.host
-* slack: @slackbot:higenjitsuteki.etke.host
-* steam: @_steampuppet_bot:higenjitsuteki.etke.host
-* telegram: @telegrambot:higenjitsuteki.etke.host
-* twitter: @twitterbot:higenjitsuteki.etke.host
-* webhooks: @hookshot:higenjitsuteki.etke.host
-* whatsapp: @whatsappbot:higenjitsuteki.etke.host
+* discord: [@discordbot:higenjitsuteki.etke.host](https://matrix.to/#/@discordbot:higenjitsuteki.etke.host)
+
+* facebook: [@facebookbot:higenjitsuteki.etke.host](https://matrix.to/#/@facebookbot:higenjitsuteki.etke.host)
+
+* googlechat: [@googlechatbot:higenjitsuteki.etke.host](https://matrix.to/#/@googlechatbot:higenjitsuteki.etke.host)
+
+* groupme: [@_groupmepuppet_bot:higenjitsuteki.etke.host](https://matrix.to/#/@_groupmepuppet_bot:higenjitsuteki.etke.host)
+
+* instagram: [@instagrambot:higenjitsuteki.etke.host](https://matrix.to/#/@instagrambot:higenjitsuteki.etke.host)
+
+* irc: [@heisenbridge:higenjitsuteki.etke.host](https://matrix.to/#/@heisenbridge:higenjitsuteki.etke.host)
+
+* linkedin: [@linkedinbot:higenjitsuteki.etke.host](https://matrix.to/#/@linkedinbot:higenjitsuteki.etke.host)
+
+* signal: [@signalbot:higenjitsuteki.etke.host](https://matrix.to/#/@signalbot:higenjitsuteki.etke.host)
+
+* skype: [@skypebridgebot:higenjitsuteki.etke.host](https://matrix.to/#/@skypebridgebot:higenjitsuteki.etke.host)
+
+* slack: [@slackbot:higenjitsuteki.etke.host](https://matrix.to/#/@slackbot:higenjitsuteki.etke.host)
+
+* steam: [@_steampuppet_bot:higenjitsuteki.etke.host](https://matrix.to/#/@_steampuppet_bot:higenjitsuteki.etke.host)
+
+* telegram: [@telegrambot:higenjitsuteki.etke.host](https://matrix.to/#/@telegrambot:higenjitsuteki.etke.host)
+
+* twitter: [@twitterbot:higenjitsuteki.etke.host](https://matrix.to/#/@twitterbot:higenjitsuteki.etke.host)
+
+* webhooks: [@hookshot:higenjitsuteki.etke.host](https://matrix.to/#/@hookshot:higenjitsuteki.etke.host)
+
+* whatsapp: [@whatsappbot:higenjitsuteki.etke.host](https://matrix.to/#/@whatsappbot:higenjitsuteki.etke.host)
 
 
-> https://etke.cc/help/bridges - auth instructions
+
+> auth instructions: [etke.cc/help/bridges](https://etke.cc/help/bridges)
 
 # Credentials
 
-* mxid: @test:higenjitsuteki.etke.host
+* mxid: [@test:higenjitsuteki.etke.host](https://matrix.to/#/@test:higenjitsuteki.etke.host)
+
 * username: test
 * password: TODO64
 * etherpad admin password: TODO64
 * grafana password: TODO64
 
 
-> In case of any issues: https://etke.cc/help
+> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
 
 Happy Matrixing!
 

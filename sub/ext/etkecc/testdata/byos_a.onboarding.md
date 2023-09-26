@@ -4,22 +4,23 @@ Your Matrix server is ready, here is your onboarding list:
 
 # Links
 
-* web: https://app.etke.cc
-* homeserver: https://matrix.example.com
-* synapse-admin: https://matrix.example.com/synapse-admin
-* etherpad admin: https://etherpad.example.com/admin
-* etherpad: https://etherpad.example.com
+* web: [app.etke.cc](https://app.etke.cc)
+* homeserver: [matrix.example.com](https://matrix.example.com)
+* synapse-admin: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin)
+* etherpad admin: [etherpad.example.com/admin](https://etherpad.example.com/admin)
+* etherpad: [etherpad.example.com](https://etherpad.example.com)
 
 
 # Credentials
 
-* mxid: @test:example.com
+* mxid: [@test:example.com](https://matrix.to/#/@test:example.com)
+
 * username: test
 * password: TODO64
 * etherpad admin password: TODO64
 
 
-> In case of any issues: https://etke.cc/help
+> In case of any issues: [https://etke.cc/help](https://https://etke.cc/help)
 
 Happy Matrixing!
 
