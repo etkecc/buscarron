@@ -213,7 +213,7 @@ func (o *order) generateVarsNtfy() string {
 }
 
 func (o *order) generateVarsPostgresBackup() string {
-	if o.has("borg") || o.get("type") == "turnkey" {
+	if o.has("borg") || o.getHostingSize() != "" {
 		return ""
 	}
 	var txt strings.Builder
@@ -252,23 +252,10 @@ func (o *order) generateVarsBorgBackup() string {
 func (o *order) generateVarsSynapse() string {
 	var txt strings.Builder
 
-	txt.WriteString("\n# synapse\n")
-	txt.WriteString("matrix_homeserver_implementation: synapse\n")
-	txt.WriteString("matrix_synapse_presence_enabled: yes\n")
-	txt.WriteString("matrix_synapse_enable_registration: yes\n")
-	txt.WriteString("matrix_synapse_registration_requires_token: yes\n")
-	txt.WriteString("matrix_synapse_max_upload_size_mb: 1024\n")
-	txt.WriteString("matrix_synapse_media_retention_remote_media_lifetime: 7d\n")
-	txt.WriteString("matrix_synapse_tmp_directory_size_mb: \"{{ matrix_synapse_max_upload_size_mb * 2 }}\"\n")
-
-	txt.WriteString("\n# synapse::federation\n")
-	txt.WriteString("matrix_synapse_allow_public_rooms_over_federation: yes\n")
-	txt.WriteString("matrix_synapse_allow_public_rooms_without_auth: yes\n")
-
-	txt.WriteString("\n# synapse::custom\n")
-	txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
-	txt.WriteString("  disable_msisdn_registration: yes\n")
 	if o.has("sso") {
+		txt.WriteString("\n# synapse::custom\n")
+		txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
+		txt.WriteString("  disable_msisdn_registration: yes\n")
 		txt.WriteString("  oidc_providers:\n")
 		txt.WriteString("  - idp_id: " + strings.ToLower(o.get("sso-idp-id")) + "\n")
 		txt.WriteString("    idp_name: " + o.get("sso-idp-name") + "\n")
@@ -282,10 +269,6 @@ func (o *order) generateVarsSynapse() string {
 		txt.WriteString("        localpart_template: \"{% raw %}{{ user.given_name|lower }}{% endraw %}\"\n")
 		txt.WriteString("        display_name_template: \"{% raw %}{{ user.name }}{% endraw %}\"\n")
 	}
-
-	txt.WriteString("\n# synapse::privacy\n")
-	txt.WriteString("matrix_synapse_user_ips_max_age: 5m\n")
-	txt.WriteString("matrix_synapse_redaction_retention_period: 5m\n")
 
 	txt.WriteString("\n# synapse::extensions::shared_secret_auth\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
@@ -348,10 +331,11 @@ func (o *order) generateVarsSynapseAdmin() string {
 func (o *order) generateVarsNginx() string {
 	var txt strings.Builder
 
-	txt.WriteString("\n# nginx proxy\n")
-	txt.WriteString("matrix_nginx_proxy_access_log_enabled: no\n")
-	txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
-	txt.WriteString("matrix_nginx_proxy_base_domain_homepage_enabled: no\n")
+	if o.get("serve_base_domain") == "yes" {
+		txt.WriteString("\n# nginx proxy\n")
+		txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
+		return txt.String()
+	}
 	txt.WriteString(o.generateVarsNginxWebsite())
 
 	return txt.String()
