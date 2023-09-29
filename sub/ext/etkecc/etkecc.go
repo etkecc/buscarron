@@ -2,11 +2,11 @@ package etkecc
 
 import (
 	"github.com/mattevans/postmark-go"
+	"gitlab.com/etke.cc/go/pricify"
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
-	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc/pricify"
 )
 
 const pricifyDataURL = "https://gitlab.com/etke.cc/website/-/raw/svelte-order-form/svelte/src/lib/provider/dataConfig.json"

@@ -6,11 +6,11 @@ import (
 	"strings"
 
 	"github.com/mattevans/postmark-go"
+	"gitlab.com/etke.cc/go/pricify"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
 
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
-	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc/pricify"
 )
 
 type order struct {
