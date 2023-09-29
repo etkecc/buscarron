@@ -86,8 +86,8 @@ func (o *order) generateVarsEtke() string {
 	if o.has("service-support") {
 		enabledServices["etke_service_support"] = o.get("service-support")
 	}
-	if o.has("turnkey") {
-		enabledServices["etke_service_server"] = o.get("turnkey")
+	if o.hosting != "" {
+		enabledServices["etke_service_server"] = o.hosting
 	}
 
 	if len(enabledServices) == 0 {
@@ -145,8 +145,8 @@ func (o *order) generateVarsPostgres() string {
 func (o *order) generateVarsHomeserver() string {
 	var txt strings.Builder
 
-	txt.WriteString("\n# homeserver https://matrix." + o.get("domain") + "\n")
-	txt.WriteString("matrix_domain: " + o.get("domain") + "\n")
+	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
+	txt.WriteString("matrix_domain: " + o.domain + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
 	if o.has("smtp-relay") || o.has("service-email") {
@@ -180,7 +180,7 @@ func (o *order) generateVarsSygnal() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# sygnal https://sygnal." + o.get("domain") + "\n")
+	txt.WriteString("\n# sygnal https://sygnal." + o.domain + "\n")
 	txt.WriteString("matrix_sygnal_enabled: yes\n")
 	txt.WriteString("matrix_sygnal_apps:\n")
 	txt.WriteString("  " + o.get("sygnal-app-id") + ":\n")
@@ -206,14 +206,14 @@ func (o *order) generateVarsNtfy() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# ntfy https://ntfy." + o.get("domain") + "\n")
+	txt.WriteString("\n# ntfy https://ntfy." + o.domain + "\n")
 	txt.WriteString("ntfy_enabled: yes\n")
 
 	return txt.String()
 }
 
 func (o *order) generateVarsPostgresBackup() string {
-	if o.has("borg") || o.getHostingSize() != "" {
+	if o.has("borg") || o.hosting != "" {
 		return ""
 	}
 	var txt strings.Builder
@@ -322,7 +322,7 @@ func (o *order) generateVarsSynapseAdmin() string {
 	}
 
 	var txt strings.Builder
-	txt.WriteString("\n# synapse-admin https://matrix." + o.get("domain") + "/synapse-admin\n")
+	txt.WriteString("\n# synapse-admin https://matrix." + o.domain + "/synapse-admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
 
 	return txt.String()
@@ -362,7 +362,7 @@ func (o *order) generateVarsCinny() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# cinny https://cinny." + o.get("domain") + "\n")
+	txt.WriteString("\n# cinny https://cinny." + o.domain + "\n")
 	txt.WriteString("matrix_client_cinny_enabled: yes\n")
 
 	return txt.String()
@@ -389,7 +389,7 @@ func (o *order) generateVarsElement() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# element https://element." + o.get("domain") + "\n")
+	txt.WriteString("\n# element https://element." + o.domain + "\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")
 
 	return txt.String()
@@ -401,7 +401,7 @@ func (o *order) generateVarsHydrogen() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# hydrogen https://hydrogen." + o.get("domain") + "\n")
+	txt.WriteString("\n# hydrogen https://hydrogen." + o.domain + "\n")
 	txt.WriteString("matrix_client_hydrogen_enabled: yes\n")
 
 	return txt.String()
@@ -413,7 +413,7 @@ func (o *order) generateVarsJitsi() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# jitsi https://jitsi." + o.get("domain") + "\n")
+	txt.WriteString("\n# jitsi https://jitsi." + o.domain + "\n")
 	txt.WriteString("jitsi_enabled: yes\n")
 	txt.WriteString("# jitsi_enable_auth: yes\n")
 	txt.WriteString("# jitsi_enable_guests: yes\n")
@@ -434,7 +434,7 @@ func (o *order) generateVarsSchildiChat() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# schildichat https://schildichat." + o.get("domain") + "\n")
+	txt.WriteString("\n# schildichat https://schildichat." + o.domain + "\n")
 	txt.WriteString("matrix_client_schildichat_enabled: yes\n")
 
 	return txt.String()
@@ -458,7 +458,7 @@ func (o *order) generateVarsStats() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# stats https://stats." + o.get("domain") + "\n")
+	txt.WriteString("\n# stats https://stats." + o.domain + "\n")
 	txt.WriteString("grafana_enabled: yes\n")
 	txt.WriteString("prometheus_enabled: yes\n")
 	txt.WriteString("grafana_anonymous_access: no\n")

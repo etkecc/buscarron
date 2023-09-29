@@ -6,7 +6,7 @@ import (
 )
 
 func (o *order) generateDNSInstructions() (string, bool) {
-	if o.get("domain-type") == "subdomain" {
+	if o.subdomain {
 		return o.generateHDNSCommand(), true
 	}
 	dns := "\nPlease, add the following DNS entries:\n\n"
@@ -24,11 +24,11 @@ func (o *order) generateDNSInstructions() (string, bool) {
 	sort.Strings(items)
 
 	for _, key := range items {
-		dns += strings.Join([]string{"- " + dnsmap[key], "CNAME record", "matrix." + o.get("domain") + "\n"}, "\t")
+		dns += strings.Join([]string{"- " + dnsmap[key], "CNAME record", "matrix." + o.domain + "\n"}, "\t")
 	}
 
 	if o.has("email2matrix") || o.has("postmoogle") {
-		dns += strings.Join([]string{"- matrix", "MX record", "matrix." + o.get("domain") + "\n"}, "\t")
+		dns += strings.Join([]string{"- matrix", "MX record", "matrix." + o.domain + "\n"}, "\t")
 		dns += strings.Join([]string{"- matrix", "TXT record", "v=spf1 ip4:server IP -all\n"}, "\t")
 		dns += strings.Join([]string{"- _dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
 	}

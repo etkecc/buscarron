@@ -47,12 +47,12 @@ func (o *order) generateOnboardingLinks() string {
 	if !o.has("element-web") {
 		txt.WriteString("* web: " + link("app.etke.cc") + "\n")
 	}
-	txt.WriteString("* homeserver: " + link("matrix."+o.get("domain")) + "\n")
+	txt.WriteString("* homeserver: " + link("matrix."+o.domain) + "\n")
 	if o.has("synapse-admin") {
-		txt.WriteString("* synapse-admin: " + link("matrix."+o.get("domain")+"/synapse-admin") + "\n")
+		txt.WriteString("* synapse-admin: " + link("matrix."+o.domain+"/synapse-admin") + "\n")
 	}
 	if o.has("etherpad") {
-		txt.WriteString("* etherpad admin: " + link("etherpad."+o.get("domain")+"/admin") + "\n")
+		txt.WriteString("* etherpad admin: " + link("etherpad."+o.domain+"/admin") + "\n")
 	}
 
 	items := []string{}
@@ -63,7 +63,7 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	sort.Strings(items)
 	for _, item := range items {
-		txt.WriteString("* " + item + ": " + link(dnsmap[item]+"."+o.get("domain")) + "\n")
+		txt.WriteString("* " + item + ": " + link(dnsmap[item]+"."+o.domain) + "\n")
 	}
 	txt.WriteString("\n\n")
 
@@ -93,7 +93,7 @@ func (o *order) generateOnboardingBots() string {
 	sort.Strings(items)
 	for _, bot := range items {
 		if o.has(bot) {
-			txt.WriteString("* " + bot + ": " + matrixLink(botmap[bot]+":"+o.get("domain")) + "\n")
+			txt.WriteString("* " + bot + ": " + matrixLink(botmap[bot]+":"+o.domain) + "\n")
 		}
 	}
 	txt.WriteString("\n\n")
@@ -123,7 +123,7 @@ func (o *order) generateOnboardingBridges() string {
 	}
 	sort.Strings(items)
 	for _, bridge := range items {
-		txt.WriteString("* " + bridge + ": " + matrixLink(bridgemap[bridge]+":"+o.get("domain")) + "\n")
+		txt.WriteString("* " + bridge + ": " + matrixLink(bridgemap[bridge]+":"+o.domain) + "\n")
 	}
 	txt.WriteString("\n\n")
 	txt.WriteString("> auth instruction and support: " + link("etke.cc/help/bridges") + "\n\n")
@@ -139,7 +139,7 @@ func (o *order) generateOnboardingCredentials() string {
 	delete(o.pass, "matrix")
 
 	txt.WriteString("# Credentials\n\n")
-	txt.WriteString("* mxid: " + matrixLink("@"+o.get("username")+":"+o.get("domain")) + "\n")
+	txt.WriteString("* mxid: " + matrixLink("@"+o.get("username")+":"+o.domain) + "\n")
 	txt.WriteString("* username: " + o.get("username") + "\n")
 	txt.WriteString("* password: " + mxpass + "\n")
 	items := []string{}

@@ -76,8 +76,8 @@ func (o *order) generateHVPSCommand() string {
 	}
 
 	req := &hVPSRequest{
-		Name:      o.get("domain"),
-		Size:      o.getHostingSize(),
+		Name:      o.domain,
+		Size:      o.hosting,
 		Image:     hImage,
 		Firewalls: []map[string]int{hFirewall},
 		SSHKeys:   hKeys,
@@ -146,7 +146,7 @@ func (o *order) adaptTurnkeyDNS() string {
 
 func (o *order) generateHDNSCommand() string {
 	req := &hDNSRequest{Records: []hDNSRecord{}}
-	domain := o.get("domain")
+	domain := o.domain
 	subdomain := strings.Split(domain, ".")[0]
 	suffix := "." + subdomain
 	var zoneID string
@@ -184,12 +184,12 @@ func (o *order) generateHDNSCommand() string {
 	}
 	sort.Strings(items)
 	for _, key := range items {
-		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.get("domain")+".", zoneID)
+		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.domain+".", zoneID)
 	}
 
 	if o.has("email2matrix") || o.has("postmoogle") {
 		req.
-			add("matrix"+suffix, "MX", "0 matrix."+o.get("domain")+".", zoneID).
+			add("matrix"+suffix, "MX", "0 matrix."+o.domain+".", zoneID).
 			add("matrix"+suffix, "TXT", "v=spf1 ip4:$HETZNER_SERVER_IP -all", zoneID).
 			add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
 	}

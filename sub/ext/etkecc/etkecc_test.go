@@ -57,7 +57,6 @@ func (s *EtkeccSuite) SetupTest() {
 	}
 	s.byosSub = map[string]string{
 		"domain":        "https://higenjitsuteki.onmatrix.chat",
-		"domain-type":   "subdomain",
 		"username":      " tEsT ",
 		"email":         "tEsT@TEST.cOm",
 		"type":          "byos",
@@ -116,7 +115,6 @@ func (s *EtkeccSuite) SetupTest() {
 	s.turnkeyFull = map[string]string{
 		"homeserver":          "synapse",
 		"domain":              "https://higenjitsuteki.etke.host",
-		"domain-type":         "subdomain",
 		"username":            " tEsT ",
 		"email":               "tEsT@TEST.cOm",
 		"name":                "Test",

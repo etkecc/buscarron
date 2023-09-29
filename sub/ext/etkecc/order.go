@@ -21,6 +21,10 @@ type order struct {
 	pm   EmailSender
 	v    common.Validator
 
+	domain    string
+	subdomain bool
+	hosting   string
+
 	txt   strings.Builder
 	eml   strings.Builder
 	pass  map[string]string
@@ -33,7 +37,6 @@ var preprocessFields = []string{"email", "domain", "username"}
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
-	hostingSize := o.getHostingSize()
 	questions, count := o.generateQuestions()
 	dns, dnsInternal := o.generateDNSInstructions()
 	hosts := o.generateHosts()
@@ -43,13 +46,13 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.txt.WriteString("```\n\n")
 	o.txt.WriteString("\n___\n\n")
 
-	if hostingSize != "" {
+	if o.hosting != "" {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(o.generateHVPSCommand())
 		o.txt.WriteString("```\n\n")
 	}
 
-	if hostingSize == "" || dnsInternal {
+	if o.hosting == "" || dnsInternal {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(dns)
 		o.txt.WriteString("```\n\n")
@@ -70,7 +73,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.generateOnboarding()
 
 	o.eml.WriteString(questions)
-	if hostingSize == "" && !dnsInternal {
+	if o.hosting == "" && !dnsInternal {
 		o.eml.WriteString(dns)
 	}
 	o.eml.WriteString("\nPS: this is an automated email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers")
@@ -122,13 +125,18 @@ func (o *order) preprocess() {
 	o.data["homeserver"] = "synapse"
 	o.data["matrix"] = "yes"
 
-	if o.name == "turnkey" || o.getHostingSize() != "" {
-		o.data["type"] = "turnkey"
+	o.hosting = o.getHostingSize()
+	o.domain = o.v.GetBase(o.data["domain"])
+
+	for suffix := range hDomains {
+		if strings.HasSuffix(o.domain, suffix) {
+			o.subdomain = true
+			break
+		}
 	}
 
-	o.data["domain"] = o.v.GetBase(o.data["domain"])
 	o.data["serve_base_domain"] = "no"
-	if !o.v.A(o.data["domain"]) && !o.v.CNAME(o.data["domain"]) {
+	if !o.v.A(o.domain) && !o.v.CNAME(o.domain) {
 		o.data["serve_base_domain"] = "yes"
 	}
 
@@ -144,7 +152,7 @@ func (o *order) sendmail() {
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
-		Subject:  "Matrix server on " + o.get("domain"),
+		Subject:  "Matrix server on " + o.domain,
 		TextBody: content.Body,
 		HTMLBody: content.FormattedBody,
 	}

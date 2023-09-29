@@ -39,12 +39,11 @@ func (o *order) generateQuestionsDelegation() string {
 	}
 
 	var txt strings.Builder
-	domain := o.get("domain")
 	txt.WriteString("We see that you have something on your base domain. ")
 	txt.WriteString("In that case, you should add the following HTTPS redirects (HTTP 301):\n")
-	txt.WriteString("* " + link(domain+"/.well-known/matrix/server") + " -> " + link("matrix."+domain+"/.well-known/matrix/server") + "\n")
-	txt.WriteString("* " + link(domain+"/.well-known/matrix/client") + " -> " + link("matrix."+domain+"/.well-known/matrix/client") + "\n")
-	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + domain + ") and the Matrix domain (matrix." + domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain") + "\n\n")
+	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/server") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/server") + "\n")
+	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/client") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/client") + "\n")
+	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain") + "\n\n")
 
 	return txt.String()
 }
@@ -93,7 +92,7 @@ func (o *order) generateQuestionsServices() string {
 		txt.WriteString("Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email ")
 		txt.WriteString("(usually login and email are the same thing, but that depends on the provider)\n\n")
 	}
-	if o.has("stats") && o.getHostingSize() == "" {
+	if o.has("stats") && o.hosting == "" {
 		txt.WriteString("Prometheus+Grafana: are you sure you want it? Cloud providers usually provide a dashboard with server stats, ")
 		txt.WriteString("so why not use that dashboard instead? A Prometheus+Grafana stack provides some internal Matrix stats ")
 		txt.WriteString("(like count of events), but it's overkill if you just want to see server utilization.\n\n")
@@ -129,12 +128,11 @@ func (o *order) generateQuestionsServices() string {
 }
 
 func (o *order) generateQuestionsType() string {
-	hostingSize := o.getHostingSize()
-	if hostingSize != "" && !o.has("ssh-client-key") {
+	if o.hosting != "" && !o.has("ssh-client-key") {
 		return "SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.\n\n"
 	}
 
-	if hostingSize == "" && !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
+	if o.hosting == "" && !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
 		return "Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.\nAdd our SSH keys (" + link("etke.cc/ssh.key") + ") to your server, open the required ports (" + link("etke.cc/help/faq#what-ports-should-be-open") + ") send us your server's IP address, the username (with permissions to call sudo), and password (if set).\n\n"
 	}
 	return ""

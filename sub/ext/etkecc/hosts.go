@@ -11,7 +11,7 @@ func (o *order) generateHosts() string {
 	port := o.get("ssh-port")
 
 	var txt strings.Builder
-	txt.WriteString(o.get("domain"))
+	txt.WriteString(o.domain)
 	txt.WriteString(" ")
 	txt.WriteString("ansible_host=")
 	txt.WriteString(o.get("ssh-host"))
