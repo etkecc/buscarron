@@ -10,19 +10,21 @@ var dnsmap = map[string]string{
 	"buscarron":   "buscarron",
 	"cinny":       "cinny",
 	"element-web": "element",
-	"schildichat": "schildichat",
 	"etherpad":    "etherpad",
+	"gotosocial":  "social",
 	"hydrogen":    "hydrogen",
 	"jitsi":       "jitsi",
 	"ntfy":        "ntfy",
+	"schildichat": "schildichat",
 	"stats":       "stats",
 	"sygnal":      "sygnal",
+	"vaultwarden": "vault",
 }
 
 var botmap = map[string]string{
 	"buscarron":    "@buscarron",
+	"chatgpt":      "@chatgpt",
 	"honoroit":     "@honoroit",
-	"postmoogle":   "@postmoogle",
 	"reminder-bot": "@reminder",
 }
 
@@ -35,6 +37,7 @@ var bridgemap = map[string]string{
 	"instagram":  "@instagrambot",
 	"irc":        "@heisenbridge",
 	"linkedin":   "@linkedinbot",
+	"postmoogle": "@emailbot",
 	"signal":     "@signalbot",
 	"skype":      "@skypebridgebot",
 	"slack":      "@slackbot",

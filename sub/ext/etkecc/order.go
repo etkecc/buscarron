@@ -24,6 +24,7 @@ type order struct {
 	domain    string
 	subdomain bool
 	hosting   string
+	smtp      map[string]string
 
 	txt   strings.Builder
 	eml   strings.Builder
@@ -101,7 +102,7 @@ func (o *order) get(key string) string {
 // has check if key exists in the data store
 func (o *order) has(key string) bool {
 	val, ok := o.data[key]
-	return ok || val != ""
+	return ok && val != "" && val != "no"
 }
 
 func (o *order) getHostingSize() string {
@@ -140,7 +141,30 @@ func (o *order) preprocess() {
 		o.data["serve_base_domain"] = "yes"
 	}
 
+	if o.has("smtp-relay-password") {
+		o.pass["smtp"] = o.get("smtp-relay-password")
+	}
+	o.preprocessSMTP()
+
 	o.password("matrix")
+}
+
+func (o *order) preprocessSMTP() {
+	smtp := map[string]string{}
+	if o.has("service-email") {
+		smtp["host"] = "smtp.migadu.com"
+		smtp["port"] = "587"
+		smtp["login"] = "\"matrix@{{ matrix_domain }}\""
+		smtp["password"] = o.pwgen()
+		smtp["email"] = smtp["login"]
+	} else {
+		smtp["host"] = o.get("smtp-relay-host")
+		smtp["port"] = o.get("smtp-relay-port")
+		smtp["login"] = o.get("smtp-relay-login")
+		smtp["password"] = o.get("smtp-relay-password")
+		smtp["email"] = o.get("smtp-relay-email")
+	}
+	o.smtp = smtp
 }
 
 func (o *order) sendmail() {

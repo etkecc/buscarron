@@ -17,9 +17,9 @@ func (o *order) generateOnboarding() {
 
 	txt.WriteString(o.generateOnboardingCredentials())
 
-	txt.WriteString(o.generateOnboardingOutro())
-
 	txt.WriteString(o.generateOnboardingAfter())
+
+	txt.WriteString(o.generateOnboardingOutro())
 
 	text := txt.String()
 	o.files = append(o.files,
@@ -53,6 +53,9 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	if o.has("etherpad") {
 		txt.WriteString("* etherpad admin: " + link("etherpad."+o.domain+"/admin") + "\n")
+	}
+	if o.has("vaultwarden") {
+		txt.WriteString("* vaultwarden admin:" + link("vault."+o.domain+"/admin") + "\n")
 	}
 
 	items := []string{}
@@ -206,7 +209,7 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 }
 
 func matrixLink(id string) string {
-	return "[" + id + "](https://matrix.to/#/" + id + ")\n"
+	return "[" + id + "](https://matrix.to/#/" + id + ")"
 }
 
 func link(address string) string {

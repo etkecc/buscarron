@@ -12,16 +12,19 @@ import (
 	"gitlab.com/etke.cc/buscarron/mocks"
 )
 
+type testCase struct {
+	name       string
+	before     func()
+	submission map[string]string
+}
+
 type EtkeccSuite struct {
 	suite.Suite
-	v           *mocks.Validator
-	ext         *Etkecc
-	save        bool
-	byos        map[string]string
-	byosSub     map[string]string
-	turnkey     map[string]string
-	byosFull    map[string]string
-	turnkeyFull map[string]string
+	v     *mocks.Validator
+	ext   *Etkecc
+	save  bool
+	subs  map[string]map[string]string
+	cases []testCase
 }
 
 func (s *EtkeccSuite) SetupTest() {
@@ -31,134 +34,8 @@ func (s *EtkeccSuite) SetupTest() {
 	s.ext.test = true
 	s.save = false
 
-	s.byos = map[string]string{
-		"homeserver":    "synapse",
-		"domain":        "https://matrix.ExAmPlE.com ",
-		"username":      " tEsT ",
-		"email":         "tEsT@TEST.cOm",
-		"type":          "byos",
-		"synapse-admin": "on",
-		"etherpad":      "on",
-		"smtp-relay":    "on",
-		"ssh-host":      "1.2.3.4",
-		"ssh-port":      "22",
-		"ssh-user":      "user",
-		"ssh-password":  "password",
-	}
-	s.turnkey = map[string]string{
-		"homeserver":     "synapse",
-		"domain":         "https://matrix.ExAmPlE.com ",
-		"username":       " tEsT ",
-		"email":          "tEsT@TEST.cOm",
-		"turnkey":        "cpx21",
-		"lang":           "wrong",
-		"ssh-client-ips": "1.2.3.4, 5.6.7.8",
-		"ssh-client-key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host",
-	}
-	s.byosSub = map[string]string{
-		"domain":        "https://higenjitsuteki.onmatrix.chat",
-		"username":      " tEsT ",
-		"email":         "tEsT@TEST.cOm",
-		"type":          "byos",
-		"synapse-admin": "on",
-		"sliding-sync":  "on",
-	}
-	s.byosFull = map[string]string{
-		"homeserver":          "synapse",
-		"domain":              "https://matrix.ExAmPlE.com ",
-		"username":            " tEsT ",
-		"email":               "tEsT@TEST.cOm",
-		"name":                "Test",
-		"notes":               "ALL, I.WANT.THEM.ALLLLLLL. Yes, on shitty 1vCPU 1GB RAM VPS.",
-		"service-setup":       "on",
-		"service-maintenance": "on",
-		"service-email":       "on",
-		"sliding-sync":        "on",
-		"schildichat":         "on",
-		"lang":                "de",
-		"borg":                "on",
-		"bridges-encryption":  "on",
-		"buscarron":           "on",
-		"cinny":               "on",
-		"discord":             "on",
-		"element-web":         "on",
-		"etherpad":            "on",
-		"facebook":            "on",
-		"gmessages":           "on",
-		"googlechat":          "on",
-		"groupme":             "on",
-		"hangouts":            "on",
-		"honoroit":            "on",
-		"hydrogen":            "on",
-		"instagram":           "on",
-		"irc":                 "on",
-		"jitsi":               "on",
-		"linkedin":            "on",
-		"nginx-proxy-website": "on",
-		"ntfy":                "on",
-		"postmoogle":          "on",
-		"reminder-bot":        "on",
-		"signal":              "on",
-		"skype":               "on",
-		"slack":               "on",
-		"smtp-relay":          "on",
-		"sso":                 "on",
-		"stats":               "on",
-		"steam":               "on",
-		"sygnal":              "on",
-		"telegram":            "on",
-		"twitter":             "on",
-		"type":                "byos",
-		"webhooks":            "on",
-		"whatsapp":            "on",
-	}
-	s.turnkeyFull = map[string]string{
-		"homeserver":          "synapse",
-		"domain":              "https://higenjitsuteki.etke.host",
-		"username":            " tEsT ",
-		"email":               "tEsT@TEST.cOm",
-		"name":                "Test",
-		"notes":               "ALL, I.WANT.THEM.ALLLLLLL. Yes, on shitty 1vCPU 1GB RAM VPS.",
-		"service-email":       "on",
-		"service-support":     "dedicated",
-		"turnkey":             "cpx21",
-		"lang":                "invalid",
-		"type":                "turnkey",
-		"sliding-sync":        "on",
-		"schildichat":         "on",
-		"borg":                "on",
-		"buscarron":           "on",
-		"cinny":               "on",
-		"discord":             "on",
-		"dnsmasq":             "on",
-		"element-web":         "on",
-		"etherpad":            "on",
-		"facebook":            "on",
-		"googlechat":          "on",
-		"groupme":             "on",
-		"hangouts":            "on",
-		"honoroit":            "on",
-		"hydrogen":            "on",
-		"instagram":           "on",
-		"irc":                 "on",
-		"jitsi":               "on",
-		"linkedin":            "on",
-		"nginx-proxy-website": "on",
-		"ntfy":                "on",
-		"reminder-bot":        "on",
-		"signal":              "on",
-		"skype":               "on",
-		"slack":               "on",
-		"smtp-relay":          "on",
-		"sso":                 "on",
-		"stats":               "on",
-		"steam":               "on",
-		"sygnal":              "on",
-		"telegram":            "on",
-		"twitter":             "on",
-		"webhooks":            "on",
-		"whatsapp":            "on",
-	}
+	s.setupSubs()
+	s.setupCases()
 }
 
 func (s *EtkeccSuite) TearDownTest() {
@@ -166,19 +43,266 @@ func (s *EtkeccSuite) TearDownTest() {
 	s.v.AssertExpectations(s.T())
 }
 
-func (s *EtkeccSuite) read(file string) string {
-	text, err := os.ReadFile("testdata/" + file)
+// setupSubs inits base submissions
+func (s *EtkeccSuite) setupSubs() {
+	s.T().Helper()
 
-	s.NoError(err)
+	s.subs = map[string]map[string]string{
+		// OLD forms
+		"minimal/old/on-premises": {
+			"domain":   "https://matrix.ExAmPlE.com ",
+			"username": " tEsT ",
+			"email":    "tEsT@TEST.cOm",
+			"type":     "byos",
+		},
+		"minimal/old/hosting": {
+			"domain":           "https://matrix.ExAmPlE.com ",
+			"username":         " tEsT ",
+			"email":            "tEsT@TEST.cOm",
+			"type":             "turnkey",
+			"turnkey":          "small-cx11",
+			"turnkey-location": "Nuremberg",
+		},
+
+		"minimal/questions": {
+			"domain":   "https://matrix.ExAmPlE.com ",
+			"username": " tEsT ",
+			"email":    "tEsT@TEST.cOm",
+		},
+		"minimal/no-questions": {
+			"domain":   "https://matrix.ExAmPlE.com ",
+			"username": " tEsT ",
+			"email":    "tEsT@TEST.cOm",
+			// on-premises
+			"ssh-host":     "1.2.3.4",
+			"ssh-port":     "222",
+			"ssh-user":     "user",
+			"ssh-password": "password",
+			// hosting
+			"ssh-client-ips": "1.2.3.4, 5.6.7.8",
+			"ssh-client-key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host",
+		},
+
+		"full/questions": {
+			"domain":              "https://matrix.ExAmPlE.com ",
+			"username":            " tEsT ",
+			"email":               "tEsT@TEST.cOm",
+			"service-email":       "yes",
+			"service-support":     "dedicated",
+			"borg":                "on",
+			"bridges-encryption":  "on",
+			"buscarron":           "on",
+			"chatgpt":             "on",
+			"cinny":               "on",
+			"discord":             "on",
+			"element-web":         "on",
+			"etherpad":            "on",
+			"facebook":            "on",
+			"gmessages":           "on",
+			"googlechat":          "on",
+			"gotosocial":          "on",
+			"groupme":             "on",
+			"honoroit":            "on",
+			"hydrogen":            "on",
+			"instagram":           "on",
+			"irc":                 "on",
+			"jitsi":               "on",
+			"linkedin":            "on",
+			"nginx-proxy-website": "on",
+			"ntfy":                "on",
+			"postmoogle":          "on",
+			"reminder-bot":        "on",
+			"schildichat":         "on",
+			"signal":              "on",
+			"skype":               "on",
+			"slack":               "on",
+			"sliding-sync":        "on",
+			"smtp-relay":          "on",
+			"sso":                 "on",
+			"stats":               "on",
+			"steam":               "on",
+			"sygnal":              "on",
+			"synapse-admin":       "on",
+			"telegram":            "on",
+			"twitter":             "on",
+			"vaultwarden":         "on",
+			"webhooks":            "on",
+			"whatsapp":            "on",
+		},
+		"full/no-questions": {},
+	}
+}
+
+// setupCases inits test cases
+func (s *EtkeccSuite) setupCases() {
+	s.T().Helper()
+	s.cases = []testCase{
+		{
+			name: "minimal/on-premises/old",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.subs["minimal/old/on-premises"],
+		},
+		{
+			name: "minimal/hosting/old",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.subs["minimal/old/hosting"],
+		},
+
+		{
+			name: "minimal/on-premises/domain",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.subs["minimal/questions"],
+		},
+		{
+			name: "minimal/on-premises/domain-a",
+			before: func() {
+				s.v.On("A", "example.com").Return(true).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.subs["minimal/questions"],
+		},
+		{
+			name: "minimal/on-premises/subdomain",
+			before: func() {
+				s.v.On("A", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
+			},
+			submission: s.merge(s.subs["minimal/questions"], map[string]string{"domain": "https://higenjitsuteki.onmatrix.chat"}),
+		},
+		{
+			name: "minimal/hosting/domain",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.merge(s.subs["minimal/questions"], map[string]string{"turnkey": "cpx11"}),
+		},
+		{
+			name: "minimal/hosting/subdomain",
+			before: func() {
+				s.v.On("A", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
+			},
+			submission: s.merge(s.subs["minimal/questions"], map[string]string{
+				"domain":  "https://higenjitsuteki.onmatrix.chat",
+				"turnkey": "cpx11",
+			}),
+		},
+		{
+			name: "minimal/on-premises/no-questions",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.subs["minimal/no-questions"],
+		},
+		{
+			name: "minimal/hosting/no-questions",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.merge(s.subs["minimal/no-questions"], map[string]string{
+				"turnkey": "cpx11",
+			}),
+		},
+		{
+			name: "full/on-premises/questions",
+			before: func() {
+				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("CNAME", "example.com").Return(false).Once()
+				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+			},
+			submission: s.merge(s.subs["full/questions"], map[string]string{"service-email": "no"}),
+		},
+		{
+			name: "full/hosting/questions",
+			before: func() {
+				s.v.On("A", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
+				s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
+			},
+			submission: s.merge(s.subs["full/questions"], map[string]string{"turnkey": "cpx11", "domain": "https://higenjitsuteki.onmatrix.chat"}),
+		},
+	}
+}
+
+// expected returns expected questions, onboarding, vars
+func (s *EtkeccSuite) expected(name string) (string, string, string) {
+	s.T().Helper()
+
+	return s.read(name, "questions.md"),
+		s.read(name, "onboarding.md"),
+		s.read(name, "vars.yml")
+}
+
+// merge submissions
+func (s *EtkeccSuite) merge(base map[string]string, custom map[string]string) map[string]string {
+	s.T().Helper()
+	merged := map[string]string{}
+	for k, v := range base {
+		merged[k] = v
+	}
+	for k, v := range custom {
+		merged[k] = v
+	}
+
+	return merged
+}
+
+// saveMocks stores the actual generated data if s.save = true
+func (s *EtkeccSuite) saveMocks(name, questions, onboarding, vars string) {
+	s.T().Helper()
+	if !s.save {
+		return
+	}
+
+	s.write(name, "questions.md", questions)
+	s.write(name, "onboarding.md", onboarding)
+	s.write(name, "vars.yml", vars)
+}
+
+// read file from the fs
+func (s *EtkeccSuite) read(name, file string) string {
+	s.T().Helper()
+
+	text, _ := os.ReadFile("testdata/" + name + "/" + file)
 
 	return string(text)
 }
 
-func (s *EtkeccSuite) write(file string, content string) {
-	os.WriteFile("testdata/"+file, []byte(content), 0o666)
+// write file to the fs
+func (s *EtkeccSuite) write(name, file, content string) {
+	s.T().Helper()
+
+	err := os.MkdirAll("testdata/"+name, 0o700)
+	s.NoError(err)
+
+	err = os.WriteFile("testdata/"+name+"/"+file, []byte(content), 0o666)
+	s.NoError(err)
 }
 
+// rts is io.Reader to string
 func (s *EtkeccSuite) rts(r io.Reader) string {
+	s.T().Helper()
+
 	var buf strings.Builder
 	_, err := io.Copy(&buf, r)
 	s.NoError(err)
@@ -202,207 +326,22 @@ func (s *EtkeccSuite) TestPassword() {
 	s.Equal(expected, actual)
 }
 
-func (s *EtkeccSuite) TestExecute_Turnkey() {
-	expectedQuestions := s.read("turnkey.questions.md")
-	expectedOnboarding := s.read("turnkey.onboarding.md")
-	expectedVars := s.read("turnkey.vars.yml")
-	s.v.On("A", "example.com").Return(false).Once()
-	s.v.On("CNAME", "example.com").Return(false).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
+func (s *EtkeccSuite) TestExecute() {
+	for _, test := range s.cases {
+		s.Run(test.name, func() {
+			expectedQ, expectedO, expectedV := s.expected(test.name)
+			test.before()
 
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("turnkey.questions.md", actualQuestions)
-		s.write("turnkey.onboarding.md", actualOnboarding)
-		s.write("turnkey.vars.yml", actualVars)
+			actualQ, files := s.ext.Execute(s.v, &config.Form{Name: test.name}, test.submission)
+			actualV := s.rts(files[0].Content)
+			actualO := s.rts(files[1].Content)
+			s.saveMocks(test.name, actualQ, actualO, actualV)
+
+			s.Equal(expectedQ, actualQ)
+			s.Equal(expectedO, actualO)
+			s.Equal(expectedV, actualV)
+		})
 	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Turnkey_A() {
-	expectedQuestions := s.read("turnkey_a.questions.md")
-	expectedOnboarding := s.read("turnkey_a.onboarding.md")
-	expectedVars := s.read("turnkey_a.vars.yml")
-	s.v.On("A", "example.com").Return(true).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkey)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("turnkey_a.questions.md", actualQuestions)
-		s.write("turnkey_a.onboarding.md", actualOnboarding)
-		s.write("turnkey_a.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Turnkey_Full() {
-	expectedQuestions := s.read("turnkey_full.questions.md")
-	expectedOnboarding := s.read("turnkey_full.onboarding.md")
-	expectedVars := s.read("turnkey_full.vars.yml")
-	s.v.On("A", "higenjitsuteki.etke.host").Return(false).Once()
-	s.v.On("CNAME", "higenjitsuteki.etke.host").Return(false).Once()
-	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("turnkey_full.questions.md", actualQuestions)
-		s.write("turnkey_full.onboarding.md", actualOnboarding)
-		s.write("turnkey_full.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Turnkey_Full_A() {
-	expectedQuestions := s.read("turnkey_full_a.questions.md")
-	expectedOnboarding := s.read("turnkey_full_a.onboarding.md")
-	expectedVars := s.read("turnkey_full_a.vars.yml")
-	s.v.On("A", "higenjitsuteki.etke.host").Return(true).Once()
-	s.v.On("GetBase", "https://higenjitsuteki.etke.host").Return("higenjitsuteki.etke.host").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "turnkey"}, s.turnkeyFull)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("turnkey_full_a.questions.md", actualQuestions)
-		s.write("turnkey_full_a.onboarding.md", actualOnboarding)
-		s.write("turnkey_full_a.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Byos() {
-	expectedQuestions := s.read("byos.questions.md")
-	expectedOnboarding := s.read("byos.onboarding.md")
-	expectedVars := s.read("byos.vars.yml")
-	s.v.On("A", "example.com").Return(false).Once()
-	s.v.On("CNAME", "example.com").Return(false).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("byos.questions.md", actualQuestions)
-		s.write("byos.onboarding.md", actualOnboarding)
-		s.write("byos.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Byos_Sub() {
-	expectedQuestions := s.read("byos_sub.questions.md")
-	expectedOnboarding := s.read("byos_sub.onboarding.md")
-	expectedVars := s.read("byos_sub.vars.yml")
-	s.v.On("A", "higenjitsuteki.onmatrix.chat").Return(false).Once()
-	s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
-	s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosSub)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("byos_sub.questions.md", actualQuestions)
-		s.write("byos_sub.onboarding.md", actualOnboarding)
-		s.write("byos_sub.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Byos_A() {
-	expectedQuestions := s.read("byos_a.questions.md")
-	expectedOnboarding := s.read("byos_a.onboarding.md")
-	expectedVars := s.read("byos_a.vars.yml")
-	s.v.On("A", "example.com").Return(true).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byos)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("byos_a.questions.md", actualQuestions)
-		s.write("byos_a.onboarding.md", actualOnboarding)
-		s.write("byos_a.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Byos_Full() {
-	expectedQuestions := s.read("byos_full.questions.md")
-	expectedOnboarding := s.read("byos_full.onboarding.md")
-	expectedVars := s.read("byos_full.vars.yml")
-	s.v.On("A", "example.com").Return(false).Once()
-	s.v.On("CNAME", "example.com").Return(false).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("byos_full.questions.md", actualQuestions)
-		s.write("byos_full.onboarding.md", actualOnboarding)
-		s.write("byos_full.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
-}
-
-func (s *EtkeccSuite) TestExecute_Byos_Full_A() {
-	expectedQuestions := s.read("byos_full_a.questions.md")
-	expectedOnboarding := s.read("byos_full_a.onboarding.md")
-	expectedVars := s.read("byos_full_a.vars.yml")
-	s.v.On("A", "example.com").Return(true).Once()
-	s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-
-	actualQuestions, files := s.ext.Execute(s.v, &config.Form{Name: "byos"}, s.byosFull)
-	actualVars := s.rts(files[0].Content)
-	actualOnboarding := s.rts(files[1].Content)
-	// to generate output
-	if s.save {
-		s.write("byos_full_a.questions.md", actualQuestions)
-		s.write("byos_full_a.onboarding.md", actualOnboarding)
-		s.write("byos_full_a.vars.yml", actualVars)
-	}
-
-	s.Equal(expectedQuestions, actualQuestions)
-	s.Equal(expectedOnboarding, actualOnboarding)
-	s.Equal(expectedVars, actualVars)
 }
 
 func TestEtkeccSuite(t *testing.T) {

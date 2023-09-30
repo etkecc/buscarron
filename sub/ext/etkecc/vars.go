@@ -29,21 +29,24 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsCinny())
 	txt.WriteString(o.generateVarsElement())
 	txt.WriteString(o.generateVarsEtherpad())
+	txt.WriteString(o.generateVarsGoToSocial())
 	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
+	txt.WriteString(o.generateVarsNginxWebsite())
 	txt.WriteString(o.generateVarsSchildiChat())
 	txt.WriteString(o.generateVarsSlidingSync())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
+	txt.WriteString(o.generateVarsVaultwarden())
 
 	// bots
 	txt.WriteString(o.generateVarsBuscarron())
 	txt.WriteString(o.generateVarsHonoroit())
-	txt.WriteString(o.generateVarsPostmoogle())
 	txt.WriteString(o.generateVarsReminder())
 
 	// bridges
 	txt.WriteString(o.generateVarsDiscord())
+	txt.WriteString(o.generateVarsEmail())
 	txt.WriteString(o.generateVarsFacebook())
 	txt.WriteString(o.generateVarsGmessages())
 	txt.WriteString(o.generateVarsGooglechat())
@@ -83,9 +86,13 @@ func (o *order) generateVarsEtke() string {
 	if o.has("service-email") {
 		enabledServices["etke_service_email"] = "yes"
 	}
+
 	if o.has("service-support") {
 		enabledServices["etke_service_support"] = o.get("service-support")
+	} else {
+		enabledServices["etke_service_support"] = "basic"
 	}
+
 	if o.hosting != "" {
 		enabledServices["etke_service_server"] = o.hosting
 	}
@@ -149,7 +156,7 @@ func (o *order) generateVarsHomeserver() string {
 	txt.WriteString("matrix_domain: " + o.domain + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
 	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
-	if o.has("smtp-relay") || o.has("service-email") {
+	if len(o.smtp) > 0 {
 		txt.WriteString("matrix_mailer_enabled: no\n")
 	}
 	if !o.has("element-web") {
@@ -274,32 +281,25 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: " + o.pwgen() + "\n")
 
-	if o.has("smtp-relay") {
-		txt.WriteString(o.generateVarsSynapseMailer())
-	}
-
+	txt.WriteString(o.generateVarsSynapseMailer())
 	txt.WriteString(o.generateVarsSynapseCredentials())
 
 	return txt.String()
 }
 
 func (o *order) generateVarsSynapseMailer() string {
+	if len(o.smtp) == 0 {
+		return ""
+	}
 	var txt strings.Builder
 
 	txt.WriteString("\n# synapse::mailer\n")
 	txt.WriteString("matrix_synapse_email_enabled: yes\n")
-	if o.has("service-email") {
-		txt.WriteString("matrix_synapse_email_smtp_host: smtp.migadu.com\n")
-		txt.WriteString("matrix_synapse_email_smtp_port: 587\n")
-		txt.WriteString("matrix_synapse_email_smtp_user: \"matrix@{{ matrix_domain }}\"\n")
-		txt.WriteString("matrix_synapse_email_smtp_pass: " + o.pwgen() + "\n")
-	} else {
-		txt.WriteString("matrix_synapse_email_smtp_host: " + o.get("smtp-relay-host") + "\n")
-		txt.WriteString("matrix_synapse_email_smtp_port: " + o.get("smtp-relay-port") + "\n")
-		txt.WriteString("matrix_synapse_email_smtp_user: " + o.get("smtp-relay-login") + "\n")
-		txt.WriteString("matrix_synapse_email_smtp_pass: " + o.get("smtp-relay-password") + "\n")
-		txt.WriteString("matrix_synapse_email_notif_from: " + o.get("smtp-relay-email") + "\n")
-	}
+	txt.WriteString("matrix_synapse_email_smtp_host: " + o.smtp["host"] + "\n")
+	txt.WriteString("matrix_synapse_email_smtp_port: " + o.smtp["port"] + "\n")
+	txt.WriteString("matrix_synapse_email_smtp_user: " + o.smtp["login"] + "\n")
+	txt.WriteString("matrix_synapse_email_smtp_pass: " + o.smtp["password"] + "\n")
+	txt.WriteString("matrix_synapse_email_notif_from: " + o.smtp["email"] + "\n")
 
 	return txt.String()
 }
@@ -329,20 +329,18 @@ func (o *order) generateVarsSynapseAdmin() string {
 }
 
 func (o *order) generateVarsNginx() string {
-	var txt strings.Builder
-
-	if o.get("serve_base_domain") == "yes" {
-		txt.WriteString("\n# nginx proxy\n")
-		txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
-		return txt.String()
+	if o.get("serve_base_domain") != "yes" {
+		return ""
 	}
-	txt.WriteString(o.generateVarsNginxWebsite())
 
+	var txt strings.Builder
+	txt.WriteString("\n# nginx proxy\n")
+	txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
 	return txt.String()
 }
 
 func (o *order) generateVarsNginxWebsite() string {
-	if !o.has("nginx-proxy-website") {
+	if !o.has("nginx-proxy-website") || o.get("serve_base_domain") != "yes" {
 		return ""
 	}
 	var txt strings.Builder
@@ -379,6 +377,28 @@ func (o *order) generateVarsEtherpad() string {
 	txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
 	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsGoToSocial() string {
+	if !o.has("gotosocial") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# gotosocial https://social." + o.domain + "\n")
+	txt.WriteString("gotosocial_enabled: yes\n")
+	txt.WriteString("gotosocial_hostname: \"social.{{ matrix_domain }}\"\n")
+
+	if len(o.smtp) == 0 {
+		return txt.String()
+	}
+
+	txt.WriteString("gotosocial_smtp_host: " + o.smtp["host"] + "\n")
+	txt.WriteString("gotosocial_smtp_port: " + o.smtp["port"] + "\n")
+	txt.WriteString("gotosocial_smtp_username: " + o.smtp["login"] + "\n")
+	txt.WriteString("gotosocial_smtp_password: " + o.smtp["password"] + "\n")
+	txt.WriteString("gotosocial_smtp_from: " + o.smtp["email"] + "\n")
 
 	return txt.String()
 }
@@ -471,6 +491,19 @@ func (o *order) generateVarsStats() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsVaultwarden() string {
+	if !o.has("vaultwarden") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# vaultwarden https://vault." + o.domain + "\n")
+	txt.WriteString("vaultwarden_enabled: yes\n")
+	txt.WriteString("vaultwarden_hostname: \"vault.{{ matrix_domain }}\"\n")
+	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin token /") + "\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsBuscarron() string {
 	if !o.has("buscarron") {
 		return ""
@@ -500,20 +533,6 @@ func (o *order) generateVarsHonoroit() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsPostmoogle() string {
-	if !o.has("postmoogle") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# bots::postmoogle\n")
-	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
-	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
-
-	return txt.String()
-}
-
 func (o *order) generateVarsReminder() string {
 	if !o.has("reminder-bot") {
 		return ""
@@ -536,6 +555,21 @@ func (o *order) generateVarsDiscord() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::discord\n")
 	txt.WriteString("matrix_mautrix_discord_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) generateVarsEmail() string {
+	if !o.has("postmoogle") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# bridges::email\n")
+	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
+	txt.WriteString("matrix_bot_postmoogle_login: emailbot\n")
+	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
 
 	return txt.String()
 }
