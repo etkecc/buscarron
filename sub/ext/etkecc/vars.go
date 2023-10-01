@@ -32,11 +32,14 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsGoToSocial())
 	txt.WriteString(o.generateVarsHydrogen())
 	txt.WriteString(o.generateVarsJitsi())
+	txt.WriteString(o.generateVarsMiniflux())
 	txt.WriteString(o.generateVarsNginxWebsite())
+	txt.WriteString(o.generateVarsRadicale())
 	txt.WriteString(o.generateVarsSchildiChat())
 	txt.WriteString(o.generateVarsSlidingSync())
 	txt.WriteString(o.generateVarsStats())
 	txt.WriteString(o.generateVarsSynapseAdmin())
+	txt.WriteString(o.generateVarsUptimeKuma())
 	txt.WriteString(o.generateVarsVaultwarden())
 
 	// bots
@@ -328,6 +331,19 @@ func (o *order) generateVarsSynapseAdmin() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsUptimeKuma() string {
+	if !o.has("uptime-kuma") {
+		return ""
+	}
+
+	var txt strings.Builder
+	txt.WriteString("\n# uptime kuma https://kuma." + o.domain + "\n")
+	txt.WriteString("uptime_kuma_enabled: yes\n")
+	txt.WriteString("uptime_kuma_hostname: kuma." + o.domain + "\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsNginx() string {
 	if o.get("serve_base_domain") != "yes" {
 		return ""
@@ -354,6 +370,19 @@ func (o *order) generateVarsNginxWebsite() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsRadicale() string {
+	if !o.has("radicale") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# radicale https://radicale." + o.domain + "\n")
+	txt.WriteString("radicale_enabled: yes\n")
+	txt.WriteString("radicale_hostname: radicale." + o.domain + "\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsCinny() string {
 	if !o.has("cinny") {
 		return ""
@@ -374,7 +403,7 @@ func (o *order) generateVarsEtherpad() string {
 
 	txt.WriteString("\n# etherpad\n")
 	txt.WriteString("etherpad_enabled: yes\n")
-	txt.WriteString("etherpad_hostname: \"etherpad.{{ matrix_domain }}\"\n")
+	txt.WriteString("etherpad_hostname: etherpad." + o.domain + "\n")
 	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
 
@@ -388,7 +417,7 @@ func (o *order) generateVarsGoToSocial() string {
 	var txt strings.Builder
 	txt.WriteString("\n# gotosocial https://social." + o.domain + "\n")
 	txt.WriteString("gotosocial_enabled: yes\n")
-	txt.WriteString("gotosocial_hostname: \"social.{{ matrix_domain }}\"\n")
+	txt.WriteString("gotosocial_hostname: social." + o.domain + "\n")
 
 	if len(o.smtp) == 0 {
 		return txt.String()
@@ -448,6 +477,21 @@ func (o *order) generateVarsJitsi() string {
 	return txt.String()
 }
 
+func (o *order) generateVarsMiniflux() string {
+	if !o.has("miniflux") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# miniflux https://miniflux." + o.domain + "\n")
+	txt.WriteString("miniflux_enabled: yes\n")
+	txt.WriteString("miniflux_hostname: miniflux." + o.domain + "\n")
+	txt.WriteString("miniflux_admin_login: " + o.get("username") + "\n")
+	txt.WriteString("miniflux_admin_password: " + o.password("miniflux") + "\n")
+
+	return txt.String()
+}
+
 func (o *order) generateVarsSchildiChat() string {
 	if !o.has("schildichat") {
 		return ""
@@ -498,7 +542,7 @@ func (o *order) generateVarsVaultwarden() string {
 	var txt strings.Builder
 	txt.WriteString("\n# vaultwarden https://vault." + o.domain + "\n")
 	txt.WriteString("vaultwarden_enabled: yes\n")
-	txt.WriteString("vaultwarden_hostname: \"vault.{{ matrix_domain }}\"\n")
+	txt.WriteString("vaultwarden_hostname: vault." + o.domain + "\n")
 	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin token /") + "\n")
 
 	return txt.String()

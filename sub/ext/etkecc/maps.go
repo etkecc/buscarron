@@ -14,10 +14,13 @@ var dnsmap = map[string]string{
 	"gotosocial":  "social",
 	"hydrogen":    "hydrogen",
 	"jitsi":       "jitsi",
+	"miniflux":    "miniflux",
 	"ntfy":        "ntfy",
+	"radicale":    "radicale",
 	"schildichat": "schildichat",
 	"stats":       "stats",
 	"sygnal":      "sygnal",
+	"uptime-kuma": "kuma",
 	"vaultwarden": "vault",
 }
 

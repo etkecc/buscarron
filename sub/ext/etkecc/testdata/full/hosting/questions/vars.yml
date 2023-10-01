@@ -96,13 +96,13 @@ matrix_client_element_enabled: yes
 
 # etherpad
 etherpad_enabled: yes
-etherpad_hostname: "etherpad.{{ matrix_domain }}"
+etherpad_hostname: etherpad.higenjitsuteki.onmatrix.chat
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 
 # gotosocial https://social.higenjitsuteki.onmatrix.chat
 gotosocial_enabled: yes
-gotosocial_hostname: "social.{{ matrix_domain }}"
+gotosocial_hostname: social.higenjitsuteki.onmatrix.chat
 gotosocial_smtp_host: smtp.migadu.com
 gotosocial_smtp_port: 587
 gotosocial_smtp_username: "matrix@{{ matrix_domain }}"
@@ -124,11 +124,21 @@ jitsi_jicofo_auth_password: TODO64
 #  - username: test
 #    password: TODO64
 
+# miniflux https://miniflux.higenjitsuteki.onmatrix.chat
+miniflux_enabled: yes
+miniflux_hostname: miniflux.higenjitsuteki.onmatrix.chat
+miniflux_admin_login: test
+miniflux_admin_password: TODO64
+
 # nginx proxy website
 matrix_nginx_proxy_website_enabled: yes
 matrix_nginx_proxy_website_repo: TODO
 matrix_nginx_proxy_website_command: TODO
 matrix_nginx_proxy_website_dist: "TODO"
+
+# radicale https://radicale.higenjitsuteki.onmatrix.chat
+radicale_enabled: yes
+radicale_hostname: radicale.higenjitsuteki.onmatrix.chat
 
 # schildichat https://schildichat.higenjitsuteki.onmatrix.chat
 matrix_client_schildichat_enabled: yes
@@ -149,9 +159,13 @@ grafana_default_admin_password: TODO64
 # synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
 matrix_synapse_admin_enabled: yes
 
+# uptime kuma https://kuma.higenjitsuteki.onmatrix.chat
+uptime_kuma_enabled: yes
+uptime_kuma_hostname: kuma.higenjitsuteki.onmatrix.chat
+
 # vaultwarden https://vault.higenjitsuteki.onmatrix.chat
 vaultwarden_enabled: yes
-vaultwarden_hostname: "vault.{{ matrix_domain }}"
+vaultwarden_hostname: vault.higenjitsuteki.onmatrix.chat
 vaultwarden_config_admin_token: TODO64
 
 # bots::buscarron

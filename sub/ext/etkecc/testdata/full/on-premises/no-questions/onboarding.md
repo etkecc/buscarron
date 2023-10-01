@@ -64,6 +64,7 @@ Your Matrix server is ready, here is your onboarding list:
 * etherpad admin password: TODO64
 * grafana password: TODO64
 * miniflux password: TODO64
+* smtp password: password
 * vaultwarden admin token / password: TODO64
 
 

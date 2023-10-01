@@ -13,10 +13,6 @@ func (o *order) generateQuestions() (string, int) {
 		count++
 		txt.WriteString(q)
 	}
-	if q := o.generateQuestionsHonoroit(); q != "" {
-		count++
-		txt.WriteString(q)
-	}
 	if q := o.generateQuestionsTelegramBridge(); q != "" {
 		count++
 		txt.WriteString(q)
@@ -58,17 +54,6 @@ func (o *order) generateQuestionsReminderBot() string {
 	return txt.String()
 }
 
-func (o *order) generateQuestionsHonoroit() string {
-	var txt strings.Builder
-
-	if o.has("honoroit") {
-		txt.WriteString("Honoroit: are you sure you want it? It's a helpdesk bot with e2e encryption support. ")
-		txt.WriteString("Please, check " + link("gitlab.com/etke.cc/honoroit") + " before deciding.\n\n")
-	}
-
-	return txt.String()
-}
-
 func (o *order) generateQuestionsTelegramBridge() string {
 	var txt strings.Builder
 
@@ -84,24 +69,16 @@ func (o *order) generateQuestionsTelegramBridge() string {
 func (o *order) generateQuestionsServices() string {
 	var txt strings.Builder
 
-	if o.has("smtp-relay") && (!o.has("service-email") || !(o.has("smtp-relay-host") && o.has("smtp-relay-port") && o.has("smtp-relay-login") && o.has("smtp-relay-password") && o.has("smtp-relay-email"))) {
+	if o.has("smtp-relay") && !o.has("service-email") && !(o.has("smtp-relay-host") && o.has("smtp-relay-port") && o.has("smtp-relay-login") && o.has("smtp-relay-password") && o.has("smtp-relay-email")) {
 		txt.WriteString("SMTP relay: please, select a suitable email provider ")
 		txt.WriteString("(big providers like Gmail or Outlook will ban you for automated emails, ")
 		txt.WriteString("so you need to find a service that allows sending of verification emails. Optionally, we provide such service). ")
 		txt.WriteString("Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email ")
 		txt.WriteString("(usually login and email are the same thing, but that depends on the provider)\n\n")
 	}
-	if o.has("stats") && o.hosting == "" {
-		txt.WriteString("Prometheus+Grafana: are you sure you want it? Cloud providers usually provide a dashboard with server stats, ")
-		txt.WriteString("so why not use that dashboard instead? A Prometheus+Grafana stack provides some internal Matrix stats ")
-		txt.WriteString("(like count of events), but it's overkill if you just want to see server utilization.\n\n")
-	}
-	if o.has("nginx-proxy-website") && !(o.has("nginx-proxy-website-command") && o.has("nginx-proxy-website-dist") && o.has("nginx-proxy-website-dist")) {
+	if o.has("nginx-proxy-website") && !(o.has("nginx-proxy-website-command") && o.has("nginx-proxy-website-repo") && o.has("nginx-proxy-website-dist")) {
 		txt.WriteString("Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. ")
 		txt.WriteString("Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).\n\n")
-	}
-	if o.has("buscarron") {
-		txt.WriteString("buscarron: are you sure you want it? It's a bot that receives web forms (HTML/HTTP POST) and send them to (encrypted) Matrix rooms. Please, check " + link("gitlab.com/etke.cc/buscarron") + " before deciding.\n\n")
 	}
 	if o.has("sso") && !(o.has("sso-client-id") && o.has("sso-client-secret") && o.has("sso-issuer") && o.has("sso-idp-brand") && o.has("sso-idp-id") && o.has("sso-idp-name")) {
 		txt.WriteString("SSO: You didn't mention what OIDC/OAuth2 provider you want to integrate, so here is a list of common providers - ")
@@ -117,10 +94,6 @@ func (o *order) generateQuestionsServices() string {
 		txt.WriteString("BorgBackup: please, provide the desired repository url (user@host:repo). ")
 		txt.WriteString("We will generate an SSH key and encryption passphrase on your server. ")
 		txt.WriteString("We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.\n\n")
-	}
-	if o.has("jitsi") {
-		txt.WriteString("Jitsi: are you sure you want it? You will get jitsi integration by default with a public instance. ")
-		txt.WriteString("The jitsi item we offer is a self-hosted version. Keep in mind that jitsi significantly increases compute power requirements.\n\n")
 	}
 
 	return txt.String()
