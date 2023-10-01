@@ -1,14 +1,11 @@
 package etkecc
 
 import (
-	"reflect"
-	"strconv"
 	"strings"
 
-	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"maunium.net/go/mautrix"
-	"maunium.net/go/mautrix/format"
+	"maunium.net/go/mautrix/event"
 
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
@@ -23,11 +20,12 @@ type order struct {
 
 	domain    string
 	subdomain bool
+	followup  *event.MessageEventContent
 	hosting   string
 	smtp      map[string]string
+	price     int
 
 	txt   strings.Builder
-	eml   strings.Builder
 	pass  map[string]string
 	files []*mautrix.ReqUploadMedia
 }
@@ -38,14 +36,16 @@ var preprocessFields = []string{"email", "domain", "username"}
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
 
-	questions, count := o.generateQuestions()
+	questions, countQ := o.generateQuestions()
 	dns, dnsInternal := o.generateDNSInstructions()
 	hosts := o.generateHosts()
 
-	o.txt.WriteString("```yaml\n")
-	o.txt.WriteString(questions)
-	o.txt.WriteString("```\n\n")
-	o.txt.WriteString("\n___\n\n")
+	if countQ > 0 {
+		o.txt.WriteString("```yaml\n")
+		o.txt.WriteString(questions)
+		o.txt.WriteString("```\n\n")
+		o.txt.WriteString("\n___\n\n")
+	}
 
 	if o.hosting != "" {
 		o.txt.WriteString("```yaml\n")
@@ -65,22 +65,14 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString(hosts)
 		o.txt.WriteString("```\n\n")
 	}
-
-	o.txt.WriteString("questions: ")
-	o.txt.WriteString(strconv.Itoa(count))
 	o.txt.WriteString("\n\n")
 
 	o.generateVars()
+
 	o.generateOnboarding()
+	o.generateFollowup(questions, dns, countQ, dnsInternal)
 
-	o.eml.WriteString(questions)
-	if o.hosting == "" && !dnsInternal {
-		o.eml.WriteString(dns)
-	}
-	o.eml.WriteString("\nPS: this is an automated email. Please, reply to it with answers to the questions above (if any). An operator (human) will proceed with your answers")
-
-	o.sendmail()
-	o.pricify()
+	o.sendFollowup()
 
 	return o.txt.String(), o.files
 }
@@ -145,6 +137,7 @@ func (o *order) preprocess() {
 		o.pass["smtp"] = o.get("smtp-relay-password")
 	}
 	o.preprocessSMTP()
+	o.preprocessPrice()
 
 	o.password("matrix")
 }
@@ -167,35 +160,10 @@ func (o *order) preprocessSMTP() {
 	o.smtp = smtp
 }
 
-func (o *order) sendmail() {
-	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Ptr && reflect.ValueOf(o.pm).IsNil()) {
-		return
-	}
-
-	content := format.RenderMarkdown(o.eml.String(), true, true)
-	req := &postmark.Email{
-		To:       o.get("email"),
-		Tag:      "confirmation",
-		Subject:  "Matrix server on " + o.domain,
-		TextBody: content.Body,
-		HTMLBody: content.FormattedBody,
-	}
-	err := o.pm.Send(req)
-	if err != nil {
-		o.txt.WriteString("\n\n**confirmation email**: ❌\n")
-		return
-	}
-
-	o.txt.WriteString("\n\n**confirmation email**: ✅\n")
-}
-
-func (o *order) pricify() {
+func (o *order) preprocessPrice() {
 	if o.pd == nil {
 		return
 	}
 
-	price := strconv.Itoa(o.pd.Calculate(o.data))
-	o.txt.WriteString("\n\n**price**: $")
-	o.txt.WriteString(price)
-	o.txt.WriteString("/month\n")
+	o.price = o.pd.Calculate(o.data)
 }

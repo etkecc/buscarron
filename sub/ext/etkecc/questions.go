@@ -5,7 +5,6 @@ import "strings"
 func (o *order) generateQuestions() (string, int) {
 	var count int
 	var txt strings.Builder
-	txt.WriteString("Hi there,\nWe got your order and have some questions before the setup.\n\n")
 	if q := o.generateQuestionsDelegation(); q != "" {
 		count++
 		txt.WriteString(q)

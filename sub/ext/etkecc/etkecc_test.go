@@ -244,11 +244,12 @@ func (s *EtkeccSuite) setupCases() {
 	}
 }
 
-// expected returns expected questions, onboarding, vars
-func (s *EtkeccSuite) expected(name string) (string, string, string) {
+// expected returns expected questions, followup, onboarding, vars
+func (s *EtkeccSuite) expected(name string) (string, string, string, string) {
 	s.T().Helper()
 
 	return s.read(name, "questions.md"),
+		s.read(name, "followup.md"),
 		s.read(name, "onboarding.md"),
 		s.read(name, "vars.yml")
 }
@@ -268,13 +269,14 @@ func (s *EtkeccSuite) merge(base map[string]string, custom map[string]string) ma
 }
 
 // saveMocks stores the actual generated data if s.save = true
-func (s *EtkeccSuite) saveMocks(name, questions, onboarding, vars string) {
+func (s *EtkeccSuite) saveMocks(name, questions, followup, onboarding, vars string) {
 	s.T().Helper()
 	if !s.save {
 		return
 	}
 
 	s.write(name, "questions.md", questions)
+	s.write(name, "followup.md", followup)
 	s.write(name, "onboarding.md", onboarding)
 	s.write(name, "vars.yml", vars)
 }
@@ -329,15 +331,17 @@ func (s *EtkeccSuite) TestPassword() {
 func (s *EtkeccSuite) TestExecute() {
 	for _, test := range s.cases {
 		s.Run(test.name, func() {
-			expectedQ, expectedO, expectedV := s.expected(test.name)
+			expectedQ, expectedF, expectedO, expectedV := s.expected(test.name)
 			test.before()
 
 			actualQ, files := s.ext.Execute(s.v, &config.Form{Name: test.name}, test.submission)
 			actualV := s.rts(files[0].Content)
 			actualO := s.rts(files[1].Content)
-			s.saveMocks(test.name, actualQ, actualO, actualV)
+			actualF := s.rts(files[2].Content)
+			s.saveMocks(test.name, actualQ, actualF, actualO, actualV)
 
 			s.Equal(expectedQ, actualQ)
+			s.Equal(expectedF, actualF)
 			s.Equal(expectedO, actualO)
 			s.Equal(expectedV, actualV)
 		})

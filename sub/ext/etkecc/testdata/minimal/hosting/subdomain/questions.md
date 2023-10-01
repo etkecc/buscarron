@@ -1,7 +1,4 @@
 ```yaml
-Hi there,
-We got your order and have some questions before the setup.
-
 SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.
 
 ```
@@ -23,8 +20,5 @@ export HETZNER_SERVER_IP=SERVER_IP
 curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: application/json" -H "Auth-API-Token: $HETZNER_API_TOKEN" -d "{\"records\":[{\"name\":\"higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"A\",\"value\":\"$HETZNER_SERVER_IP\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"}]}"
 ```
 
-questions: 1
 
 
-
-**price**: $15/month

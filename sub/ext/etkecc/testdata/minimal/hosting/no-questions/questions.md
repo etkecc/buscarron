@@ -1,13 +1,4 @@
 ```yaml
-Hi there,
-We got your order and have some questions before the setup.
-
-```
-
-
-___
-
-```yaml
 SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"example.com\",\"server_type\":\"cpx11\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}")
 SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')
 SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')
@@ -21,8 +12,5 @@ hosts:
 example.com ansible_host=1.2.3.4 ansible_user=user ansible_become_password=password ansible_port=222
 ```
 
-questions: 0
 
 
-
-**price**: $15/month
