@@ -57,7 +57,7 @@ func (o *order) generateFollowup(questions, dns string, countQ int, dnsInternal 
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(content.Body),
-			FileName:      "onboarding.md",
+			FileName:      "followup.md",
 			ContentType:   "text/markdown",
 			ContentLength: int64(len(content.Body)),
 		},
