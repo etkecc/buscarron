@@ -150,7 +150,7 @@ func (o *order) preprocessSMTP() {
 		smtp["login"] = "\"matrix@{{ matrix_domain }}\""
 		smtp["password"] = o.pwgen()
 		smtp["email"] = smtp["login"]
-	} else {
+	} else if o.has("smtp-relay") {
 		smtp["host"] = o.get("smtp-relay-host")
 		smtp["port"] = o.get("smtp-relay-port")
 		smtp["login"] = o.get("smtp-relay-login")

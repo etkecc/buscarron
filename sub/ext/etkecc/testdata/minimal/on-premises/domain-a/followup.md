@@ -14,11 +14,10 @@ Please, add the following DNS entries:
 
 * matrix    A record    server IP
 
-Got any questions? Feel free to reply to this email; we're here to assist you!
+Got any questions? Feel free to reply to this email - we're here to assist you!
 
 We're genuinely excited to serve you and provide a top-notch Matrix server experience.
 
 Best regards,
 
-Buscarron Stacks,
 etke.cc
