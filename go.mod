@@ -18,6 +18,7 @@ require (
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator v1.0.7
 	gitlab.com/etke.cc/linkpearl v0.0.0-20230929204628-a8bf6ac193fe
+	golang.org/x/text v0.13.0
 	golang.org/x/time v0.3.0
 	maunium.net/go/mautrix v0.16.1
 )
@@ -51,7 +52,6 @@ require (
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
 	golang.org/x/net v0.15.0 // indirect
 	golang.org/x/sys v0.12.0 // indirect
-	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/protobuf v1.29.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.4.1 // indirect

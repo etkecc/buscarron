@@ -3,6 +3,8 @@ package etkecc
 import (
 	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
@@ -46,6 +48,7 @@ func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]
 		data:  data,
 		test:  e.test,
 		v:     v,
+		c:     cases.Title(language.English),
 		pd:    p,
 		pm:    e.pm,
 		pass:  map[string]string{},

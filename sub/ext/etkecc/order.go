@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"gitlab.com/etke.cc/go/pricify"
+	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 
@@ -17,6 +18,7 @@ type order struct {
 	pd   *pricify.Data
 	pm   EmailSender
 	v    common.Validator
+	c    cases.Caser
 
 	domain    string
 	subdomain bool
