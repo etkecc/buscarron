@@ -62,6 +62,7 @@ Your Matrix server is ready, here is your onboarding list:
 * username: test
 * password: TODO64
 * etherpad admin password: TODO64
+* gotosocial password: TODO64
 * grafana password: TODO64
 * miniflux password: TODO64
 * smtp password: password

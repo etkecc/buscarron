@@ -181,6 +181,14 @@ func (o *order) generateVarsUsers() string {
 	txt.WriteString("   initial_password: " + o.password("matrix") + "\n")
 	txt.WriteString("   initial_type: admin\n")
 
+	if o.has("gotosocial") {
+		txt.WriteString("gotosocial_users_additional:\n")
+		txt.WriteString(" - username: " + o.get("username") + "\n")
+		txt.WriteString("   initial_email: " + o.get("email") + "\n")
+		txt.WriteString("   initial_password: " + o.password("gotosocial") + "\n")
+		txt.WriteString("   initial_type: admin\n")
+	}
+
 	return txt.String()
 }
 
@@ -263,10 +271,9 @@ func (o *order) generateVarsSynapse() string {
 	var txt strings.Builder
 
 	if o.has("sso") {
-		txt.WriteString("\n# synapse::custom\n")
-		txt.WriteString("matrix_synapse_configuration_extension_yaml: |\n")
-		txt.WriteString("  disable_msisdn_registration: yes\n")
-		txt.WriteString("  oidc_providers:\n")
+		txt.WriteString("\n# synapse::sso\n")
+		txt.WriteString("matrix_synapse_oidc_enabled: yes\n")
+		txt.WriteString("matrix_synapse_oidc_providers:\n")
 		txt.WriteString("  - idp_id: " + strings.ToLower(o.get("sso-idp-id")) + "\n")
 		txt.WriteString("    idp_name: " + o.get("sso-idp-name") + "\n")
 		txt.WriteString("    idp_brand: \"" + strings.ToLower(o.get("sso-idp-brand")) + "\"\n")

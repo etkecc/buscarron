@@ -27,7 +27,7 @@ type EtkeccSuite struct {
 	cases []testCase
 }
 
-func (s *EtkeccSuite) SetupTest() {
+func (s *EtkeccSuite) SetupSuite() {
 	s.T().Helper()
 	s.v = &mocks.Validator{}
 	s.ext = New(nil)

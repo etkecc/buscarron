@@ -19,11 +19,15 @@ matrix_user_creator_users_additional:
  - username: test
    initial_password: TODO64
    initial_type: admin
+gotosocial_users_additional:
+ - username: test
+   initial_email: test@test.com
+   initial_password: TODO64
+   initial_type: admin
 
-# synapse::custom
-matrix_synapse_configuration_extension_yaml: |
-  disable_msisdn_registration: yes
-  oidc_providers:
+# synapse::sso
+matrix_synapse_oidc_enabled: yes
+matrix_synapse_oidc_providers:
   - idp_id: todo
     idp_name: TODO
     idp_brand: "todo"
