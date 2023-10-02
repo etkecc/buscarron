@@ -71,7 +71,7 @@ func (o *order) sendFollowup() {
 	req := &postmark.Email{
 		To:       o.get("email"),
 		Tag:      "confirmation",
-		Subject:  "Your Matrix Server Order Update 🚀",
+		Subject:  "Your Matrix Server Order Update (" + o.domain + ") 🚀",
 		TextBody: o.followup.Body,
 		HTMLBody: o.followup.FormattedBody,
 	}
