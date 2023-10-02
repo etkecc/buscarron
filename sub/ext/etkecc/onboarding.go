@@ -35,7 +35,7 @@ func (o *order) generateOnboarding() {
 func (o *order) generateOnboardingIntro() string {
 	var txt strings.Builder
 	txt.WriteString("Hello!\n\n")
-	txt.WriteString("We're thrilled to announce that your Matrix server on " + o.domain + " is now fully operational and ready for your use! 🎉\n")
+	txt.WriteString("We're thrilled to announce that your Matrix server on " + o.domain + " is now fully operational and ready for you to use! 🎉\n")
 	txt.WriteString("Here's all the essential information you need for a smooth onboarding experience:\n\n")
 
 	return txt.String()

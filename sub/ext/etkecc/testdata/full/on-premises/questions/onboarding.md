@@ -1,6 +1,6 @@
 Hello!
 
-We're thrilled to announce that your Matrix server on example.com is now fully operational and ready for your use! 🎉
+We're thrilled to announce that your Matrix server on example.com is now fully operational and ready for you to use! 🎉
 Here's all the essential information you need for a smooth onboarding experience:
 
 **Server Links**

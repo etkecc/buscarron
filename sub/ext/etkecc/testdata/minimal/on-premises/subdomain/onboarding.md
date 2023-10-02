@@ -1,11 +1,11 @@
 Hello!
 
-We're thrilled to announce that your Matrix server on higenjitsuteki.onmatrix.chat is now fully operational and ready for your use! 🎉
+We're thrilled to announce that your Matrix server on higenjitsuteki.onmatrix.chat is now fully operational and ready for you to use! 🎉
 Here's all the essential information you need for a smooth onboarding experience:
 
 **Server Links**
 
-* web app: [app.etke.cc](https://app.etke.cc)
+* Web app: [app.etke.cc](https://app.etke.cc)
 * Homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
 
 
