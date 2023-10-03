@@ -12,17 +12,23 @@ import (
 	"golang.org/x/net/context"
 )
 
+var (
+	ErrSpamlist = fmt.Errorf("spamlist")
+	ErrNoMX     = fmt.Errorf("no MX")
+	ErrSMTP     = fmt.Errorf("SMTP")
+	ErrSPF      = fmt.Errorf("SPF")
+)
+
 // Email checks if email is valid
 func (v *V) Email(email string, optionalSenderIP ...net.IP) bool {
-
 	// edge case: email may be optional
 	if email == "" {
-		return !v.enforce.Email
+		return !v.cfg.Email.Enforce
 	}
 
 	address, err := mail.ParseAddress(email)
 	if err != nil {
-		v.log.Info("email %s invalid, reason: %v", email, err)
+		v.cfg.Log("email %s invalid, reason: %v", email, err)
 		return false
 	}
 	email = address.Address
@@ -49,7 +55,7 @@ func (v *V) emailChecks(email string, optionalSenderIP ...net.IP) bool {
 		checks++
 		err := <-errchan
 		if err != nil {
-			v.log.Info("email %q is invalid, reason: %v", email, err)
+			v.cfg.Log("email %q is invalid, reason: %v", email, err)
 			return false
 		}
 		if checks >= maxChecks {
@@ -64,9 +70,9 @@ func (v *V) emailSpamlist(ctx context.Context, email string, errchan chan error)
 		return
 	default:
 		emailb := []byte(email)
-		for _, spamregex := range v.spamlist {
+		for _, spamregex := range v.cfg.Email.spamlist {
 			if spamregex.Match(emailb) {
-				errchan <- fmt.Errorf("spamlist")
+				errchan <- ErrSpamlist
 				return
 			}
 		}
@@ -79,7 +85,7 @@ func (v *V) emailNoMX(ctx context.Context, email string, errchan chan error) {
 	case <-ctx.Done():
 		return
 	default:
-		if !v.enforce.MX {
+		if !v.cfg.Email.MX {
 			errchan <- nil
 			return
 		}
@@ -87,8 +93,8 @@ func (v *V) emailNoMX(ctx context.Context, email string, errchan chan error) {
 		at := strings.LastIndex(email, "@")
 		domain := email[at+1:]
 		if !v.MX(domain) {
-			v.log.Info("email %s domain %s invalid, reason: no MX", email, domain)
-			errchan <- fmt.Errorf("no MX")
+			v.cfg.Log("email %s domain %s invalid, reason: no MX", email, domain)
+			errchan <- ErrNoMX
 			return
 		}
 		errchan <- nil
@@ -100,21 +106,21 @@ func (v *V) emailNoSMTP(ctx context.Context, email string, errchan chan error) {
 	case <-ctx.Done():
 		return
 	default:
-		if !v.enforce.SMTP {
+		if !v.cfg.Email.SMTP {
 			errchan <- nil
 			return
 		}
 
-		client, err := trysmtp.Connect(v.from, email)
+		client, err := trysmtp.Connect(v.cfg.Email.From, email)
 		if err != nil {
 			if strings.HasPrefix(err.Error(), "45") {
-				v.log.Info("email %s may be invalid, reason: SMTP check (%v)", email, err)
+				v.cfg.Log("email %s may be invalid, reason: SMTP check (%v)", email, err)
 				errchan <- nil
 				return
 			}
 
-			v.log.Info("email %s invalid, reason: SMTP check (%v)", email, err)
-			errchan <- fmt.Errorf("SMTP")
+			v.cfg.Log("email %s invalid, reason: SMTP check (%v)", email, err)
+			errchan <- ErrSMTP
 			return
 		}
 		client.Close()
@@ -127,14 +133,14 @@ func (v *V) emailNoSPF(ctx context.Context, email string, senderIP net.IP, errch
 	case <-ctx.Done():
 		return
 	default:
-		if !v.enforce.SPF {
+		if !v.cfg.Email.SPF {
 			errchan <- nil
 			return
 		}
 
-		result, _ := spf.CheckHostWithSender(senderIP, "", email, spf.WithTraceFunc(v.log.Info)) //nolint:errcheck // not a error
+		result, _ := spf.CheckHostWithSender(senderIP, "", email, spf.WithTraceFunc(v.cfg.Log)) //nolint:errcheck // not a error
 		if result == spf.Fail {
-			errchan <- fmt.Errorf("SPF")
+			errchan <- ErrSPF
 			return
 		}
 		errchan <- nil

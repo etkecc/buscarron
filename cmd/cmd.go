@@ -13,7 +13,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
-	"gitlab.com/etke.cc/go/validator"
+	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
 	"maunium.net/go/mautrix/id"
 
@@ -21,6 +21,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
+	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc"
 	"gitlab.com/etke.cc/buscarron/web"
 )
 
@@ -99,7 +100,6 @@ func initSrv(cfg *config.Config) {
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
-	logwrap := sub.NewLogWrapper(log)
 	vs := make(map[string]sub.Validator, len(cfg.Forms))
 	for name, item := range cfg.Forms {
 		rooms = append(rooms, item.RoomID)
@@ -109,13 +109,20 @@ func initSrv(cfg *config.Config) {
 			srl[name] = item.Ratelimit
 		}
 
-		enforce := validator.Enforce{
-			Email:  cfg.Forms[name].HasEmail,
-			Domain: cfg.Forms[name].HasDomain,
-			MX:     true,
-			SMTP:   cfg.SMTP.EnforceValidation,
+		vcfg := &validator.Config{
+			Email: validator.Email{
+				Enforce:  cfg.Forms[name].HasEmail,
+				MX:       true,
+				SMTP:     cfg.SMTP.EnforceValidation,
+				Spamlist: cfg.Spamlist,
+				From:     cfg.SMTP.From,
+			},
+			Domain: validator.Domain{
+				Enforce:         cfg.Forms[name].HasDomain,
+				PrivateSuffixes: etkecc.PrivateSuffixes(),
+			},
 		}
-		v := validator.New(cfg.Spamlist, enforce, cfg.SMTP.From, logwrap)
+		v := validator.New(vcfg)
 		vs[name] = v
 	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, log)
@@ -127,7 +134,7 @@ func initSrv(cfg *config.Config) {
 		Rooms:             rooms,
 	}
 
-	srvv := validator.New(nil, validator.Enforce{}, "", logwrap)
+	srvv := validator.New(&validator.Config{})
 	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, kfcfg, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug().Msg("web server has been created")

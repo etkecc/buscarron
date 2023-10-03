@@ -16,7 +16,7 @@ require (
 	gitlab.com/etke.cc/go/env v1.0.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20230929204225-1e6594658767
 	gitlab.com/etke.cc/go/secgen v1.1.1
-	gitlab.com/etke.cc/go/validator v1.0.7
+	gitlab.com/etke.cc/go/validator/v2 v2.0.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20230929204628-a8bf6ac193fe
 	golang.org/x/text v0.13.0
 	golang.org/x/time v0.3.0

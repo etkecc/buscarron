@@ -57,3 +57,12 @@ func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]
 
 	return o.execute()
 }
+
+// PrivateSuffixes returns private suffixes
+func PrivateSuffixes() []string {
+	keys := make([]string, 0, len(hDomains))
+	for k := range hDomains {
+		keys = append(keys, k)
+	}
+	return keys
+}

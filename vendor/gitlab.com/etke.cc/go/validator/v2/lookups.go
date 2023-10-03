@@ -9,7 +9,7 @@ func (v *V) A(host string) bool {
 	}
 	ips, err := net.LookupIP(host)
 	if err != nil {
-		v.log.Error("cannot get A records of %s: %v", host, err)
+		v.cfg.Log("cannot get A records of %s: %v", host, err)
 		return false
 	}
 
@@ -23,7 +23,7 @@ func (v *V) CNAME(host string) bool {
 	}
 	cname, err := net.LookupCNAME(host)
 	if err != nil {
-		v.log.Error("cannot get CNAME records of %s: %v", host, err)
+		v.cfg.Log("cannot get CNAME records of %s: %v", host, err)
 		return false
 	}
 
@@ -37,7 +37,7 @@ func (v *V) MX(host string) bool {
 	}
 	mxs, err := net.LookupMX(host)
 	if err != nil {
-		v.log.Error("cannot get MX records of %s: %v", host, err)
+		v.cfg.Log("cannot get MX records of %s: %v", host, err)
 		return false
 	}
 
