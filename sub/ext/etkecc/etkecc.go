@@ -11,7 +11,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
-const pricifyDataURL = "https://gitlab.com/etke.cc/website/-/raw/svelte-order-form/svelte/src/lib/provider/dataConfig.json"
+const pricifyDataURL = "https://etke.cc/order/components.json"
 
 // Etkecc extension
 type Etkecc struct {
