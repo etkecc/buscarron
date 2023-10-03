@@ -134,7 +134,7 @@ func initSrv(cfg *config.Config) {
 		Rooms:             rooms,
 	}
 
-	srvv := validator.New(&validator.Config{})
+	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})
 	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, kfcfg, cfg.Ban.Size, cfg.Ban.List)
 
 	log.Debug().Msg("web server has been created")
