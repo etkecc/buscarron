@@ -36,7 +36,7 @@ func (s *RootSuite) TestExecute() {
 }
 
 func (s *RootSuite) TestExecute_Template() {
-	expected := "**New form**:\n\ntestValue: on"
+	expected := "**New form**:\n\ntestValue: on\n\n"
 	data := map[string]string{
 		"test": "on",
 	}

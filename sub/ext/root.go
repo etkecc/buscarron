@@ -27,6 +27,7 @@ func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]st
 	if err != nil {
 		out = e.defaultText(form.Name, data)
 	}
+	out += "\n\n"
 
 	return out, []*mautrix.ReqUploadMedia{}
 }
