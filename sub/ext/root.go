@@ -18,8 +18,22 @@ func NewRoot() *root {
 
 // Execute extension
 func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	var out string
+	if form.Text == "" {
+		return e.defaultText(form.Name, data), []*mautrix.ReqUploadMedia{}
+	}
+
+	out, err := common.ParseTemplate(form.Text, data)
+	if err != nil {
+		out = e.defaultText(form.Name, data)
+	}
+
+	return out, []*mautrix.ReqUploadMedia{}
+}
+
+func (e *root) defaultText(name string, data map[string]string) string {
 	fields := e.sort(data)
-	out := "**New " + form.Name + "**"
+	out := "**New " + name + "**"
 	if data["email"] != "" {
 		out += " by " + data["email"] + "\n\n"
 	} else {
@@ -38,7 +52,7 @@ func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]st
 	}
 	out += "\n___\n"
 
-	return out, []*mautrix.ReqUploadMedia{}
+	return out
 }
 
 func (e *root) sort(data map[string]string) []string {

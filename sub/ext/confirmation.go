@@ -1,9 +1,7 @@
 package ext
 
 import (
-	"bytes"
 	"reflect"
-	"text/template"
 
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
@@ -35,11 +33,11 @@ func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[s
 	if !ok {
 		return "", []*mautrix.ReqUploadMedia{}
 	}
-	subject, err := e.parse(form.Confirmation.Subject, data)
+	subject, err := common.ParseTemplate(form.Confirmation.Subject, data)
 	if err != nil {
 		return "", []*mautrix.ReqUploadMedia{}
 	}
-	body, err := e.parse(form.Confirmation.Body, data)
+	body, err := common.ParseTemplate(form.Confirmation.Body, data)
 	if err != nil {
 		return "", []*mautrix.ReqUploadMedia{}
 	}
@@ -57,18 +55,4 @@ func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[s
 
 	e.s.Send(req) // nolint // not ready to handle errors
 	return "", []*mautrix.ReqUploadMedia{}
-}
-
-// parse template string
-func (e *confirmation) parse(tplString string, data map[string]string) (string, error) {
-	var result bytes.Buffer
-	tpl, err := template.New("email").Parse(tplString)
-	if err != nil {
-		return "", err
-	}
-	err = tpl.Execute(&result, data)
-	if err != nil {
-		return "", err
-	}
-	return result.String(), nil
 }

@@ -88,6 +88,8 @@ type Form struct {
 	HasDomain bool
 	// HasEmail enforces "email" field check
 	HasEmail bool
+	// Text template
+	Text string
 	// Confirmation email config
 	Confirmation Confirmation
 	// Extensions list

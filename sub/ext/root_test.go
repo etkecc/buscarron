@@ -35,6 +35,17 @@ func (s *RootSuite) TestExecute() {
 	s.Equal(expected, actual)
 }
 
+func (s *RootSuite) TestExecute_Template() {
+	expected := "**New form**:\n\ntestValue: on"
+	data := map[string]string{
+		"test": "on",
+	}
+
+	actual, _ := s.ext.Execute(nil, &config.Form{Name: "test", Text: "**New form**:\n\ntestValue: {{ .test }}"}, data)
+
+	s.Equal(expected, actual)
+}
+
 func (s *RootSuite) TestExecute_Email() {
 	expected := "**New test** by test@example.com\n\n* email: test@example.com\n* test: ✅\n\n___\n"
 	data := map[string]string{

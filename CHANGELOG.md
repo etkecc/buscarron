@@ -6,6 +6,7 @@
 * Added Prometheus metrics on `/metrics` endpoint
 * The `email` and `domain` fields as properties to the submission matrix event
 * Added an option to redirect to a different address if submission was rejected
+* Added an option to set custom matrix message text for submissions
 
 ### Misc :zzz:
 

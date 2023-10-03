@@ -29,6 +29,7 @@ env vars
 * **BUSCARRON_NAME_HASEMAIL** - if the form has an `email` field and you want to enforce email validation
 * **BUSCARRON_NAME_HASDOMAIN** - if the form has a `domain` field and you want to enforce domain validation
 * **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`
+* **BUSCARRON_NAME_TEXT** - custom form text, supports [go template](https://pkg.go.dev/text/template) vars from submission data (e.g., `email` field can be displayed as `{{ .email }}`)
 * **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
 * **BUSCARRON_NAME_CONFIRMATION_BODY** - confrimation email body, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to body as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
 

@@ -60,6 +60,7 @@ func parseForms() map[string]*Form {
 				Subject: env.String(name+".confirmation.subject", ""),
 				Body:    env.String(name+".confirmation.body", ""),
 			},
+			Text:       env.String(name+".text", ""),
 			Extensions: env.Slice(name + ".extensions"),
 		}
 		forms[name] = form
