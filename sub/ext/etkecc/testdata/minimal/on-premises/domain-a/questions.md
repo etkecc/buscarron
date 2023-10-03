@@ -1,3 +1,5 @@
+price: $5
+
 ```yaml
 We see that you have something on your base domain. In that case, you should add the following HTTPS redirects (HTTP 301):
 * [example.com/.well-known/matrix/server](https://example.com/.well-known/matrix/server) -> [matrix.example.com/.well-known/matrix/server](https://matrix.example.com/.well-known/matrix/server)

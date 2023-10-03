@@ -1,6 +1,7 @@
 package etkecc
 
 import (
+	"strconv"
 	"strings"
 
 	"gitlab.com/etke.cc/go/pricify"
@@ -37,6 +38,7 @@ var preprocessFields = []string{"email", "domain", "username"}
 // execute converts order to special message and files
 func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.preprocess()
+	o.txt.WriteString("price: $" + strconv.Itoa(o.price) + "\n\n")
 
 	questions, countQ := o.generateQuestions()
 	dns, dnsInternal := o.generateDNSInstructions()
@@ -60,6 +62,8 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString(dns)
 		o.txt.WriteString("```\n\n")
 	}
+
+	o.txt.WriteString(o.generateFirewall())
 
 	if hosts != "" {
 		o.txt.WriteString("hosts:\n")
