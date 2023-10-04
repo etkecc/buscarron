@@ -22,7 +22,7 @@ We're thrilled to share that your Matrix server order is confirmed! 🎉
 1. Visit our [membership page](https://etke.cc/membership).
 2. Select the "By Complexity" tier.
 3. Set the custom price to $%d.
-4. Use the email you've sent within the order for your Ko-Fi subscription (If you can't use the same email address, we can't match you up to your order automatically, so please contact us after subscribing)
+4. Subscribe on Ko-Fi with the same email address you used for this order (%s).
 
 Once your payment is confirmed, we'll promptly initiate the setup of your Matrix server. Look forward to a new email that will guide you through the onboarding process with all the necessary details.`
 	followupFooter = `
@@ -41,7 +41,7 @@ func (o *order) generateFollowup(questions, dns string, countQ int, dnsInternal 
 	if countQ > 0 {
 		txt.WriteString(questions)
 	} else {
-		txt.WriteString(fmt.Sprintf(followupNoQuestions, o.price))
+		txt.WriteString(fmt.Sprintf(followupNoQuestions, o.price, o.get("email")))
 	}
 
 	if o.hosting == "" && !dnsInternal {
