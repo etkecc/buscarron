@@ -2,6 +2,7 @@ package ext
 
 import (
 	"sort"
+	"strings"
 
 	"maunium.net/go/mautrix"
 
@@ -29,7 +30,16 @@ func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]st
 	}
 	out += "\n\n"
 
-	return out, []*mautrix.ReqUploadMedia{}
+	files := []*mautrix.ReqUploadMedia{
+		{
+			Content:       strings.NewReader(out),
+			FileName:      "submission.md",
+			ContentType:   "text/markdown",
+			ContentLength: int64(len(out)),
+		},
+	}
+
+	return out, files
 }
 
 func (e *root) defaultText(name string, data map[string]string) string {
@@ -51,7 +61,6 @@ func (e *root) defaultText(name string, data map[string]string) string {
 			out += "* " + field + ": " + value + "\n"
 		}
 	}
-	out += "\n___\n"
 
 	return out
 }

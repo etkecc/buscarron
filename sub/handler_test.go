@@ -130,7 +130,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 func (s *HandlerSuite) TestPOST() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
-	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n\n___\n"
+	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n"
 	expectedAttrs := map[string]interface{}{
 		"email": "email@dkimvalidator.com",
 	}

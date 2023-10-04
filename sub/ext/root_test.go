@@ -25,7 +25,7 @@ func (s *RootSuite) TestNew() {
 }
 
 func (s *RootSuite) TestExecute() {
-	expected := "**New test**\n\n* test: ✅\n\n___\n"
+	expected := "**New test**\n\n* test: ✅\n"
 	data := map[string]string{
 		"test": "on",
 	}
@@ -47,7 +47,7 @@ func (s *RootSuite) TestExecute_Template() {
 }
 
 func (s *RootSuite) TestExecute_Email() {
-	expected := "**New test** by test@example.com\n\n* email: test@example.com\n* test: ✅\n\n___\n"
+	expected := "**New test** by test@example.com\n\n* email: test@example.com\n* test: ✅\n"
 	data := map[string]string{
 		"email": "test@example.com",
 		"test":  "on",

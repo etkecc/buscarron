@@ -173,7 +173,8 @@ func (h *Handler) redirect(target string, vars map[string]string) string {
 // generate text and files
 func (h *Handler) generate(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	v := h.vs[form.Name]
-	text, medias := h.ext["root"].Execute(v, form, data)
+	medias := []*mautrix.ReqUploadMedia{}
+	text, rmedias := h.ext["root"].Execute(v, form, data)
 
 	for _, extension := range form.Extensions {
 		if extension == "" {
@@ -188,6 +189,7 @@ func (h *Handler) generate(form *config.Form, data map[string]string) (string, [
 		text += etext
 		medias = append(medias, emedias...)
 	}
+	medias = append(medias, rmedias...) // add submission.md at the end
 
 	return text, medias
 }
