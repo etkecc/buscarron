@@ -51,6 +51,51 @@ type kofiRequest struct {
 	TierName                   *string   `json:"tier_name"`
 }
 
+func (r *kofiRequest) Text() string {
+	var txt strings.Builder
+	txt.WriteString(r.Type)
+	txt.WriteString(" payment received!\n\n")
+
+	txt.WriteString("* Email: ")
+	txt.WriteString(r.Email)
+	txt.WriteString("\n")
+
+	if r.TierName != nil {
+		txt.WriteString("* Tier: ")
+		txt.WriteString(*r.TierName)
+		txt.WriteString("\n")
+	}
+	txt.WriteString("* Amount: ")
+	txt.WriteString(r.Amount)
+	txt.WriteString(" ")
+	txt.WriteString(r.Currency)
+	txt.WriteString("\n")
+
+	txt.WriteString("* Transaction ID: ")
+	txt.WriteString(r.KofiTransactionID)
+	txt.WriteString("\n\n")
+
+	if r.Message != nil {
+		txt.WriteString("> ")
+		txt.WriteString(*r.Message)
+		txt.WriteString("\n")
+	}
+	txt.WriteString("> --")
+	txt.WriteString(r.FromName)
+
+	return txt.String()
+}
+
+func (r *kofiRequest) Logger(log *zerolog.Logger) *zerolog.Logger {
+	ctxlog := log.With().
+		Str("email", r.Email).
+		Str("type", r.Type).
+		Bool("is_subscription", r.IsSubscriptionPayment).
+		Bool("is_first", r.IsFirstSubscriptionPayment).
+		Logger()
+	return &ctxlog
+}
+
 func NewKoFiHandler(cfg *KoFiConfig) *kofi {
 	return &kofi{
 		token:        cfg.VerificationToken,
@@ -76,49 +121,25 @@ func (k *kofi) handler() http.HandlerFunc {
 			http.Error(w, "", http.StatusBadRequest)
 			return
 		}
+		log := data.Logger(k.log)
 
 		if data.VerificationToken != k.token {
-			k.log.Error().Str("provided_token", data.VerificationToken).Msg("verification token is invalid")
+			log.Error().Str("provided_token", data.VerificationToken).Msg("verification token is invalid")
 			http.Error(w, "", http.StatusUnauthorized)
 			return
 		}
 
-		var txt strings.Builder
-		txt.WriteString(data.Type)
-		txt.WriteString(" payment received!\n\n")
-
-		txt.WriteString("* Email: ")
-		txt.WriteString(data.Email)
-		txt.WriteString("\n")
-
-		if data.TierName != nil {
-			txt.WriteString("* Tier: ")
-			txt.WriteString(*data.TierName)
-			txt.WriteString("\n")
+		// not a first subscription payment = ignore
+		if !data.IsSubscriptionPayment || !data.IsFirstSubscriptionPayment {
+			log.Info().Msg("not a first subscription payment, ignoring")
+			w.Write([]byte("ok")) //nolint:errcheck
+			return
 		}
-		txt.WriteString("* Amount: ")
-		txt.WriteString(data.Amount)
-		txt.WriteString(" ")
-		txt.WriteString(data.Currency)
-		txt.WriteString("\n")
 
-		txt.WriteString("* Transaction ID: ")
-		txt.WriteString(data.KofiTransactionID)
-		txt.WriteString("\n\n")
-
-		if data.Message != nil {
-			txt.WriteString("> ")
-			txt.WriteString(*data.Message)
-			txt.WriteString("\n")
-		}
-		txt.WriteString("> --")
-		txt.WriteString(data.FromName)
-
-		message := txt.String()
-		k.log.Debug().Msg(message)
+		message := data.Text()
 		for _, roomID := range k.rooms {
 			if ok := k.sender.SendByEmail(roomID, data.Email, message, "💸"); ok {
-				k.log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
+				log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
 				return
 			}
 			k.fallback(data, message)
@@ -128,10 +149,6 @@ func (k *kofi) handler() http.HandlerFunc {
 }
 
 func (k *kofi) fallback(data *kofiRequest, message string) {
-	if !data.IsSubscriptionPayment || !data.IsFirstSubscriptionPayment {
-		return
-	}
-
 	if k.sender.FindEventBy(k.fallbackRoom, "kofi_id", data.KofiTransactionID) != nil {
 		return
 	}
