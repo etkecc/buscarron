@@ -132,6 +132,7 @@ func initSrv(cfg *config.Config) {
 		Logger:            log,
 		Sender:            mxb,
 		Rooms:             rooms,
+		Room:              id.RoomID(cfg.KoFiRoom),
 	}
 
 	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})

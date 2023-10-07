@@ -13,11 +13,11 @@ require (
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rs/zerolog v1.30.0
 	github.com/stretchr/testify v1.8.4
-	gitlab.com/etke.cc/go/env v1.0.0
+	gitlab.com/etke.cc/go/env v1.1.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20230929204225-1e6594658767
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator/v2 v2.0.0
-	gitlab.com/etke.cc/linkpearl v0.0.0-20230929204628-a8bf6ac193fe
+	gitlab.com/etke.cc/linkpearl v0.0.0-20231007103859-01907e2b75f2
 	golang.org/x/text v0.13.0
 	golang.org/x/time v0.3.0
 	maunium.net/go/mautrix v0.16.1

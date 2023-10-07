@@ -82,7 +82,6 @@ func (s *BotSuite) TestSend_Error() {
 }
 
 func (s *BotSuite) TestSendFile() {
-	var relation *event.RelatesTo
 	roomID := id.RoomID("!doesnt:matt.er")
 	req := &mautrix.ReqUploadMedia{
 		FileName:      "test.txt",
@@ -90,13 +89,12 @@ func (s *BotSuite) TestSendFile() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", roomID, req, event.MsgFile, relation).Return(nil).Once()
+	s.lp.On("SendFile", roomID, req, event.MsgFile).Return(nil).Once()
 
 	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
 }
 
 func (s *BotSuite) TestSendFile_Error() {
-	var relation *event.RelatesTo
 	roomID := id.RoomID("!doesnt:matt.er")
 	req := &mautrix.ReqUploadMedia{
 		FileName:      "test.txt",
@@ -104,7 +102,7 @@ func (s *BotSuite) TestSendFile_Error() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", roomID, req, event.MsgFile, relation).Return(errors.New("test")).Once()
+	s.lp.On("SendFile", roomID, req, event.MsgFile).Return(errors.New("test")).Once()
 	s.lp.On("Send", roomID, &event.MessageEventContent{
 		MsgType: "m.notice",
 		Body:    "ERROR: cannot upload file: test",

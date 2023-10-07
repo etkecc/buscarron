@@ -15,6 +15,11 @@ update:
     go mod tidy
     go mod vendor
 
+# generate mocks
+mocks:
+    @rm -rf mocks
+    @mockery --all --exclude vendor
+
 # run linter
 lint:
     golangci-lint run ./...

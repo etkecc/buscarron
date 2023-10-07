@@ -58,34 +58,9 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 	}
 }
 
-func (b *Bot) findEventByAttr(roomID id.RoomID, attrName, attrValue, from string) *event.Event {
-	resp, err := b.lp.GetClient().Messages(roomID, from, "", mautrix.DirectionBackward, nil, 100)
-	if err != nil {
-		b.log.Warn().Err(err).Str("roomID", roomID.String()).Msg("cannot get room events")
-		return nil
-	}
-
-	for _, msg := range resp.Chunk {
-		if msg.Content.Raw == nil {
-			continue
-		}
-		if msg.Content.Raw[attrName] != attrValue {
-			continue
-		}
-
-		return msg
-	}
-
-	if resp.End == "" { // nothing more
-		return nil
-	}
-
-	return b.findEventByAttr(roomID, attrName, attrValue, resp.End)
-}
-
 // SendByEmail sends the message into the room as thread reply by email
 func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) bool {
-	evt := b.findEventByAttr(roomID, "email", email, "")
+	evt := b.lp.FindEventBy(roomID, "email", email)
 	if evt == nil {
 		b.log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
 		return false
@@ -120,12 +95,17 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 // SendFile for the room
 func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia) {
 	b.Lock()
-	err := b.lp.SendFile(roomID, file, event.MsgFile, nil)
+	err := b.lp.SendFile(roomID, file, event.MsgFile)
 	b.Unlock()
 	if err != nil {
 		b.Error(roomID, "cannot upload file: %v", err)
 		return
 	}
+}
+
+// SendNotice wrapper around lp.SendNotice
+func (b *Bot) SendNotice(roomID id.RoomID, message string, relates ...*event.RelatesTo) {
+	b.lp.SendNotice(roomID, message, relates...)
 }
 
 // Start performs matrix /sync

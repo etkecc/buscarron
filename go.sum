@@ -256,8 +256,8 @@ github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9de
 github.com/yuin/goldmark v1.1.32/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
 github.com/yuin/goldmark v1.5.6 h1:COmQAWTCcGetChm3Ig7G/t8AFAN00t+o8Mt4cf7JpwA=
 github.com/yuin/goldmark v1.5.6/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
-gitlab.com/etke.cc/go/env v1.0.0 h1:J98BwzOuELnjsVPFvz5wa79L7IoRV9CmrS41xLYXtSw=
-gitlab.com/etke.cc/go/env v1.0.0/go.mod h1:e1l4RM5MA1sc0R1w/RBDAESWRwgo5cOG9gx8BKUn2C4=
+gitlab.com/etke.cc/go/env v1.1.0 h1:nbMhZkMu6C8lysRlb5siIiylWuyVkGAgEvwWEqz/82o=
+gitlab.com/etke.cc/go/env v1.1.0/go.mod h1:e1l4RM5MA1sc0R1w/RBDAESWRwgo5cOG9gx8BKUn2C4=
 gitlab.com/etke.cc/go/pricify v0.0.0-20230929204225-1e6594658767 h1:bQfqEiVVZGbMkh08e7W7QOnqVSiBb5phtvJy3ZVBORI=
 gitlab.com/etke.cc/go/pricify v0.0.0-20230929204225-1e6594658767/go.mod h1:U4LHTZ0nxqfoO9AX98z3iedF8XW6iR8bs7C0qfQ23mw=
 gitlab.com/etke.cc/go/secgen v1.1.1 h1:RmKOki725HIhWJHzPtAc9X4YvBneczndchpMgoDkE8w=
@@ -266,8 +266,8 @@ gitlab.com/etke.cc/go/trysmtp v1.1.3 h1:e2EHond77onMaecqCg6mWumffTSEf+ycgj88nbee
 gitlab.com/etke.cc/go/trysmtp v1.1.3/go.mod h1:lOO7tTdAE0a3ETV3wN3GJ7I1Tqewu7YTpPWaOmTteV0=
 gitlab.com/etke.cc/go/validator/v2 v2.0.0 h1:FltlrsqaBT0PQCNM2aWK0guEONdV1IfNE/rZ8qp2lCs=
 gitlab.com/etke.cc/go/validator/v2 v2.0.0/go.mod h1:YvklwsLGLpV75vHj1hIZZdO6f9eUWE0WZWDE5mV9d/o=
-gitlab.com/etke.cc/linkpearl v0.0.0-20230929204628-a8bf6ac193fe h1:4i2qw0KGXx2pT24DLjpDKAFttJT+Kqkz+lTvTyK9GV4=
-gitlab.com/etke.cc/linkpearl v0.0.0-20230929204628-a8bf6ac193fe/go.mod h1:IZ0TE+ZnIdJLb538owDMxhtpWH7blfW+oR7e5XRXxNY=
+gitlab.com/etke.cc/linkpearl v0.0.0-20231007103859-01907e2b75f2 h1:QPbGnfbrGdDT8NtxZuwzRQou5I62b/mvesmf5iXClPc=
+gitlab.com/etke.cc/linkpearl v0.0.0-20231007103859-01907e2b75f2/go.mod h1:IZ0TE+ZnIdJLb538owDMxhtpWH7blfW+oR7e5XRXxNY=
 go.mau.fi/util v0.1.0 h1:BwIFWIOEeO7lsiI2eWKFkWTfc5yQmoe+0FYyOFVyaoE=
 go.mau.fi/util v0.1.0/go.mod h1:AxuJUMCxpzgJ5eV9JbPWKRH8aAJJidxetNdUj7qcb84=
 go.opencensus.io v0.21.0/go.mod h1:mSImk1erAIZhrmZN+AvHh14ztQfjbGwt4TtuofqLduU=

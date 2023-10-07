@@ -7,25 +7,29 @@ import (
 	"time"
 
 	"github.com/rs/zerolog"
+	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
 )
 
 type SenderByEmail interface {
 	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) bool
+	SendNotice(roomID id.RoomID, message string, relations ...*event.RelatesTo)
 }
 
 type KoFiConfig struct {
 	VerificationToken string
+	Room              id.RoomID
 	Logger            *zerolog.Logger
 	Sender            SenderByEmail
 	Rooms             []id.RoomID
 }
 
 type kofi struct {
-	token  string
-	log    *zerolog.Logger
-	sender SenderByEmail
-	rooms  []id.RoomID
+	token        string
+	log          *zerolog.Logger
+	sender       SenderByEmail
+	rooms        []id.RoomID
+	fallbackRoom id.RoomID
 }
 
 type kofiRequest struct {
@@ -48,10 +52,11 @@ type kofiRequest struct {
 
 func NewKoFiHandler(cfg *KoFiConfig) *kofi {
 	return &kofi{
-		token:  cfg.VerificationToken,
-		log:    cfg.Logger,
-		sender: cfg.Sender,
-		rooms:  cfg.Rooms,
+		token:        cfg.VerificationToken,
+		log:          cfg.Logger,
+		sender:       cfg.Sender,
+		rooms:        cfg.Rooms,
+		fallbackRoom: cfg.Room,
 	}
 }
 
@@ -81,6 +86,10 @@ func (k *kofi) handler() http.HandlerFunc {
 		txt.WriteString(data.Type)
 		txt.WriteString(" payment received!\n\n")
 
+		txt.WriteString("* Email: ")
+		txt.WriteString(data.Email)
+		txt.WriteString("\n")
+
 		if data.TierName != nil {
 			txt.WriteString("* Tier: ")
 			txt.WriteString(*data.TierName)
@@ -99,9 +108,10 @@ func (k *kofi) handler() http.HandlerFunc {
 		if data.Message != nil {
 			txt.WriteString("> ")
 			txt.WriteString(*data.Message)
-			txt.WriteString("\n> --")
-			txt.WriteString(data.FromName)
+			txt.WriteString("\n")
 		}
+		txt.WriteString("> --")
+		txt.WriteString(data.FromName)
 
 		message := txt.String()
 		k.log.Debug().Msg(message)
@@ -110,6 +120,7 @@ func (k *kofi) handler() http.HandlerFunc {
 				k.log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
 				return
 			}
+			k.sender.SendNotice(k.fallbackRoom, message)
 		}
 		w.Write([]byte("ok")) //nolint:errcheck
 	}

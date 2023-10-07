@@ -12,13 +12,14 @@ func New() *Config {
 	env.SetPrefix(prefix)
 	spamlist := migrateSpam(env.Slice("spam.emails"), env.Slice("spam.localparts"), env.Slice("spam.hosts"), env.Slice("spamlist"))
 	cfg := &Config{
-		Homeserver: env.String("homeserver", defaultConfig.Homeserver),
-		Login:      env.String("login", defaultConfig.Login),
-		Password:   env.String("password", defaultConfig.Password),
-		Sentry:     env.String("sentry", defaultConfig.Sentry),
+		Homeserver: env.String("homeserver"),
+		Login:      env.String("login"),
+		Password:   env.String("password"),
+		Sentry:     env.String("sentry"),
 		LogLevel:   env.String("loglevel", defaultConfig.LogLevel),
 		Port:       env.String("port", defaultConfig.Port),
-		KoFiToken:  env.String("kofi.token", defaultConfig.KoFiToken),
+		KoFiToken:  env.String("kofi.token"),
+		KoFiRoom:   env.String("kofi.room"),
 		DB: DB{
 			DSN:     env.String("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),
@@ -29,12 +30,12 @@ func New() *Config {
 		},
 		Spamlist: spamlist,
 		Postmark: &Postmark{
-			Token:   env.String("pm.token", ""),
-			From:    env.String("pm.from", ""),
-			ReplyTo: env.String("pm.replyto", ""),
+			Token:   env.String("pm.token"),
+			From:    env.String("pm.from"),
+			ReplyTo: env.String("pm.replyto"),
 		},
 		SMTP: &SMTP{
-			From:              env.String("smtp.from", defaultConfig.SMTP.From),
+			From:              env.String("smtp.from"),
 			EnforceValidation: env.Bool("smtp.validation"),
 		},
 	}
@@ -48,19 +49,19 @@ func parseForms() map[string]*Form {
 	forms := make(map[string]*Form, len(list))
 	for _, name := range list {
 		form := &Form{
-			RoomID:          id.RoomID(env.String(name+".room", "")),
+			RoomID:          id.RoomID(env.String(name + ".room")),
 			Name:            name,
-			Redirect:        env.String(name+".redirect", ""),
-			RejectRedirect:  env.String(name+".redirect.reject", ""),
-			Ratelimit:       env.String(name+".ratelimit", ""),
+			Redirect:        env.String(name + ".redirect"),
+			RejectRedirect:  env.String(name + ".redirect.reject"),
+			Ratelimit:       env.String(name + ".ratelimit"),
 			RatelimitShared: env.Bool(name + ".ratelimit.shared"),
 			HasEmail:        env.Bool(name + ".hasemail"),
 			HasDomain:       env.Bool(name + ".hasdomain"),
 			Confirmation: Confirmation{
-				Subject: env.String(name+".confirmation.subject", ""),
-				Body:    env.String(name+".confirmation.body", ""),
+				Subject: env.String(name + ".confirmation.subject"),
+				Body:    env.String(name + ".confirmation.body"),
 			},
-			Text:       env.String(name+".text", ""),
+			Text:       env.String(name + ".text"),
 			Extensions: env.Slice(name + ".extensions"),
 		}
 		forms[name] = form
