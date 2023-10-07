@@ -103,9 +103,9 @@ func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia) {
 	}
 }
 
-// SendNotice wrapper around lp.SendNotice
-func (b *Bot) SendNotice(roomID id.RoomID, message string, relates ...*event.RelatesTo) {
-	b.lp.SendNotice(roomID, message, relates...)
+// FindEventBy is wrapper around lp.FindEventBy
+func (b *Bot) FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
+	return b.lp.FindEventBy(roomID, field, value, fromToken...)
 }
 
 // Start performs matrix /sync

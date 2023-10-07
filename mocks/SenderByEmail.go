@@ -14,6 +14,34 @@ type SenderByEmail struct {
 	mock.Mock
 }
 
+// FindEventBy provides a mock function with given fields: roomID, field, value, fromToken
+func (_m *SenderByEmail) FindEventBy(roomID id.RoomID, field string, value string, fromToken ...string) *event.Event {
+	_va := make([]interface{}, len(fromToken))
+	for _i := range fromToken {
+		_va[_i] = fromToken[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, roomID, field, value)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	var r0 *event.Event
+	if rf, ok := ret.Get(0).(func(id.RoomID, string, string, ...string) *event.Event); ok {
+		r0 = rf(roomID, field, value, fromToken...)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*event.Event)
+		}
+	}
+
+	return r0
+}
+
+// Send provides a mock function with given fields: roomID, message, attributes
+func (_m *SenderByEmail) Send(roomID id.RoomID, message string, attributes map[string]interface{}) {
+	_m.Called(roomID, message, attributes)
+}
+
 // SendByEmail provides a mock function with given fields: roomID, email, message, reactions
 func (_m *SenderByEmail) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) bool {
 	_va := make([]interface{}, len(reactions))
@@ -33,18 +61,6 @@ func (_m *SenderByEmail) SendByEmail(roomID id.RoomID, email string, message str
 	}
 
 	return r0
-}
-
-// SendNotice provides a mock function with given fields: roomID, message, relations
-func (_m *SenderByEmail) SendNotice(roomID id.RoomID, message string, relations ...*event.RelatesTo) {
-	_va := make([]interface{}, len(relations))
-	for _i := range relations {
-		_va[_i] = relations[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, roomID, message)
-	_ca = append(_ca, _va...)
-	_m.Called(_ca...)
 }
 
 // NewSenderByEmail creates a new instance of SenderByEmail. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

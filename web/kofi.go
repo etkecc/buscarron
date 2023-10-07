@@ -12,8 +12,9 @@ import (
 )
 
 type SenderByEmail interface {
+	Send(roomID id.RoomID, message string, attributes map[string]interface{})
 	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) bool
-	SendNotice(roomID id.RoomID, message string, relations ...*event.RelatesTo)
+	FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event
 }
 
 type KoFiConfig struct {
@@ -120,8 +121,19 @@ func (k *kofi) handler() http.HandlerFunc {
 				k.log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
 				return
 			}
-			k.sender.SendNotice(k.fallbackRoom, message)
+			k.fallback(data, message)
 		}
 		w.Write([]byte("ok")) //nolint:errcheck
 	}
+}
+
+func (k *kofi) fallback(data *kofiRequest, message string) {
+	if !data.IsSubscriptionPayment || !data.IsFirstSubscriptionPayment {
+		return
+	}
+
+	if k.sender.FindEventBy(k.fallbackRoom, "kofi_id", data.KofiTransactionID) != nil {
+		return
+	}
+	k.sender.Send(k.fallbackRoom, message, map[string]interface{}{"kofi_id": data.KofiTransactionID})
 }
