@@ -54,7 +54,7 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 	_, err := b.lp.Send(roomID, &content)
 	b.Unlock()
 	if err != nil {
-		b.Error(roomID, "cannot send message: %v", err)
+		b.log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
 }
 
