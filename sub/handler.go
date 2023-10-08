@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"html/template"
 	"net"
 	"net/http"
@@ -113,14 +114,15 @@ func (h *Handler) parseForm(r *http.Request) (map[string]string, error) {
 func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 	defer r.Body.Close()
 
-	var data map[string]string
-	err := json.NewDecoder(r.Body).Decode(&data)
+	var rawData map[string]any
+	err := json.NewDecoder(r.Body).Decode(&rawData)
 	if err != nil {
 		return nil, err
 	}
 
-	for key, value := range data {
-		data[key] = strings.TrimSpace(h.sanitizer.Sanitize(value))
+	data := make(map[string]string, len(rawData))
+	for key, value := range rawData {
+		data[key] = strings.TrimSpace(h.sanitizer.Sanitize(fmt.Sprintf("%+v", value)))
 	}
 	return data, nil
 }
