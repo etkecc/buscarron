@@ -78,7 +78,6 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 }
 
 func (s *HandlerSuite) TestPOST_NoData() {
-	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	request, rerr := http.NewRequest("POST", "", nil)
@@ -86,8 +85,8 @@ func (s *HandlerSuite) TestPOST_NoData() {
 	result, err := handler.POST("test", "test", request)
 
 	s.Require().NoError(rerr)
-	s.Require().NoError(err)
-	s.Equal(expected, result)
+	s.Equal(ErrNotFound, err)
+	s.Equal("", result)
 }
 
 func (s *HandlerSuite) TestPOST_SpamEmail() {
@@ -153,6 +152,41 @@ func (s *HandlerSuite) TestPOST() {
 	data.Add("lang", "en")
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+	result, err := handler.POST("test", "test", request)
+
+	s.NoError(rerr)
+	s.Require().NoError(err)
+	s.Equal(expected, result)
+}
+
+func (s *HandlerSuite) TestPOST_JSON() {
+	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
+	// duplicated message to test extensions
+	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n"
+	expectedAttrs := map[string]interface{}{
+		"email": "email@dkimvalidator.com",
+	}
+	roomID := id.RoomID("!test:example.com")
+	forms := map[string]*config.Form{
+		"test": {
+			Name:       "test",
+			Redirect:   "https://example.com/{{ .lang }}",
+			RoomID:     roomID,
+			Extensions: []string{"", "root", "invalid"},
+		},
+	}
+	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
+	s.v.On("Domain", "").Return(true).Once()
+	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Once()
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
+	data := `{
+  "email": "email@dkimvalidator.com",
+  "field": "value",
+  "lang": "en"
+}`
+	request, rerr := http.NewRequest("POST", "", strings.NewReader(data))
+	request.Header.Add("Content-Type", "application/json")
 
 	result, err := handler.POST("test", "test", request)
 

@@ -2,6 +2,7 @@ package sub
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"html/template"
 	"net"
@@ -46,6 +47,7 @@ type Handler struct {
 	redirectTpl *template.Template
 	sanitizer   *bluemonday.Policy
 	sender      Sender
+	mapping     map[string]func(r *http.Request) (map[string]string, error)
 	forms       map[string]*config.Form
 	log         *zerolog.Logger
 	ext         map[string]ext.Extension
@@ -72,8 +74,16 @@ func NewHandler(forms map[string]*config.Form, vs map[string]Validator, pm Email
 		ext:         ext.New(pm),
 		vs:          vs,
 	}
+	h.initMapping()
 
 	return h
+}
+
+func (h *Handler) initMapping() {
+	h.mapping = map[string]func(r *http.Request) (map[string]string, error){
+		"application/x-www-form-urlencoded": h.parseForm,
+		"application/json":                  h.parseJSON,
+	}
 }
 
 // GET request handler
@@ -84,6 +94,35 @@ func (h *Handler) GET(name string, _ *http.Request) (string, error) {
 	}
 
 	return "", ErrNotFound
+}
+
+// parseForm parses HTTP form (application/x-www-form-urlencoded)
+func (h *Handler) parseForm(r *http.Request) (map[string]string, error) {
+	if err := r.ParseForm(); err != nil {
+		return nil, err
+	}
+
+	data := make(map[string]string, len(r.PostForm))
+	for key := range r.PostForm {
+		data[key] = strings.TrimSpace(h.sanitizer.Sanitize(r.PostFormValue(key)))
+	}
+
+	return data, nil
+}
+
+func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
+	defer r.Body.Close()
+
+	var data map[string]string
+	err := json.NewDecoder(r.Body).Decode(&data)
+	if err != nil {
+		return nil, err
+	}
+
+	for key, value := range data {
+		data[key] = strings.TrimSpace(h.sanitizer.Sanitize(value))
+	}
+	return data, nil
 }
 
 // POST request handler
@@ -99,14 +138,16 @@ func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 		return "", ErrNotFound
 	}
 
-	if err := r.ParseForm(); err != nil {
-		h.log.Error().Str("name", name).Err(err).Msg("cannot parse a submission to the form")
-		return h.redirect(form.Redirect, nil), nil
+	ctype := r.Header.Get("Content-Type")
+	parser, ok := h.mapping[ctype]
+	if !ok {
+		h.log.Warn().Str("name", name).Str("content-type", ctype).Msg("form parser not found")
+		return "", ErrNotFound
 	}
 
-	data := make(map[string]string, len(r.PostForm))
-	for key := range r.PostForm {
-		data[key] = strings.TrimSpace(h.sanitizer.Sanitize(r.PostFormValue(key)))
+	data, err := parser(r)
+	if err != nil {
+		return h.redirect(form.Redirect, data), err
 	}
 
 	if !v.Email(data["email"]) {
