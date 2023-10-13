@@ -76,7 +76,7 @@ func (o *order) generateQuestionsServices() string {
 		txt.WriteString("Please, send us an SMTP host, SMTP STARTTLS port, SMTP login, SMTP password, and SMTP email ")
 		txt.WriteString("(usually login and email are the same thing, but that depends on the provider)\n\n")
 	}
-	if o.has("nginx-proxy-website") && !(o.has("nginx-proxy-website-command") && o.has("nginx-proxy-website-repo") && o.has("nginx-proxy-website-dist")) {
+	if (o.has("nginx-proxy-website") && o.get("serve_base_domain") == "yes") && !(o.has("nginx-proxy-website-command") && o.has("nginx-proxy-website-repo") && o.has("nginx-proxy-website-dist")) {
 		txt.WriteString("Website: to deploy a static website you have to point your base domain (the @ DNS entry) to Matrix server IP and the website source has to be available in a public git repo. ")
 		txt.WriteString("Are you sure you want it? If so, please, provide the website repository URL, command(-s) to build it, and in what folder the build dist is saved (usually public or dist).\n\n")
 	}

@@ -73,10 +73,6 @@ func (s *BotSuite) TestSend_Error() {
 			Body:    "msg",
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), errors.New("test")).Once()
-	s.lp.On("Send", roomID, &event.MessageEventContent{
-		MsgType: event.MsgNotice,
-		Body:    "ERROR: cannot send message: test",
-	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
 	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg", nil)
 }

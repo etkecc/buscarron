@@ -1,6 +1,8 @@
 module gitlab.com/etke.cc/buscarron
 
-go 1.18
+go 1.21
+
+toolchain go1.21.2
 
 require (
 	github.com/archdx/zerolog-sentry v1.3.0
@@ -9,7 +11,7 @@ require (
 	github.com/lib/pq v1.10.9
 	github.com/mattevans/postmark-go v0.1.6
 	github.com/mattn/go-sqlite3 v1.14.17
-	github.com/microcosm-cc/bluemonday v1.0.25
+	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/prometheus/client_golang v1.14.0
 	github.com/rs/zerolog v1.30.0
 	github.com/stretchr/testify v1.8.4
@@ -48,10 +50,10 @@ require (
 	github.com/yuin/goldmark v1.5.6 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
 	go.mau.fi/util v0.1.0 // indirect
-	golang.org/x/crypto v0.13.0 // indirect
+	golang.org/x/crypto v0.14.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/net v0.15.0 // indirect
-	golang.org/x/sys v0.12.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
 	google.golang.org/protobuf v1.29.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.4.1 // indirect
