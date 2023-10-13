@@ -2,8 +2,6 @@ module gitlab.com/etke.cc/buscarron
 
 go 1.21
 
-toolchain go1.21.2
-
 require (
 	github.com/archdx/zerolog-sentry v1.3.0
 	github.com/getsentry/sentry-go v0.21.0
