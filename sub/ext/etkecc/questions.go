@@ -105,7 +105,7 @@ func (o *order) generateQuestionsType() string {
 	}
 
 	if o.hosting == "" && !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
-		return "Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.\nAdd our SSH keys (" + link("etke.cc/ssh.key") + ") to your server, open the required ports (" + link("etke.cc/help/faq#what-ports-should-be-open") + ") send us your server's IP address, the username (with permissions to call sudo), and password (if set).\n\n"
+		return "Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.\nAdd our SSH keys (" + link("etke.cc/keys.txt") + ") to your server, open the required ports (" + link("etke.cc/help/faq#what-ports-should-be-open") + ") send us your server's IP address, the username (with permissions to call sudo), and password (if set).\n\n"
 	}
 	return ""
 }

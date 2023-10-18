@@ -7,7 +7,7 @@ We see that you have something on your base domain. In that case, you should add
 To learn more about why these redirects are necessary and what the connection between the base domain (example.com) and the Matrix domain (matrix.example.com) is, read the following guide: [etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain](https://etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain)
 
 Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.
-Add our SSH keys ([etke.cc/ssh.key](https://etke.cc/ssh.key)) to your server, open the required ports ([etke.cc/help/faq#what-ports-should-be-open](https://etke.cc/help/faq#what-ports-should-be-open)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
+Add our SSH keys ([etke.cc/keys.txt](https://etke.cc/keys.txt)) to your server, open the required ports ([etke.cc/help/faq#what-ports-should-be-open](https://etke.cc/help/faq#what-ports-should-be-open)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
 ```
 
