@@ -38,7 +38,7 @@ func (o *order) generateQuestionsDelegation() string {
 	txt.WriteString("In that case, you should add the following HTTPS redirects (HTTP 301):\n")
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/server") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/server") + "\n")
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/client") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/client") + "\n")
-	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-do-i-need-well-known-redirects-on-the-base-domain") + "\n\n")
+	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-are-well-known-redirects-on-the-base-domain-important") + "\n\n")
 
 	return txt.String()
 }
@@ -105,7 +105,7 @@ func (o *order) generateQuestionsType() string {
 	}
 
 	if o.hosting == "" && !(o.has("ssh-host") && o.has("ssh-port") && o.has("ssh-user")) {
-		return "Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a basic Matrix server: 1vCPU, 2GB RAM.\nAdd our SSH keys (" + link("etke.cc/keys.txt") + ") to your server, open the required ports (" + link("etke.cc/help/faq#what-ports-should-be-open") + ") send us your server's IP address, the username (with permissions to call sudo), and password (if set).\n\n"
+		return "Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 1vCPU, 2GB RAM.\nAdd our SSH keys (" + link("etke.cc/keys.txt") + ") to your server, open the required ports (" + link("etke.cc/help/faq#what-ports-should-be-open") + ") send us your server's IP address, the username (with permissions to call sudo), and password (if set).\n\n"
 	}
 	return ""
 }
