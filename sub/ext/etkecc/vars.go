@@ -15,6 +15,7 @@ func (o *order) generateVars() {
 	txt.WriteString(o.generateVarsSSH())
 	txt.WriteString(o.generateVarsPostgres())
 	txt.WriteString(o.generateVarsHomeserver())
+	txt.WriteString(o.generateVarsMSC1929())
 	txt.WriteString(o.generateVarsUsers())
 	txt.WriteString(o.generateVarsSynapse())
 	txt.WriteString(o.generateVarsNginx())
@@ -168,6 +169,19 @@ func (o *order) generateVarsHomeserver() string {
 	if o.has("bridges-encryption") {
 		txt.WriteString("matrix_bridges_encryption_enabled: yes\n")
 	}
+
+	return txt.String()
+}
+
+func (o *order) generateVarsMSC1929() string {
+	var txt strings.Builder
+
+	txt.WriteString("\n# MSC1929 admin contacts\n")
+	txt.WriteString("matrix_well_known_matrix_support_enabled: yes\n")
+	txt.WriteString("matrix_homeserver_admin_contacts:\n")
+	txt.WriteString("  - matrix_id: \"@" + o.get("username") + ":" + o.domain + "\"\n")
+	txt.WriteString("    email_address: " + o.get("email") + "\n")
+	txt.WriteString("    role: admin\n")
 
 	return txt.String()
 }
