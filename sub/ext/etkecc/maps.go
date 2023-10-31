@@ -14,6 +14,7 @@ var dnsmap = map[string]string{
 	"gotosocial":  "social",
 	"hydrogen":    "hydrogen",
 	"jitsi":       "jitsi",
+	"linkding":    "linkding",
 	"miniflux":    "miniflux",
 	"ntfy":        "ntfy",
 	"radicale":    "radicale",

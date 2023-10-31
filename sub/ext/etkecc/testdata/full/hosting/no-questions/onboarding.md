@@ -16,6 +16,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Gotosocial: [social.higenjitsuteki.onmatrix.chat](https://social.higenjitsuteki.onmatrix.chat)
 * Hydrogen: [hydrogen.higenjitsuteki.onmatrix.chat](https://hydrogen.higenjitsuteki.onmatrix.chat)
 * Jitsi: [jitsi.higenjitsuteki.onmatrix.chat](https://jitsi.higenjitsuteki.onmatrix.chat)
+* Linkding: [linkding.higenjitsuteki.onmatrix.chat](https://linkding.higenjitsuteki.onmatrix.chat)
 * Miniflux: [miniflux.higenjitsuteki.onmatrix.chat](https://miniflux.higenjitsuteki.onmatrix.chat)
 * Ntfy: [ntfy.higenjitsuteki.onmatrix.chat](https://ntfy.higenjitsuteki.onmatrix.chat)
 * Radicale: [radicale.higenjitsuteki.onmatrix.chat](https://radicale.higenjitsuteki.onmatrix.chat)
@@ -64,6 +65,7 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 * Etherpad Admin password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
+* Linkding password: TODO64
 * Miniflux password: TODO64
 * Vaultwarden Admin Token / password: TODO64
 

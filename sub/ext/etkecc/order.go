@@ -73,7 +73,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	}
 	o.txt.WriteString("\n\n")
 
-	o.generateVars()
+	o.vars()
 
 	o.generateOnboarding()
 	o.generateFollowup(questions, dns, countQ, dnsInternal)

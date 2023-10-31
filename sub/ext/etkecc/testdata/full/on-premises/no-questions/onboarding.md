@@ -16,6 +16,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Gotosocial: [social.example.com](https://social.example.com)
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)
 * Jitsi: [jitsi.example.com](https://jitsi.example.com)
+* Linkding: [linkding.example.com](https://linkding.example.com)
 * Miniflux: [miniflux.example.com](https://miniflux.example.com)
 * Ntfy: [ntfy.example.com](https://ntfy.example.com)
 * Radicale: [radicale.example.com](https://radicale.example.com)
@@ -64,6 +65,7 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 * Etherpad Admin password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
+* Linkding password: TODO64
 * Miniflux password: TODO64
 * Vaultwarden Admin Token / password: TODO64
 

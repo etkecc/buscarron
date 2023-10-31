@@ -1,4 +1,4 @@
-price: $139
+price: $166
 
 ```yaml
 
@@ -13,6 +13,7 @@ Please, add the following DNS entries:
 - social	CNAME record	matrix.example.com
 - hydrogen	CNAME record	matrix.example.com
 - jitsi	CNAME record	matrix.example.com
+- linkding	CNAME record	matrix.example.com
 - miniflux	CNAME record	matrix.example.com
 - ntfy	CNAME record	matrix.example.com
 - radicale	CNAME record	matrix.example.com

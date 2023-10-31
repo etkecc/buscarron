@@ -7,65 +7,66 @@ import (
 	"maunium.net/go/mautrix"
 )
 
-func (o *order) generateVars() {
+func (o *order) vars() {
 	var txt strings.Builder
 
 	// base
-	txt.WriteString(o.generateVarsEtke())
-	txt.WriteString(o.generateVarsSSH())
-	txt.WriteString(o.generateVarsPostgres())
-	txt.WriteString(o.generateVarsHomeserver())
-	txt.WriteString(o.generateVarsMSC1929())
-	txt.WriteString(o.generateVarsUsers())
-	txt.WriteString(o.generateVarsSynapse())
-	txt.WriteString(o.generateVarsNginx())
+	txt.WriteString(o.varsEtke())
+	txt.WriteString(o.varsSSH())
+	txt.WriteString(o.varsPostgres())
+	txt.WriteString(o.varsHomeserver())
+	txt.WriteString(o.varsMSC1929())
+	txt.WriteString(o.varsUsers())
+	txt.WriteString(o.varsSynapse())
+	txt.WriteString(o.varsNginx())
 
 	// additional low-level services
-	txt.WriteString(o.generateVarsBorgBackup())
-	txt.WriteString(o.generateVarsPostgresBackup())
-	txt.WriteString(o.generateVarsSygnal())
-	txt.WriteString(o.generateVarsNtfy())
+	txt.WriteString(o.varsBorgBackup())
+	txt.WriteString(o.varsPostgresBackup())
+	txt.WriteString(o.varsSygnal())
+	txt.WriteString(o.varsNtfy())
 
 	// additional services
-	txt.WriteString(o.generateVarsCinny())
-	txt.WriteString(o.generateVarsElement())
-	txt.WriteString(o.generateVarsEtherpad())
-	txt.WriteString(o.generateVarsGoToSocial())
-	txt.WriteString(o.generateVarsHydrogen())
-	txt.WriteString(o.generateVarsJitsi())
-	txt.WriteString(o.generateVarsMiniflux())
-	txt.WriteString(o.generateVarsNginxWebsite())
-	txt.WriteString(o.generateVarsRadicale())
-	txt.WriteString(o.generateVarsSchildiChat())
-	txt.WriteString(o.generateVarsSlidingSync())
-	txt.WriteString(o.generateVarsStats())
-	txt.WriteString(o.generateVarsSynapseAdmin())
-	txt.WriteString(o.generateVarsUptimeKuma())
-	txt.WriteString(o.generateVarsVaultwarden())
+	txt.WriteString(o.varsCinny())
+	txt.WriteString(o.varsElement())
+	txt.WriteString(o.varsEtherpad())
+	txt.WriteString(o.varsGoToSocial())
+	txt.WriteString(o.varsHydrogen())
+	txt.WriteString(o.varsJitsi())
+	txt.WriteString(o.varsLinkding())
+	txt.WriteString(o.varsMiniflux())
+	txt.WriteString(o.varsNginxWebsite())
+	txt.WriteString(o.varsRadicale())
+	txt.WriteString(o.varsSchildiChat())
+	txt.WriteString(o.varsSlidingSync())
+	txt.WriteString(o.varsStats())
+	txt.WriteString(o.varsSynapseAdmin())
+	txt.WriteString(o.varsUptimeKuma())
+	txt.WriteString(o.varsVaultwarden())
 
 	// bots
-	txt.WriteString(o.generateVarsBuscarron())
-	txt.WriteString(o.generateVarsHonoroit())
-	txt.WriteString(o.generateVarsReminder())
+	txt.WriteString(o.varsBuscarron())
+	txt.WriteString(o.varsHonoroit())
+	txt.WriteString(o.varsReminder())
 
 	// bridges
-	txt.WriteString(o.generateVarsDiscord())
-	txt.WriteString(o.generateVarsEmail())
-	txt.WriteString(o.generateVarsFacebook())
-	txt.WriteString(o.generateVarsGmessages())
-	txt.WriteString(o.generateVarsGooglechat())
-	txt.WriteString(o.generateVarsGroupme())
-	txt.WriteString(o.generateVarsHeisenbridge())
-	txt.WriteString(o.generateVarsInstagram())
-	txt.WriteString(o.generateVarsLinkedin())
-	txt.WriteString(o.generateVarsSignal())
-	txt.WriteString(o.generateVarsSkype())
-	txt.WriteString(o.generateVarsSlack())
-	txt.WriteString(o.generateVarsSteam())
-	txt.WriteString(o.generateVarsTelegram())
-	txt.WriteString(o.generateVarsTwitter())
-	txt.WriteString(o.generateVarsWebhooks())
-	txt.WriteString(o.generateVarsWhatsapp())
+	txt.WriteString(o.varsDiscord())
+	txt.WriteString(o.varsEmail())
+	txt.WriteString(o.varsFacebook())
+	txt.WriteString(o.varsGmessages())
+	txt.WriteString(o.varsGooglechat())
+	txt.WriteString(o.varsGroupme())
+	txt.WriteString(o.varsHeisenbridge())
+	txt.WriteString(o.varsInstagram())
+	txt.WriteString(o.varsLinkedin())
+	txt.WriteString(o.varsSignal())
+	txt.WriteString(o.varsSkype())
+	txt.WriteString(o.varsSlack())
+	txt.WriteString(o.varsSteam())
+	txt.WriteString(o.varsTelegram())
+	txt.WriteString(o.varsTwitter())
+	txt.WriteString(o.varsWebhooks())
+	txt.WriteString(o.varsWhatsapp())
 
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
 		Content:       strings.NewReader(txt.String()),
@@ -75,7 +76,7 @@ func (o *order) generateVars() {
 	})
 }
 
-func (o *order) generateVarsEtke() string {
+func (o *order) varsEtke() string {
 	enabledServices := map[string]string{}
 	for field := range o.data {
 		if strings.HasPrefix(field, "etke_service") {
@@ -122,7 +123,7 @@ func (o *order) generateVarsEtke() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSSH() string {
+func (o *order) varsSSH() string {
 	var txt strings.Builder
 	if (o.has("ssh-port") && o.get("ssh-port") != "22") || o.has("ssh-client-key") {
 		txt.WriteString("\n# ssh\n")
@@ -144,7 +145,7 @@ func (o *order) generateVarsSSH() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsPostgres() string {
+func (o *order) varsPostgres() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres\n")
@@ -153,7 +154,7 @@ func (o *order) generateVarsPostgres() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsHomeserver() string {
+func (o *order) varsHomeserver() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
@@ -173,7 +174,7 @@ func (o *order) generateVarsHomeserver() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsMSC1929() string {
+func (o *order) varsMSC1929() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# MSC1929 admin contacts\n")
@@ -186,7 +187,7 @@ func (o *order) generateVarsMSC1929() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsUsers() string {
+func (o *order) varsUsers() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# initial users\n")
@@ -206,7 +207,7 @@ func (o *order) generateVarsUsers() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSygnal() string {
+func (o *order) varsSygnal() string {
 	if !o.has("sygnal") {
 		return ""
 	}
@@ -232,7 +233,7 @@ func (o *order) generateVarsSygnal() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsNtfy() string {
+func (o *order) varsNtfy() string {
 	if !o.has("ntfy") {
 		return ""
 	}
@@ -244,7 +245,7 @@ func (o *order) generateVarsNtfy() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsPostgresBackup() string {
+func (o *order) varsPostgresBackup() string {
 	if o.has("borg") || o.hosting != "" {
 		return ""
 	}
@@ -260,7 +261,7 @@ func (o *order) generateVarsPostgresBackup() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsBorgBackup() string {
+func (o *order) varsBorgBackup() string {
 	if !o.has("borg") {
 		return ""
 	}
@@ -281,7 +282,7 @@ func (o *order) generateVarsBorgBackup() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSynapse() string {
+func (o *order) varsSynapse() string {
 	var txt strings.Builder
 
 	if o.has("sso") {
@@ -305,13 +306,13 @@ func (o *order) generateVarsSynapse() string {
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: " + o.pwgen() + "\n")
 
-	txt.WriteString(o.generateVarsSynapseMailer())
-	txt.WriteString(o.generateVarsSynapseCredentials())
+	txt.WriteString(o.varsSynapseMailer())
+	txt.WriteString(o.varsSynapseCredentials())
 
 	return txt.String()
 }
 
-func (o *order) generateVarsSynapseMailer() string {
+func (o *order) varsSynapseMailer() string {
 	if len(o.smtp) == 0 {
 		return ""
 	}
@@ -328,7 +329,7 @@ func (o *order) generateVarsSynapseMailer() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSynapseCredentials() string {
+func (o *order) varsSynapseCredentials() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# synapse::credentials\n")
@@ -340,7 +341,7 @@ func (o *order) generateVarsSynapseCredentials() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSynapseAdmin() string {
+func (o *order) varsSynapseAdmin() string {
 	if !o.has("synapse-admin") {
 		return ""
 	}
@@ -352,7 +353,7 @@ func (o *order) generateVarsSynapseAdmin() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsUptimeKuma() string {
+func (o *order) varsUptimeKuma() string {
 	if !o.has("uptime-kuma") {
 		return ""
 	}
@@ -365,7 +366,7 @@ func (o *order) generateVarsUptimeKuma() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsNginx() string {
+func (o *order) varsNginx() string {
 	if o.get("serve_base_domain") != "yes" {
 		return ""
 	}
@@ -376,7 +377,7 @@ func (o *order) generateVarsNginx() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsNginxWebsite() string {
+func (o *order) varsNginxWebsite() string {
 	if !o.has("nginx-proxy-website") || o.get("serve_base_domain") != "yes" {
 		return ""
 	}
@@ -391,7 +392,7 @@ func (o *order) generateVarsNginxWebsite() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsRadicale() string {
+func (o *order) varsRadicale() string {
 	if !o.has("radicale") {
 		return ""
 	}
@@ -404,7 +405,7 @@ func (o *order) generateVarsRadicale() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsCinny() string {
+func (o *order) varsCinny() string {
 	if !o.has("cinny") {
 		return ""
 	}
@@ -416,7 +417,7 @@ func (o *order) generateVarsCinny() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsEtherpad() string {
+func (o *order) varsEtherpad() string {
 	if !o.has("etherpad") {
 		return ""
 	}
@@ -431,7 +432,7 @@ func (o *order) generateVarsEtherpad() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsGoToSocial() string {
+func (o *order) varsGoToSocial() string {
 	if !o.has("gotosocial") {
 		return ""
 	}
@@ -453,7 +454,7 @@ func (o *order) generateVarsGoToSocial() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsElement() string {
+func (o *order) varsElement() string {
 	if !o.has("element-web") {
 		return ""
 	}
@@ -465,7 +466,7 @@ func (o *order) generateVarsElement() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsHydrogen() string {
+func (o *order) varsHydrogen() string {
 	if !o.has("hydrogen") {
 		return ""
 	}
@@ -477,7 +478,7 @@ func (o *order) generateVarsHydrogen() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsJitsi() string {
+func (o *order) varsJitsi() string {
 	if !o.has("jitsi") {
 		return ""
 	}
@@ -498,7 +499,24 @@ func (o *order) generateVarsJitsi() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsMiniflux() string {
+func (o *order) varsLinkding() string {
+	if !o.has("linkding") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# linkding https://linkding." + o.domain + "\n")
+	txt.WriteString("linkding_enabled: yes\n")
+	txt.WriteString("linkding_hostname: linkding." + o.domain + "\n")
+	txt.WriteString("linkding_path_prefix: /\n")
+	txt.WriteString("linkding_database_engine: postgres \n")
+	txt.WriteString("linkding_superuser_login: " + o.get("username") + "\n")
+	txt.WriteString("linkding_superuser_password: " + o.password("linkding") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsMiniflux() string {
 	if !o.has("miniflux") {
 		return ""
 	}
@@ -513,7 +531,7 @@ func (o *order) generateVarsMiniflux() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSchildiChat() string {
+func (o *order) varsSchildiChat() string {
 	if !o.has("schildichat") {
 		return ""
 	}
@@ -525,7 +543,7 @@ func (o *order) generateVarsSchildiChat() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSlidingSync() string {
+func (o *order) varsSlidingSync() string {
 	if !o.has("sliding-sync") {
 		return ""
 	}
@@ -537,7 +555,7 @@ func (o *order) generateVarsSlidingSync() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsStats() string {
+func (o *order) varsStats() string {
 	if !o.has("stats") {
 		return ""
 	}
@@ -556,7 +574,7 @@ func (o *order) generateVarsStats() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsVaultwarden() string {
+func (o *order) varsVaultwarden() string {
 	if !o.has("vaultwarden") {
 		return ""
 	}
@@ -569,7 +587,7 @@ func (o *order) generateVarsVaultwarden() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsBuscarron() string {
+func (o *order) varsBuscarron() string {
 	if !o.has("buscarron") {
 		return ""
 	}
@@ -584,7 +602,7 @@ func (o *order) generateVarsBuscarron() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsHonoroit() string {
+func (o *order) varsHonoroit() string {
 	if !o.has("honoroit") {
 		return ""
 	}
@@ -598,7 +616,7 @@ func (o *order) generateVarsHonoroit() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsReminder() string {
+func (o *order) varsReminder() string {
 	if !o.has("reminder-bot") {
 		return ""
 	}
@@ -613,7 +631,7 @@ func (o *order) generateVarsReminder() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsDiscord() string {
+func (o *order) varsDiscord() string {
 	if !o.has("discord") {
 		return ""
 	}
@@ -624,7 +642,7 @@ func (o *order) generateVarsDiscord() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsEmail() string {
+func (o *order) varsEmail() string {
 	if !o.has("postmoogle") {
 		return ""
 	}
@@ -639,7 +657,7 @@ func (o *order) generateVarsEmail() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsGroupme() string {
+func (o *order) varsGroupme() string {
 	if !o.has("groupme") {
 		return ""
 	}
@@ -650,7 +668,7 @@ func (o *order) generateVarsGroupme() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSlack() string {
+func (o *order) varsSlack() string {
 	if !o.has("slack") {
 		return ""
 	}
@@ -661,7 +679,7 @@ func (o *order) generateVarsSlack() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSteam() string {
+func (o *order) varsSteam() string {
 	if !o.has("steam") {
 		return ""
 	}
@@ -672,7 +690,7 @@ func (o *order) generateVarsSteam() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsFacebook() string {
+func (o *order) varsFacebook() string {
 	if !o.has("facebook") {
 		return ""
 	}
@@ -683,7 +701,7 @@ func (o *order) generateVarsFacebook() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsGmessages() string {
+func (o *order) varsGmessages() string {
 	if !o.has("gmessages") {
 		return ""
 	}
@@ -694,7 +712,7 @@ func (o *order) generateVarsGmessages() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsGooglechat() string {
+func (o *order) varsGooglechat() string {
 	if !o.has("googlechat") {
 		return ""
 	}
@@ -705,7 +723,7 @@ func (o *order) generateVarsGooglechat() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsHeisenbridge() string {
+func (o *order) varsHeisenbridge() string {
 	if !o.has("irc") {
 		return ""
 	}
@@ -719,7 +737,7 @@ func (o *order) generateVarsHeisenbridge() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsInstagram() string {
+func (o *order) varsInstagram() string {
 	if !o.has("instagram") {
 		return ""
 	}
@@ -730,7 +748,7 @@ func (o *order) generateVarsInstagram() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsLinkedin() string {
+func (o *order) varsLinkedin() string {
 	if !o.has("linkedin") {
 		return ""
 	}
@@ -741,7 +759,7 @@ func (o *order) generateVarsLinkedin() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSignal() string {
+func (o *order) varsSignal() string {
 	if !o.has("signal") {
 		return ""
 	}
@@ -752,7 +770,7 @@ func (o *order) generateVarsSignal() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsSkype() string {
+func (o *order) varsSkype() string {
 	if !o.has("skype") {
 		return ""
 	}
@@ -763,7 +781,7 @@ func (o *order) generateVarsSkype() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsTelegram() string {
+func (o *order) varsTelegram() string {
 	if !o.has("telegram") {
 		return ""
 	}
@@ -776,7 +794,7 @@ func (o *order) generateVarsTelegram() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsTwitter() string {
+func (o *order) varsTwitter() string {
 	if !o.has("twitter") {
 		return ""
 	}
@@ -787,7 +805,7 @@ func (o *order) generateVarsTwitter() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsWebhooks() string {
+func (o *order) varsWebhooks() string {
 	if !o.has("webhooks") && !o.has("hookshot") {
 		return ""
 	}
@@ -798,7 +816,7 @@ func (o *order) generateVarsWebhooks() string {
 	return txt.String()
 }
 
-func (o *order) generateVarsWhatsapp() string {
+func (o *order) varsWhatsapp() string {
 	if !o.has("whatsapp") {
 		return ""
 	}
