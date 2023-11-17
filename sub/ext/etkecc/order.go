@@ -74,11 +74,11 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.txt.WriteString("\n\n")
 
 	o.vars()
-
 	o.generateOnboarding()
 	o.generateFollowup(questions, dns, countQ, dnsInternal)
 
-	o.sendFollowup()
+	go o.toGP() //nolint:errcheck
+	go o.sendFollowup()
 
 	return o.txt.String(), o.files
 }

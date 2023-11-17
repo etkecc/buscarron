@@ -25,6 +25,7 @@ func (o *order) generateOnboarding() {
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(text),
+			ContentBytes:  []byte(text),
 			FileName:      "onboarding.md",
 			ContentType:   "text/markdown",
 			ContentLength: int64(len(text)),
@@ -35,7 +36,7 @@ func (o *order) generateOnboarding() {
 func (o *order) generateOnboardingIntro() string {
 	var txt strings.Builder
 	txt.WriteString("Hello!\n\n")
-	txt.WriteString("We're thrilled to announce that your Matrix server on " + o.domain + " is now fully operational and ready for you to use! 🎉\n")
+	txt.WriteString("We're happy to announce that your Matrix server on " + o.domain + " is now fully operational and ready for you to use! 🎉\n")
 	txt.WriteString("Here's all the essential information you need for a smooth onboarding experience:\n\n")
 
 	return txt.String()

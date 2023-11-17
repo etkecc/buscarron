@@ -68,11 +68,13 @@ func (o *order) vars() {
 	txt.WriteString(o.varsWebhooks())
 	txt.WriteString(o.varsWhatsapp())
 
+	text := txt.String()
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
-		Content:       strings.NewReader(txt.String()),
+		Content:       strings.NewReader(text),
+		ContentBytes:  []byte(text),
 		FileName:      "vars.yml",
 		ContentType:   "text/yaml",
-		ContentLength: int64(txt.Len()),
+		ContentLength: int64(len(text)),
 	})
 }
 

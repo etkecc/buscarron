@@ -1,6 +1,6 @@
 Hello!
 
-We're thrilled to announce that your Matrix server on higenjitsuteki.onmatrix.chat is now fully operational and ready for you to use! 🎉
+We're happy to announce that your Matrix server on higenjitsuteki.onmatrix.chat is now fully operational and ready for you to use! 🎉
 Here's all the essential information you need for a smooth onboarding experience:
 
 **Server Links**

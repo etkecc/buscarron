@@ -56,6 +56,7 @@ func (o *order) generateFollowup(questions, dns string, countQ int, dnsInternal 
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(content.Body),
+			ContentBytes:  []byte(content.Body),
 			FileName:      "followup.md",
 			ContentType:   "text/markdown",
 			ContentLength: int64(len(content.Body)),
@@ -75,11 +76,5 @@ func (o *order) sendFollowup() {
 		TextBody: o.followup.Body,
 		HTMLBody: o.followup.FormattedBody,
 	}
-	err := o.pm.Send(req)
-	if err != nil {
-		o.txt.WriteString("\n\nfollowup: ❌\n")
-		return
-	}
-
-	o.txt.WriteString("\n\nfollowup: ✅\n")
+	o.pm.Send(req) //nolint:errcheck
 }
