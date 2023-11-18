@@ -3,12 +3,9 @@ package etkecc
 import "strings"
 
 func (o *order) generateHosts() string {
-	if !o.has("ssh-host") {
-		return ""
-	}
-	user := o.get("ssh-user")
-	pass := o.get("ssh-password")
-	port := o.get("ssh-port")
+	hasUser := o.has("ssh-user") && o.get("ssh-user") != "root"
+	hasPass := o.has("ssh-password") && o.get("ssh-password") != ""
+	hasPort := o.has("ssh-port") && o.get("ssh-port") != "22"
 
 	var txt strings.Builder
 	txt.WriteString(o.domain)
@@ -16,22 +13,22 @@ func (o *order) generateHosts() string {
 	txt.WriteString("ansible_host=")
 	txt.WriteString(o.get("ssh-host"))
 
-	if user != "" && user != "root" {
+	if hasUser {
 		txt.WriteString(" ")
 		txt.WriteString("ansible_user=")
-		txt.WriteString(user)
+		txt.WriteString(o.get("ssh-user"))
 	}
 
-	if pass != "" {
+	if hasPass {
 		txt.WriteString(" ")
 		txt.WriteString("ansible_become_password=")
-		txt.WriteString(pass)
+		txt.WriteString(o.get("ssh-password"))
 	}
 
-	if port != "" && port != "22" {
+	if hasPort {
 		txt.WriteString(" ")
 		txt.WriteString("ansible_port=")
-		txt.WriteString(port)
+		txt.WriteString(o.get("ssh-port"))
 	}
 
 	txt.WriteString("\n")

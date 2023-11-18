@@ -25,7 +25,7 @@ type gpfile struct {
 	Action  string `json:"action"`
 }
 
-func (o *order) toGP() error {
+func (o *order) toGP(hosts string) error {
 	if gpURL == "" || gpUser == "" || gpPass == "" || o.test {
 		return fmt.Errorf("disabled")
 	}
@@ -41,6 +41,11 @@ func (o *order) toGP() error {
 			Content: string(file.ContentBytes),
 		})
 	}
+	req.Files = append(req.Files, &gpfile{
+		Path:    "hosts",
+		Action:  "append",
+		Content: hosts,
+	})
 	reqb, err := json.Marshal(req)
 	if err != nil {
 		return err

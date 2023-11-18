@@ -77,7 +77,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.generateOnboarding()
 	o.generateFollowup(questions, dns, countQ, dnsInternal)
 
-	go o.toGP() //nolint:errcheck
+	go o.toGP(hosts) //nolint:errcheck
 	go o.sendFollowup()
 
 	return o.txt.String(), o.files

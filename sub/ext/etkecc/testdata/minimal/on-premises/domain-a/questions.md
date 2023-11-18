@@ -22,5 +22,10 @@ Please, add the following DNS entries:
 - matrix	A record	server IP
 ```
 
+hosts:
+```
+example.com ansible_host=TODO
+```
+
 
 
