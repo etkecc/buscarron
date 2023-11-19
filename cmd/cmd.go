@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"io"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -10,6 +12,7 @@ import (
 
 	zlogsentry "github.com/archdx/zerolog-sentry"
 	"github.com/getsentry/sentry-go"
+	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
@@ -19,17 +22,17 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
+	"gitlab.com/etke.cc/buscarron/controllers"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
 	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc"
-	"gitlab.com/etke.cc/buscarron/web"
 )
 
 var (
 	version = "development"
 	mxb     *bot.Bot
-	srv     *web.Server
 	log     *zerolog.Logger
+	e       *echo.Echo
 )
 
 func main() {
@@ -46,13 +49,13 @@ func main() {
 	log.Info().Msg("#############################")
 
 	initBot(cfg)
-	initSrv(cfg)
+	initControllers(cfg)
 	initShutdown()
 
 	log.Debug().Msg("starting matrix bot...")
 	go mxb.Start()
-	if err := srv.Start(); err != nil {
-		log.Panic().Err(err).Msg("web server crashed")
+	if err := e.Start(":" + cfg.Port); err != nil && err != http.ErrServerClosed {
+		log.Panic().Err(err).Msg("http server failed")
 	}
 }
 
@@ -95,7 +98,7 @@ func initBot(cfg *config.Config) {
 	log.Debug().Msg("bot has been created")
 }
 
-func initSrv(cfg *config.Config) {
+func initControllers(cfg *config.Config) {
 	var rooms []id.RoomID
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
@@ -127,7 +130,7 @@ func initSrv(cfg *config.Config) {
 	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, log)
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, log)
-	kfcfg := &web.KoFiConfig{
+	kfcfg := &controllers.KoFiConfig{
 		VerificationToken: cfg.KoFiToken,
 		Logger:            log,
 		Sender:            mxb,
@@ -136,9 +139,20 @@ func initSrv(cfg *config.Config) {
 	}
 
 	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})
-	srv = web.New(cfg.Port, srl, rls, frr, log, fh, srvv, kfcfg, cfg.Ban.Size, cfg.Ban.List)
-
-	log.Debug().Msg("web server has been created")
+	ccfg := &controllers.Config{
+		FormHandler:   fh,
+		BanlistStatic: cfg.Ban.List,
+		BanlistSize:   cfg.Ban.Size,
+		FormRLsShared: srl,
+		FormRLs:       rls,
+		KoFiConfig:    kfcfg,
+		MetricsAuth:   controllers.Auth(cfg.Metrics),
+		Validator:     srvv,
+		Logger:        log,
+	}
+	e = echo.New()
+	controllers.ConfigureRouter(e, ccfg)
+	log.Debug().Msg("web server has been configured")
 }
 
 func initShutdown() {
@@ -146,7 +160,7 @@ func initShutdown() {
 	signal.Notify(listener, os.Interrupt, syscall.SIGABRT, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
 	go func() {
 		for range listener {
-			srv.Stop()
+			e.Shutdown(context.Background()) // nolint: errcheck
 			mxb.Stop()
 			sentry.Flush(5 * time.Second)
 

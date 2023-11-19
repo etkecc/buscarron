@@ -52,6 +52,9 @@ env vars
 * **BUSCARRON_PM_REPLYTO** - reply-to email header
 * **BUSCARRON_SMTP_FROM** - email address (from) for SMTP validation. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
 * **BUSCARRON_SMTP_VALIDATION** - enforce SMTP validation
+* **BUSCARRON_METRICS_LOGIN** - /metrics login
+* **BUSCARRON_METRICS_PASSWORD** - /metrics password
+* **BUSCARRON_METRICS_IPS** - /metrics allowed ips
 
 You can find default values in [config/defaults.go](config/defaults.go)
 

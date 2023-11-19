@@ -1,35 +1,19 @@
 package metrics
 
 import (
+	"fmt"
 	"net/http"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/VictoriaMetrics/metrics"
 )
 
-var (
-	banUsers = promauto.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "buscarron_ban_users",
-			Help: "The total number of banned users",
-		},
-		[]string{"reason", "form"})
-	banRequests = promauto.NewCounter(prometheus.CounterOpts{
-		Name: "buscarron_ban_requests",
-		Help: "The total number of requests by banned users",
-	})
-	submissions = promauto.NewCounterVec(
-		prometheus.CounterOpts{
-			Name: "buscarron_submissions",
-			Help: "The total number of successful submissions",
-		},
-		[]string{"form"})
-)
+var banRequests = metrics.NewCounter("buscarron_ban_requests")
 
-// InitMetrics registers /metrics endpoint within default http serve mux
-func InitMetrics(mux *http.ServeMux) {
-	mux.Handle("/metrics", promhttp.Handler())
+// Handler for metrics
+type Handler struct{}
+
+func (h *Handler) ServeHTTP(w http.ResponseWriter, _ *http.Request) {
+	metrics.WritePrometheus(w, false)
 }
 
 // BanRequest increments count of total requests by banned users
@@ -39,15 +23,10 @@ func BanRequest() {
 
 // BanUser increments counter of banned users
 func BanUser(reason, form string) {
-	banUsers.With(prometheus.Labels{
-		"reason": reason,
-		"form":   form,
-	}).Inc()
+	metrics.GetOrCreateCounter(fmt.Sprintf("buscarron_ban_users{form=%q,reason=%q}", form, reason)).Inc()
 }
 
 // Submission increments count of total successful submissions
 func Submission(form string) {
-	submissions.With(prometheus.Labels{
-		"form": form,
-	}).Inc()
+	metrics.GetOrCreateCounter(fmt.Sprintf("buscarron_submissions{form=%q}", form)).Inc()
 }

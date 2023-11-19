@@ -70,7 +70,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 
-	result, err := handler.POST("test", "test", nil)
+	result, err := handler.POST("test", nil)
 
 	s.Require().Error(err)
 	s.Equal(ErrNotFound, err)
@@ -78,11 +78,11 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 }
 
 func (s *HandlerSuite) TestPOST_NoData() {
-	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
+	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	request, rerr := http.NewRequest("POST", "", nil)
 
-	result, err := handler.POST("test", "test", request)
+	result, err := handler.POST("test", request)
 
 	s.Require().NoError(rerr)
 	s.Equal(ErrNotFound, err)
@@ -91,7 +91,7 @@ func (s *HandlerSuite) TestPOST_NoData() {
 
 func (s *HandlerSuite) TestPOST_SpamEmail() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
-	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
+	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	s.v.On("Email", "no").Return(false).Once()
 	data := url.Values{}
@@ -99,7 +99,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", "test", request)
+	result, err := handler.POST("test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -109,7 +109,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 
 func (s *HandlerSuite) TestPOST_SpamDomain() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
-	forms := map[string]*config.Form{"test": {Redirect: "https://example.com"}}
+	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	s.v.On("Email", "").Return(true).Once()
 	s.v.On("Domain", "no").Return(false).Once()
@@ -118,7 +118,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", "test", request)
+	result, err := handler.POST("test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -136,10 +136,11 @@ func (s *HandlerSuite) TestPOST() {
 	roomID := id.RoomID("!test:example.com")
 	forms := map[string]*config.Form{
 		"test": {
-			Name:       "test",
-			Redirect:   "https://example.com/{{ .lang }}",
-			RoomID:     roomID,
-			Extensions: []string{"", "root", "invalid"},
+			Name:           "test",
+			Redirect:       "https://example.com/{{ .lang }}",
+			RejectRedirect: "https://example.com/{{ .lang }}",
+			RoomID:         roomID,
+			Extensions:     []string{"", "root", "invalid"},
 		},
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
@@ -153,7 +154,7 @@ func (s *HandlerSuite) TestPOST() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", "test", request)
+	result, err := handler.POST("test", request)
 
 	s.NoError(rerr)
 	s.Require().NoError(err)
@@ -170,10 +171,11 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	roomID := id.RoomID("!test:example.com")
 	forms := map[string]*config.Form{
 		"test": {
-			Name:       "test",
-			Redirect:   "https://example.com/{{ .lang }}",
-			RoomID:     roomID,
-			Extensions: []string{"", "root", "invalid"},
+			Name:           "test",
+			Redirect:       "https://example.com/{{ .lang }}",
+			RejectRedirect: "https://example.com/{{ .lang }}",
+			RoomID:         roomID,
+			Extensions:     []string{"", "root", "invalid"},
 		},
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
@@ -190,7 +192,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data))
 	request.Header.Add("Content-Type", "application/json")
 
-	result, err := handler.POST("test", "test", request)
+	result, err := handler.POST("test", request)
 
 	s.NoError(rerr)
 	s.Require().NoError(err)

@@ -20,6 +20,8 @@ type Config struct {
 	NoEncryption bool
 	// Port of the web server
 	Port string
+	// Metrics config
+	Metrics Auth
 	// KoFiToken is Ko-Fi webhook verification token (do not use: will be excluded)
 	KoFiToken string
 	// KoFiRoom is Ko-Fi room when ko-fi webhook's target is not found
@@ -69,6 +71,13 @@ type Postmark struct {
 type SMTP struct {
 	From              string
 	EnforceValidation bool
+}
+
+// Auth config
+type Auth struct {
+	Login    string
+	Password string
+	IPs      []string
 }
 
 // Form config

@@ -20,6 +20,11 @@ func New() *Config {
 		Port:       env.String("port", defaultConfig.Port),
 		KoFiToken:  env.String("kofi.token"),
 		KoFiRoom:   env.String("kofi.room"),
+		Metrics: Auth{
+			Login:    env.String("metrics.login"),
+			Password: env.String("metrics.password"),
+			IPs:      env.Slice("metrics.ips"),
+		},
 		DB: DB{
 			DSN:     env.String("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),

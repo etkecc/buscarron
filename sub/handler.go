@@ -128,7 +128,7 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 }
 
 // POST request handler
-func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
+func (h *Handler) POST(name string, r *http.Request) (string, error) {
 	form, ok := h.forms[name]
 	if !ok {
 		h.log.Warn().Str("name", name).Msg("submission attempt to a nonexistent form")
@@ -149,21 +149,21 @@ func (h *Handler) POST(rID, name string, r *http.Request) (string, error) {
 
 	data, err := parser(r)
 	if err != nil {
-		return h.redirect(form.Redirect, data), err
+		return h.redirect(form.RejectRedirect, data), err
 	}
 
 	if !v.Email(data["email"]) {
 		h.log.Info().Str("name", form.Name).Str("reason", "email").Msg("submission to the form marked as spam")
-		return h.redirect(form.Redirect, data), ErrSpam
+		return h.redirect(form.RejectRedirect, data), ErrSpam
 	}
 
 	if !v.Domain(data["domain"]) {
 		h.log.Info().Str("name", form.Name).Str("reason", "domain").Msg("submission to the form marked as spam")
-		return h.redirect(form.Redirect, data), ErrSpam
+		return h.redirect(form.RejectRedirect, data), ErrSpam
 	}
 
 	metrics.Submission(form.Name)
-	h.log.Info().Str("name", form.Name).Str("id", rID).Msg("submission to the form passed the tests")
+	h.log.Info().Str("name", form.Name).Msg("submission to the form passed the tests")
 
 	text, files := h.generate(form, data)
 	attrs := map[string]interface{}{}

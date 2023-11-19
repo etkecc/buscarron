@@ -2,8 +2,7 @@
 
 ### Features :sparkles:
 
-* Allow redirect rejected submissions to specific URL
-* Added Prometheus metrics on `/metrics` endpoint
+* Added Prometheus metrics on `/metrics` endpoint with basic auth
 * The `email` and `domain` fields as properties to the submission matrix event
 * Added an option to redirect to a different address if submission was rejected
 * Added an option to set custom matrix message text for submissions
@@ -12,6 +11,7 @@
 ### Misc :zzz:
 
 * Updated deps
+* Migrated http stack to echo
 
 # Buscarron v1.3.1 (2023-01-18)
 
