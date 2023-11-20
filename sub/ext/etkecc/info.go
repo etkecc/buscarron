@@ -31,7 +31,6 @@ func (o *order) generateHosts() string {
 		txt.WriteString(o.get("ssh-port"))
 	}
 
-	txt.WriteString("\n")
 	return txt.String()
 }
 

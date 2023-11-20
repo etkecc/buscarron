@@ -69,6 +69,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString("hosts:\n")
 		o.txt.WriteString("```\n")
 		o.txt.WriteString(hosts)
+		o.txt.WriteString("\n")
 		o.txt.WriteString("```\n\n")
 	}
 	o.txt.WriteString("\n\n")

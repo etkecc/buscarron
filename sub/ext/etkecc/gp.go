@@ -44,7 +44,6 @@ func (o *order) toGP(hosts string) error {
 	if o.has("service-email") {
 		data.WriteString(" + email")
 	}
-	data.WriteString("\n")
 
 	req := &gpreq{
 		Message: o.domain + " - init",
