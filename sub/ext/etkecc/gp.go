@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var (
@@ -23,12 +24,27 @@ type gpfile struct {
 	Path    string `json:"path"`
 	Content string `json:"content"`
 	Action  string `json:"action"`
+	Line    string `json:"line,omitempty"`
 }
 
 func (o *order) toGP(hosts string) error {
 	if gpURL == "" || gpUser == "" || gpPass == "" || o.test {
 		return fmt.Errorf("disabled")
 	}
+
+	var data strings.Builder
+	data.WriteString(fmt.Sprintf("- %s <%s, @%s:%s>\n", o.domain, o.get("email"), o.get("username"), o.domain))
+	data.WriteString("    > Ko-Fi\n")
+	data.WriteString("    * [ ] ")
+	if o.hosting != "" {
+		data.WriteString("TURNKEY")
+	} else {
+		data.WriteString("subscription")
+	}
+	if o.has("service-email") {
+		data.WriteString(" + email")
+	}
+	data.WriteString("\n")
 
 	req := &gpreq{
 		Message: o.domain + " - init",
@@ -41,11 +57,19 @@ func (o *order) toGP(hosts string) error {
 			Content: string(file.ContentBytes),
 		})
 	}
-	req.Files = append(req.Files, &gpfile{
-		Path:    "hosts",
-		Action:  "append",
-		Content: hosts,
-	})
+	req.Files = append(req.Files,
+		&gpfile{
+			Path:    "hosts",
+			Action:  "append",
+			Line:    "[setup]",
+			Content: hosts,
+		},
+		&gpfile{
+			Path:    "data.md",
+			Action:  "prepend",
+			Line:    "## Subscription",
+			Content: data.String(),
+		})
 	reqb, err := json.Marshal(req)
 	if err != nil {
 		return err
