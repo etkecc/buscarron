@@ -70,7 +70,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	e.GET("/_health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
-	e.GET("/_domain", validator.DomainHandler())
+	e.HEAD("/_domain", validator.DomainHandler())
 	e.POST("/_kofi", kofi.Handler())
 	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), basicAuth(cfg.MetricsAuth, cfg.Logger))
 	e.GET("/:name", func(c echo.Context) error {
