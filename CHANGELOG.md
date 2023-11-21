@@ -7,6 +7,7 @@
 * Added an option to redirect to a different address if submission was rejected
 * Added an option to set custom matrix message text for submissions
 * Added support of JSON submissions
+* Send media uploads in thread replies with reply-to fallback
 
 ### Misc :zzz:
 

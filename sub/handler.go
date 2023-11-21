@@ -14,17 +14,19 @@ import (
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
+	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub/ext"
+	"gitlab.com/etke.cc/linkpearl"
 )
 
 // Sender interface to send messages
 type Sender interface {
-	Send(id.RoomID, string, map[string]interface{})
-	SendFile(id.RoomID, *mautrix.ReqUploadMedia)
+	Send(id.RoomID, string, map[string]interface{}) id.EventID
+	SendFile(id.RoomID, *mautrix.ReqUploadMedia, ...*event.RelatesTo)
 }
 
 // EmailSender interface
@@ -175,9 +177,13 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 	}
 
 	form.Lock()
-	h.sender.Send(form.RoomID, text, attrs)
+	eventID := h.sender.Send(form.RoomID, text, attrs)
+	var relates *event.RelatesTo
+	if eventID != "" {
+		relates = linkpearl.RelatesTo(eventID)
+	}
 	for _, file := range files {
-		h.sender.SendFile(form.RoomID, file)
+		h.sender.SendFile(form.RoomID, file, relates)
 	}
 	form.Unlock()
 

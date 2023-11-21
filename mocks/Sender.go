@@ -3,8 +3,10 @@
 package mocks
 
 import (
-	mautrix "maunium.net/go/mautrix"
+	event "maunium.net/go/mautrix/event"
 	id "maunium.net/go/mautrix/id"
+
+	mautrix "maunium.net/go/mautrix"
 
 	mock "github.com/stretchr/testify/mock"
 )
@@ -15,13 +17,29 @@ type Sender struct {
 }
 
 // Send provides a mock function with given fields: _a0, _a1, _a2
-func (_m *Sender) Send(_a0 id.RoomID, _a1 string, _a2 map[string]interface{}) {
-	_m.Called(_a0, _a1, _a2)
+func (_m *Sender) Send(_a0 id.RoomID, _a1 string, _a2 map[string]interface{}) id.EventID {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 id.EventID
+	if rf, ok := ret.Get(0).(func(id.RoomID, string, map[string]interface{}) id.EventID); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Get(0).(id.EventID)
+	}
+
+	return r0
 }
 
-// SendFile provides a mock function with given fields: _a0, _a1
-func (_m *Sender) SendFile(_a0 id.RoomID, _a1 *mautrix.ReqUploadMedia) {
-	_m.Called(_a0, _a1)
+// SendFile provides a mock function with given fields: _a0, _a1, _a2
+func (_m *Sender) SendFile(_a0 id.RoomID, _a1 *mautrix.ReqUploadMedia, _a2 ...*event.RelatesTo) {
+	_va := make([]interface{}, len(_a2))
+	for _i := range _a2 {
+		_va[_i] = _a2[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, _a0, _a1)
+	_ca = append(_ca, _va...)
+	_m.Called(_ca...)
 }
 
 // NewSender creates a new instance of Sender. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

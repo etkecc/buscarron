@@ -145,7 +145,7 @@ func (s *HandlerSuite) TestPOST() {
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
-	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Once()
+	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	data := url.Values{}
 	data.Add("email", "email@dkimvalidator.com")
@@ -180,7 +180,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
-	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Once()
+	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	data := `{
 	"email": "email@dkimvalidator.com",

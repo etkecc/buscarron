@@ -13,7 +13,7 @@ import (
 )
 
 type senderByEmail interface {
-	Send(roomID id.RoomID, message string, attributes map[string]interface{})
+	Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID
 	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) bool
 	FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event
 }

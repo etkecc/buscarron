@@ -26,7 +26,8 @@ lintfix:
 
 # generate mocks
 mocks:
-    @mockery --all --inpackage --testonly --exclude vendor
+    @rm -rf mocks
+    @mockery --all --exclude vendor
 
 # run cpu or mem profiler UI
 profile type:

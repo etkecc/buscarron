@@ -43,7 +43,7 @@ func (b *Bot) Error(roomID id.RoomID, message string, args ...interface{}) {
 }
 
 // Send message to the room
-func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]interface{}) {
+func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
 	parsed := format.RenderMarkdown(message, true, true)
 	content := event.Content{
 		Raw:    attributes,
@@ -51,11 +51,12 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 	}
 
 	b.Lock()
-	_, err := b.lp.Send(roomID, &content)
+	eventID, err := b.lp.Send(roomID, &content)
 	b.Unlock()
 	if err != nil {
 		b.log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
+	return eventID
 }
 
 // SendByEmail sends the message into the room as thread reply by email
@@ -93,9 +94,9 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 }
 
 // SendFile for the room
-func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia) {
+func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
 	b.Lock()
-	err := b.lp.SendFile(roomID, file, event.MsgFile)
+	err := b.lp.SendFile(roomID, file, event.MsgFile, relations...)
 	b.Unlock()
 	if err != nil {
 		b.Error(roomID, "cannot upload file: %v", err)
