@@ -104,9 +104,9 @@ func (o *order) varsEtke() string {
 		enabledServices["etke_service_server"] = o.hosting
 	}
 
-	if len(enabledServices) == 0 {
-		return ""
-	}
+	enabledServices["etke_subscription_email"] = o.get("email")
+	enabledServices["etke_subscription_provider"] = "Ko-Fi"
+	enabledServices["etke_subscription_confirmed"] = "no"
 
 	keys := make([]string, 0, len(enabledServices))
 	for k := range enabledServices {
