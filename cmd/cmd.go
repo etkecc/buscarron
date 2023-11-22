@@ -134,6 +134,7 @@ func initControllers(cfg *config.Config) {
 		VerificationToken: cfg.KoFiToken,
 		Logger:            log,
 		Sender:            mxb,
+		PaidMarker:        etkecc.MarkAsPaid,
 		Rooms:             rooms,
 		Room:              id.RoomID(cfg.KoFiRoom),
 	}

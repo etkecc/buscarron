@@ -14,7 +14,7 @@ import (
 
 type senderByEmail interface {
 	Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID
-	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) bool
+	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) map[string]any
 	FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event
 }
 
@@ -23,6 +23,7 @@ type KoFiConfig struct {
 	Room              id.RoomID
 	Logger            *zerolog.Logger
 	Sender            senderByEmail
+	PaidMarker        func(*zerolog.Logger, string)
 	Rooms             []id.RoomID
 }
 
@@ -30,6 +31,7 @@ type kofi struct {
 	token        string
 	log          *zerolog.Logger
 	sender       senderByEmail
+	markPaid     func(*zerolog.Logger, string)
 	rooms        []id.RoomID
 	fallbackRoom id.RoomID
 }
@@ -102,6 +104,7 @@ func NewKoFi(cfg *KoFiConfig) *kofi {
 		token:        cfg.VerificationToken,
 		log:          cfg.Logger,
 		sender:       cfg.Sender,
+		markPaid:     cfg.PaidMarker,
 		rooms:        cfg.Rooms,
 		fallbackRoom: cfg.Room,
 	}
@@ -128,16 +131,27 @@ func (k *kofi) Handler() echo.HandlerFunc {
 			return c.NoContent(http.StatusOK)
 		}
 
-		message := data.Text()
-		for _, roomID := range k.rooms {
-			if ok := k.sender.SendByEmail(roomID, data.Email, message, "💸"); ok {
-				log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
-				return c.NoContent(http.StatusOK)
-			}
-			k.fallback(data, message)
-		}
-		return c.NoContent(http.StatusOK)
+		return k.send(c, data)
 	}
+}
+
+func (k *kofi) send(c echo.Context, data *kofiRequest) error {
+	log := data.Logger(k.log)
+	message := data.Text()
+	for _, roomID := range k.rooms {
+		if raw := k.sender.SendByEmail(roomID, data.Email, message, "💸"); raw != nil {
+			log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
+			domain, ok := raw["domain"].(string)
+			if ok && k.markPaid != nil {
+				k.markPaid(log, domain)
+			} else {
+				log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
+			}
+			return c.NoContent(http.StatusOK)
+		}
+		k.fallback(data, message)
+	}
+	return c.NoContent(http.StatusOK)
 }
 
 func (k *kofi) fallback(data *kofiRequest, message string) {

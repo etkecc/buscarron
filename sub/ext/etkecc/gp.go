@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/rs/zerolog"
 )
 
 var (
@@ -25,6 +27,47 @@ type gpfile struct {
 	Content string `json:"content"`
 	Action  string `json:"action"`
 	Line    string `json:"line,omitempty"`
+	Regex   string `json:"regex,omitempty"`
+}
+
+func MarkAsPaid(log *zerolog.Logger, domain string) {
+	if gpURL == "" || gpUser == "" || gpPass == "" {
+		log.Warn().Msg("gp disabled")
+	}
+
+	req := &gpreq{
+		Message: domain + " - paid",
+		Files: []*gpfile{
+			{
+				Path:    "host_vars/" + domain + "/vars.yml",
+				Action:  "append",
+				Line:    "# etke services",
+				Regex:   "^etke_subscription_confirmed.*",
+				Content: "etke_subscription_confirmed: yes",
+			},
+		},
+	}
+	reqb, err := json.Marshal(req)
+	if err != nil {
+		log.Error().Err(err).Msg("gp request marshal failed")
+		return
+	}
+	r, err := http.NewRequest("POST", gpURL+"/post", bytes.NewReader(reqb))
+	if err != nil {
+		log.Error().Err(err).Msg("gp request failed")
+		return
+	}
+	r.SetBasicAuth(gpUser, gpPass)
+	r.Header.Set("Content-Type", "application/json")
+	resp, err := http.DefaultClient.Do(r)
+	if err != nil {
+		log.Error().Err(err).Msg("gp request failed")
+		return
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusCreated {
+		log.Error().Str("status", resp.Status).Msg("gp request failed")
+	}
 }
 
 func (o *order) toGP(hosts string) error {

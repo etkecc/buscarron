@@ -60,11 +60,11 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 }
 
 // SendByEmail sends the message into the room as thread reply by email
-func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) bool {
+func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
 	evt := b.lp.FindEventBy(roomID, "email", email)
 	if evt == nil {
 		b.log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
-		return false
+		return nil
 	}
 
 	content := format.RenderMarkdown(message, true, true)
@@ -78,7 +78,7 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 	b.Unlock()
 	if err != nil {
 		b.log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
-		return false
+		return nil
 	}
 
 	if len(reactions) > 0 {
@@ -90,7 +90,7 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 		}
 	}
 
-	return true
+	return evt.Content.Raw
 }
 
 // SendFile for the room
