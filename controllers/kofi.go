@@ -23,7 +23,7 @@ type KoFiConfig struct {
 	Room              id.RoomID
 	Logger            *zerolog.Logger
 	Sender            senderByEmail
-	PaidMarker        func(*zerolog.Logger, string)
+	PaidMarker        func(*zerolog.Logger, string, string)
 	Rooms             []id.RoomID
 }
 
@@ -31,7 +31,7 @@ type kofi struct {
 	token        string
 	log          *zerolog.Logger
 	sender       senderByEmail
-	markPaid     func(*zerolog.Logger, string)
+	markPaid     func(*zerolog.Logger, string, string)
 	rooms        []id.RoomID
 	fallbackRoom id.RoomID
 }
@@ -143,7 +143,7 @@ func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 			log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
 			domain, ok := raw["domain"].(string)
 			if ok && k.markPaid != nil {
-				k.markPaid(log, domain)
+				k.markPaid(log, domain, data.Amount)
 			} else {
 				log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
 			}
