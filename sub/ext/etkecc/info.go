@@ -1,6 +1,8 @@
 package etkecc
 
-import "strings"
+import (
+	"strings"
+)
 
 func (o *order) generateHosts() string {
 	hasUser := o.has("ssh-user") && o.get("ssh-user") != "root"
@@ -30,6 +32,10 @@ func (o *order) generateHosts() string {
 		txt.WriteString("ansible_port=")
 		txt.WriteString(o.get("ssh-port"))
 	}
+
+	txt.WriteString(" ")
+	txt.WriteString("ordered_at=")
+	txt.WriteString(o.orderedAt.Format("2006-01-02_15:04:05"))
 
 	return txt.String()
 }

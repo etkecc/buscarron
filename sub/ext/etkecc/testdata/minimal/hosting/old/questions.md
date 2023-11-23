@@ -19,7 +19,7 @@ echo -e "---\nHello,\n\nWe've received your payment and have prepared a server f
 
 hosts:
 ```
-example.com ansible_host=TODO
+example.com ansible_host=TODO ordered_at=2021-01-01_00:00:00
 ```
 
 

@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/suite"
 
@@ -32,6 +33,7 @@ func (s *EtkeccSuite) SetupSuite() {
 	s.v = &mocks.Validator{}
 	s.ext = New(nil)
 	s.ext.test = true
+	s.ext.now = func() time.Time { return time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC) }
 	s.save = false
 
 	s.setupSubs()

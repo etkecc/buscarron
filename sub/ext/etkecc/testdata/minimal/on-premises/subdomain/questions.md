@@ -16,7 +16,7 @@ curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: a
 
 hosts:
 ```
-higenjitsuteki.onmatrix.chat ansible_host=TODO
+higenjitsuteki.onmatrix.chat ansible_host=TODO ordered_at=2021-01-01_00:00:00
 ```
 
 

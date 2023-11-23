@@ -1,6 +1,8 @@
 package etkecc
 
 import (
+	"time"
+
 	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
@@ -17,6 +19,7 @@ const pricifyDataURL = "https://etke.cc/order/components.json"
 type Etkecc struct {
 	pm      EmailSender
 	pricify *pricify.Data
+	now     func() time.Time
 	test    bool
 }
 
@@ -28,7 +31,8 @@ type EmailSender interface {
 // New etke.cc extension
 func New(pm EmailSender) *Etkecc {
 	ext := &Etkecc{
-		pm: pm,
+		pm:  pm,
+		now: time.Now,
 	}
 	ext.pricify, _ = pricify.New(pricifyDataURL) //nolint:errcheck // proof-of-concept
 	return ext
@@ -44,15 +48,16 @@ func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]
 	}
 
 	o := &order{
-		name:  form.Name,
-		data:  data,
-		test:  e.test,
-		v:     v,
-		c:     cases.Title(language.English),
-		pd:    p,
-		pm:    e.pm,
-		pass:  map[string]string{},
-		files: make([]*mautrix.ReqUploadMedia, 0, 3),
+		orderedAt: e.now().UTC(),
+		name:      form.Name,
+		data:      data,
+		test:      e.test,
+		v:         v,
+		c:         cases.Title(language.English),
+		pd:        p,
+		pm:        e.pm,
+		pass:      map[string]string{},
+		files:     make([]*mautrix.ReqUploadMedia, 0, 3),
 	}
 
 	return o.execute()

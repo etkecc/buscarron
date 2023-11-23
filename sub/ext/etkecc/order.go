@@ -3,6 +3,7 @@ package etkecc
 import (
 	"strconv"
 	"strings"
+	"time"
 
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
@@ -13,13 +14,14 @@ import (
 )
 
 type order struct {
-	test bool
-	name string
-	data map[string]string
-	pd   *pricify.Data
-	pm   EmailSender
-	v    common.Validator
-	c    cases.Caser
+	orderedAt time.Time
+	test      bool
+	name      string
+	data      map[string]string
+	pd        *pricify.Data
+	pm        EmailSender
+	v         common.Validator
+	c         cases.Caser
 
 	domain    string
 	subdomain bool
