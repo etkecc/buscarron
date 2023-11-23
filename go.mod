@@ -7,9 +7,9 @@ require (
 	github.com/archdx/zerolog-sentry v1.7.0
 	github.com/getsentry/sentry-go v0.25.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
-	github.com/labstack/echo/v4 v4.10.0
+	github.com/labstack/echo/v4 v4.11.3
 	github.com/lib/pq v1.10.9
-	github.com/mattevans/postmark-go v0.1.6
+	github.com/mattevans/postmark-go v1.0.0
 	github.com/mattn/go-sqlite3 v1.14.18
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/rs/zerolog v1.31.0
@@ -18,7 +18,7 @@ require (
 	gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator/v2 v2.0.0
-	gitlab.com/etke.cc/linkpearl v0.0.0-20231116134751-29713000ef2e
+	gitlab.com/etke.cc/linkpearl v0.0.0-20231121221431-72443f33d266
 	golang.org/x/text v0.14.0
 	golang.org/x/time v0.4.0
 	maunium.net/go/mautrix v0.16.2
@@ -32,7 +32,7 @@ require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
-	github.com/labstack/gommon v0.4.0 // indirect
+	github.com/labstack/gommon v0.4.1 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect

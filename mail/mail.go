@@ -19,11 +19,13 @@ func New(token, from, replyto string, log *zerolog.Logger) *Client {
 	if token == "" {
 		return nil
 	}
-	pm := postmark.NewClient(&http.Client{
-		Transport: &postmark.AuthTransport{
-			Token: token,
-		},
-	})
+	pm := postmark.NewClient(
+		postmark.WithClient(&http.Client{
+			Transport: &postmark.AuthTransport{
+				Token: token,
+			},
+		}),
+	)
 
 	return &Client{
 		from:    from,
