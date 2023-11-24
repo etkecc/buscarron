@@ -1,6 +1,8 @@
 module gitlab.com/etke.cc/buscarron
 
-go 1.21
+go 1.21.0
+
+toolchain go1.21.4
 
 require (
 	github.com/VictoriaMetrics/metrics v1.24.0
@@ -14,6 +16,8 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.8.4
+	github.com/ziflex/lecho/v3 v3.5.0
+	gitlab.com/etke.cc/go/echo-basic-auth v1.0.0
 	gitlab.com/etke.cc/go/env v1.1.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab
 	gitlab.com/etke.cc/go/secgen v1.1.1

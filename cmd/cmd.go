@@ -16,6 +16,7 @@ import (
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
+	"github.com/ziflex/lecho/v3"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
 	"maunium.net/go/mautrix/id"
@@ -147,11 +148,12 @@ func initControllers(cfg *config.Config) {
 		FormRLsShared: srl,
 		FormRLs:       rls,
 		KoFiConfig:    kfcfg,
-		MetricsAuth:   controllers.Auth(cfg.Metrics),
+		MetricsAuth:   cfg.Metrics,
 		Validator:     srvv,
 		Logger:        log,
 	}
 	e = echo.New()
+	e.Logger = lecho.From(*log)
 	controllers.ConfigureRouter(e, ccfg)
 	log.Debug().Msg("web server has been configured")
 }

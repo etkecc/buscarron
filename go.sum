@@ -96,6 +96,10 @@ github.com/valyala/histogram v1.2.0 h1:wyYGAZZt3CpwUiIb9AU/Zbllg1llXyrtApRS815OL
 github.com/valyala/histogram v1.2.0/go.mod h1:Hb4kBwb4UxsaNbbbh+RRz8ZR6pdodR57tzWUS3BUzXY=
 github.com/yuin/goldmark v1.6.0 h1:boZcn2GTjpsynOsC0iJHnBWa4Bi0qzfJjthwauItG68=
 github.com/yuin/goldmark v1.6.0/go.mod h1:6yULJ656Px+3vBD8DxQVa3kxgyrAnzto9xy5taEt/CY=
+github.com/ziflex/lecho/v3 v3.5.0 h1:Z4TBr8SbUUnfaVc8tGJf1Jhu0G9Jxjl77lPW0riXKak=
+github.com/ziflex/lecho/v3 v3.5.0/go.mod h1:+eInrytYHxVPI6NQbua9xXGerB1x0ujj9jAV33yBIko=
+gitlab.com/etke.cc/go/echo-basic-auth v1.0.0 h1:EABSODEl/P1fy5Vj7A5xLxxESPDkMsof7K71QSC1fWM=
+gitlab.com/etke.cc/go/echo-basic-auth v1.0.0/go.mod h1:Diq394h14bfKfDN50muEcVAwt2FfH5JH74qAQigUp4A=
 gitlab.com/etke.cc/go/env v1.1.0 h1:nbMhZkMu6C8lysRlb5siIiylWuyVkGAgEvwWEqz/82o=
 gitlab.com/etke.cc/go/env v1.1.0/go.mod h1:e1l4RM5MA1sc0R1w/RBDAESWRwgo5cOG9gx8BKUn2C4=
 gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab h1:O9VtMoeTRud42t7NOZs5k9Sfb0kI/4wY8+as0tpSfzA=

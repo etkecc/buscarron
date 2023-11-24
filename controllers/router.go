@@ -8,6 +8,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
+	echobasicauth "gitlab.com/etke.cc/go/echo-basic-auth"
 
 	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub"
@@ -25,16 +26,10 @@ type Config struct {
 	BanlistSize   int
 	FormRLsShared map[string]string
 	FormRLs       map[string]string
-	MetricsAuth   Auth
+	MetricsAuth   echobasicauth.Auth
 	KoFiConfig    *KoFiConfig
 	Validator     domainValidator
 	Logger        *zerolog.Logger
-}
-
-type Auth struct {
-	Login    string
-	Password string
-	IPs      []string
 }
 
 // ConfigureRouter configures echo router
@@ -72,7 +67,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	})
 	e.HEAD("/_domain", validator.DomainHandler())
 	e.POST("/_kofi", kofi.Handler())
-	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), basicAuth(cfg.MetricsAuth, cfg.Logger))
+	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
 		body, err := cfg.FormHandler.GET(c.Param("name"), c.Request())
 		if errors.Is(err, sub.ErrNotFound) || errors.Is(err, sub.ErrSpam) {

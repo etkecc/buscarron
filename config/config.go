@@ -1,6 +1,7 @@
 package config
 
 import (
+	echobasicauth "gitlab.com/etke.cc/go/echo-basic-auth"
 	"gitlab.com/etke.cc/go/env"
 	"maunium.net/go/mautrix/id"
 )
@@ -20,7 +21,7 @@ func New() *Config {
 		Port:       env.String("port", defaultConfig.Port),
 		KoFiToken:  env.String("kofi.token"),
 		KoFiRoom:   env.String("kofi.room"),
-		Metrics: Auth{
+		Metrics: echobasicauth.Auth{
 			Login:    env.String("metrics.login"),
 			Password: env.String("metrics.password"),
 			IPs:      env.Slice("metrics.ips"),
