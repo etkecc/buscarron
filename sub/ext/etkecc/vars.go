@@ -344,10 +344,6 @@ func (o *order) varsSynapseCredentials() string {
 }
 
 func (o *order) varsSynapseAdmin() string {
-	if !o.has("synapse-admin") {
-		return ""
-	}
-
 	var txt strings.Builder
 	txt.WriteString("\n# synapse-admin https://matrix." + o.domain + "/synapse-admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")

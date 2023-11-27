@@ -46,3 +46,6 @@ devture_postgres_backup_schedule: '@daily'
 devture_postgres_backup_keep_days: 7
 devture_postgres_backup_keep_weeks: 0
 devture_postgres_backup_keep_months: 0
+
+# synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
+matrix_synapse_admin_enabled: yes
