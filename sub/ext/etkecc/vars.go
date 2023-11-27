@@ -184,7 +184,7 @@ func (o *order) varsMSC1929() string {
 	txt.WriteString("matrix_homeserver_admin_contacts:\n")
 	txt.WriteString("  - matrix_id: \"@" + o.get("username") + ":" + o.domain + "\"\n")
 	txt.WriteString("    email_address: " + o.get("email") + "\n")
-	txt.WriteString("    role: admin\n")
+	txt.WriteString("    role: m.role.admin\n")
 
 	return txt.String()
 }
