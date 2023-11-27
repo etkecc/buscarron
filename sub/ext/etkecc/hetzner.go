@@ -30,8 +30,11 @@ var (
 	}
 
 	// hFirewall is the "matrix" firewall
-	hFirewall = map[string]int{
+	defaultFirewall = map[string]int{
 		"firewall": 124003,
+	}
+	openFirewall = map[string]int{
+		"firewall": 394512,
 	}
 
 	// hKeys is list of ssh keys names
@@ -45,6 +48,28 @@ type hVPSRequest struct {
 	Firewalls []map[string]int `json:"firewalls"`
 	SSHKeys   []string         `json:"ssh_keys"`
 	Location  string           `json:"location"`
+}
+
+type hFirewallRequest struct {
+	Name    string             `json:"name"`
+	ApplyTo []hFirewallApplyTo `json:"apply_to"`
+	Rules   []hFirewallRule    `json:"rules"`
+}
+
+type hFirewallApplyTo struct {
+	Servver hFirewallApplyToServer `json:"server"`
+}
+
+type hFirewallApplyToServer struct {
+	ID int `json:"id"`
+}
+
+type hFirewallRule struct {
+	Description string   `json:"description"`
+	Direction   string   `json:"direction"`
+	Port        string   `json:"port"`
+	Protocol    string   `json:"protocol"`
+	SourceIPs   []string `json:"source_ips"`
 }
 
 type hDNSRecord struct {
@@ -70,22 +95,71 @@ func (r *hDNSRequest) add(subdomain, rtype, value, zoneID string) *hDNSRequest {
 	return r
 }
 
+func (o *order) generateHFirewallCommand() string {
+	if !o.has("ssh-client-ips") || o.get("ssh-client-ips") == "N/A" {
+		return ""
+	}
+	ips := []string{}
+	for _, ip := range strings.Split(o.get("ssh-client-ips"), ",") {
+		ips = append(ips, strings.TrimSpace(ip)+"/32")
+	}
+	req := &hFirewallRequest{
+		Name: o.domain,
+		ApplyTo: []hFirewallApplyTo{
+			{
+				hFirewallApplyToServer{ID: 12345}, // special value to be replaced
+			},
+		},
+		Rules: []hFirewallRule{
+			{
+				Description: "SSH",
+				Direction:   "in",
+				Port:        "22",
+				Protocol:    "tcp",
+				SourceIPs:   ips,
+			},
+		},
+	}
+	return o.getHFirewallCurl(req)
+}
+
 func (o *order) generateHVPSCommand() string {
 	location, ok := hLocations[strings.ToLower(o.get("turnkey-location"))]
 	if !ok {
 		location = "fsn1"
+	}
+	var firewall map[string]int
+	if o.get("ssh-client-ips") == "N/A" {
+		firewall = openFirewall
+	} else {
+		firewall = defaultFirewall
 	}
 
 	req := &hVPSRequest{
 		Name:      o.domain,
 		Size:      o.hosting,
 		Image:     hImage,
-		Firewalls: []map[string]int{hFirewall},
+		Firewalls: []map[string]int{firewall},
 		SSHKeys:   hKeys,
 		Location:  location,
 	}
 
 	return o.getHVPSCurl(req)
+}
+
+func (o *order) getHFirewallCurl(req *hFirewallRequest) string {
+	reqb, _ := json.Marshal(&req) //nolint:errcheck
+	reqs := strings.ReplaceAll(strings.ReplaceAll(string(reqb), "\"", "\\\""), "12345", "$SERVER_ID")
+
+	var cmd strings.Builder
+	cmd.WriteString(`curl -X "POST" "https://api.hetzner.cloud/v1/firewalls" `)
+	cmd.WriteString(`-H "Content-Type: application/json" `)
+	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" `)
+	cmd.WriteString(`-d "`)
+	cmd.WriteString(reqs)
+	cmd.WriteString(`"`)
+	cmd.WriteString("\n")
+	return cmd.String()
 }
 
 func (o *order) getHVPSCurl(req *hVPSRequest) string {
@@ -112,6 +186,8 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	cmd.WriteString(`-H "Content-Type: application/json" `)
 	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"`)
 	cmd.WriteString("\n")
+
+	cmd.WriteString(o.generateHFirewallCommand())
 
 	cmd.WriteString(`echo -e "---\n`)
 	cmd.WriteString(`Hello,\n\n`)

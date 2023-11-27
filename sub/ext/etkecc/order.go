@@ -65,8 +65,6 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString("```\n\n")
 	}
 
-	o.txt.WriteString(o.generateFirewall())
-
 	if hosts != "" {
 		o.txt.WriteString("hosts:\n")
 		o.txt.WriteString("```\n")

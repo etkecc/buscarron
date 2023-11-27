@@ -39,17 +39,3 @@ func (o *order) generateHosts() string {
 
 	return txt.String()
 }
-
-func (o *order) generateFirewall() string {
-	if !o.has("ssh-client-ips") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("Don't forget to create a new firewall called " + o.domain + ", ")
-	txt.WriteString("allow the following IPs to access SSH port (22/tcp): `")
-	txt.WriteString(o.get("ssh-client-ips"))
-	txt.WriteString("` and attach it to the server. ")
-	txt.WriteString("(if customer requested to lift IP restriction, attach the `open-ssh` firewall to the server)\n\n")
-
-	return txt.String()
-}
