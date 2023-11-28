@@ -19,7 +19,7 @@ require (
 	github.com/ziflex/lecho/v3 v3.5.0
 	gitlab.com/etke.cc/go/echo-basic-auth v1.0.0
 	gitlab.com/etke.cc/go/env v1.1.0
-	gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab
+	gitlab.com/etke.cc/go/pricify v0.0.0-20231128103454-42048b5583b3
 	gitlab.com/etke.cc/go/secgen v1.1.1
 	gitlab.com/etke.cc/go/validator/v2 v2.0.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20231121221431-72443f33d266

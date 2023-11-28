@@ -102,8 +102,8 @@ gitlab.com/etke.cc/go/echo-basic-auth v1.0.0 h1:EABSODEl/P1fy5Vj7A5xLxxESPDkMsof
 gitlab.com/etke.cc/go/echo-basic-auth v1.0.0/go.mod h1:Diq394h14bfKfDN50muEcVAwt2FfH5JH74qAQigUp4A=
 gitlab.com/etke.cc/go/env v1.1.0 h1:nbMhZkMu6C8lysRlb5siIiylWuyVkGAgEvwWEqz/82o=
 gitlab.com/etke.cc/go/env v1.1.0/go.mod h1:e1l4RM5MA1sc0R1w/RBDAESWRwgo5cOG9gx8BKUn2C4=
-gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab h1:O9VtMoeTRud42t7NOZs5k9Sfb0kI/4wY8+as0tpSfzA=
-gitlab.com/etke.cc/go/pricify v0.0.0-20230930183251-6fd914276aab/go.mod h1:U4LHTZ0nxqfoO9AX98z3iedF8XW6iR8bs7C0qfQ23mw=
+gitlab.com/etke.cc/go/pricify v0.0.0-20231128103454-42048b5583b3 h1:P8v69lm7/6poS1qnd96lVm15S/uVhKsvtCOdrtmcrjI=
+gitlab.com/etke.cc/go/pricify v0.0.0-20231128103454-42048b5583b3/go.mod h1:U4LHTZ0nxqfoO9AX98z3iedF8XW6iR8bs7C0qfQ23mw=
 gitlab.com/etke.cc/go/secgen v1.1.1 h1:RmKOki725HIhWJHzPtAc9X4YvBneczndchpMgoDkE8w=
 gitlab.com/etke.cc/go/secgen v1.1.1/go.mod h1:3pJqRGeWApzx7qXjABqz2o2SMCNpKSZao/gXVdasqE8=
 gitlab.com/etke.cc/go/trysmtp v1.1.3 h1:e2EHond77onMaecqCg6mWumffTSEf+ycgj88nbeefDI=

@@ -11,9 +11,9 @@ type sourceModel struct {
 	MatrixBots         []sourceItem `json:"matrixBots"`
 	MatrixBridges      []sourceItem `json:"matrixBridges"`
 	MatrixBridgesPrice int          `json:"matrixBridgesPrice"`
+	MatrixAdditional   []sourceItem `json:"additionalMatrixServices"`
 
 	AdditionalServices []sourceItem `json:"additionalServices"`
-	AdvancedServices   []sourceItem `json:"advancedServices"`
 }
 
 type sourceSectionItem struct {
@@ -48,9 +48,9 @@ func convertToData(source *sourceModel) *Data {
 	data.fromSourceItem(source.MatrixApps, "matrix_apps", 0)
 	data.fromSourceItem(source.MatrixBots, "matrix_bots", 0)
 	data.fromSourceItem(source.MatrixBridges, "matrix_bridges", source.MatrixBridgesPrice)
+	data.fromSourceItem(source.MatrixAdditional, "matrix_additional", 0)
 
 	data.fromSourceItem(source.AdditionalServices, "additional", 0)
-	data.fromSourceItem(source.AdvancedServices, "advanced", 0)
 
 	return data
 }
