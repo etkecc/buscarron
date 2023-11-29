@@ -222,24 +222,14 @@ func (s *EtkeccSuite) setupCases() {
 	s.T().Helper()
 	s.cases = []testCase{
 		{
-			name: "minimal/on-premises/old",
+			name: "minimal/on-premises/matrix-user",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
-			submission: s.subs["minimal/old/on-premises"],
+			submission: s.merge(s.subs["minimal/no-questions"], map[string]string{"ssh-user": "matrix"}),
 		},
-		{
-			name: "minimal/hosting/old",
-			before: func() {
-				s.v.On("A", "example.com").Return(false).Once()
-				s.v.On("CNAME", "example.com").Return(false).Once()
-				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
-			},
-			submission: s.subs["minimal/old/hosting"],
-		},
-
 		{
 			name: "minimal/on-premises/domain",
 			before: func() {

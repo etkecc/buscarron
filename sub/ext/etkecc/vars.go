@@ -144,6 +144,12 @@ func (o *order) varsSSH() string {
 		txt.WriteString("\n")
 	}
 
+	if o.get("ssh-user") == "matrix" {
+		txt.WriteString("\n# matrix user\n")
+		txt.WriteString("matrix_user_username: matrixserver\n")
+		txt.WriteString("matrix_user_groupname: matrixserver\n")
+	}
+
 	return txt.String()
 }
 
