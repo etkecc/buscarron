@@ -35,7 +35,7 @@ Best regards,
 etke.cc`
 )
 
-func (o *order) generateFollowup(questions, dns string, countQ int, dnsInternal bool) {
+func (o *order) generateFollowup(questions, delegation, dns string, countQ int, dnsInternal bool) {
 	var txt strings.Builder
 	txt.WriteString(followupHeader)
 	if countQ > 0 {
@@ -47,6 +47,11 @@ func (o *order) generateFollowup(questions, dns string, countQ int, dnsInternal 
 	if o.hosting == "" && !dnsInternal {
 		txt.WriteString("\n")
 		txt.WriteString(dns)
+	}
+
+	if delegation != "" {
+		txt.WriteString("\n")
+		txt.WriteString(delegation)
 	}
 
 	txt.WriteString(followupFooter)

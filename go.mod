@@ -20,8 +20,8 @@ require (
 	gitlab.com/etke.cc/go/echo-basic-auth v1.0.0
 	gitlab.com/etke.cc/go/env v1.1.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20231128103454-42048b5583b3
-	gitlab.com/etke.cc/go/secgen v1.1.1
-	gitlab.com/etke.cc/go/validator/v2 v2.0.0
+	gitlab.com/etke.cc/go/secgen v1.1.2
+	gitlab.com/etke.cc/go/validator/v2 v2.0.1
 	gitlab.com/etke.cc/linkpearl v0.0.0-20231121221431-72443f33d266
 	golang.org/x/text v0.14.0
 	golang.org/x/time v0.5.0

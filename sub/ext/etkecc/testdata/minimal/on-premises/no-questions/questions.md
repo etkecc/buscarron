@@ -4,8 +4,8 @@ price: $5
 
 Please, add the following DNS entries:
 
-- @	A record	server IP
-- matrix	A record	server IP
+- @	A record	1.2.3.4
+- matrix	A record	1.2.3.4
 ```
 
 hosts:

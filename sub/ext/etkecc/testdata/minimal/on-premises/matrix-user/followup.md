@@ -14,8 +14,8 @@ Once your payment is confirmed, we'll promptly initiate the setup of your Matrix
 
 Please, add the following DNS entries:
 
-* @    A record    server IP
-* matrix    A record    server IP
+* @    A record    1.2.3.4
+* matrix    A record    1.2.3.4
 
 Got any questions? Feel free to reply to this email - we're here to assist you!
 

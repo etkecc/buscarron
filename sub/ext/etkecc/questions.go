@@ -2,13 +2,26 @@ package etkecc
 
 import "strings"
 
+func (o *order) generateDelegationInstructions() string {
+	if o.get("serve_base_domain") == "yes" {
+		return ""
+	}
+
+	var txt strings.Builder
+	txt.WriteString("We see that you have something on your base domain.\n")
+	txt.WriteString("**If** that's a domain registrar's (parking) page and/or you intend to serve base domain (" + o.domain + ") from the matrix server, just add the `@` DNS record pointing to the server IP and tell us about that.\n")
+	txt.WriteString("**If** that's your website and/or you intend to serve base domain from some other server, you should add the following HTTPS redirects (HTTP 301):\n")
+	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/server") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/server") + "\n")
+	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/client") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/client") + "\n")
+	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/support") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/support") + "\n")
+	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-are-well-known-redirects-on-the-base-domain-important") + "\n\n")
+
+	return txt.String()
+}
+
 func (o *order) generateQuestions() (string, int) {
 	var count int
 	var txt strings.Builder
-	if q := o.generateQuestionsDelegation(); q != "" {
-		count++
-		txt.WriteString(q)
-	}
 	if q := o.generateQuestionsReminderBot(); q != "" {
 		count++
 		txt.WriteString(q)
@@ -26,22 +39,6 @@ func (o *order) generateQuestions() (string, int) {
 		txt.WriteString(q)
 	}
 	return txt.String(), count
-}
-
-func (o *order) generateQuestionsDelegation() string {
-	if o.get("serve_base_domain") == "yes" {
-		return ""
-	}
-
-	var txt strings.Builder
-	txt.WriteString("We see that you have something on your base domain. ")
-	txt.WriteString("In that case, you should add the following HTTPS redirects (HTTP 301):\n")
-	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/server") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/server") + "\n")
-	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/client") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/client") + "\n")
-	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/support") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/support") + "\n")
-	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/help/faq#why-are-well-known-redirects-on-the-base-domain-important") + "\n\n")
-
-	return txt.String()
 }
 
 func (o *order) generateQuestionsReminderBot() string {

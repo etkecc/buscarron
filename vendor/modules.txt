@@ -138,13 +138,13 @@ gitlab.com/etke.cc/go/env
 # gitlab.com/etke.cc/go/pricify v0.0.0-20231128103454-42048b5583b3
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
-# gitlab.com/etke.cc/go/secgen v1.1.1
+# gitlab.com/etke.cc/go/secgen v1.1.2
 ## explicit; go 1.19
 gitlab.com/etke.cc/go/secgen
 # gitlab.com/etke.cc/go/trysmtp v1.1.3
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/trysmtp
-# gitlab.com/etke.cc/go/validator/v2 v2.0.0
+# gitlab.com/etke.cc/go/validator/v2 v2.0.1
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator/v2
 # gitlab.com/etke.cc/linkpearl v0.0.0-20231121221431-72443f33d266

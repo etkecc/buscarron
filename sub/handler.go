@@ -142,7 +142,7 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 		return "", ErrNotFound
 	}
 
-	ctype := r.Header.Get("Content-Type")
+	ctype := strings.ToLower(strings.TrimSpace(strings.Split(r.Header.Get("Content-Type"), ";")[0]))
 	parser, ok := h.mapping[ctype]
 	if !ok {
 		h.log.Warn().Str("name", name).Str("content-type", ctype).Msg("form parser not found")

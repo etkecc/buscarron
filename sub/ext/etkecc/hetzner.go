@@ -234,9 +234,14 @@ func (o *order) generateHDNSCommand() string {
 		}
 	}
 
+	serverIP := "$HETZNER_SERVER_IP"
+	if o.has("ssh-host") {
+		serverIP = o.get("ssh-host")
+	}
+
 	req.
-		add(subdomain, "A", "$HETZNER_SERVER_IP", zoneID).
-		add("matrix"+suffix, "A", "$HETZNER_SERVER_IP", zoneID)
+		add(subdomain, "A", serverIP, zoneID).
+		add("matrix"+suffix, "A", serverIP, zoneID)
 
 	if o.has("service-email") {
 		req.WithMigadu = true
@@ -267,7 +272,7 @@ func (o *order) generateHDNSCommand() string {
 	if o.has("email2matrix") || o.has("postmoogle") {
 		req.
 			add("matrix"+suffix, "MX", "0 matrix."+o.domain+".", zoneID).
-			add("matrix"+suffix, "TXT", "v=spf1 ip4:$HETZNER_SERVER_IP -all", zoneID).
+			add("matrix"+suffix, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
 			add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
 	}
 	return o.getHDNSCurl(req)
@@ -278,7 +283,9 @@ func (o *order) getHDNSCurl(req *hDNSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
-	cmd.WriteString("export HETZNER_SERVER_IP=SERVER_IP\n")
+	if !o.has("ssh-host") {
+		cmd.WriteString("export HETZNER_SERVER_IP=SERVER_IP\n")
+	}
 	if req.WithMigadu {
 		cmd.WriteString("export MIGADU_VERIFICATION=CODE\n")
 	}

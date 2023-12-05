@@ -43,6 +43,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	o.txt.WriteString("price: $" + strconv.Itoa(o.price) + "\n\n")
 
 	questions, countQ := o.generateQuestions()
+	delegation := o.generateDelegationInstructions()
 	dns, dnsInternal := o.generateDNSInstructions()
 	hosts := o.generateHosts()
 
@@ -65,6 +66,12 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 		o.txt.WriteString("```\n\n")
 	}
 
+	if delegation != "" {
+		o.txt.WriteString("```yaml\n")
+		o.txt.WriteString(delegation)
+		o.txt.WriteString("```\n\n")
+	}
+
 	if hosts != "" {
 		o.txt.WriteString("hosts:\n")
 		o.txt.WriteString("```\n")
@@ -76,7 +83,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 
 	o.vars()
 	o.generateOnboarding()
-	o.generateFollowup(questions, dns, countQ, dnsInternal)
+	o.generateFollowup(questions, delegation, dns, countQ, dnsInternal)
 
 	go o.toGP(hosts) //nolint:errcheck
 	go o.sendFollowup()

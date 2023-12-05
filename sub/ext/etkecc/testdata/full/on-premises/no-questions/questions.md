@@ -4,8 +4,8 @@ price: $169
 
 Please, add the following DNS entries:
 
-- @	A record	server IP
-- matrix	A record	server IP
+- @	A record	1.2.3.4
+- matrix	A record	1.2.3.4
 - buscarron	CNAME record	matrix.example.com
 - cinny	CNAME record	matrix.example.com
 - element	CNAME record	matrix.example.com
@@ -23,7 +23,7 @@ Please, add the following DNS entries:
 - kuma	CNAME record	matrix.example.com
 - vault	CNAME record	matrix.example.com
 - matrix	MX record	matrix.example.com
-- matrix	TXT record	v=spf1 ip4:server IP -all
+- matrix	TXT record	v=spf1 ip4:1.2.3.4 -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 
