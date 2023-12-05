@@ -50,22 +50,6 @@ func (s *EtkeccSuite) setupSubs() {
 	s.T().Helper()
 
 	s.subs = map[string]map[string]string{
-		// OLD forms
-		"minimal/old/on-premises": {
-			"domain":   "https://matrix.ExAmPlE.com ",
-			"username": " tEsT ",
-			"email":    "tEsT@TEST.cOm",
-			"type":     "byos",
-		},
-		"minimal/old/hosting": {
-			"domain":           "https://matrix.ExAmPlE.com ",
-			"username":         " tEsT ",
-			"email":            "tEsT@TEST.cOm",
-			"type":             "turnkey",
-			"turnkey":          "small-cx11",
-			"turnkey-location": "Nuremberg",
-		},
-
 		"minimal/questions": {
 			"domain":   "https://matrix.ExAmPlE.com ",
 			"username": " tEsT ",

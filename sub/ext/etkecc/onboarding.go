@@ -141,7 +141,9 @@ func (o *order) generateOnboardingCredentials() string {
 
 	// hacky way to simplify next loop
 	mxpass := o.pass["matrix"]
+	borgpass := o.pass["borg"]
 	delete(o.pass, "matrix")
+	delete(o.pass, "borg")
 	delete(o.pass, "smtp")
 
 	txt.WriteString("**Credentials**\n\n")
@@ -161,18 +163,36 @@ func (o *order) generateOnboardingCredentials() string {
 	txt.WriteString("We're committed to providing you with the support you need.\n\n")
 
 	o.pass["matrix"] = mxpass
+	o.pass["borg"] = borgpass
 	return txt.String()
 }
 
 func (o *order) generateOnboardingAfter() string {
-	if !o.has("honoroit") || !o.has("buscarron") {
+	var txt strings.Builder
+
+	txt.WriteString(o.generateOnboardingAfterBorgBackup())
+	txt.WriteString(o.generateOnboardingAfterBuscarron())
+	txt.WriteString(o.generateOnboardingAfterHonoroit())
+
+	text := txt.String()
+	if text == "" {
+		return ""
+	}
+
+	return "**Post-Setup Steps for Specific Components:**\n\n" + text
+}
+
+func (o *order) generateOnboardingAfterBorgBackup() string {
+	if !o.has("borg") {
 		return ""
 	}
 	var txt strings.Builder
 
-	txt.WriteString("**Post-Setup Steps for Specific Bots:**\n\n")
-	txt.WriteString(o.generateOnboardingAfterBuscarron())
-	txt.WriteString(o.generateOnboardingAfterHonoroit())
+	txt.WriteString("**borg backup**\n\n")
+	txt.WriteString("Add the following public ssh key to the repository configuration on the borg provider side:\n\n")
+	txt.WriteString("```\n")
+	txt.WriteString(o.password("borg") + "\n")
+	txt.WriteString("```\n\n")
 
 	return txt.String()
 }

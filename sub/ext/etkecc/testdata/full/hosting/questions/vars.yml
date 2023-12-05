@@ -80,7 +80,7 @@ backup_borg_ssh_key_private: |
   -----BEGIN OPENSSH PRIVATE KEY-----
   TODO
   -----END OPENSSH PRIVATE KEY-----
-# TODO: ssh-todo TODO
+# ssh-todo TODO
 
 # sygnal https://sygnal.higenjitsuteki.onmatrix.chat
 matrix_sygnal_enabled: yes
@@ -194,12 +194,12 @@ vaultwarden_config_admin_token: TODO64
 matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_login: buscarron
 matrix_bot_buscarron_password: TODO64
-matrix_bot_buscarron_forms: [] # TODO
+matrix_bot_buscarron_forms: []
 
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO64
-matrix_bot_honoroit_roomid: TODO
+matrix_bot_honoroit_roomid: ''
 
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes

@@ -71,7 +71,15 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.
 
-**Post-Setup Steps for Specific Bots:**
+**Post-Setup Steps for Specific Components:**
+
+**borg backup**
+
+Add the following public ssh key to the repository configuration on the borg provider side:
+
+```
+ssh-todo TODO
+```
 
 **buscarron**
 

@@ -275,6 +275,7 @@ func (o *order) varsBorgBackup() string {
 	}
 	var txt strings.Builder
 	pub, priv := o.keygen()
+	o.pass["borg"] = pub
 
 	txt.WriteString("\n# borg\n")
 	txt.WriteString("backup_borg_enabled: yes\n")
@@ -285,7 +286,7 @@ func (o *order) varsBorgBackup() string {
 	for _, line := range strings.Split(priv, "\n") {
 		txt.WriteString("  " + line + "\n")
 	}
-	txt.WriteString("# TODO: " + pub + "\n")
+	txt.WriteString("# " + pub + "\n")
 
 	return txt.String()
 }
@@ -601,7 +602,7 @@ func (o *order) varsBuscarron() string {
 	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
 	txt.WriteString("matrix_bot_buscarron_login: buscarron\n")
 	txt.WriteString("matrix_bot_buscarron_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_buscarron_forms: [] # TODO\n")
+	txt.WriteString("matrix_bot_buscarron_forms: []\n")
 
 	return txt.String()
 }
@@ -615,7 +616,7 @@ func (o *order) varsHonoroit() string {
 	txt.WriteString("\n# bots::honoroit\n")
 	txt.WriteString("matrix_bot_honoroit_enabled: yes\n")
 	txt.WriteString("matrix_bot_honoroit_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_honoroit_roomid: TODO\n")
+	txt.WriteString("matrix_bot_honoroit_roomid: ''\n")
 
 	return txt.String()
 }
