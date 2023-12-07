@@ -98,7 +98,7 @@ func (o *order) generateQuestionsServices() string {
 }
 
 func (o *order) generateQuestionsType() string {
-	if o.hosting != "" && !o.has("ssh-client-key") {
+	if o.hosting != "" && !o.has("ssh-client-key-disabled") && !o.has("ssh-client-key") {
 		return "SSH: You are ordering a hosted/managed server. We will set up and manage the server on your behalf. Still, you can get full SSH access to this server. **If** you wish to have SSH access to this server, send us your public SSH key and a list of IP addresses from which you wish to access it.\n\n"
 	}
 
