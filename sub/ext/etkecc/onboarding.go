@@ -173,6 +173,7 @@ func (o *order) generateOnboardingAfter() string {
 	txt.WriteString(o.generateOnboardingAfterBorgBackup())
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
+	txt.WriteString(o.generateOnboardingAfterMigadu())
 
 	text := txt.String()
 	if text == "" {
@@ -219,6 +220,22 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 	txt.WriteString("**honoroit**\n\n")
 	txt.WriteString("1. Create a matrix room (encryption supported) and invite the honoroit user into it\n")
 	txt.WriteString("2. Send the room id to " + matrixLink("@support:etke.cc") + "\n\n")
+
+	return txt.String()
+}
+
+func (o *order) generateOnboardingAfterMigadu() string {
+	if !o.has("service-email") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("**Email Service**\n\n")
+	txt.WriteString("1. Accept the invitation to the Migadu account (check your mailbox)\n")
+	txt.WriteString("2. Go to the " + link("admin.migadu.com/domains") + ", select your email domain\n")
+	txt.WriteString("3. Click on `DNS Configuration`, and then on `Setup Instructions`\n")
+	txt.WriteString("4. Follow the instructions to set up the DNS records\n")
+	txt.WriteString("5. Once that will be done, click on `Diagnostics` and check if everything is set up correctly\n\n")
 
 	return txt.String()
 }

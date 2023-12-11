@@ -45,12 +45,12 @@ func (o *order) generateFollowup(questions, delegation, dns string, countQ int, 
 	}
 
 	if o.hosting == "" && !dnsInternal {
-		txt.WriteString("\n")
+		txt.WriteString("\n\n")
 		txt.WriteString(dns)
 	}
 
 	if delegation != "" {
-		txt.WriteString("\n")
+		txt.WriteString("\n\n")
 		txt.WriteString(delegation)
 	}
 

@@ -13,8 +13,6 @@ import (
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
-const pricifyDataURL = "https://etke.cc/order/components.json"
-
 // Etkecc extension
 type Etkecc struct {
 	pm      EmailSender
@@ -34,7 +32,7 @@ func New(pm EmailSender) *Etkecc {
 		pm:  pm,
 		now: time.Now,
 	}
-	ext.pricify, _ = pricify.New(pricifyDataURL) //nolint:errcheck // proof-of-concept
+	ext.pricify, _ = pricify.New() //nolint:errcheck // proof-of-concept
 	return ext
 }
 
@@ -42,7 +40,7 @@ func New(pm EmailSender) *Etkecc {
 func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	var p *pricify.Data
 	var err error
-	p, err = pricify.New(pricifyDataURL)
+	p, err = pricify.New()
 	if err != nil {
 		p = e.pricify
 	}

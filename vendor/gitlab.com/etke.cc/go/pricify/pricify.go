@@ -5,8 +5,15 @@ import (
 	"net/http"
 )
 
+const dataURL = "https://etke.cc/order/components.json"
+
 // New price data
-func New(uri string) (*Data, error) {
+func New(uriOverride ...string) (*Data, error) {
+	uri := dataURL
+	if len(uriOverride) > 0 {
+		uri = uriOverride[0]
+	}
+
 	resp, err := http.Get(uri)
 	if err != nil {
 		return nil, err
