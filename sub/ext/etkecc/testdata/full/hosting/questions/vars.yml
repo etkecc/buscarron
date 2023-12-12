@@ -50,6 +50,15 @@ matrix_synapse_oidc_providers:
         localpart_template: "{% raw %}{{ user.given_name|lower }}{% endraw %}"
         display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
 
+# synapse::extensions::s3_storage_provider
+matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes
+matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: TODO
+matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: TODO
+matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: TODO
+matrix_synapse_ext_synapse_s3_storage_provider_config_access_key_id: TODO
+matrix_synapse_ext_synapse_s3_storage_provider_config_secret_access_key: TODO
+matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD
+
 # synapse::extensions::shared_secret_auth
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
 matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO64

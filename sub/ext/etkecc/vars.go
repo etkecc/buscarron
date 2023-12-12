@@ -311,6 +311,17 @@ func (o *order) varsSynapse() string {
 		txt.WriteString("        display_name_template: \"{% raw %}{{ user.name }}{% endraw %}\"\n")
 	}
 
+	if o.has("synapse-s3") {
+		txt.WriteString("\n# synapse::extensions::s3_storage_provider\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: " + o.get("synapse-s3-bucket") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: " + o.get("synapse-s3-region") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: " + o.get("synapse-s3-endpoint") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_access_key_id: " + o.get("synapse-s3-access-key") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_secret_access_key: " + o.get("synapse-s3-secret-key") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD\n")
+	}
+
 	txt.WriteString("\n# synapse::extensions::shared_secret_auth\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: " + o.pwgen() + "\n")
