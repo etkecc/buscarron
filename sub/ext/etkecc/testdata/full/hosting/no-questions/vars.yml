@@ -213,7 +213,7 @@ matrix_bot_buscarron_forms: []
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO64
-matrix_bot_honoroit_roomid: ''
+matrix_bot_honoroit_roomid: 'TBD'
 
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes

@@ -627,7 +627,7 @@ func (o *order) varsHonoroit() string {
 	txt.WriteString("\n# bots::honoroit\n")
 	txt.WriteString("matrix_bot_honoroit_enabled: yes\n")
 	txt.WriteString("matrix_bot_honoroit_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_honoroit_roomid: ''\n")
+	txt.WriteString("matrix_bot_honoroit_roomid: 'TBD'\n")
 
 	return txt.String()
 }
