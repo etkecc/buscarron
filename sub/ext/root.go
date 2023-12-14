@@ -19,23 +19,24 @@ func NewRoot() *root {
 
 // Execute extension
 func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	defaultText := e.defaultText(form.Name, data)
 	var out string
 	if form.Text == "" {
-		return e.defaultText(form.Name, data), []*mautrix.ReqUploadMedia{}
+		return defaultText, []*mautrix.ReqUploadMedia{}
 	}
 
 	out, err := common.ParseTemplate(form.Text, data)
 	if err != nil {
-		out = e.defaultText(form.Name, data)
+		out = defaultText
 	}
 	out += "\n\n"
 
 	files := []*mautrix.ReqUploadMedia{
 		{
-			Content:       strings.NewReader(out),
+			Content:       strings.NewReader(defaultText),
 			FileName:      "submission.md",
 			ContentType:   "text/markdown",
-			ContentLength: int64(len(out)),
+			ContentLength: int64(len(defaultText)),
 		},
 	}
 
