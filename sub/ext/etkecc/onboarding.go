@@ -50,9 +50,7 @@ func (o *order) generateOnboardingLinks() string {
 		txt.WriteString("* Web app: " + link("app.etke.cc") + "\n")
 	}
 	txt.WriteString("* Homeserver: " + link("matrix."+o.domain) + "\n")
-	if o.has("synapse-admin") {
-		txt.WriteString("* Synapse Admin: " + link("matrix."+o.domain+"/synapse-admin") + "\n")
-	}
+	txt.WriteString("* Synapse Admin: " + link("matrix."+o.domain+"/synapse-admin") + "\n")
 	if o.has("etherpad") {
 		txt.WriteString("* Etherpad (admin): " + link("etherpad."+o.domain+"/admin") + "\n")
 	}
