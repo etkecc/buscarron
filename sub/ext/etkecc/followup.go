@@ -44,9 +44,14 @@ func (o *order) generateFollowup(questions, delegation, dns string, countQ int, 
 		txt.WriteString(fmt.Sprintf(followupNoQuestions, o.price, o.get("email")))
 	}
 
-	if o.hosting == "" && !dnsInternal {
+	if o.hosting == "" {
 		txt.WriteString("\n\n")
-		txt.WriteString(dns)
+		txt.WriteString("Please, ensure [all mandatory ports are open](https://etke.cc/help/faq#what-ports-should-be-open).")
+
+		if !dnsInternal {
+			txt.WriteString("\n\n")
+			txt.WriteString(dns)
+		}
 	}
 
 	if delegation != "" {

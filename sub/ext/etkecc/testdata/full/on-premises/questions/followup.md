@@ -18,6 +18,8 @@ BorgBackup: please, provide the desired repository url (user@host:repo). We will
 Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 1vCPU, 2GB RAM.
 Add our SSH keys ([etke.cc/keys.txt](https://etke.cc/keys.txt)) to your server, open the required ports ([etke.cc/help/faq#what-ports-should-be-open](https://etke.cc/help/faq#what-ports-should-be-open)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
+Please, ensure [all mandatory ports are open](https://etke.cc/help/faq#what-ports-should-be-open).
+
 Please, add the following DNS entries:
 
 * @    A record    server IP
