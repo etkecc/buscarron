@@ -57,7 +57,8 @@ type hFirewallRequest struct {
 }
 
 type hFirewallApplyTo struct {
-	Servver hFirewallApplyToServer `json:"server"`
+	Server hFirewallApplyToServer `json:"server"`
+	Type   string                 `json:"type"`
 }
 
 type hFirewallApplyToServer struct {
@@ -107,7 +108,8 @@ func (o *order) generateHFirewallCommand() string {
 		Name: o.domain,
 		ApplyTo: []hFirewallApplyTo{
 			{
-				hFirewallApplyToServer{ID: 12345}, // special value to be replaced
+				Server: hFirewallApplyToServer{ID: 12345}, // special value to be replaced
+				Type:   "server",
 			},
 		},
 		Rules: []hFirewallRule{
