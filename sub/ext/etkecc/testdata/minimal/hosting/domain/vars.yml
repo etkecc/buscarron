@@ -6,6 +6,9 @@ etke_subscription_confirmed: no
 etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
+
+TODO: waiting for DNS records
+
 # postgres
 devture_postgres_connection_password: TODO64
 

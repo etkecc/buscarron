@@ -123,6 +123,10 @@ func (o *order) varsEtke() string {
 		txt.WriteString(": " + enabledServices[service] + "\n")
 	}
 
+	if !o.subdomain {
+		txt.WriteString("\n\nTODO: waiting for DNS records\n")
+	}
+
 	return txt.String()
 }
 
