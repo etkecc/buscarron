@@ -11,6 +11,7 @@ var dnsmap = map[string]string{
 	"cinny":       "cinny",
 	"element-web": "element",
 	"etherpad":    "etherpad",
+	"firezone":    "firezone",
 	"gotosocial":  "social",
 	"hydrogen":    "hydrogen",
 	"jitsi":       "jitsi",

@@ -128,6 +128,13 @@ etherpad_hostname: etherpad.higenjitsuteki.onmatrix.chat
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 
+# firezone
+firezone_enabled: yes
+firezone_hostname: firezone.higenjitsuteki.onmatrix.chat
+firezone_default_admin_email: test@test.com
+firezone_default_admin_password: TODO64
+firezone_database_encryption_key: TODO32
+
 # gotosocial https://social.higenjitsuteki.onmatrix.chat
 gotosocial_enabled: yes
 gotosocial_hostname: social.higenjitsuteki.onmatrix.chat

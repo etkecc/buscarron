@@ -30,6 +30,7 @@ func (o *order) vars() {
 	txt.WriteString(o.varsCinny())
 	txt.WriteString(o.varsElement())
 	txt.WriteString(o.varsEtherpad())
+	txt.WriteString(o.varsFirezone())
 	txt.WriteString(o.varsGoToSocial())
 	txt.WriteString(o.varsHydrogen())
 	txt.WriteString(o.varsJitsi())
@@ -444,6 +445,22 @@ func (o *order) varsEtherpad() string {
 	txt.WriteString("etherpad_hostname: etherpad." + o.domain + "\n")
 	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsFirezone() string {
+	if !o.has("firezone") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# firezone\n")
+	txt.WriteString("firezone_enabled: yes\n")
+	txt.WriteString("firezone_hostname: firezone." + o.domain + "\n")
+	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
+	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
+	txt.WriteString("firezone_database_encryption_key: " + o.pwgen(32) + "\n")
 
 	return txt.String()
 }

@@ -13,6 +13,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Cinny: [cinny.higenjitsuteki.onmatrix.chat](https://cinny.higenjitsuteki.onmatrix.chat)
 * Element-Web: [element.higenjitsuteki.onmatrix.chat](https://element.higenjitsuteki.onmatrix.chat)
 * Etherpad: [etherpad.higenjitsuteki.onmatrix.chat](https://etherpad.higenjitsuteki.onmatrix.chat)
+* Firezone: [firezone.higenjitsuteki.onmatrix.chat](https://firezone.higenjitsuteki.onmatrix.chat)
 * Gotosocial: [social.higenjitsuteki.onmatrix.chat](https://social.higenjitsuteki.onmatrix.chat)
 * Hydrogen: [hydrogen.higenjitsuteki.onmatrix.chat](https://hydrogen.higenjitsuteki.onmatrix.chat)
 * Jitsi: [jitsi.higenjitsuteki.onmatrix.chat](https://jitsi.higenjitsuteki.onmatrix.chat)
@@ -63,6 +64,7 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 * Username: test
 * Password: TODO64
 * Etherpad Admin password: TODO64
+* Firezone password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
 * Linkding password: TODO64

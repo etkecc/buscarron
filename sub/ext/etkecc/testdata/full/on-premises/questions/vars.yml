@@ -121,6 +121,13 @@ etherpad_hostname: etherpad.example.com
 etherpad_admin_username: test
 etherpad_admin_password: TODO64
 
+# firezone
+firezone_enabled: yes
+firezone_hostname: firezone.example.com
+firezone_default_admin_email: test@test.com
+firezone_default_admin_password: TODO64
+firezone_database_encryption_key: TODO32
+
 # gotosocial https://social.example.com
 gotosocial_enabled: yes
 gotosocial_hostname: social.example.com

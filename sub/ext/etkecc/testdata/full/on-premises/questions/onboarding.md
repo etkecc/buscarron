@@ -13,6 +13,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Cinny: [cinny.example.com](https://cinny.example.com)
 * Element-Web: [element.example.com](https://element.example.com)
 * Etherpad: [etherpad.example.com](https://etherpad.example.com)
+* Firezone: [firezone.example.com](https://firezone.example.com)
 * Gotosocial: [social.example.com](https://social.example.com)
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)
 * Jitsi: [jitsi.example.com](https://jitsi.example.com)
@@ -63,6 +64,7 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 * Username: test
 * Password: TODO64
 * Etherpad Admin password: TODO64
+* Firezone password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
 * Linkding password: TODO64
