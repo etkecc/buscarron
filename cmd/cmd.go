@@ -26,6 +26,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/controllers"
 	"gitlab.com/etke.cc/buscarron/mail"
 	"gitlab.com/etke.cc/buscarron/sub"
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc"
 )
 
@@ -104,7 +105,7 @@ func initControllers(cfg *config.Config) {
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
-	vs := make(map[string]sub.Validator, len(cfg.Forms))
+	vs := make(map[string]common.Validator, len(cfg.Forms))
 	for name, item := range cfg.Forms {
 		rooms = append(rooms, item.RoomID)
 		rls[name] = item.Ratelimit

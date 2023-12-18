@@ -1,6 +1,9 @@
 package validator
 
-import "net"
+import (
+	"net"
+	"strings"
+)
 
 // A checks if host has at least one A record
 func (v *V) A(host string) bool {
@@ -42,4 +45,36 @@ func (v *V) MX(host string) bool {
 	}
 
 	return len(mxs) > 0
+}
+
+// NS checks if host has at least one NS record,
+// and optionally checks if the NS record contains the given string
+func (v *V) NS(host string, contains ...string) bool {
+	if host == "" {
+		return false
+	}
+	nss, err := net.LookupNS(host)
+	if err != nil {
+		v.cfg.Log("cannot get NS records of %s: %v", host, err)
+		return false
+	}
+	if len(nss) == 0 {
+		v.cfg.Log("%s doesn't have NS records", host)
+		return false
+	}
+
+	if len(contains) == 0 {
+		return true
+	}
+
+	if len(contains) > 0 {
+		for _, ns := range nss {
+			for _, c := range contains {
+				if strings.Contains(ns.Host, c) {
+					return true
+				}
+			}
+		}
+	}
+	return false
 }

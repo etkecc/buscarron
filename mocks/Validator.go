@@ -90,13 +90,13 @@ func (_m *Validator) Email(_a0 string, _a1 ...net.IP) bool {
 	return r0
 }
 
-// GetBase provides a mock function with given fields: domain
-func (_m *Validator) GetBase(domain string) string {
-	ret := _m.Called(domain)
+// GetBase provides a mock function with given fields: _a0
+func (_m *Validator) GetBase(_a0 string) string {
+	ret := _m.Called(_a0)
 
 	var r0 string
 	if rf, ok := ret.Get(0).(func(string) string); ok {
-		r0 = rf(domain)
+		r0 = rf(_a0)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
@@ -111,6 +111,27 @@ func (_m *Validator) MX(_a0 string) bool {
 	var r0 bool
 	if rf, ok := ret.Get(0).(func(string) bool); ok {
 		r0 = rf(_a0)
+	} else {
+		r0 = ret.Get(0).(bool)
+	}
+
+	return r0
+}
+
+// NS provides a mock function with given fields: _a0, _a1
+func (_m *Validator) NS(_a0 string, _a1 ...string) bool {
+	_va := make([]interface{}, len(_a1))
+	for _i := range _a1 {
+		_va[_i] = _a1[_i]
+	}
+	var _ca []interface{}
+	_ca = append(_ca, _a0)
+	_ca = append(_ca, _va...)
+	ret := _m.Called(_ca...)
+
+	var r0 bool
+	if rf, ok := ret.Get(0).(func(string, ...string) bool); ok {
+		r0 = rf(_a0, _a1...)
 	} else {
 		r0 = ret.Get(0).(bool)
 	}

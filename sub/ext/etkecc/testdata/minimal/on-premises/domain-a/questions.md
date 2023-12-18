@@ -11,12 +11,13 @@ ___
 
 ```yaml
 
-Please, add the following DNS entries:
+Please, add the following DNS entries (ensure that the CloudFlare proxy is disabled!):
 
 - matrix	A record	server IP
 ```
 
 ```yaml
+
 We see that you have something on your base domain.
 **If** that's a domain registrar's (parking) page and/or you intend to serve base domain (example.com) from the matrix server, just add the `@` DNS record pointing to the server IP and tell us about that.
 **If** that's your website and/or you intend to serve base domain from some other server, you should add the following HTTPS redirects (HTTP 301):

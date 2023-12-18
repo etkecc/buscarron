@@ -15,7 +15,11 @@ func (o *order) generateDNSInstructions() (string, bool) {
 		serverIP = o.get("ssh-host")
 	}
 
-	dns := "\nPlease, add the following DNS entries:\n\n"
+	dns := "\nPlease, add the following DNS entries"
+	if o.v.NS(o.domain, "cloudflare.com") {
+		dns += " (ensure that the CloudFlare proxy is disabled!)"
+	}
+	dns += ":\n\n"
 	if o.get("serve_base_domain") == "yes" {
 		dns += strings.Join([]string{"- @", "A record", serverIP + "\n"}, "\t")
 	}

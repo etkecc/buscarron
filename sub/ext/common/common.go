@@ -10,6 +10,7 @@ import (
 type Validator interface {
 	A(string) bool
 	MX(string) bool
+	NS(string, ...string) bool
 	CNAME(string) bool
 	Email(string, ...net.IP) bool
 	Domain(string) bool

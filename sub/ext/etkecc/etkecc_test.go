@@ -218,6 +218,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/on-premises/matrix-user",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -227,6 +228,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/on-premises/domain",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -236,6 +238,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/on-premises/domain-a",
 			before: func() {
 				s.v.On("A", "example.com").Return(true).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(true).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
 			submission: s.subs["minimal/questions"],
@@ -253,6 +256,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/hosting/domain",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Twice()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -274,6 +278,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/on-premises/no-questions",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -283,6 +288,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/hosting/no-questions",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Twice()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -294,6 +300,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "full/on-premises/questions",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -312,6 +319,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "full/on-premises/no-questions",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},

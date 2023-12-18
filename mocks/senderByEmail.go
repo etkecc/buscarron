@@ -52,7 +52,7 @@ func (_m *senderByEmail) Send(roomID id.RoomID, message string, attributes map[s
 }
 
 // SendByEmail provides a mock function with given fields: roomID, email, message, reactions
-func (_m *senderByEmail) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) bool {
+func (_m *senderByEmail) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) map[string]interface{} {
 	_va := make([]interface{}, len(reactions))
 	for _i := range reactions {
 		_va[_i] = reactions[_i]
@@ -62,11 +62,13 @@ func (_m *senderByEmail) SendByEmail(roomID id.RoomID, email string, message str
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
-	var r0 bool
-	if rf, ok := ret.Get(0).(func(id.RoomID, string, string, ...string) bool); ok {
+	var r0 map[string]interface{}
+	if rf, ok := ret.Get(0).(func(id.RoomID, string, string, ...string) map[string]interface{}); ok {
 		r0 = rf(roomID, email, message, reactions...)
 	} else {
-		r0 = ret.Get(0).(bool)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(map[string]interface{})
+		}
 	}
 
 	return r0

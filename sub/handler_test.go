@@ -12,13 +12,14 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mocks"
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 )
 
 type HandlerSuite struct {
 	suite.Suite
 	log    *zerolog.Logger
 	v      *mocks.Validator
-	vs     map[string]Validator
+	vs     map[string]common.Validator
 	sender *mocks.Sender
 }
 
@@ -26,7 +27,7 @@ func (s *HandlerSuite) SetupSuite() {
 	log := zerolog.Nop()
 	s.log = &log
 	s.v = &mocks.Validator{}
-	s.vs = map[string]Validator{"test": s.v}
+	s.vs = map[string]common.Validator{"test": s.v}
 	s.sender = &mocks.Sender{}
 }
 

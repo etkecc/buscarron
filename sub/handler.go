@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"html/template"
-	"net"
 	"net/http"
 	"strings"
 
@@ -20,6 +19,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub/ext"
+	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/linkpearl"
 )
 
@@ -34,17 +34,6 @@ type EmailSender interface {
 	Send(*postmark.Email) error
 }
 
-// Validator interface
-type Validator interface {
-	Domain(string) bool
-	DomainString(string) bool
-	Email(string, ...net.IP) bool
-	A(string) bool
-	CNAME(string) bool
-	MX(string) bool
-	GetBase(domain string) string
-}
-
 // Handler is an HTTP forms handler
 type Handler struct {
 	redirectTpl *template.Template
@@ -54,7 +43,7 @@ type Handler struct {
 	forms       map[string]*config.Form
 	log         *zerolog.Logger
 	ext         map[string]ext.Extension
-	vs          map[string]Validator
+	vs          map[string]common.Validator
 }
 
 const redirect = "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='{{ .URL }}'\" /></head><body>Redirecting to <a href='{{ .URL }}'>{{ .URL }}</a>..."
@@ -67,7 +56,7 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, vs map[string]Validator, pm EmailSender, sender Sender, log *zerolog.Logger) *Handler {
+func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender, log *zerolog.Logger) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
