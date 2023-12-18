@@ -27,6 +27,9 @@ matrix_user_creator_users_additional:
  - username: test
    initial_password: TODO64
    initial_type: admin
+ - username: chatgpt
+   initial_password: TODO64
+   initial_type: bot
 gotosocial_users_additional:
  - username: test
    initial_email: test@test.com
@@ -206,9 +209,13 @@ vaultwarden_config_admin_token: TODO64
 
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes
-matrix_bot_buscarron_login: buscarron
 matrix_bot_buscarron_password: TODO64
 matrix_bot_buscarron_forms: []
+
+# bots::chatgpt
+matrix_bot_chatgpt_enabled: yes
+matrix_bot_chatgpt_openai_api_key: TODO
+matrix_bot_chatgpt_matrix_bot_password: TODO64
 
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
@@ -218,7 +225,6 @@ matrix_bot_honoroit_roomid: 'TBD'
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
-matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder
 matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
 
 # bridges::discord
@@ -226,7 +232,6 @@ matrix_mautrix_discord_enabled: yes
 
 # bridges::email
 matrix_bot_postmoogle_enabled: yes
-matrix_bot_postmoogle_login: emailbot
 matrix_bot_postmoogle_password: TODO64
 matrix_bot_postmoogle_data_secret: TODO32
 

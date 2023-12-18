@@ -47,6 +47,7 @@ func (o *order) vars() {
 
 	// bots
 	txt.WriteString(o.varsBuscarron())
+	txt.WriteString(o.varsChatGPT())
 	txt.WriteString(o.varsHonoroit())
 	txt.WriteString(o.varsReminder())
 
@@ -204,6 +205,11 @@ func (o *order) varsUsers() string {
 	txt.WriteString(" - username: " + o.get("username") + "\n")
 	txt.WriteString("   initial_password: " + o.password("matrix") + "\n")
 	txt.WriteString("   initial_type: admin\n")
+	if o.has("chatgpt") {
+		txt.WriteString(" - username: chatgpt\n")
+		txt.WriteString("   initial_password: " + o.password("chatgpt") + "\n")
+		txt.WriteString("   initial_type: bot\n")
+	}
 
 	if o.has("gotosocial") {
 		txt.WriteString("gotosocial_users_additional:\n")
@@ -628,9 +634,22 @@ func (o *order) varsBuscarron() string {
 
 	txt.WriteString("\n# bots::buscarron\n")
 	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
-	txt.WriteString("matrix_bot_buscarron_login: buscarron\n")
 	txt.WriteString("matrix_bot_buscarron_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_buscarron_forms: []\n")
+
+	return txt.String()
+}
+
+func (o *order) varsChatGPT() string {
+	if !o.has("chatgpt") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# bots::chatgpt\n")
+	txt.WriteString("matrix_bot_chatgpt_enabled: yes\n")
+	txt.WriteString("matrix_bot_chatgpt_openai_api_key: " + o.get("chatgpt-api-key") + "\n")
+	txt.WriteString("matrix_bot_chatgpt_matrix_bot_password: " + o.password("chatgpt") + "\n")
 
 	return txt.String()
 }
@@ -658,7 +677,6 @@ func (o *order) varsReminder() string {
 	txt.WriteString("\n# bots::reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_enabled: yes\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: " + o.get("reminder-bot-tz") + "\n")
-	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_id_localpart: reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + o.pwgen() + "\n")
 
 	return txt.String()
@@ -683,7 +701,6 @@ func (o *order) varsEmail() string {
 
 	txt.WriteString("\n# bridges::email\n")
 	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
-	txt.WriteString("matrix_bot_postmoogle_login: emailbot\n")
 	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
 

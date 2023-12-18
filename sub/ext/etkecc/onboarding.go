@@ -141,6 +141,7 @@ func (o *order) generateOnboardingCredentials() string {
 	mxpass := o.pass["matrix"]
 	borgpass := o.pass["borg"]
 	delete(o.pass, "matrix")
+	delete(o.pass, "chatgpt")
 	delete(o.pass, "borg")
 	delete(o.pass, "smtp")
 
