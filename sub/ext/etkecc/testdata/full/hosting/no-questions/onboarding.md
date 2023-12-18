@@ -60,8 +60,9 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 
 **Credentials**
 
-* Matrix ID: [@test:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test:higenjitsuteki.onmatrix.chat)
-* Username: test
+* Matrix ID: [@test.admin:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test.admin:higenjitsuteki.onmatrix.chat)
+* Username: test.admin
+* GoToSocial username: test_admin
 * Password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64

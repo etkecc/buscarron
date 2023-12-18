@@ -16,7 +16,7 @@ devture_postgres_connection_password: TODO64
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
-matrix_admin: "@test:{{ matrix_domain }}"
+matrix_admin: "@test:example.com"
 devture_traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 

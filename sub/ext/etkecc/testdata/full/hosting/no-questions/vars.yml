@@ -17,7 +17,7 @@ devture_postgres_connection_password: TODO64
 
 # homeserver https://matrix.higenjitsuteki.onmatrix.chat
 matrix_domain: higenjitsuteki.onmatrix.chat
-matrix_admin: "@test:{{ matrix_domain }}"
+matrix_admin: "@test.admin:higenjitsuteki.onmatrix.chat"
 devture_traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_mailer_enabled: no
 matrix_bridges_encryption_enabled: yes
@@ -25,20 +25,20 @@ matrix_bridges_encryption_enabled: yes
 # MSC1929 admin contacts
 matrix_well_known_matrix_support_enabled: yes
 matrix_homeserver_admin_contacts:
-  - matrix_id: "@test:higenjitsuteki.onmatrix.chat"
+  - matrix_id: "@test.admin:higenjitsuteki.onmatrix.chat"
     email_address: test@test.com
     role: m.role.admin
 
 # initial users
 matrix_user_creator_users_additional:
- - username: test
+ - username: test.admin
    initial_password: TODO64
    initial_type: admin
  - username: chatgpt
    initial_password: TODO64
    initial_type: bot
 gotosocial_users_additional:
- - username: test
+ - username: test_admin
    initial_email: test@test.com
    initial_password: TODO64
    initial_type: admin
@@ -128,7 +128,7 @@ matrix_client_element_enabled: yes
 # etherpad
 etherpad_enabled: yes
 etherpad_hostname: etherpad.higenjitsuteki.onmatrix.chat
-etherpad_admin_username: test
+etherpad_admin_username: test.admin
 etherpad_admin_password: TODO64
 
 # firezone
@@ -159,7 +159,7 @@ jitsi_jibri_xmpp_password: TODO64
 jitsi_jibri_recorder_password: TODO64
 jitsi_jicofo_auth_password: TODO64
 # jitsi_prosody_auth_internal_accounts:
-#  - username: test
+#  - username: test.admin
 #    password: TODO64
 
 # linkding https://linkding.higenjitsuteki.onmatrix.chat
@@ -167,13 +167,13 @@ linkding_enabled: yes
 linkding_hostname: linkding.higenjitsuteki.onmatrix.chat
 linkding_path_prefix: /
 linkding_database_engine: postgres 
-linkding_superuser_login: test
+linkding_superuser_login: test.admin
 linkding_superuser_password: TODO64
 
 # miniflux https://miniflux.higenjitsuteki.onmatrix.chat
 miniflux_enabled: yes
 miniflux_hostname: miniflux.higenjitsuteki.onmatrix.chat
-miniflux_admin_login: test
+miniflux_admin_login: test.admin
 miniflux_admin_password: TODO64
 
 # nginx proxy website
@@ -199,7 +199,7 @@ grafana_anonymous_access: no
 prometheus_node_exporter_enabled: yes
 prometheus_node_exporter_process_extra_arguments:
   - "--collector.systemd"
-grafana_default_admin_user: test
+grafana_default_admin_user: test.admin
 grafana_default_admin_password: TODO64
 
 # synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin

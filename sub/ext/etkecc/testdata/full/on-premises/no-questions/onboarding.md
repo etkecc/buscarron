@@ -60,8 +60,9 @@ For authentication instructions and assistance, please visit: [etke.cc/help/brid
 
 **Credentials**
 
-* Matrix ID: [@test:example.com](https://matrix.to/#/@test:example.com)
-* Username: test
+* Matrix ID: [@test.admin:example.com](https://matrix.to/#/@test.admin:example.com)
+* Username: test.admin
+* GoToSocial username: test_admin
 * Password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64

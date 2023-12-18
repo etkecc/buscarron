@@ -123,7 +123,7 @@ func (s *EtkeccSuite) setupSubs() {
 		},
 		"full/no-questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",
-			"username":            " tEsT ",
+			"username":            " tEsT.admin ",
 			"email":               "tEsT@TEST.cOm",
 			"service-email":       "yes",
 			"service-support":     "dedicated",

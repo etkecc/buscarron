@@ -169,7 +169,7 @@ func (o *order) varsHomeserver() string {
 
 	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
 	txt.WriteString("matrix_domain: " + o.domain + "\n")
-	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":{{ matrix_domain }}\"\n")
+	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":" + o.domain + "\"\n")
 	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
 	if len(o.smtp) > 0 {
 		txt.WriteString("matrix_mailer_enabled: no\n")
@@ -213,7 +213,7 @@ func (o *order) varsUsers() string {
 
 	if o.has("gotosocial") {
 		txt.WriteString("gotosocial_users_additional:\n")
-		txt.WriteString(" - username: " + o.get("username") + "\n")
+		txt.WriteString(" - username: " + strings.ReplaceAll(o.get("username"), ".", "_") + "\n")
 		txt.WriteString("   initial_email: " + o.get("email") + "\n")
 		txt.WriteString("   initial_password: " + o.password("gotosocial") + "\n")
 		txt.WriteString("   initial_type: admin\n")

@@ -148,6 +148,12 @@ func (o *order) generateOnboardingCredentials() string {
 	txt.WriteString("**Credentials**\n\n")
 	txt.WriteString("* Matrix ID: " + matrixLink("@"+o.get("username")+":"+o.domain) + "\n")
 	txt.WriteString("* Username: " + o.get("username") + "\n")
+	if o.has("gotosocial") {
+		gtsLogin := strings.ReplaceAll(o.get("username"), ".", "_")
+		if gtsLogin != o.get("username") {
+			txt.WriteString("* GoToSocial username: " + gtsLogin + "\n")
+		}
+	}
 	txt.WriteString("* Password: " + mxpass + "\n")
 	items := []string{}
 	for item := range o.pass {
