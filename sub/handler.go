@@ -162,6 +162,7 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 		attrs["email"] = data["email"]
 	}
 	if data["domain"] != "" {
+		attrs["base_domain"] = v.GetBase(data["domain"])
 		attrs["domain"] = data["domain"]
 	}
 

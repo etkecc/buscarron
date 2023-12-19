@@ -30,13 +30,18 @@ type gpfile struct {
 	Regex   string `json:"regex,omitempty"`
 }
 
-func MarkAsPaid(log *zerolog.Logger, domain, amount string) {
+func MarkAsPaid(log *zerolog.Logger, domain, baseDomain, amount string) {
 	if gpURL == "" || gpUser == "" || gpPass == "" {
 		log.Warn().Msg("gp disabled")
 	}
 
+	msgdomain := domain
+	if domain != baseDomain {
+		msgdomain += " (or " + baseDomain + ")"
+	}
+
 	req := &gpreq{
-		Message: domain + " - paid",
+		Message: msgdomain + " - paid",
 		Files: []*gpfile{
 			{
 				Path:    "host_vars/" + domain + "/vars.yml",
@@ -52,6 +57,22 @@ func MarkAsPaid(log *zerolog.Logger, domain, amount string) {
 				Content: "etke_subscription_first_payment: " + amount,
 			},
 		},
+	}
+	if domain != baseDomain {
+		req.Files = append(req.Files,
+			&gpfile{
+				Path:    "host_vars/" + baseDomain + "/vars.yml",
+				Action:  "replace",
+				Line:    "# etke services",
+				Regex:   "etke_subscription_confirmed: no",
+				Content: "etke_subscription_confirmed: yes",
+			},
+			&gpfile{
+				Path:    "host_vars/" + baseDomain + "/vars.yml",
+				Action:  "append",
+				Line:    "# etke services",
+				Content: "etke_subscription_first_payment: " + amount,
+			})
 	}
 	reqb, err := json.Marshal(req)
 	if err != nil {
