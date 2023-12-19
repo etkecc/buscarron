@@ -17,7 +17,7 @@ func (o *order) generateDNSInstructions() (string, bool) {
 
 	dns := "\nPlease, add the following DNS entries"
 	if o.v.NS(o.domain, "cloudflare.com") {
-		dns += " (ensure that the CloudFlare proxy is disabled!)"
+		dns += " (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation)"
 	}
 	dns += ":\n\n"
 	if o.get("serve_base_domain") == "yes" {

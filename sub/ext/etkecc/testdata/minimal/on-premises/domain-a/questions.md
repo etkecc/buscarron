@@ -11,7 +11,7 @@ ___
 
 ```yaml
 
-Please, add the following DNS entries (ensure that the CloudFlare proxy is disabled!):
+Please, add the following DNS entries (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation):
 
 - matrix	A record	server IP
 ```
