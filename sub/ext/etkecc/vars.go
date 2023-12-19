@@ -301,7 +301,7 @@ func (o *order) varsBorgBackup() string {
 func (o *order) varsSynapse() string {
 	var txt strings.Builder
 
-	if o.has("sso") {
+	if o.has("sso") || o.has("synapse-sso") {
 		txt.WriteString("\n# synapse::sso\n")
 		txt.WriteString("matrix_synapse_oidc_enabled: yes\n")
 		txt.WriteString("matrix_synapse_oidc_providers:\n")
@@ -318,7 +318,7 @@ func (o *order) varsSynapse() string {
 		txt.WriteString("        display_name_template: \"{% raw %}{{ user.name }}{% endraw %}\"\n")
 	}
 
-	if o.has("synapse-s3") {
+	if o.has("synapse-s3") || o.has("synapse-s3-storage") {
 		txt.WriteString("\n# synapse::extensions::s3_storage_provider\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: " + o.get("synapse-s3-bucket") + "\n")
