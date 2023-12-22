@@ -547,7 +547,6 @@ func (o *order) varsLinkding() string {
 	txt.WriteString("\n# linkding https://linkding." + o.domain + "\n")
 	txt.WriteString("linkding_enabled: yes\n")
 	txt.WriteString("linkding_hostname: linkding." + o.domain + "\n")
-	txt.WriteString("linkding_path_prefix: /\n")
 	txt.WriteString("linkding_database_engine: postgres \n")
 	txt.WriteString("linkding_superuser_login: " + o.get("username") + "\n")
 	txt.WriteString("linkding_superuser_password: " + o.password("linkding") + "\n")

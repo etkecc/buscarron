@@ -158,7 +158,6 @@ jitsi_jicofo_auth_password: TODO64
 # linkding https://linkding.example.com
 linkding_enabled: yes
 linkding_hostname: linkding.example.com
-linkding_path_prefix: /
 linkding_database_engine: postgres 
 linkding_superuser_login: test
 linkding_superuser_password: TODO64

@@ -160,7 +160,6 @@ jitsi_jicofo_auth_password: TODO64
 # linkding https://linkding.higenjitsuteki.onmatrix.chat
 linkding_enabled: yes
 linkding_hostname: linkding.higenjitsuteki.onmatrix.chat
-linkding_path_prefix: /
 linkding_database_engine: postgres 
 linkding_superuser_login: test
 linkding_superuser_password: TODO64
