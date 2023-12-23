@@ -13,6 +13,9 @@ var (
 	hDomains = map[string]string{
 		".etke.host":     "enTDpM8y67STAZcQMpmqr7",
 		".kupo.email":    "X2dqkUMuGzqXenSx3Huz9T",
+		".ma3x.chat":     "4Ys5JTRJ8Hyoip3UPDMVgj",
+		".matrix.fan":    "x8RAPicWWX3kPurkL9ntVo",
+		".matrix.town":   "Gn9RYjWvznHkLfzVdY6Gsa",
 		".onmatrix.chat": "zVNMf3dur7oHP8dcGETZs",
 	}
 	hDNSPatch = map[string]string{
