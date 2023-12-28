@@ -133,18 +133,16 @@ func (o *order) generateHVPSCommand() string {
 	if !ok {
 		location = "fsn1"
 	}
-	var firewall map[string]int
+	firewalls := []map[string]int{defaultFirewall}
 	if o.get("ssh-client-ips") == "N/A" {
-		firewall = openFirewall
-	} else {
-		firewall = defaultFirewall
+		firewalls = append(firewalls, openFirewall)
 	}
 
 	req := &hVPSRequest{
 		Name:      o.domain,
 		Size:      o.hosting,
 		Image:     hImage,
-		Firewalls: []map[string]int{firewall},
+		Firewalls: firewalls,
 		SSHKeys:   hKeys,
 		Location:  location,
 	}
