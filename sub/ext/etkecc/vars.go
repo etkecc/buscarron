@@ -466,7 +466,7 @@ func (o *order) varsFirezone() string {
 	txt.WriteString("firezone_hostname: firezone." + o.domain + "\n")
 	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
 	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
-	txt.WriteString("firezone_database_encryption_key: " + o.pwgen(32) + "\n")
+	txt.WriteString("firezone_database_encryption_key: \"" + o.bytesgen(32) + "\"\n")
 
 	return txt.String()
 }

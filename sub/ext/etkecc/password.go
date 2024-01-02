@@ -22,6 +22,19 @@ func (o *order) pwgen(length ...int) string {
 	return secgen.Password(passlen)
 }
 
+func (o *order) bytesgen(length ...int) string {
+	passlen := defaultPassLen
+	if len(length) > 0 {
+		passlen = length[0]
+	}
+
+	if o.test {
+		return "TODO" + strconv.Itoa(passlen)
+	}
+
+	return secgen.Base64Bytes(passlen)
+}
+
 func (o *order) keygen() (string, string) {
 	if o.test {
 		return "ssh-todo TODO", "-----BEGIN OPENSSH PRIVATE KEY-----\nTODO\n-----END OPENSSH PRIVATE KEY-----"

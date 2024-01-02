@@ -69,7 +69,7 @@ func initLog(cfg *config.Config) {
 	zerolog.SetGlobalLevel(loglevel)
 	var w io.Writer
 	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, PartsExclude: []string{zerolog.TimestampFieldName}}
-	sentryWriter, err := zlogsentry.New(cfg.Sentry)
+	sentryWriter, err := zlogsentry.New(cfg.Sentry, zlogsentry.WithBreadcrumbs())
 	if err == nil {
 		w = io.MultiWriter(sentryWriter, consoleWriter)
 	} else {
