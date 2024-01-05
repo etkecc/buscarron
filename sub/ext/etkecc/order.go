@@ -161,7 +161,7 @@ func (o *order) preprocessSMTP() {
 	if o.has("service-email") {
 		smtp["host"] = "smtp.migadu.com"
 		smtp["port"] = "587"
-		smtp["login"] = "\"matrix@{{ matrix_domain }}\""
+		smtp["login"] = "\"matrix@" + o.domain + "\""
 		smtp["password"] = o.pwgen()
 		smtp["email"] = smtp["login"]
 	} else if o.has("smtp-relay") {

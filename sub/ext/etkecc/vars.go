@@ -22,9 +22,10 @@ func (o *order) vars() {
 
 	// additional low-level services
 	txt.WriteString(o.varsBorgBackup())
+	txt.WriteString(o.varsEximRelay())
+	txt.WriteString(o.varsNtfy())
 	txt.WriteString(o.varsPostgresBackup())
 	txt.WriteString(o.varsSygnal())
-	txt.WriteString(o.varsNtfy())
 
 	// additional services
 	txt.WriteString(o.varsCinny())
@@ -171,9 +172,6 @@ func (o *order) varsHomeserver() string {
 	txt.WriteString("matrix_domain: " + o.domain + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":" + o.domain + "\"\n")
 	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
-	if len(o.smtp) > 0 {
-		txt.WriteString("matrix_mailer_enabled: no\n")
-	}
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}
@@ -298,6 +296,24 @@ func (o *order) varsBorgBackup() string {
 	return txt.String()
 }
 
+func (o *order) varsEximRelay() string {
+	if len(o.smtp) == 0 {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# exim-relay\n")
+	txt.WriteString("exim_relay_relay_use: yes\n")
+	txt.WriteString("exim_relay_relay_auth: yes\n")
+	txt.WriteString("exim_relay_relay_host_name: " + o.smtp["host"] + "\n")
+	txt.WriteString("exim_relay_relay_host_port: " + o.smtp["port"] + "\n")
+	txt.WriteString("exim_relay_relay_auth_username: " + o.smtp["login"] + "\n")
+	txt.WriteString("exim_relay_relay_auth_password: " + o.smtp["password"] + "\n")
+	txt.WriteString("exim_relay_sender_address: " + o.smtp["email"] + "\n")
+
+	return txt.String()
+}
+
 func (o *order) varsSynapse() string {
 	var txt strings.Builder
 
@@ -333,25 +349,7 @@ func (o *order) varsSynapse() string {
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes\n")
 	txt.WriteString("matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: " + o.pwgen() + "\n")
 
-	txt.WriteString(o.varsSynapseMailer())
 	txt.WriteString(o.varsSynapseCredentials())
-
-	return txt.String()
-}
-
-func (o *order) varsSynapseMailer() string {
-	if len(o.smtp) == 0 {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# synapse::mailer\n")
-	txt.WriteString("matrix_synapse_email_enabled: yes\n")
-	txt.WriteString("matrix_synapse_email_smtp_host: " + o.smtp["host"] + "\n")
-	txt.WriteString("matrix_synapse_email_smtp_port: " + o.smtp["port"] + "\n")
-	txt.WriteString("matrix_synapse_email_smtp_user: " + o.smtp["login"] + "\n")
-	txt.WriteString("matrix_synapse_email_smtp_pass: " + o.smtp["password"] + "\n")
-	txt.WriteString("matrix_synapse_email_notif_from: " + o.smtp["email"] + "\n")
 
 	return txt.String()
 }
@@ -479,16 +477,6 @@ func (o *order) varsGoToSocial() string {
 	txt.WriteString("\n# gotosocial https://social." + o.domain + "\n")
 	txt.WriteString("gotosocial_enabled: yes\n")
 	txt.WriteString("gotosocial_hostname: social." + o.domain + "\n")
-
-	if len(o.smtp) == 0 {
-		return txt.String()
-	}
-
-	txt.WriteString("gotosocial_smtp_host: " + o.smtp["host"] + "\n")
-	txt.WriteString("gotosocial_smtp_port: " + o.smtp["port"] + "\n")
-	txt.WriteString("gotosocial_smtp_username: " + o.smtp["login"] + "\n")
-	txt.WriteString("gotosocial_smtp_password: " + o.smtp["password"] + "\n")
-	txt.WriteString("gotosocial_smtp_from: " + o.smtp["email"] + "\n")
 
 	return txt.String()
 }

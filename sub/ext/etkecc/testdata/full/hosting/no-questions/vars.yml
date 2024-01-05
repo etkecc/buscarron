@@ -19,7 +19,6 @@ devture_postgres_connection_password: TODO64
 matrix_domain: higenjitsuteki.onmatrix.chat
 matrix_admin: "@test.admin:higenjitsuteki.onmatrix.chat"
 devture_traefik_config_certificatesResolvers_acme_email: test@test.com
-matrix_mailer_enabled: no
 matrix_bridges_encryption_enabled: yes
 
 # MSC1929 admin contacts
@@ -71,14 +70,6 @@ matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
 matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO64
 
-# synapse::mailer
-matrix_synapse_email_enabled: yes
-matrix_synapse_email_smtp_host: smtp.migadu.com
-matrix_synapse_email_smtp_port: 587
-matrix_synapse_email_smtp_user: "matrix@{{ matrix_domain }}"
-matrix_synapse_email_smtp_pass: TODO64
-matrix_synapse_email_notif_from: "matrix@{{ matrix_domain }}"
-
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64
 matrix_synapse_password_config_pepper: TODO64
@@ -99,6 +90,18 @@ backup_borg_ssh_key_private: |
   -----END OPENSSH PRIVATE KEY-----
 # ssh-todo TODO
 
+# exim-relay
+exim_relay_relay_use: yes
+exim_relay_relay_auth: yes
+exim_relay_relay_host_name: smtp.migadu.com
+exim_relay_relay_host_port: 587
+exim_relay_relay_auth_username: "matrix@higenjitsuteki.onmatrix.chat"
+exim_relay_relay_auth_password: TODO64
+exim_relay_sender_address: "matrix@higenjitsuteki.onmatrix.chat"
+
+# ntfy https://ntfy.higenjitsuteki.onmatrix.chat
+ntfy_enabled: yes
+
 # sygnal https://sygnal.higenjitsuteki.onmatrix.chat
 matrix_sygnal_enabled: yes
 matrix_sygnal_apps:
@@ -115,9 +118,6 @@ matrix_sygnal_configuration_extension_yaml:
           level: WARNING
         sygnal.access:
           level: WARNING
-
-# ntfy https://ntfy.higenjitsuteki.onmatrix.chat
-ntfy_enabled: yes
 
 # cinny https://cinny.higenjitsuteki.onmatrix.chat
 matrix_client_cinny_enabled: yes
@@ -141,11 +141,6 @@ firezone_database_encryption_key: "TODO32"
 # gotosocial https://social.higenjitsuteki.onmatrix.chat
 gotosocial_enabled: yes
 gotosocial_hostname: social.higenjitsuteki.onmatrix.chat
-gotosocial_smtp_host: smtp.migadu.com
-gotosocial_smtp_port: 587
-gotosocial_smtp_username: "matrix@{{ matrix_domain }}"
-gotosocial_smtp_password: TODO64
-gotosocial_smtp_from: "matrix@{{ matrix_domain }}"
 
 # hydrogen https://hydrogen.higenjitsuteki.onmatrix.chat
 matrix_client_hydrogen_enabled: yes

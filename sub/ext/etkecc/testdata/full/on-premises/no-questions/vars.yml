@@ -17,7 +17,6 @@ devture_postgres_connection_password: TODO64
 matrix_domain: example.com
 matrix_admin: "@test.admin:example.com"
 devture_traefik_config_certificatesResolvers_acme_email: test@test.com
-matrix_mailer_enabled: no
 matrix_bridges_encryption_enabled: yes
 
 # MSC1929 admin contacts
@@ -69,14 +68,6 @@ matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD
 matrix_synapse_ext_password_provider_shared_secret_auth_enabled: yes
 matrix_synapse_ext_password_provider_shared_secret_auth_shared_secret: TODO64
 
-# synapse::mailer
-matrix_synapse_email_enabled: yes
-matrix_synapse_email_smtp_host: smtp-relay.com
-matrix_synapse_email_smtp_port: 587
-matrix_synapse_email_smtp_user: login
-matrix_synapse_email_smtp_pass: password
-matrix_synapse_email_notif_from: user@example.com
-
 # synapse::credentials
 matrix_synapse_macaroon_secret_key: TODO64
 matrix_synapse_password_config_pepper: TODO64
@@ -97,6 +88,18 @@ backup_borg_ssh_key_private: |
   -----END OPENSSH PRIVATE KEY-----
 # ssh-todo TODO
 
+# exim-relay
+exim_relay_relay_use: yes
+exim_relay_relay_auth: yes
+exim_relay_relay_host_name: smtp-relay.com
+exim_relay_relay_host_port: 587
+exim_relay_relay_auth_username: login
+exim_relay_relay_auth_password: password
+exim_relay_sender_address: user@example.com
+
+# ntfy https://ntfy.example.com
+ntfy_enabled: yes
+
 # sygnal https://sygnal.example.com
 matrix_sygnal_enabled: yes
 matrix_sygnal_apps:
@@ -113,9 +116,6 @@ matrix_sygnal_configuration_extension_yaml:
           level: WARNING
         sygnal.access:
           level: WARNING
-
-# ntfy https://ntfy.example.com
-ntfy_enabled: yes
 
 # cinny https://cinny.example.com
 matrix_client_cinny_enabled: yes
@@ -139,11 +139,6 @@ firezone_database_encryption_key: "TODO32"
 # gotosocial https://social.example.com
 gotosocial_enabled: yes
 gotosocial_hostname: social.example.com
-gotosocial_smtp_host: smtp-relay.com
-gotosocial_smtp_port: 587
-gotosocial_smtp_username: login
-gotosocial_smtp_password: password
-gotosocial_smtp_from: user@example.com
 
 # hydrogen https://hydrogen.example.com
 matrix_client_hydrogen_enabled: yes
