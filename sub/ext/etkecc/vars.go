@@ -141,10 +141,13 @@ func (o *order) varsSSH() string {
 	}
 
 	if o.has("ssh-client-key") {
+		keys := strings.Split(o.get("ssh-client-key"), "\n")
 		txt.WriteString("system_security_ssh_authorizedkeys_host:\n")
-		txt.WriteString("  - ")
-		txt.WriteString(o.get("ssh-client-key"))
-		txt.WriteString("\n")
+		for _, key := range keys {
+			txt.WriteString("  - ")
+			txt.WriteString(key)
+			txt.WriteString("\n")
+		}
 	}
 
 	if o.get("ssh-user") == "matrix" {

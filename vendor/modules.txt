@@ -159,7 +159,7 @@ go.mau.fi/util/exgjson
 go.mau.fi/util/jsontime
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
-# golang.org/x/crypto v0.17.0
+# golang.org/x/crypto v0.18.0
 ## explicit; go 1.18
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
@@ -177,7 +177,7 @@ golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
 # golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc
 ## explicit; go 1.20
 golang.org/x/exp/maps
-# golang.org/x/net v0.19.0
+# golang.org/x/net v0.20.0
 ## explicit; go 1.18
 golang.org/x/net/context
 golang.org/x/net/html

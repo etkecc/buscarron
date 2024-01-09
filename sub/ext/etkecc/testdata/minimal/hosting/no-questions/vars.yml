@@ -10,6 +10,7 @@ etke_subscription_provider: Ko-Fi
 system_security_ssh_port: 222
 system_security_ssh_authorizedkeys_host:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user2@host
 
 # postgres
 devture_postgres_connection_password: TODO64
