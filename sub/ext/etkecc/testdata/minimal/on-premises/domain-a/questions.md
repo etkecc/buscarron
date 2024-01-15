@@ -14,6 +14,8 @@ ___
 Please, add the following DNS entries (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation):
 
 - matrix	A record	server IP
+- matrix	TXT record	v=spf1 ip4:server IP -all
+- _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 ```
 
 ```yaml

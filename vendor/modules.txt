@@ -2,10 +2,10 @@
 ## explicit; go 1.15
 blitiri.com.ar/go/spf
 blitiri.com.ar/go/spf/internal/dnstest
-# github.com/VictoriaMetrics/metrics v1.29.1
+# github.com/VictoriaMetrics/metrics v1.30.0
 ## explicit; go 1.17
 github.com/VictoriaMetrics/metrics
-# github.com/archdx/zerolog-sentry v1.8.0
+# github.com/archdx/zerolog-sentry v1.8.2
 ## explicit; go 1.20
 github.com/archdx/zerolog-sentry
 # github.com/aymerick/douceur v0.2.0
@@ -18,7 +18,7 @@ github.com/buger/jsonparser
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
-# github.com/getsentry/sentry-go v0.25.0
+# github.com/getsentry/sentry-go v0.26.0
 ## explicit; go 1.18
 github.com/getsentry/sentry-go
 github.com/getsentry/sentry-go/internal/debug
@@ -174,7 +174,7 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc
+# golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3
 ## explicit; go 1.20
 golang.org/x/exp/maps
 # golang.org/x/net v0.20.0

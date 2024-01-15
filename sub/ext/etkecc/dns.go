@@ -37,10 +37,19 @@ func (o *order) generateDNSInstructions() (string, bool) {
 		dns += strings.Join([]string{"- " + dnsmap[key], "CNAME record", "matrix." + o.domain + "\n"}, "\t")
 	}
 
-	if o.has("email2matrix") || o.has("postmoogle") {
-		dns += strings.Join([]string{"- matrix", "MX record", "matrix." + o.domain + "\n"}, "\t")
+	// if there is no SMTP relay, we need to add SPF and DMARC records
+	if len(o.smtp) == 0 {
 		dns += strings.Join([]string{"- matrix", "TXT record", "v=spf1 ip4:" + serverIP + " -all\n"}, "\t")
 		dns += strings.Join([]string{"- _dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
+	}
+
+	// if there is email bridge, we need to add MX record and SPF/DMARC records (only if they were not added above)
+	if o.has("email2matrix") || o.has("postmoogle") {
+		dns += strings.Join([]string{"- matrix", "MX record", "matrix." + o.domain + "\n"}, "\t")
+		if len(o.smtp) > 0 {
+			dns += strings.Join([]string{"- matrix", "TXT record", "v=spf1 ip4:" + serverIP + " -all\n"}, "\t")
+			dns += strings.Join([]string{"- _dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
+		}
 	}
 
 	return dns, false

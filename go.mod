@@ -5,9 +5,9 @@ go 1.21.0
 toolchain go1.21.4
 
 require (
-	github.com/VictoriaMetrics/metrics v1.29.1
-	github.com/archdx/zerolog-sentry v1.8.0
-	github.com/getsentry/sentry-go v0.25.0
+	github.com/VictoriaMetrics/metrics v1.30.0
+	github.com/archdx/zerolog-sentry v1.8.2
+	github.com/getsentry/sentry-go v0.26.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/lib/pq v1.10.9
@@ -55,7 +55,7 @@ require (
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
 	go.mau.fi/util v0.2.1 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/exp v0.0.0-20240103183307-be819d1f06fc // indirect
+	golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3 // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect

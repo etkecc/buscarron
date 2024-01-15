@@ -272,11 +272,21 @@ func (o *order) generateHDNSCommand() string {
 		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.domain+".", zoneID)
 	}
 
-	if o.has("email2matrix") || o.has("postmoogle") {
+	// if there is no SMTP relay, we need to add SPF and DMARC records
+	if len(o.smtp) == 0 {
 		req.
-			add("matrix"+suffix, "MX", "0 matrix."+o.domain+".", zoneID).
-			add("matrix"+suffix, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
-			add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
+			add(subdomain, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
+			add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
+	}
+
+	// if there is email bridge, we need to add MX record and SPF/DMARC records (only if they were not added above)
+	if o.has("email2matrix") || o.has("postmoogle") {
+		req.add("matrix"+suffix, "MX", "0 matrix."+o.domain+".", zoneID)
+		if len(o.smtp) > 0 {
+			req.
+				add("matrix"+suffix, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
+				add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
+		}
 	}
 	return o.getHDNSCurl(req)
 }

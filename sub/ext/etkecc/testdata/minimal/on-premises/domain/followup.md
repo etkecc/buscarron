@@ -10,6 +10,8 @@ Please, add the following DNS entries:
 
 * @    A record    server IP
 * matrix    A record    server IP
+* matrix    TXT record    v=spf1 ip4:server IP -all
+* _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
 
 Got any questions? Feel free to reply to this email - we're here to assist you!
 

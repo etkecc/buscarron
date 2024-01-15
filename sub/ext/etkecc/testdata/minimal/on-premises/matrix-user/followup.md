@@ -18,6 +18,8 @@ Please, add the following DNS entries:
 
 * @    A record    1.2.3.4
 * matrix    A record    1.2.3.4
+* matrix    TXT record    v=spf1 ip4:1.2.3.4 -all
+* _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
 
 Got any questions? Feel free to reply to this email - we're here to assist you!
 
