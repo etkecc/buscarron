@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/rs/zerolog"
 )
@@ -102,19 +101,6 @@ func (o *order) toGP(hosts string) error {
 		return fmt.Errorf("disabled")
 	}
 
-	var data strings.Builder
-	data.WriteString(fmt.Sprintf("- %s <%s, @%s:%s>\n", o.domain, o.get("email"), o.get("username"), o.domain))
-	data.WriteString("    > Ko-Fi\n")
-	data.WriteString("    * [ ] ")
-	if o.hosting != "" {
-		data.WriteString("TURNKEY")
-	} else {
-		data.WriteString("subscription")
-	}
-	if o.has("service-email") {
-		data.WriteString(" + email")
-	}
-
 	req := &gpreq{
 		Message: o.domain + " - init",
 		Files:   make([]*gpfile, 0, len(o.files)),
@@ -132,12 +118,6 @@ func (o *order) toGP(hosts string) error {
 			Action:  "append",
 			Line:    "[setup]",
 			Content: hosts,
-		},
-		&gpfile{
-			Path:    "data.md",
-			Action:  "prepend",
-			Line:    "## Subscription",
-			Content: data.String(),
 		})
 	reqb, err := json.Marshal(req)
 	if err != nil {
