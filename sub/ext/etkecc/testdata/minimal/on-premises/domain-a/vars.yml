@@ -15,8 +15,8 @@ devture_traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 
 # MSC1929 admin contacts
-matrix_well_known_matrix_support_enabled: yes
-matrix_homeserver_admin_contacts:
+matrix_static_files_file_matrix_support_enabled: yes
+matrix_static_files_file_matrix_support_property_m_contacts:
   - matrix_id: "@test:example.com"
     email_address: test@test.com
     role: m.role.admin

@@ -20,8 +20,8 @@ devture_traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_bridges_encryption_enabled: yes
 
 # MSC1929 admin contacts
-matrix_well_known_matrix_support_enabled: yes
-matrix_homeserver_admin_contacts:
+matrix_static_files_file_matrix_support_enabled: yes
+matrix_static_files_file_matrix_support_property_m_contacts:
   - matrix_id: "@test.admin:example.com"
     email_address: test@test.com
     role: m.role.admin
@@ -74,8 +74,8 @@ matrix_synapse_password_config_pepper: TODO64
 matrix_coturn_turn_static_auth_secret: TODO64
 matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
-# nginx proxy
-matrix_nginx_proxy_base_domain_serving_enabled: yes
+# matrix-static-files
+matrix_static_files_container_labels_base_domain_enabled: yes
 
 # borg
 backup_borg_enabled: yes
@@ -166,12 +166,6 @@ miniflux_enabled: yes
 miniflux_hostname: miniflux.example.com
 miniflux_admin_login: test.admin
 miniflux_admin_password: TODO64
-
-# nginx proxy website
-matrix_nginx_proxy_website_enabled: yes
-matrix_nginx_proxy_website_repo: github.com/example/exmaple.com
-matrix_nginx_proxy_website_command: hugo
-matrix_nginx_proxy_website_dist: "public"
 
 # radicale https://radicale.example.com
 radicale_enabled: yes

@@ -18,7 +18,7 @@ func (o *order) vars() {
 	txt.WriteString(o.varsMSC1929())
 	txt.WriteString(o.varsUsers())
 	txt.WriteString(o.varsSynapse())
-	txt.WriteString(o.varsNginx())
+	txt.WriteString(o.varsStaticFiles())
 
 	// additional low-level services
 	txt.WriteString(o.varsBorgBackup())
@@ -37,7 +37,6 @@ func (o *order) vars() {
 	txt.WriteString(o.varsJitsi())
 	txt.WriteString(o.varsLinkding())
 	txt.WriteString(o.varsMiniflux())
-	txt.WriteString(o.varsNginxWebsite())
 	txt.WriteString(o.varsRadicale())
 	txt.WriteString(o.varsSchildiChat())
 	txt.WriteString(o.varsSlidingSync())
@@ -189,8 +188,8 @@ func (o *order) varsMSC1929() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# MSC1929 admin contacts\n")
-	txt.WriteString("matrix_well_known_matrix_support_enabled: yes\n")
-	txt.WriteString("matrix_homeserver_admin_contacts:\n")
+	txt.WriteString("matrix_static_files_file_matrix_support_enabled: yes\n")
+	txt.WriteString("matrix_static_files_file_matrix_support_property_m_contacts:\n")
 	txt.WriteString("  - matrix_id: \"@" + o.get("username") + ":" + o.domain + "\"\n")
 	txt.WriteString("    email_address: " + o.get("email") + "\n")
 	txt.WriteString("    role: m.role.admin\n")
@@ -390,29 +389,14 @@ func (o *order) varsUptimeKuma() string {
 	return txt.String()
 }
 
-func (o *order) varsNginx() string {
+func (o *order) varsStaticFiles() string {
 	if o.get("serve_base_domain") != "yes" {
 		return ""
 	}
 
 	var txt strings.Builder
-	txt.WriteString("\n# nginx proxy\n")
-	txt.WriteString("matrix_nginx_proxy_base_domain_serving_enabled: " + o.get("serve_base_domain") + "\n")
-	return txt.String()
-}
-
-func (o *order) varsNginxWebsite() string {
-	if !o.has("nginx-proxy-website") || o.get("serve_base_domain") != "yes" {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# nginx proxy website\n")
-	txt.WriteString("matrix_nginx_proxy_website_enabled: yes\n")
-	txt.WriteString("matrix_nginx_proxy_website_repo: " + o.get("nginx-proxy-website-repo") + "\n")
-	txt.WriteString("matrix_nginx_proxy_website_command: " + o.get("nginx-proxy-website-command") + "\n")
-	txt.WriteString("matrix_nginx_proxy_website_dist: \"" + o.get("nginx-proxy-website-dist") + "\"\n")
-
+	txt.WriteString("\n# matrix-static-files\n")
+	txt.WriteString("matrix_static_files_container_labels_base_domain_enabled: " + o.get("serve_base_domain") + "\n")
 	return txt.String()
 }
 
