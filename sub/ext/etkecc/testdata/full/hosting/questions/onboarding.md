@@ -95,11 +95,12 @@ ssh-todo TODO
 
 **Email Service**
 
-1. Accept the invitation to the Migadu account (check your mailbox)
-2. Go to the [admin.migadu.com/domains](https://admin.migadu.com/domains), select your email domain
-3. Click on `DNS Configuration`, and then on `Setup Instructions`
-4. Follow the instructions to set up the DNS records
-5. Once that will be done, click on `Diagnostics` and check if everything is set up correctly
+1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox
+2. Accept the invitation and prepare your account (set a password, etc.)
+3. Go to the [admin.migadu.com/domains](https://admin.migadu.com/domains) page and select your email domain
+4. Click on **DNS Configuration** and then on **Setup Instructions**
+5. Follow the instructions and configure the DNS records for your domain
+6. Once that's done, click on **Diagnostics** and check if everything is configured correctly
 
 Happy Matrixing!
 

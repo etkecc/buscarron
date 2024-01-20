@@ -236,11 +236,12 @@ func (o *order) generateOnboardingAfterMigadu() string {
 	var txt strings.Builder
 
 	txt.WriteString("**Email Service**\n\n")
-	txt.WriteString("1. Accept the invitation to the Migadu account (check your mailbox)\n")
-	txt.WriteString("2. Go to the " + link("admin.migadu.com/domains") + ", select your email domain\n")
-	txt.WriteString("3. Click on `DNS Configuration`, and then on `Setup Instructions`\n")
-	txt.WriteString("4. Follow the instructions to set up the DNS records\n")
-	txt.WriteString("5. Once that will be done, click on `Diagnostics` and check if everything is set up correctly\n\n")
+	txt.WriteString("1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox\n")
+	txt.WriteString("2. Accept the invitation and prepare your account (set a password, etc.)\n")
+	txt.WriteString("3. Go to the " + link("admin.migadu.com/domains") + " page and select your email domain\n")
+	txt.WriteString("4. Click on **DNS Configuration** and then on **Setup Instructions**\n")
+	txt.WriteString("5. Follow the instructions and configure the DNS records for your domain\n")
+	txt.WriteString("6. Once that's done, click on **Diagnostics** and check if everything is configured correctly\n\n")
 
 	return txt.String()
 }
