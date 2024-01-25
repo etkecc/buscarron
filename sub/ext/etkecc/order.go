@@ -57,10 +57,12 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	if o.hosting != "" {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(o.generateHVPSCommand())
+		if dnsInternal {
+			o.txt.WriteString("\n")
+			o.txt.WriteString(dns)
+		}
 		o.txt.WriteString("```\n\n")
-	}
-
-	if o.hosting == "" || dnsInternal {
+	} else {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(dns)
 		o.txt.WriteString("```\n\n")

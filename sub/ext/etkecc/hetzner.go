@@ -224,6 +224,7 @@ func (o *order) adaptTurnkeyDNS() string {
 	return msg.String()
 }
 
+//nolint:gocognit // TODO
 func (o *order) generateHDNSCommand() string {
 	req := &hDNSRequest{Records: []hDNSRecord{}}
 	domain := o.domain
@@ -237,7 +238,8 @@ func (o *order) generateHDNSCommand() string {
 		}
 	}
 
-	serverIP := "$HETZNER_SERVER_IP"
+	serverIP := "$SERVER_IP4"
+	serverIP6 := "$SERVER_IP6" // only for hosting
 	if o.has("ssh-host") {
 		serverIP = o.get("ssh-host")
 	}
@@ -245,6 +247,11 @@ func (o *order) generateHDNSCommand() string {
 	req.
 		add(subdomain, "A", serverIP, zoneID).
 		add("matrix"+suffix, "A", serverIP, zoneID)
+
+	if o.hosting != "" {
+		req.add(subdomain, "AAAA", serverIP6, zoneID).
+			add("matrix"+suffix, "AAAA", serverIP6, zoneID)
+	}
 
 	if o.has("service-email") {
 		req.WithMigadu = true
@@ -272,10 +279,16 @@ func (o *order) generateHDNSCommand() string {
 		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.domain+".", zoneID)
 	}
 
+	spf := "v=spf1 ip4:" + serverIP
+	if o.hosting != "" {
+		spf += " ip6:" + serverIP6
+	}
+	spf += " -all"
+
 	// if there is no SMTP relay, we need to add SPF and DMARC records
 	if len(o.smtp) == 0 {
 		req.
-			add(subdomain, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
+			add(subdomain, "TXT", spf, zoneID).
 			add("_dmarc"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
 	}
 
@@ -284,7 +297,7 @@ func (o *order) generateHDNSCommand() string {
 		req.add("matrix"+suffix, "MX", "0 matrix."+o.domain+".", zoneID)
 		if len(o.smtp) > 0 {
 			req.
-				add("matrix"+suffix, "TXT", "v=spf1 ip4:"+serverIP+" -all", zoneID).
+				add("matrix"+suffix, "TXT", spf, zoneID).
 				add("_dmarc.matrix"+suffix, "TXT", "v=DMARC1; p=quarantine;", zoneID)
 		}
 	}
@@ -296,8 +309,8 @@ func (o *order) getHDNSCurl(req *hDNSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
-	if !o.has("ssh-host") {
-		cmd.WriteString("export HETZNER_SERVER_IP=SERVER_IP\n")
+	if !o.has("ssh-host") || o.hosting == "" {
+		cmd.WriteString("export SERVER_IP4=SERVER_IP\n")
 	}
 	if req.WithMigadu {
 		cmd.WriteString("export MIGADU_VERIFICATION=CODE\n")
