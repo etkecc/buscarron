@@ -217,8 +217,11 @@ func (o *order) adaptTurnkeyDNS() string {
 
 	var msg strings.Builder
 	msg.WriteString(dnsEntries)
-	msg.WriteString(`\nIf you care about IPv6, feel free to configure additional AAAA records in the steps mentioning A records above.\n\n`)
-	msg.WriteString(`Please let us know when you're ready with the DNS configuration, so we can proceed with your server's setup.\n\n`)
+	msg.WriteString(`\nPlease let us know when you're ready with the DNS`)
+	if o.get("serve_base_domain") != "yes" {
+		msg.WriteString(` and delegation redirects (you could just add the @ record pointing to the matrix server IP instead)`)
+	}
+	msg.WriteString(` configuration, so we can proceed with your server's setup.\n\n`)
 	msg.WriteString(`Regards\n`)
 
 	return msg.String()
