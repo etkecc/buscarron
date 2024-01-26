@@ -12,7 +12,9 @@ ___
 SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"higenjitsuteki.onmatrix.chat\",\"server_type\":\"cpx11\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}")
 SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')
 SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')
+SERVER_IP4_ID=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.id')
 SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')
+curl -X "POST" "https://api.hetzner.cloud/v1/primary_ips/$SERVER_IP4_ID/actions/change_dns_ptr" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{ \"ip\": \"$SERVER_IP4\", \"dns_ptr\": \"matrix.higenjitsuteki.onmatrix.chat\" }"
 curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_backup" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"
 echo -e "---\nHello,\n\nWe've received your payment and have prepared a server for you. Its IP addresses are:\n\n- IPv4: $SERVER_IP4\n- IPv6: $SERVER_IP6\n"
 

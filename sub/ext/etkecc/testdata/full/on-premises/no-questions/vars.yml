@@ -55,6 +55,10 @@ matrix_synapse_oidc_providers:
         localpart_template: "{% raw %}{{ user.given_name|lower }}{% endraw %}"
         display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
 
+# synapse::workers
+matrix_synapse_workers_enabled: yes
+matrix_synapse_workers_preset: specialized-workers
+
 # synapse::extensions::s3_storage_provider
 matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes
 matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: mybucket

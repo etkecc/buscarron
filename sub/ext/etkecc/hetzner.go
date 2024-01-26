@@ -182,8 +182,18 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	cmd.WriteString("\n")
 	cmd.WriteString(`SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')`)
 	cmd.WriteString("\n")
+	cmd.WriteString(`SERVER_IP4_ID=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.id')`)
+	cmd.WriteString("\n")
 	cmd.WriteString(`SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')`)
 	cmd.WriteString("\n")
+
+	dnsPtrBody := strings.ReplaceAll(`{ "ip": "$SERVER_IP4", "dns_ptr": "matrix.`+o.domain+`" }`, "\"", "\\\"")
+	cmd.WriteString(`curl -X "POST" "https://api.hetzner.cloud/v1/primary_ips/$SERVER_IP4_ID/actions/change_dns_ptr" `)
+	cmd.WriteString(`-H "Content-Type: application/json" `)
+	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" `)
+	cmd.WriteString(`-d "`)
+	cmd.WriteString(dnsPtrBody)
+	cmd.WriteString("\"\n")
 
 	cmd.WriteString(`curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_backup" `)
 	cmd.WriteString(`-H "Content-Type: application/json" `)
