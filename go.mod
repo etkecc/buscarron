@@ -5,14 +5,14 @@ go 1.21.0
 toolchain go1.21.4
 
 require (
-	github.com/VictoriaMetrics/metrics v1.30.0
+	github.com/VictoriaMetrics/metrics v1.31.0
 	github.com/archdx/zerolog-sentry v1.8.2
 	github.com/getsentry/sentry-go v0.26.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/lib/pq v1.10.9
 	github.com/mattevans/postmark-go v1.0.0
-	github.com/mattn/go-sqlite3 v1.14.19
+	github.com/mattn/go-sqlite3 v1.14.20
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/rs/zerolog v1.31.0
 	github.com/stretchr/testify v1.8.4
@@ -22,10 +22,10 @@ require (
 	gitlab.com/etke.cc/go/pricify v0.0.0-20231211082113-3024cb2f6009
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
-	gitlab.com/etke.cc/linkpearl v0.0.0-20231121221431-72443f33d266
+	gitlab.com/etke.cc/linkpearl v0.0.0-20240116164947-69cf5f15af8b
 	golang.org/x/text v0.14.0
 	golang.org/x/time v0.5.0
-	maunium.net/go/mautrix v0.16.2
+	maunium.net/go/mautrix v0.17.0
 )
 
 require (
@@ -53,9 +53,9 @@ require (
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.6.0 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
-	go.mau.fi/util v0.2.1 // indirect
+	go.mau.fi/util v0.3.0 // indirect
 	golang.org/x/crypto v0.18.0 // indirect
-	golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3 // indirect
+	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a // indirect
 	golang.org/x/net v0.20.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect

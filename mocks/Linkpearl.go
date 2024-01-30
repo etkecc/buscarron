@@ -3,6 +3,8 @@
 package mocks
 
 import (
+	context "context"
+
 	event "maunium.net/go/mautrix/event"
 	id "maunium.net/go/mautrix/id"
 
@@ -16,20 +18,20 @@ type Linkpearl struct {
 	mock.Mock
 }
 
-// FindEventBy provides a mock function with given fields: roomID, field, value, fromToken
-func (_m *Linkpearl) FindEventBy(roomID id.RoomID, field string, value string, fromToken ...string) *event.Event {
+// FindEventBy provides a mock function with given fields: ctx, roomID, field, value, fromToken
+func (_m *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field string, value string, fromToken ...string) *event.Event {
 	_va := make([]interface{}, len(fromToken))
 	for _i := range fromToken {
 		_va[_i] = fromToken[_i]
 	}
 	var _ca []interface{}
-	_ca = append(_ca, roomID, field, value)
+	_ca = append(_ca, ctx, roomID, field, value)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
 	var r0 *event.Event
-	if rf, ok := ret.Get(0).(func(id.RoomID, string, string, ...string) *event.Event); ok {
-		r0 = rf(roomID, field, value, fromToken...)
+	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, string, string, ...string) *event.Event); ok {
+		r0 = rf(ctx, roomID, field, value, fromToken...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*event.Event)
@@ -55,23 +57,23 @@ func (_m *Linkpearl) GetClient() *mautrix.Client {
 	return r0
 }
 
-// Send provides a mock function with given fields: roomID, content
-func (_m *Linkpearl) Send(roomID id.RoomID, content interface{}) (id.EventID, error) {
-	ret := _m.Called(roomID, content)
+// Send provides a mock function with given fields: ctx, roomID, content
+func (_m *Linkpearl) Send(ctx context.Context, roomID id.RoomID, content interface{}) (id.EventID, error) {
+	ret := _m.Called(ctx, roomID, content)
 
 	var r0 id.EventID
 	var r1 error
-	if rf, ok := ret.Get(0).(func(id.RoomID, interface{}) (id.EventID, error)); ok {
-		return rf(roomID, content)
+	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, interface{}) (id.EventID, error)); ok {
+		return rf(ctx, roomID, content)
 	}
-	if rf, ok := ret.Get(0).(func(id.RoomID, interface{}) id.EventID); ok {
-		r0 = rf(roomID, content)
+	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, interface{}) id.EventID); ok {
+		r0 = rf(ctx, roomID, content)
 	} else {
 		r0 = ret.Get(0).(id.EventID)
 	}
 
-	if rf, ok := ret.Get(1).(func(id.RoomID, interface{}) error); ok {
-		r1 = rf(roomID, content)
+	if rf, ok := ret.Get(1).(func(context.Context, id.RoomID, interface{}) error); ok {
+		r1 = rf(ctx, roomID, content)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -79,20 +81,20 @@ func (_m *Linkpearl) Send(roomID id.RoomID, content interface{}) (id.EventID, er
 	return r0, r1
 }
 
-// SendFile provides a mock function with given fields: roomID, req, msgtype, relations
-func (_m *Linkpearl) SendFile(roomID id.RoomID, req *mautrix.ReqUploadMedia, msgtype event.MessageType, relations ...*event.RelatesTo) error {
+// SendFile provides a mock function with given fields: ctx, roomID, req, msgtype, relations
+func (_m *Linkpearl) SendFile(ctx context.Context, roomID id.RoomID, req *mautrix.ReqUploadMedia, msgtype event.MessageType, relations ...*event.RelatesTo) error {
 	_va := make([]interface{}, len(relations))
 	for _i := range relations {
 		_va[_i] = relations[_i]
 	}
 	var _ca []interface{}
-	_ca = append(_ca, roomID, req, msgtype)
+	_ca = append(_ca, ctx, roomID, req, msgtype)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(id.RoomID, *mautrix.ReqUploadMedia, event.MessageType, ...*event.RelatesTo) error); ok {
-		r0 = rf(roomID, req, msgtype, relations...)
+	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, *mautrix.ReqUploadMedia, event.MessageType, ...*event.RelatesTo) error); ok {
+		r0 = rf(ctx, roomID, req, msgtype, relations...)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -100,14 +102,14 @@ func (_m *Linkpearl) SendFile(roomID id.RoomID, req *mautrix.ReqUploadMedia, msg
 	return r0
 }
 
-// SendNotice provides a mock function with given fields: roomID, message, relates
-func (_m *Linkpearl) SendNotice(roomID id.RoomID, message string, relates ...*event.RelatesTo) {
+// SendNotice provides a mock function with given fields: ctx, roomID, message, relates
+func (_m *Linkpearl) SendNotice(ctx context.Context, roomID id.RoomID, message string, relates ...*event.RelatesTo) {
 	_va := make([]interface{}, len(relates))
 	for _i := range relates {
 		_va[_i] = relates[_i]
 	}
 	var _ca []interface{}
-	_ca = append(_ca, roomID, message)
+	_ca = append(_ca, ctx, roomID, message)
 	_ca = append(_ca, _va...)
 	_m.Called(_ca...)
 }

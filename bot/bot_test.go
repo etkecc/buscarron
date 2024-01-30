@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"context"
 	"errors"
 	"testing"
 
@@ -45,7 +46,7 @@ func (s *BotSuite) TestError_NoLinkpearl() {
 
 func (s *BotSuite) TestError() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", roomID, &event.MessageEventContent{
+	s.lp.On("Send", context.Background(), roomID, &event.MessageEventContent{
 		MsgType: event.MsgNotice,
 		Body:    "ERROR: msg arg",
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
@@ -55,7 +56,7 @@ func (s *BotSuite) TestError() {
 
 func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", roomID, &event.Content{
+	s.lp.On("Send", context.Background(), roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
 			MsgType: event.MsgText,
 			Body:    "msg",
@@ -67,7 +68,7 @@ func (s *BotSuite) TestSend() {
 
 func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", roomID, &event.Content{
+	s.lp.On("Send", context.Background(), roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
 			MsgType: event.MsgText,
 			Body:    "msg",
@@ -85,7 +86,7 @@ func (s *BotSuite) TestSendFile() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", roomID, req, event.MsgFile).Return(nil).Once()
+	s.lp.On("SendFile", context.Background(), roomID, req, event.MsgFile).Return(nil).Once()
 
 	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
 }
@@ -98,8 +99,8 @@ func (s *BotSuite) TestSendFile_Error() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", roomID, req, event.MsgFile).Return(errors.New("test")).Once()
-	s.lp.On("Send", roomID, &event.MessageEventContent{
+	s.lp.On("SendFile", context.Background(), roomID, req, event.MsgFile).Return(errors.New("test")).Once()
+	s.lp.On("Send", context.Background(), roomID, &event.MessageEventContent{
 		MsgType: "m.notice",
 		Body:    "ERROR: cannot upload file: test",
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
