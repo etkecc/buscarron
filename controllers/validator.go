@@ -20,7 +20,8 @@ func NewValidator(dv domainValidator) *validator {
 	return &validator{dv}
 }
 
-func (v *validator) DomainHandler() echo.HandlerFunc {
+// DomainValidatorHandler is a handler for domain validation (HEAD requests, no content)
+func (v *validator) DomainValidatorHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		domain := c.Request().URL.Query().Get("domain")
 		if domain == "" {
@@ -39,5 +40,32 @@ func (v *validator) DomainHandler() echo.HandlerFunc {
 		c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")
 		c.Response().Header().Set("X-Content-Type-Options", "nosniff")
 		return c.NoContent(http.StatusNoContent)
+	}
+}
+
+// DomainHander is a handler for domain validation (GET requests, JSON response)
+func (v *validator) DomainHander() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		resp := map[string]any{"base": "", "taken": false}
+		domain := c.Request().URL.Query().Get("domain")
+		if domain == "" {
+			resp["error"] = "domain is required"
+			return c.JSON(http.StatusNotFound, resp)
+		}
+
+		domain = v.domain.GetBase(domain)
+		resp["base"] = domain
+		if !v.domain.DomainString(domain) {
+			resp["error"] = "invalid domain"
+			return c.JSON(http.StatusNotFound, resp)
+		}
+
+		if v.domain.A(domain) {
+			resp["taken"] = true
+			resp["error"] = "domain is taken"
+			return c.JSON(http.StatusConflict, resp)
+		}
+
+		return c.JSON(http.StatusOK, resp)
 	}
 }
