@@ -322,7 +322,7 @@ func (o *order) getHDNSCurl(req *hDNSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
-	if !o.has("ssh-host") || o.hosting == "" {
+	if !o.has("ssh-host") && o.hosting == "" {
 		cmd.WriteString("export SERVER_IP4=SERVER_IP\n")
 	}
 	if req.WithMigadu {

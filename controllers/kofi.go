@@ -125,12 +125,6 @@ func (k *kofi) Handler() echo.HandlerFunc {
 			return c.NoContent(http.StatusUnauthorized)
 		}
 
-		// not a first subscription payment = ignore
-		if !data.IsSubscriptionPayment || !data.IsFirstSubscriptionPayment {
-			log.Info().Msg("not a first subscription payment, ignoring")
-			return c.NoContent(http.StatusOK)
-		}
-
 		return k.send(c, data)
 	}
 }
@@ -138,6 +132,17 @@ func (k *kofi) Handler() echo.HandlerFunc {
 func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 	log := data.Logger(k.log)
 	message := data.Text()
+	// if one-off - just send the message
+	if data.Type != "Subscription" {
+		k.fallback(data, message)
+		return c.NoContent(http.StatusOK)
+	}
+
+	// if subscription - send the message only if it's the first payment
+	if !data.IsFirstSubscriptionPayment {
+		return c.NoContent(http.StatusOK)
+	}
+
 	for _, roomID := range k.rooms {
 		if raw := k.sender.SendByEmail(roomID, data.Email, message, "💸"); raw != nil {
 			log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
@@ -150,8 +155,8 @@ func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 			}
 			return c.NoContent(http.StatusOK)
 		}
-		k.fallback(data, message)
 	}
+	k.fallback(data, message)
 	return c.NoContent(http.StatusOK)
 }
 
