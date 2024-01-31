@@ -170,6 +170,7 @@ func (o *order) getHVPSCurl(req *hVPSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
+	cmd.WriteString("set -euxo pipefail\n")
 	cmd.WriteString(`SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" `)
 	cmd.WriteString(`-H "Content-Type: application/json" `)
 	cmd.WriteString(`-H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" `)
@@ -322,6 +323,10 @@ func (o *order) getHDNSCurl(req *hDNSRequest) string {
 	reqs := strings.ReplaceAll(string(reqb), "\"", "\\\"")
 
 	var cmd strings.Builder
+
+	if o.hosting == "" {
+		cmd.WriteString("set -euxo pipefail\n")
+	}
 	if !o.has("ssh-host") && o.hosting == "" {
 		cmd.WriteString("export SERVER_IP4=SERVER_IP\n")
 	}

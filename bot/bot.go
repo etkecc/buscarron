@@ -48,6 +48,7 @@ func (b *Bot) Error(roomID id.RoomID, message string, args ...interface{}) {
 func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
 	ctx := context.Background()
 	parsed := format.RenderMarkdown(message, true, true)
+	parsed.MsgType = event.MsgNotice
 	content := event.Content{
 		Raw:    attributes,
 		Parsed: &parsed,
@@ -72,6 +73,7 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 	}
 
 	content := format.RenderMarkdown(message, true, true)
+	content.MsgType = event.MsgNotice
 	content.SetRelatesTo(&event.RelatesTo{
 		Type:    event.RelThread,
 		EventID: evt.ID,

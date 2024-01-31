@@ -58,7 +58,7 @@ func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", context.Background(), roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: event.MsgText,
+			MsgType: event.MsgNotice,
 			Body:    "msg",
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
@@ -70,7 +70,7 @@ func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", context.Background(), roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: event.MsgText,
+			MsgType: event.MsgNotice,
 			Body:    "msg",
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), errors.New("test")).Once()
