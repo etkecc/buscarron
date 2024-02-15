@@ -47,6 +47,7 @@ matrix_synapse_oidc_providers:
     client_id: "TODO"
     client_secret: "TODO"
     scopes: ["openid", "profile"]
+    allow_existing_users: yes
     user_mapping_provider:
       config:
         localpart_template: "{% raw %}{{ user.given_name|lower }}{% endraw %}"

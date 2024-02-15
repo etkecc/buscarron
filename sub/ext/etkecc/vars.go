@@ -330,6 +330,7 @@ func (o *order) varsSynapse() string {
 		txt.WriteString("    client_id: \"" + o.get("sso-client-id") + "\"\n")
 		txt.WriteString("    client_secret: \"" + o.get("sso-client-secret") + "\"\n")
 		txt.WriteString("    scopes: [\"openid\", \"profile\"]\n")
+		txt.WriteString("    allow_existing_users: yes\n")
 		txt.WriteString("    user_mapping_provider:\n")
 		txt.WriteString("      config:\n")
 		txt.WriteString("        localpart_template: \"{% raw %}{{ user.given_name|lower }}{% endraw %}\"\n")
