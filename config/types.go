@@ -34,6 +34,9 @@ type Config struct {
 	// Ban config
 	Ban *Ban
 
+	// PSD config
+	PSD PSD
+
 	// DB config
 	DB DB
 
@@ -72,6 +75,13 @@ type Postmark struct {
 type SMTP struct {
 	From              string
 	EnforceValidation bool
+}
+
+// PSD config
+type PSD struct {
+	URL      string
+	Login    string
+	Password string
 }
 
 // Form config

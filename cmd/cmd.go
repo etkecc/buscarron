@@ -17,6 +17,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
 	"github.com/ziflex/lecho/v3"
+	"gitlab.com/etke.cc/go/psd"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
 	"maunium.net/go/mautrix/id"
@@ -137,6 +138,7 @@ func initControllers(cfg *config.Config) {
 		Logger:            log,
 		Sender:            mxb,
 		PaidMarker:        etkecc.MarkAsPaid,
+		PSD:               psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password),
 		Rooms:             rooms,
 		Room:              id.RoomID(cfg.KoFiRoom),
 	}

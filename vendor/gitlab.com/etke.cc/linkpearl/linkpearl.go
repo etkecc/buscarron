@@ -32,7 +32,7 @@ type Linkpearl struct {
 	log zerolog.Logger
 	api *mautrix.Client
 
-	joinPermit  func(*event.Event) bool
+	joinPermit  func(ctx context.Context, evt *event.Event) bool
 	autoleave   bool
 	maxretries  int
 	eventsLimit int
@@ -55,7 +55,7 @@ func setDefaults(cfg *Config) {
 	}
 	if cfg.JoinPermit == nil {
 		// By default, we approve all join requests
-		cfg.JoinPermit = func(*event.Event) bool { return true }
+		cfg.JoinPermit = func(_ context.Context, _ *event.Event) bool { return true }
 	}
 }
 
@@ -141,7 +141,7 @@ func (l *Linkpearl) SetPresence(ctx context.Context, presence event.Presence, me
 }
 
 // SetJoinPermit sets the the join permit callback function
-func (l *Linkpearl) SetJoinPermit(value func(*event.Event) bool) {
+func (l *Linkpearl) SetJoinPermit(value func(context.Context, *event.Event) bool) {
 	l.joinPermit = value
 }
 

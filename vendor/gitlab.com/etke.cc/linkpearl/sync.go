@@ -61,7 +61,7 @@ func (l *Linkpearl) onInvite(ctx context.Context, evt *event.Event) {
 		return
 	}
 
-	if l.joinPermit(evt) {
+	if l.joinPermit(ctx, evt) {
 		l.tryJoin(ctx, evt.RoomID, 0)
 		return
 	}

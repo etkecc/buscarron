@@ -30,6 +30,11 @@ func New() *Config {
 			DSN:     env.String("db.dsn", defaultConfig.DB.DSN),
 			Dialect: env.String("db.dialect", defaultConfig.DB.Dialect),
 		},
+		PSD: PSD{
+			URL:      env.String("psd.url"),
+			Login:    env.String("psd.login"),
+			Password: env.String("psd.password"),
+		},
 		Ban: &Ban{
 			Size: env.Int("ban.size", defaultConfig.Ban.Size),
 			List: env.Slice("ban.list"),

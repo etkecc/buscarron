@@ -8,6 +8,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/rs/zerolog"
+	"gitlab.com/etke.cc/go/psd"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/id"
 )
@@ -25,11 +26,13 @@ type KoFiConfig struct {
 	Sender            senderByEmail
 	PaidMarker        func(*zerolog.Logger, string, string, string)
 	Rooms             []id.RoomID
+	PSD               *psd.Client
 }
 
 type kofi struct {
 	token        string
 	log          *zerolog.Logger
+	psdc         *psd.Client
 	sender       senderByEmail
 	markPaid     func(*zerolog.Logger, string, string, string)
 	rooms        []id.RoomID
@@ -54,14 +57,35 @@ type kofiRequest struct {
 	TierName                   *string   `json:"tier_name"`
 }
 
-func (r *kofiRequest) Text() string {
+func (r *kofiRequest) getStatus(psdc *psd.Client) (bool, string) {
+	targets, err := psdc.Get(r.Email)
+	if err != nil {
+		return false, ""
+	}
+	if len(targets) == 0 {
+		return false, ""
+	}
+	return true, targets[0].GetDomain()
+}
+
+func (r *kofiRequest) Text(psdc *psd.Client) string {
 	var txt strings.Builder
 	txt.WriteString(r.Type)
 	txt.WriteString(" payment received!\n\n")
 
+	ok, domain := r.getStatus(psdc)
 	txt.WriteString("* Email: ")
+	if ok {
+		txt.WriteString("👤")
+	}
 	txt.WriteString(r.Email)
 	txt.WriteString("\n")
+
+	if ok {
+		txt.WriteString("* Host: 👥")
+		txt.WriteString(domain)
+		txt.WriteString("\n")
+	}
 
 	if r.TierName != nil {
 		txt.WriteString("* Tier: ")
@@ -103,6 +127,7 @@ func NewKoFi(cfg *KoFiConfig) *kofi {
 	return &kofi{
 		token:        cfg.VerificationToken,
 		log:          cfg.Logger,
+		psdc:         cfg.PSD,
 		sender:       cfg.Sender,
 		markPaid:     cfg.PaidMarker,
 		rooms:        cfg.Rooms,
@@ -131,7 +156,7 @@ func (k *kofi) Handler() echo.HandlerFunc {
 
 func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 	log := data.Logger(k.log)
-	message := data.Text()
+	message := data.Text(k.psdc)
 	// if one-off - just send the message
 	if data.Type != "Subscription" {
 		k.fallback(data, message)
