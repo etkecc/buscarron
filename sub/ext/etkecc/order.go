@@ -1,10 +1,12 @@
 package etkecc
 
 import (
+	"context"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
@@ -38,13 +40,13 @@ type order struct {
 var preprocessFields = []string{"email", "domain", "username"}
 
 // execute converts order to special message and files
-func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
-	o.preprocess()
+func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia) {
+	o.preprocess(ctx)
 	o.txt.WriteString("price: $" + strconv.Itoa(o.price) + "\n\n")
 
-	questions, countQ := o.generateQuestions()
-	delegation := o.generateDelegationInstructions()
-	dns, dnsInternal := o.generateDNSInstructions()
+	questions, countQ := o.generateQuestions(ctx)
+	delegation := o.generateDelegationInstructions(ctx)
+	dns, dnsInternal := o.generateDNSInstructions(ctx)
 	hosts := o.generateHosts()
 
 	if countQ > 0 {
@@ -56,7 +58,7 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 
 	if o.hosting != "" {
 		o.txt.WriteString("```yaml\n")
-		o.txt.WriteString(o.generateHVPSCommand())
+		o.txt.WriteString(o.generateHVPSCommand(ctx))
 		if dnsInternal {
 			o.txt.WriteString("\n")
 			o.txt.WriteString(dns)
@@ -83,12 +85,12 @@ func (o *order) execute() (string, []*mautrix.ReqUploadMedia) {
 	}
 	o.txt.WriteString("\n\n")
 
-	o.vars()
-	o.generateOnboarding()
-	o.generateFollowup(questions, delegation, dns, countQ, dnsInternal)
+	o.vars(ctx)
+	o.generateOnboarding(ctx)
+	o.generateFollowup(ctx, questions, delegation, dns, countQ, dnsInternal)
 
-	go o.toGP(hosts) //nolint:errcheck
-	go o.sendFollowup()
+	go o.toGP(ctx, hosts) //nolint:errcheck
+	go o.sendFollowup(ctx)
 
 	return o.txt.String(), o.files
 }
@@ -127,7 +129,10 @@ func (o *order) getHostingSize() string {
 }
 
 // preprocess data
-func (o *order) preprocess() {
+func (o *order) preprocess(ctx context.Context) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.preprocess"))
+	defer span.Finish()
+
 	for _, key := range preprocessFields {
 		o.data[key] = strings.TrimSpace(strings.ToLower(o.data[key]))
 	}

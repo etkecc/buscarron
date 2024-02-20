@@ -1,14 +1,20 @@
 package etkecc
 
 import (
+	"context"
 	"sort"
 	"strings"
+
+	"github.com/getsentry/sentry-go"
 )
 
 //nolint:gocognit // TODO
-func (o *order) generateDNSInstructions() (string, bool) {
+func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateDNSInstructions"))
+	defer span.Finish()
+
 	if o.subdomain {
-		return o.generateHDNSCommand(), true
+		return o.generateHDNSCommand(span.Context()), true
 	}
 
 	serverIP := "server IP"

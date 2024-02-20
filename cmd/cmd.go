@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"runtime/debug"
 	"syscall"
 	"time"
 
@@ -70,7 +71,14 @@ func initLog(cfg *config.Config) {
 	zerolog.SetGlobalLevel(loglevel)
 	var w io.Writer
 	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, PartsExclude: []string{zerolog.TimestampFieldName}}
-	sentryWriter, err := zlogsentry.New(cfg.Sentry, zlogsentry.WithBreadcrumbs())
+	sentryWriter, err := zlogsentry.New(
+		cfg.Sentry,
+		zlogsentry.WithBreadcrumbs(),
+		zlogsentry.WithTracing(),
+		zlogsentry.WithSampleRate(0.25),
+		zlogsentry.WithTracingSampleRate(0.25),
+		zlogsentry.WithRelease("buscarron@"+getVersion()),
+	)
 	if err == nil {
 		w = io.MultiWriter(sentryWriter, consoleWriter)
 	} else {
@@ -78,6 +86,17 @@ func initLog(cfg *config.Config) {
 	}
 	logger := zerolog.New(w).With().Timestamp().Caller().Logger()
 	log = &logger
+}
+
+func getVersion() string {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			if setting.Key == "vcs.revision" {
+				return setting.Value
+			}
+		}
+	}
+	return "development"
 }
 
 func initBot(cfg *config.Config) {

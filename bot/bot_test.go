@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/rs/zerolog"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
@@ -20,6 +21,8 @@ type BotSuite struct {
 	log zerolog.Logger
 	bot *Bot
 }
+
+var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
 
 func (s *BotSuite) SetupTest() {
 	s.T().Helper()
@@ -41,41 +44,43 @@ func (s *BotSuite) TestNew() {
 func (s *BotSuite) TestError_NoLinkpearl() {
 	bot := New(nil, &s.log)
 
-	bot.Error(id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
+	bot.Error(context.TODO(), id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
 }
 
 func (s *BotSuite) TestError() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", context.Background(), roomID, &event.MessageEventContent{
-		MsgType: event.MsgNotice,
-		Body:    "ERROR: msg arg",
+	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
+		Parsed: &event.MessageEventContent{
+			MsgType: event.MsgNotice,
+			Body:    "ERROR: msg arg",
+		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
-	s.bot.Error(id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
+	s.bot.Error(context.TODO(), id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
 }
 
 func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", context.Background(), roomID, &event.Content{
+	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
 			MsgType: event.MsgNotice,
 			Body:    "msg",
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
-	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg", nil)
+	s.bot.Send(context.TODO(), id.RoomID("!doesnt:matt.er"), "msg", nil)
 }
 
 func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
-	s.lp.On("Send", context.Background(), roomID, &event.Content{
+	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
 			MsgType: event.MsgNotice,
 			Body:    "msg",
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), errors.New("test")).Once()
 
-	s.bot.Send(id.RoomID("!doesnt:matt.er"), "msg", nil)
+	s.bot.Send(context.TODO(), id.RoomID("!doesnt:matt.er"), "msg", nil)
 }
 
 func (s *BotSuite) TestSendFile() {
@@ -86,9 +91,9 @@ func (s *BotSuite) TestSendFile() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", context.Background(), roomID, req, event.MsgFile).Return(nil).Once()
+	s.lp.On("SendFile", ctxMatcher, roomID, req, event.MsgFile).Return(nil).Once()
 
-	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
+	s.bot.SendFile(context.TODO(), id.RoomID("!doesnt:matt.er"), req)
 }
 
 func (s *BotSuite) TestSendFile_Error() {
@@ -99,12 +104,14 @@ func (s *BotSuite) TestSendFile_Error() {
 		ContentLength: int64(len([]byte("test"))),
 		ContentType:   "text/plain",
 	}
-	s.lp.On("SendFile", context.Background(), roomID, req, event.MsgFile).Return(errors.New("test")).Once()
-	s.lp.On("Send", context.Background(), roomID, &event.MessageEventContent{
-		MsgType: "m.notice",
-		Body:    "ERROR: cannot upload file: test",
+	s.lp.On("SendFile", ctxMatcher, roomID, req, event.MsgFile).Return(errors.New("test")).Once()
+	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
+		Parsed: &event.MessageEventContent{
+			MsgType: "m.notice",
+			Body:    "ERROR: cannot upload file: test",
+		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
-	s.bot.SendFile(id.RoomID("!doesnt:matt.er"), req)
+	s.bot.SendFile(context.TODO(), id.RoomID("!doesnt:matt.er"), req)
 }
 
 func (s *BotSuite) TestStart() {

@@ -1,6 +1,7 @@
 package etkecc
 
 import (
+	"context"
 	"io"
 	"os"
 	"strings"
@@ -429,7 +430,7 @@ func (s *EtkeccSuite) TestExecute() {
 			expectedQ, expectedF, expectedO, expectedV := s.expected(test.name)
 			test.before()
 
-			actualQ, files := s.ext.Execute(s.v, &config.Form{Name: test.name}, test.submission)
+			actualQ, files := s.ext.Execute(context.TODO(), s.v, &config.Form{Name: test.name}, test.submission)
 			actualV := s.rts(files[0].Content)
 			actualO := s.rts(files[1].Content)
 			actualF := s.rts(files[2].Content)

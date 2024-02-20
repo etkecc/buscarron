@@ -1,9 +1,11 @@
 package ext
 
 import (
+	"context"
 	"testing"
 
 	"github.com/mattevans/postmark-go"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 
 	"gitlab.com/etke.cc/buscarron/config"
@@ -15,6 +17,8 @@ type ConfirmationSuite struct {
 	ext *confirmation
 	s   *mocks.EmailSender
 }
+
+var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
 
 func (s *ConfirmationSuite) SetupTest() {
 	s.T().Helper()
@@ -51,9 +55,9 @@ func (s *ConfirmationSuite) TestExecute() {
 		Subject:  "Confirmation email with testfield = testvalue",
 		TextBody: "With body, too (testvalue)",
 	}
-	s.s.On("Send", req).Return(nil, nil).Once()
+	s.s.On("Send", ctxMatcher, req).Return(nil, nil).Once()
 
-	s.ext.Execute(nil, form, data)
+	s.ext.Execute(context.TODO(), nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NoPostmark() {
@@ -70,7 +74,7 @@ func (s *ConfirmationSuite) TestExecute_NoPostmark() {
 		"testfield": "testvalue",
 	}
 
-	ext.Execute(nil, form, data)
+	ext.Execute(context.TODO(), nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NotConfigured() {
@@ -82,7 +86,7 @@ func (s *ConfirmationSuite) TestExecute_NotConfigured() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(nil, form, data)
+	s.ext.Execute(context.TODO(), nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_NoEmail() {
@@ -97,7 +101,7 @@ func (s *ConfirmationSuite) TestExecute_NoEmail() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(nil, form, data)
+	s.ext.Execute(context.TODO(), nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_ErrorParsingSubject() {
@@ -113,7 +117,7 @@ func (s *ConfirmationSuite) TestExecute_ErrorParsingSubject() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(nil, form, data)
+	s.ext.Execute(context.TODO(), nil, form, data)
 }
 
 func (s *ConfirmationSuite) TestExecute_ErrorParsingBody() {
@@ -128,7 +132,7 @@ func (s *ConfirmationSuite) TestExecute_ErrorParsingBody() {
 		"testfield": "testvalue",
 	}
 
-	s.ext.Execute(nil, form, data)
+	s.ext.Execute(context.TODO(), nil, form, data)
 }
 
 func TestConfirmationSuite(t *testing.T) {

@@ -1,10 +1,12 @@
 package etkecc
 
 import (
+	"context"
 	"fmt"
 	"reflect"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
@@ -35,7 +37,10 @@ Best regards,
 etke.cc`
 )
 
-func (o *order) generateFollowup(questions, delegation, dns string, countQ int, dnsInternal bool) {
+func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int, dnsInternal bool) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateFollowup"))
+	defer span.Finish()
+
 	var txt strings.Builder
 	txt.WriteString(followupHeader)
 	if countQ > 0 {
@@ -74,7 +79,7 @@ func (o *order) generateFollowup(questions, delegation, dns string, countQ int, 
 	)
 }
 
-func (o *order) sendFollowup() {
+func (o *order) sendFollowup(ctx context.Context) {
 	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Ptr && reflect.ValueOf(o.pm).IsNil()) {
 		return
 	}
@@ -86,5 +91,5 @@ func (o *order) sendFollowup() {
 		TextBody: o.followup.Body,
 		HTMLBody: o.followup.FormattedBody,
 	}
-	o.pm.Send(req) //nolint:errcheck
+	o.pm.Send(ctx, req) //nolint:errcheck
 }

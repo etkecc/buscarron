@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -14,9 +15,9 @@ import (
 )
 
 type senderByEmail interface {
-	Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID
-	SendByEmail(roomID id.RoomID, email, message string, reactions ...string) map[string]any
-	FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event
+	Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID
+	SendByEmail(ctx context.Context, roomID id.RoomID, email, message string, reactions ...string) map[string]any
+	FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event
 }
 
 type KoFiConfig struct {
@@ -24,7 +25,7 @@ type KoFiConfig struct {
 	Room              id.RoomID
 	Logger            *zerolog.Logger
 	Sender            senderByEmail
-	PaidMarker        func(*zerolog.Logger, string, string, string)
+	PaidMarker        func(context.Context, *zerolog.Logger, string, string, string)
 	Rooms             []id.RoomID
 	PSD               *psd.Client
 }
@@ -34,7 +35,7 @@ type kofi struct {
 	log          *zerolog.Logger
 	psdc         *psd.Client
 	sender       senderByEmail
-	markPaid     func(*zerolog.Logger, string, string, string)
+	markPaid     func(context.Context, *zerolog.Logger, string, string, string)
 	rooms        []id.RoomID
 	fallbackRoom id.RoomID
 }
@@ -57,8 +58,8 @@ type kofiRequest struct {
 	TierName                   *string   `json:"tier_name"`
 }
 
-func (r *kofiRequest) getStatus(psdc *psd.Client) (bool, string) {
-	targets, err := psdc.Get(r.Email)
+func (r *kofiRequest) getStatus(ctx context.Context, psdc *psd.Client) (bool, string) {
+	targets, err := psdc.GetWithContext(ctx, r.Email)
 	if err != nil {
 		return false, ""
 	}
@@ -68,12 +69,12 @@ func (r *kofiRequest) getStatus(psdc *psd.Client) (bool, string) {
 	return true, targets[0].GetDomain()
 }
 
-func (r *kofiRequest) Text(psdc *psd.Client) string {
+func (r *kofiRequest) Text(ctx context.Context, psdc *psd.Client) string {
 	var txt strings.Builder
 	txt.WriteString(r.Type)
 	txt.WriteString(" payment received!\n\n")
 
-	ok, domain := r.getStatus(psdc)
+	ok, domain := r.getStatus(ctx, psdc)
 	txt.WriteString("* Email: ")
 	if ok {
 		txt.WriteString("👤")
@@ -155,11 +156,12 @@ func (k *kofi) Handler() echo.HandlerFunc {
 }
 
 func (k *kofi) send(c echo.Context, data *kofiRequest) error {
+	ctx := c.Request().Context()
 	log := data.Logger(k.log)
-	message := data.Text(k.psdc)
+	message := data.Text(ctx, k.psdc)
 	// if one-off - just send the message
 	if data.Type != "Subscription" {
-		k.fallback(data, message)
+		k.fallback(ctx, data, message)
 		return c.NoContent(http.StatusOK)
 	}
 
@@ -169,25 +171,25 @@ func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 	}
 
 	for _, roomID := range k.rooms {
-		if raw := k.sender.SendByEmail(roomID, data.Email, message, "💸"); raw != nil {
+		if raw := k.sender.SendByEmail(ctx, roomID, data.Email, message, "💸"); raw != nil {
 			log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
 			domain, ok := raw["domain"].(string)
 			baseDomain, _ := raw["base_domain"].(string)
 			if ok && k.markPaid != nil {
-				k.markPaid(log, domain, baseDomain, data.Amount)
+				k.markPaid(ctx, log, domain, baseDomain, data.Amount)
 			} else {
 				log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
 			}
 			return c.NoContent(http.StatusOK)
 		}
 	}
-	k.fallback(data, message)
+	k.fallback(ctx, data, message)
 	return c.NoContent(http.StatusOK)
 }
 
-func (k *kofi) fallback(data *kofiRequest, message string) {
-	if k.sender.FindEventBy(k.fallbackRoom, "kofi_id", data.KofiTransactionID) != nil {
+func (k *kofi) fallback(ctx context.Context, data *kofiRequest, message string) {
+	if k.sender.FindEventBy(ctx, k.fallbackRoom, "kofi_id", data.KofiTransactionID) != nil {
 		return
 	}
-	k.sender.Send(k.fallbackRoom, message, map[string]interface{}{"kofi_id": data.KofiTransactionID})
+	k.sender.Send(ctx, k.fallbackRoom, message, map[string]interface{}{"kofi_id": data.KofiTransactionID})
 }

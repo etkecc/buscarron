@@ -1,8 +1,10 @@
 package mail
 
 import (
+	"context"
 	"net/http"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"github.com/rs/zerolog"
 )
@@ -35,7 +37,10 @@ func New(token, from, replyto string, log *zerolog.Logger) *Client {
 	}
 }
 
-func (c *Client) Send(req *postmark.Email) error {
+func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
+	span := sentry.StartSpan(ctx, "http.client", sentry.WithDescription("mail.Send"))
+	defer span.Finish()
+
 	req.From = c.from
 	req.ReplyTo = c.replyto
 

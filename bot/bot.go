@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sync"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
@@ -28,25 +29,22 @@ func New(lp Linkpearl, log *zerolog.Logger) *Bot {
 }
 
 // Error message to the log and matrix room
-func (b *Bot) Error(roomID id.RoomID, message string, args ...interface{}) {
+func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args ...interface{}) {
 	b.log.Error().Msgf(message, args...)
 
 	if b.lp == nil {
 		return
 	}
-	ctx := context.Background()
-	b.Lock()
-	defer b.Unlock()
-	// nolint // if something goes wrong here nobody can help...
-	b.lp.Send(ctx, roomID, &event.MessageEventContent{
-		MsgType: event.MsgNotice,
-		Body:    "ERROR: " + fmt.Sprintf(message, args...),
-	})
+	b.Send(ctx, roomID, "ERROR: "+fmt.Sprintf(message, args...), nil)
 }
 
 // Send message to the room
-func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
-	ctx := context.Background()
+//
+//nolint:unparam // return value is used, but called from interfaces
+func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("bot.Send"))
+	defer span.Finish()
+
 	parsed := format.RenderMarkdown(message, true, true)
 	parsed.MsgType = event.MsgNotice
 	content := event.Content{
@@ -55,7 +53,7 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 	}
 
 	b.Lock()
-	eventID, err := b.lp.Send(ctx, roomID, &content)
+	eventID, err := b.lp.Send(span.Context(), roomID, &content)
 	b.Unlock()
 	if err != nil {
 		b.log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
@@ -64,9 +62,11 @@ func (b *Bot) Send(roomID id.RoomID, message string, attributes map[string]inter
 }
 
 // SendByEmail sends the message into the room as thread reply by email
-func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
-	ctx := context.Background()
-	evt := b.lp.FindEventBy(ctx, roomID, "email", email)
+func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("bot.SendByEmail"))
+	defer span.Finish()
+
+	evt := b.FindEventBy(span.Context(), roomID, "email", email)
 	if evt == nil {
 		b.log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
 		return nil
@@ -80,7 +80,9 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 	})
 
 	b.Lock()
-	_, err := b.lp.Send(ctx, roomID, content)
+	sendSpan := sentry.StartSpan(span.Context(), "function", sentry.WithDescription("linkpearl.Send"))
+	_, err := b.lp.Send(sendSpan.Context(), roomID, content)
+	sendSpan.Finish()
 	b.Unlock()
 	if err != nil {
 		b.log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
@@ -89,7 +91,9 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 
 	if len(reactions) > 0 {
 		for _, reaction := range reactions {
-			_, err = b.lp.GetClient().SendReaction(ctx, roomID, evt.ID, reaction)
+			reactionSpan := sentry.StartSpan(span.Context(), "function", sentry.WithDescription("mautrix.SendReaction"))
+			_, err = b.lp.GetClient().SendReaction(reactionSpan.Context(), roomID, evt.ID, reaction)
+			reactionSpan.Finish()
 			if err != nil {
 				b.log.Warn().Err(err).Str("roomID", roomID.String()).Str("eventID", evt.ID.String()).Msg("cannot send a reaction")
 			}
@@ -100,20 +104,24 @@ func (b *Bot) SendByEmail(roomID id.RoomID, email string, message string, reacti
 }
 
 // SendFile for the room
-func (b *Bot) SendFile(roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
+func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("linkpearl.SendFile"))
+	defer span.Finish()
+
 	b.Lock()
-	ctx := context.Background()
-	err := b.lp.SendFile(ctx, roomID, file, event.MsgFile, relations...)
+	err := b.lp.SendFile(span.Context(), roomID, file, event.MsgFile, relations...)
 	b.Unlock()
 	if err != nil {
-		b.Error(roomID, "cannot upload file: %v", err)
+		b.Error(span.Context(), roomID, "cannot upload file: %v", err)
 		return
 	}
 }
 
 // FindEventBy is wrapper around lp.FindEventBy
-func (b *Bot) FindEventBy(roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
-	return b.lp.FindEventBy(context.Background(), roomID, field, value, fromToken...)
+func (b *Bot) FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("linkpearl.FindEventBy"))
+	defer span.Finish()
+	return b.lp.FindEventBy(span.Context(), roomID, field, value, fromToken...)
 }
 
 // Start performs matrix /sync

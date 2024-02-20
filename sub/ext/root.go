@@ -1,9 +1,11 @@
 package ext
 
 import (
+	"context"
 	"sort"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
@@ -18,7 +20,10 @@ func NewRoot() *root {
 }
 
 // Execute extension
-func (e *root) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.root.Execute"))
+	defer span.Finish()
+
 	defaultText := e.defaultText(form.Name, data)
 	var out string
 	if form.Text == "" {

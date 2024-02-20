@@ -1,13 +1,18 @@
 package etkecc
 
 import (
+	"context"
 	"sort"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"maunium.net/go/mautrix"
 )
 
-func (o *order) generateOnboarding() {
+func (o *order) generateOnboarding(ctx context.Context) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateOnboarding"))
+	defer span.Finish()
+
 	var txt strings.Builder
 
 	txt.WriteString(o.generateOnboardingIntro())

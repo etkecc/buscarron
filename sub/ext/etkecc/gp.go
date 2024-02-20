@@ -2,11 +2,13 @@ package etkecc
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/rs/zerolog"
 )
 
@@ -29,10 +31,14 @@ type gpfile struct {
 	Regex   string `json:"regex,omitempty"`
 }
 
-func MarkAsPaid(log *zerolog.Logger, domain, baseDomain, amount string) {
+func MarkAsPaid(ctx context.Context, log *zerolog.Logger, domain, baseDomain, amount string) {
 	if gpURL == "" || gpUser == "" || gpPass == "" {
 		log.Warn().Msg("gp disabled")
 	}
+
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("MarkAsPaid"))
+	ctx = span.Context()
+	defer span.Finish()
 
 	msgdomain := domain
 	if domain != baseDomain {
@@ -78,7 +84,7 @@ func MarkAsPaid(log *zerolog.Logger, domain, baseDomain, amount string) {
 		log.Error().Err(err).Msg("gp request marshal failed")
 		return
 	}
-	r, err := http.NewRequest("POST", gpURL+"/post", bytes.NewReader(reqb))
+	r, err := http.NewRequestWithContext(ctx, "POST", gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
 		log.Error().Err(err).Msg("gp request failed")
 		return
@@ -96,10 +102,13 @@ func MarkAsPaid(log *zerolog.Logger, domain, baseDomain, amount string) {
 	}
 }
 
-func (o *order) toGP(hosts string) error {
+func (o *order) toGP(ctx context.Context, hosts string) error {
 	if gpURL == "" || gpUser == "" || gpPass == "" || o.test {
 		return fmt.Errorf("disabled")
 	}
+
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.toGP"))
+	defer span.Finish()
 
 	req := &gpreq{
 		Message: o.domain + " - init",
@@ -123,7 +132,7 @@ func (o *order) toGP(hosts string) error {
 	if err != nil {
 		return err
 	}
-	r, err := http.NewRequest("POST", gpURL+"/post", bytes.NewReader(reqb))
+	r, err := http.NewRequestWithContext(span.Context(), "POST", gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
 		return err
 	}

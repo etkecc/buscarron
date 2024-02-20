@@ -17,10 +17,10 @@ require (
 	github.com/rs/zerolog v1.32.0
 	github.com/stretchr/testify v1.8.4
 	github.com/ziflex/lecho/v3 v3.5.0
-	gitlab.com/etke.cc/go/echo-basic-auth v1.0.0
+	gitlab.com/etke.cc/go/echo-basic-auth v1.1.0
 	gitlab.com/etke.cc/go/env v1.1.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20231211082113-3024cb2f6009
-	gitlab.com/etke.cc/go/psd v1.0.0
+	gitlab.com/etke.cc/go/psd v1.1.0
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240211143445-bddf907d137a

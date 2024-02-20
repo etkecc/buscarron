@@ -1,8 +1,10 @@
 package ext
 
 import (
+	"context"
 	"reflect"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 
@@ -21,7 +23,10 @@ func NewConfirmation(sender EmailSender) *confirmation {
 
 // Execute extension
 // nolint:unparam // interface constraints
-func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.confirmation.Execute"))
+	defer span.Finish()
+
 	if e.s == nil {
 		return "", []*mautrix.ReqUploadMedia{}
 	}
@@ -53,6 +58,6 @@ func (e *confirmation) Execute(_ common.Validator, form *config.Form, data map[s
 		return "", []*mautrix.ReqUploadMedia{}
 	}
 
-	e.s.Send(req) // nolint // not ready to handle errors
+	e.s.Send(span.Context(), req) // nolint // not ready to handle errors
 	return "", []*mautrix.ReqUploadMedia{}
 }

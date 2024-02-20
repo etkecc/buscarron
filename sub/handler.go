@@ -2,6 +2,7 @@ package sub
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/rs/zerolog"
@@ -25,13 +27,13 @@ import (
 
 // Sender interface to send messages
 type Sender interface {
-	Send(id.RoomID, string, map[string]interface{}) id.EventID
-	SendFile(id.RoomID, *mautrix.ReqUploadMedia, ...*event.RelatesTo)
+	Send(context.Context, id.RoomID, string, map[string]interface{}) id.EventID
+	SendFile(context.Context, id.RoomID, *mautrix.ReqUploadMedia, ...*event.RelatesTo)
 }
 
 // EmailSender interface
 type EmailSender interface {
-	Send(*postmark.Email) error
+	Send(context.Context, *postmark.Email) error
 }
 
 // Handler is an HTTP forms handler
@@ -79,10 +81,13 @@ func (h *Handler) initMapping() {
 }
 
 // GET request handler
-func (h *Handler) GET(name string, _ *http.Request) (string, error) {
+func (h *Handler) GET(ctx context.Context, name string, _ *http.Request) (string, error) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.GET"))
+	defer span.Finish()
+
 	form := h.forms[name]
 	if form != nil {
-		return h.redirect(form.Redirect, nil), nil
+		return h.redirect(span.Context(), form.Redirect, nil), nil
 	}
 
 	return "", ErrNotFound
@@ -119,7 +124,10 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 }
 
 // POST request handler
-func (h *Handler) POST(name string, r *http.Request) (string, error) {
+func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (string, error) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.POST"))
+	defer span.Finish()
+
 	form, ok := h.forms[name]
 	if !ok {
 		h.log.Warn().Str("name", name).Msg("submission attempt to a nonexistent form")
@@ -140,23 +148,23 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 
 	data, err := parser(r)
 	if err != nil {
-		return h.redirect(form.RejectRedirect, data), err
+		return h.redirect(span.Context(), form.RejectRedirect, data), err
 	}
 
 	if !v.Email(data["email"]) {
 		h.log.Info().Str("name", form.Name).Str("reason", "email").Msg("submission to the form marked as spam")
-		return h.redirect(form.RejectRedirect, data), ErrSpam
+		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
 	if !v.Domain(data["domain"]) {
 		h.log.Info().Str("name", form.Name).Str("reason", "domain").Msg("submission to the form marked as spam")
-		return h.redirect(form.RejectRedirect, data), ErrSpam
+		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
 	metrics.Submission(form.Name)
 	h.log.Info().Str("name", form.Name).Msg("submission to the form passed the tests")
 
-	text, files := h.generate(form, data)
+	text, files := h.generate(span.Context(), form, data)
 	attrs := map[string]interface{}{}
 	if data["email"] != "" {
 		attrs["email"] = data["email"]
@@ -167,20 +175,23 @@ func (h *Handler) POST(name string, r *http.Request) (string, error) {
 	}
 
 	form.Lock()
-	eventID := h.sender.Send(form.RoomID, text, attrs)
+	eventID := h.sender.Send(span.Context(), form.RoomID, text, attrs)
 	var relates *event.RelatesTo
 	if eventID != "" {
 		relates = linkpearl.RelatesTo(eventID)
 	}
 	for _, file := range files {
-		h.sender.SendFile(form.RoomID, file, relates)
+		h.sender.SendFile(span.Context(), form.RoomID, file, relates)
 	}
 	form.Unlock()
 
-	return h.redirect(form.Redirect, data), nil
+	return h.redirect(span.Context(), form.Redirect, data), nil
 }
 
-func (h *Handler) redirect(target string, vars map[string]string) string {
+func (h *Handler) redirect(ctx context.Context, target string, vars map[string]string) string {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.redirect"))
+	defer span.Finish()
+
 	var html bytes.Buffer
 	var targetBytes bytes.Buffer
 	targetTpl, err := template.New("target").Parse(target)
@@ -210,10 +221,13 @@ func (h *Handler) redirect(target string, vars map[string]string) string {
 }
 
 // generate text and files
-func (h *Handler) generate(form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (h *Handler) generate(ctx context.Context, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.generate"))
+	defer span.Finish()
+
 	v := h.vs[form.Name]
 	medias := []*mautrix.ReqUploadMedia{}
-	text, rmedias := h.ext["root"].Execute(v, form, data)
+	text, rmedias := h.ext["root"].Execute(span.Context(), v, form, data)
 
 	for _, extension := range form.Extensions {
 		if extension == "" {
@@ -224,7 +238,7 @@ func (h *Handler) generate(form *config.Form, data map[string]string) (string, [
 			continue
 		}
 
-		etext, emedias := e.Execute(v, form, data)
+		etext, emedias := e.Execute(span.Context(), v, form, data)
 		text += etext
 		medias = append(medias, emedias...)
 	}

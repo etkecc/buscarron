@@ -21,6 +21,7 @@ github.com/davecgh/go-spew/spew
 # github.com/getsentry/sentry-go v0.27.0
 ## explicit; go 1.18
 github.com/getsentry/sentry-go
+github.com/getsentry/sentry-go/echo
 github.com/getsentry/sentry-go/internal/debug
 github.com/getsentry/sentry-go/internal/otel/baggage
 github.com/getsentry/sentry-go/internal/otel/baggage/internal/baggage
@@ -129,7 +130,7 @@ github.com/yuin/goldmark/util
 # github.com/ziflex/lecho/v3 v3.5.0
 ## explicit; go 1.17
 github.com/ziflex/lecho/v3
-# gitlab.com/etke.cc/go/echo-basic-auth v1.0.0
+# gitlab.com/etke.cc/go/echo-basic-auth v1.1.0
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/echo-basic-auth
 # gitlab.com/etke.cc/go/env v1.1.0
@@ -138,7 +139,7 @@ gitlab.com/etke.cc/go/env
 # gitlab.com/etke.cc/go/pricify v0.0.0-20231211082113-3024cb2f6009
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
-# gitlab.com/etke.cc/go/psd v1.0.0
+# gitlab.com/etke.cc/go/psd v1.1.0
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/psd
 # gitlab.com/etke.cc/go/secgen v1.2.0

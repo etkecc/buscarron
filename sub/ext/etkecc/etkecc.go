@@ -1,8 +1,10 @@
 package etkecc
 
 import (
+	"context"
 	"time"
 
+	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
@@ -23,7 +25,7 @@ type Etkecc struct {
 
 // EmailSender interface
 type EmailSender interface {
-	Send(*postmark.Email) error
+	Send(context.Context, *postmark.Email) error
 }
 
 // New etke.cc extension
@@ -37,7 +39,10 @@ func New(pm EmailSender) *Etkecc {
 }
 
 // Execute extension
-func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.Execute"))
+	defer span.Finish()
+
 	var p *pricify.Data
 	var err error
 	p, err = pricify.New()
@@ -58,7 +63,7 @@ func (e *Etkecc) Execute(v common.Validator, form *config.Form, data map[string]
 		files:     make([]*mautrix.ReqUploadMedia, 0, 3),
 	}
 
-	return o.execute()
+	return o.execute(span.Context())
 }
 
 // PrivateSuffixes returns private suffixes

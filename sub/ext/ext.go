@@ -1,6 +1,8 @@
 package ext
 
 import (
+	"context"
+
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 
@@ -11,12 +13,12 @@ import (
 
 // Extension is form extension interface
 type Extension interface {
-	Execute(common.Validator, *config.Form, map[string]string) (string, []*mautrix.ReqUploadMedia)
+	Execute(context.Context, common.Validator, *config.Form, map[string]string) (string, []*mautrix.ReqUploadMedia)
 }
 
 // EmailSender interface
 type EmailSender interface {
-	Send(*postmark.Email) error
+	Send(context.Context, *postmark.Email) error
 }
 
 // New extensions map

@@ -1,12 +1,14 @@
 package sub
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"strings"
 	"testing"
 
 	"github.com/rs/zerolog"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"maunium.net/go/mautrix/id"
 
@@ -22,6 +24,8 @@ type HandlerSuite struct {
 	vs     map[string]common.Validator
 	sender *mocks.Sender
 }
+
+var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
 
 func (s *HandlerSuite) SetupSuite() {
 	log := zerolog.Nop()
@@ -50,7 +54,7 @@ func (s *HandlerSuite) TestGet() {
 	}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 
-	result, err := handler.GET("test", nil)
+	result, err := handler.GET(context.TODO(), "test", nil)
 
 	s.Require().NoError(err)
 	s.Equal(expected, result)
@@ -60,7 +64,7 @@ func (s *HandlerSuite) TestGet_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 
-	result, err := handler.GET("test", nil)
+	result, err := handler.GET(context.TODO(), "test", nil)
 
 	s.Require().Error(err)
 	s.Equal(ErrNotFound, err)
@@ -71,7 +75,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 
-	result, err := handler.POST("test", nil)
+	result, err := handler.POST(context.TODO(), "test", nil)
 
 	s.Require().Error(err)
 	s.Equal(ErrNotFound, err)
@@ -83,7 +87,7 @@ func (s *HandlerSuite) TestPOST_NoData() {
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	request, rerr := http.NewRequest("POST", "", nil)
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST(context.TODO(), "test", request)
 
 	s.Require().NoError(rerr)
 	s.Equal(ErrNotFound, err)
@@ -100,7 +104,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST(context.TODO(), "test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -119,7 +123,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST(context.TODO(), "test", request)
 
 	s.NoError(rerr)
 	s.Require().Error(err)
@@ -146,7 +150,7 @@ func (s *HandlerSuite) TestPOST() {
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
-	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
+	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	data := url.Values{}
 	data.Add("email", "email@dkimvalidator.com")
@@ -155,7 +159,7 @@ func (s *HandlerSuite) TestPOST() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST(context.TODO(), "test", request)
 
 	s.NoError(rerr)
 	s.Require().NoError(err)
@@ -181,7 +185,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	}
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
-	s.sender.On("Send", roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
+	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.log)
 	data := `{
 	"email": "email@dkimvalidator.com",
@@ -193,7 +197,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	request, rerr := http.NewRequest("POST", "", strings.NewReader(data))
 	request.Header.Add("Content-Type", "application/json")
 
-	result, err := handler.POST("test", request)
+	result, err := handler.POST(context.TODO(), "test", request)
 
 	s.NoError(rerr)
 	s.Require().NoError(err)

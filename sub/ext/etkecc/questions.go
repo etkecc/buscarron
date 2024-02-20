@@ -1,8 +1,16 @@
 package etkecc
 
-import "strings"
+import (
+	"context"
+	"strings"
 
-func (o *order) generateDelegationInstructions() string {
+	"github.com/getsentry/sentry-go"
+)
+
+func (o *order) generateDelegationInstructions(ctx context.Context) string {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateDelegationInstructions"))
+	defer span.Finish()
+
 	if o.get("serve_base_domain") == "yes" {
 		return ""
 	}
@@ -19,7 +27,10 @@ func (o *order) generateDelegationInstructions() string {
 	return txt.String()
 }
 
-func (o *order) generateQuestions() (string, int) {
+func (o *order) generateQuestions(ctx context.Context) (string, int) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateQuestions"))
+	defer span.Finish()
+
 	var count int
 	var txt strings.Builder
 	if q := o.generateQuestionsReminderBot(); q != "" {

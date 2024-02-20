@@ -1,13 +1,18 @@
 package etkecc
 
 import (
+	"context"
 	"sort"
 	"strings"
 
+	"github.com/getsentry/sentry-go"
 	"maunium.net/go/mautrix"
 )
 
-func (o *order) vars() {
+func (o *order) vars(ctx context.Context) {
+	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.vars"))
+	defer span.Finish()
+
 	var txt strings.Builder
 
 	// base

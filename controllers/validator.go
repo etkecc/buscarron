@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"gitlab.com/etke.cc/go/psd"
 	"golang.org/x/net/idna"
 )
 
@@ -28,33 +29,11 @@ type domainValidator interface {
 
 type validator struct {
 	domain domainValidator
+	psdc   *psd.Client
 }
 
-func NewValidator(dv domainValidator) *validator {
-	return &validator{dv}
-}
-
-// DomainValidatorHandler is a handler for domain validation (HEAD requests, no content)
-func (v *validator) DomainValidatorHandler() echo.HandlerFunc {
-	return func(c echo.Context) error {
-		domain := c.Request().URL.Query().Get("domain")
-		if domain == "" {
-			return c.NoContent(http.StatusNotFound)
-		}
-
-		domain = v.domain.GetBase(domain)
-		if !v.domain.DomainString(domain) {
-			return c.NoContent(http.StatusNotFound)
-		}
-
-		if v.domain.A(domain) {
-			return c.NoContent(http.StatusConflict)
-		}
-
-		c.Response().Header().Set("Content-Type", "text/plain; charset=utf-8")
-		c.Response().Header().Set("X-Content-Type-Options", "nosniff")
-		return c.NoContent(http.StatusNoContent)
-	}
+func NewValidator(dv domainValidator, psdc *psd.Client) *validator {
+	return &validator{dv, psdc}
 }
 
 // DomainHander is a handler for domain validation (GET requests, JSON response)
@@ -85,6 +64,12 @@ func (v *validator) DomainHander() echo.HandlerFunc {
 			return c.JSON(http.StatusNotFound, resp)
 		}
 		if v.domain.A(domain) {
+			resp["taken"] = true
+			resp["error_code"] = errDomainTaken
+			return c.JSON(http.StatusConflict, resp)
+		}
+
+		if targets, _ := v.psdc.Get(domain); len(targets) > 0 { //nolint:errcheck // that's fine
 			resp["taken"] = true
 			resp["error_code"] = errDomainTaken
 			return c.JSON(http.StatusConflict, resp)
