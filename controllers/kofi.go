@@ -23,19 +23,17 @@ type senderByEmail interface {
 type KoFiConfig struct {
 	VerificationToken string
 	Room              id.RoomID
-	Logger            *zerolog.Logger
 	Sender            senderByEmail
-	PaidMarker        func(context.Context, *zerolog.Logger, string, string, string)
+	PaidMarker        func(context.Context, string, string, string)
 	Rooms             []id.RoomID
 	PSD               *psd.Client
 }
 
 type kofi struct {
 	token        string
-	log          *zerolog.Logger
 	psdc         *psd.Client
 	sender       senderByEmail
-	markPaid     func(context.Context, *zerolog.Logger, string, string, string)
+	markPaid     func(context.Context, string, string, string)
 	rooms        []id.RoomID
 	fallbackRoom id.RoomID
 }
@@ -114,8 +112,8 @@ func (r *kofiRequest) Text(ctx context.Context, psdc *psd.Client) string {
 	return txt.String()
 }
 
-func (r *kofiRequest) Logger(log *zerolog.Logger) *zerolog.Logger {
-	ctxlog := log.With().
+func (r *kofiRequest) Logger(ctx context.Context) *zerolog.Logger {
+	ctxlog := zerolog.Ctx(ctx).With().
 		Str("email", r.Email).
 		Str("type", r.Type).
 		Bool("is_subscription", r.IsSubscriptionPayment).
@@ -127,7 +125,6 @@ func (r *kofiRequest) Logger(log *zerolog.Logger) *zerolog.Logger {
 func NewKoFi(cfg *KoFiConfig) *kofi {
 	return &kofi{
 		token:        cfg.VerificationToken,
-		log:          cfg.Logger,
 		psdc:         cfg.PSD,
 		sender:       cfg.Sender,
 		markPaid:     cfg.PaidMarker,
@@ -138,13 +135,13 @@ func NewKoFi(cfg *KoFiConfig) *kofi {
 
 func (k *kofi) Handler() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		log := zerolog.Ctx(c.Request().Context())
 		raw := c.FormValue("data")
 		var data *kofiRequest
 		if err := json.Unmarshal([]byte(raw), &data); err != nil {
-			k.log.Error().Err(err).Msg("cannot parse json data of a ko-fi request")
+			log.Error().Err(err).Msg("cannot parse json data of a ko-fi request")
 			return c.NoContent(http.StatusBadRequest)
 		}
-		log := data.Logger(k.log)
 
 		if data.VerificationToken != k.token {
 			log.Error().Str("provided_token", data.VerificationToken).Msg("verification token is invalid")
@@ -157,7 +154,7 @@ func (k *kofi) Handler() echo.HandlerFunc {
 
 func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 	ctx := c.Request().Context()
-	log := data.Logger(k.log)
+	log := data.Logger(ctx)
 	message := data.Text(ctx, k.psdc)
 	// if one-off - just send the message
 	if data.Type != "Subscription" {
@@ -176,7 +173,7 @@ func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 			domain, ok := raw["domain"].(string)
 			baseDomain, _ := raw["base_domain"].(string)
 			if ok && k.markPaid != nil {
-				k.markPaid(ctx, log, domain, baseDomain, data.Amount)
+				k.markPaid(ctx, domain, baseDomain, data.Amount)
 			} else {
 				log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
 			}

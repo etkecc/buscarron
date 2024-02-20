@@ -7,6 +7,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	"github.com/rs/zerolog"
+	"gitlab.com/etke.cc/buscarron/utils"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/format"
@@ -16,21 +17,19 @@ import (
 // Bot represents matrix bot
 type Bot struct {
 	sync.Mutex
-	log *zerolog.Logger
-	lp  Linkpearl
+	lp Linkpearl
 }
 
 // New creates a new matrix bot
-func New(lp Linkpearl, log *zerolog.Logger) *Bot {
+func New(lp Linkpearl) *Bot {
 	return &Bot{
-		lp:  lp,
-		log: log,
+		lp: lp,
 	}
 }
 
 // Error message to the log and matrix room
 func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args ...interface{}) {
-	b.log.Error().Msgf(message, args...)
+	zerolog.Ctx(ctx).Error().Msgf(message, args...)
 
 	if b.lp == nil {
 		return
@@ -56,19 +55,20 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 	eventID, err := b.lp.Send(span.Context(), roomID, &content)
 	b.Unlock()
 	if err != nil {
-		b.log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
+		zerolog.Ctx(ctx).Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
 	return eventID
 }
 
 // SendByEmail sends the message into the room as thread reply by email
 func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
+	log := zerolog.Ctx(ctx)
 	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("bot.SendByEmail"))
 	defer span.Finish()
 
 	evt := b.FindEventBy(span.Context(), roomID, "email", email)
 	if evt == nil {
-		b.log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
+		log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
 		return nil
 	}
 
@@ -85,7 +85,7 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 	sendSpan.Finish()
 	b.Unlock()
 	if err != nil {
-		b.log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
+		log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
 		return nil
 	}
 
@@ -95,7 +95,7 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 			_, err = b.lp.GetClient().SendReaction(reactionSpan.Context(), roomID, evt.ID, reaction)
 			reactionSpan.Finish()
 			if err != nil {
-				b.log.Warn().Err(err).Str("roomID", roomID.String()).Str("eventID", evt.ID.String()).Msg("cannot send a reaction")
+				log.Warn().Err(err).Str("roomID", roomID.String()).Str("eventID", evt.ID.String()).Msg("cannot send a reaction")
 			}
 		}
 	}
@@ -127,7 +127,7 @@ func (b *Bot) FindEventBy(ctx context.Context, roomID id.RoomID, field, value st
 // Start performs matrix /sync
 func (b *Bot) Start() {
 	if err := b.lp.Start(); err != nil {
-		b.log.Panic().Err(err).Msg("matrix bot crashed")
+		zerolog.Ctx(utils.NewContext()).Panic().Err(err).Msg("matrix bot crashed")
 	}
 }
 

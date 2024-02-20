@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 	"sync"
@@ -9,7 +8,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/rs/zerolog"
 	"golang.org/x/time/rate"
 )
 
@@ -19,13 +17,11 @@ const DefaultFrequency = 1 * time.Minute
 type rateLimiter struct {
 	middlewares map[string]echo.MiddlewareFunc
 	stores      map[string]*rlStore
-	log         *zerolog.Logger
 }
 
 type rlStore struct {
 	sync.RWMutex
 
-	log       *zerolog.Logger
 	burst     int
 	frequency time.Duration
 	visitors  map[string]*rlVisitor
@@ -37,8 +33,8 @@ type rlVisitor struct {
 	last time.Time
 }
 
-func NewRateLimiter(shared, all map[string]string, log *zerolog.Logger) *rateLimiter {
-	rl := &rateLimiter{log: log}
+func NewRateLimiter(shared, all map[string]string) *rateLimiter {
+	rl := &rateLimiter{}
 	rl.initStores(shared, all)
 	rl.initMiddlewares()
 	return rl
@@ -50,7 +46,7 @@ func (rl *rateLimiter) initStores(shared, all map[string]string) {
 		if pattern == "" {
 			continue
 		}
-		share = newStore(pattern, rl.log)
+		share = newStore(pattern)
 		break
 	}
 
@@ -64,7 +60,7 @@ func (rl *rateLimiter) initStores(shared, all map[string]string) {
 		if pattern == "" {
 			continue
 		}
-		stores[name] = newStore(pattern, rl.log)
+		stores[name] = newStore(pattern)
 	}
 	rl.stores = stores
 }
@@ -88,26 +84,23 @@ func (rl *rateLimiter) Middleware() echo.MiddlewareFunc {
 	}
 }
 
-func newStore(pattern string, log *zerolog.Logger) *rlStore {
-	burst, frequency, err := parseFrequency(pattern)
-	if err != nil {
-		log.Error().Str("pattern", pattern).Err(err).Msg("cannot parse rate limiter frequency pattern")
-	}
+func newStore(pattern string) *rlStore {
+	burst, frequency := parseFrequency(pattern)
 
-	rl := &rlStore{log: log, frequency: frequency, burst: burst}
+	rl := &rlStore{frequency: frequency, burst: burst}
 	go rl.start()
 
 	return rl
 }
 
-func parseFrequency(pattern string) (int, time.Duration, error) {
+func parseFrequency(pattern string) (int, time.Duration) {
 	slice := strings.Split(pattern, "r/")
 	burst, err := strconv.Atoi(slice[0])
 	if err != nil {
-		return 1, DefaultFrequency, err
+		return 1, DefaultFrequency
 	}
 	if burst < 1 {
-		return 1, DefaultFrequency, fmt.Errorf("burst requests must be 1 or more, used: %d", burst)
+		return 1, DefaultFrequency
 	}
 
 	var frequency time.Duration
@@ -120,16 +113,14 @@ func parseFrequency(pattern string) (int, time.Duration, error) {
 		frequency = time.Duration(burst) * time.Hour
 	default:
 		frequency = DefaultFrequency
-		err = fmt.Errorf("limit must be 's', 'm', or 'h' (per second, per minute, or per hour), used: %s", slice[1])
 	}
 
-	return burst, frequency, err
+	return burst, frequency
 }
 
 func (l *rlStore) start() {
 	ticker := time.NewTicker(l.frequency)
 	for range ticker.C {
-		l.log.Debug().Msg("cleanup")
 		l.Lock()
 		for id, v := range l.visitors {
 			if time.Since(v.last) >= l.frequency {

@@ -3,15 +3,12 @@ package main
 import (
 	"context"
 	"database/sql"
-	"io"
 	"net/http"
 	"os"
 	"os/signal"
-	"runtime/debug"
 	"syscall"
 	"time"
 
-	zlogsentry "github.com/archdx/zerolog-sentry"
 	"github.com/getsentry/sentry-go"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
@@ -30,6 +27,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/sub"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/buscarron/sub/ext/etkecc"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 var (
@@ -41,8 +39,10 @@ var (
 
 func main() {
 	cfg := config.New()
+	utils.SetName("buscarron")
+	utils.SetLogLevel(cfg.LogLevel)
+	log = zerolog.Ctx(utils.NewContext())
 
-	initLog(cfg)
 	defer recovery()
 
 	log.Info().Msg("#############################")
@@ -63,42 +63,6 @@ func main() {
 	}
 }
 
-func initLog(cfg *config.Config) {
-	loglevel, err := zerolog.ParseLevel(cfg.LogLevel)
-	if err != nil {
-		loglevel = zerolog.InfoLevel
-	}
-	zerolog.SetGlobalLevel(loglevel)
-	var w io.Writer
-	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, PartsExclude: []string{zerolog.TimestampFieldName}}
-	sentryWriter, err := zlogsentry.New(
-		cfg.Sentry,
-		zlogsentry.WithBreadcrumbs(),
-		zlogsentry.WithTracing(),
-		zlogsentry.WithSampleRate(0.25),
-		zlogsentry.WithTracingSampleRate(0.25),
-		zlogsentry.WithRelease("buscarron@"+getVersion()),
-	)
-	if err == nil {
-		w = io.MultiWriter(sentryWriter, consoleWriter)
-	} else {
-		w = consoleWriter
-	}
-	logger := zerolog.New(w).With().Timestamp().Caller().Logger()
-	log = &logger
-}
-
-func getVersion() string {
-	if info, ok := debug.ReadBuildInfo(); ok {
-		for _, setting := range info.Settings {
-			if setting.Key == "vcs.revision" {
-				return setting.Value
-			}
-		}
-	}
-	return "development"
-}
-
 func initBot(cfg *config.Config) {
 	db, err := sql.Open(cfg.DB.Dialect, cfg.DB.DSN)
 	if err != nil {
@@ -116,7 +80,7 @@ func initBot(cfg *config.Config) {
 	if err != nil {
 		log.Panic().Err(err).Msg("cannot initialize matrix bot")
 	}
-	mxb = bot.New(lp, log)
+	mxb = bot.New(lp)
 	log.Debug().Msg("bot has been created")
 }
 
@@ -150,11 +114,10 @@ func initControllers(cfg *config.Config) {
 		v := validator.New(vcfg)
 		vs[name] = v
 	}
-	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo, log)
-	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, log)
+	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo)
+	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb)
 	kfcfg := &controllers.KoFiConfig{
 		VerificationToken: cfg.KoFiToken,
-		Logger:            log,
 		Sender:            mxb,
 		PaidMarker:        etkecc.MarkAsPaid,
 		PSD:               psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password),
@@ -172,7 +135,6 @@ func initControllers(cfg *config.Config) {
 		KoFiConfig:    kfcfg,
 		MetricsAuth:   cfg.Metrics,
 		Validator:     srvv,
-		Logger:        log,
 	}
 	e = echo.New()
 	e.Logger = lecho.From(*log)

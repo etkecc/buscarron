@@ -5,7 +5,6 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/rs/zerolog"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"maunium.net/go/mautrix"
@@ -18,7 +17,6 @@ import (
 type BotSuite struct {
 	suite.Suite
 	lp  *mocks.Linkpearl
-	log zerolog.Logger
 	bot *Bot
 }
 
@@ -26,9 +24,8 @@ var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
 
 func (s *BotSuite) SetupTest() {
 	s.T().Helper()
-	s.log = zerolog.Nop()
 	s.lp = &mocks.Linkpearl{}
-	s.bot = New(s.lp, &s.log)
+	s.bot = New(s.lp)
 }
 
 func (s *BotSuite) TearDownTest() {
@@ -36,13 +33,13 @@ func (s *BotSuite) TearDownTest() {
 }
 
 func (s *BotSuite) TestNew() {
-	bot := New(s.lp, &s.log)
+	bot := New(s.lp)
 
 	s.IsType(&Bot{}, bot)
 }
 
 func (s *BotSuite) TestError_NoLinkpearl() {
-	bot := New(nil, &s.log)
+	bot := New(nil)
 
 	bot.Error(context.TODO(), id.RoomID("!doesnt:matt.er"), "msg %s", "arg")
 }

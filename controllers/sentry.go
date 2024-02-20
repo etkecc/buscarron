@@ -5,6 +5,7 @@ import (
 
 	"github.com/getsentry/sentry-go"
 	"github.com/labstack/echo/v4"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 // SentryTransaction is a middleware that creates a new transaction for each request.
@@ -14,21 +15,21 @@ func SentryTransaction() echo.MiddlewareFunc {
 			if c.Request().URL.Path == "/_health" {
 				return next(c)
 			}
-			ctx := c.Request().Context()
-			hub := sentry.GetHubFromContext(ctx)
-			if hub == nil {
-				hub = sentry.CurrentHub().Clone()
-				ctx = sentry.SetHubOnContext(ctx, hub)
-				c.SetRequest(c.Request().WithContext(ctx))
-			}
+			ctx := utils.NewContext(c.Request().Context())
+			c.SetRequest(c.Request().WithContext(ctx))
 			options := []sentry.SpanOption{
 				sentry.WithOpName("http.server"),
 				sentry.ContinueFromRequest(c.Request()),
 				sentry.WithTransactionSource(sentry.SourceURL),
 			}
 
+			path := c.Path()
+			if path == "" || path == "/" {
+				path = c.Request().URL.Path
+			}
+
 			transaction := sentry.StartTransaction(c.Request().Context(),
-				fmt.Sprintf("%s %s", c.Request().Method, c.Path()),
+				fmt.Sprintf("%s %s", c.Request().Method, path),
 				options...,
 			)
 			defer transaction.Finish()

@@ -43,7 +43,6 @@ type Handler struct {
 	sender      Sender
 	mapping     map[string]func(r *http.Request) (map[string]string, error)
 	forms       map[string]*config.Form
-	log         *zerolog.Logger
 	ext         map[string]ext.Extension
 	vs          map[string]common.Validator
 }
@@ -58,13 +57,12 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender, log *zerolog.Logger) *Handler {
+func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
 		sender:      sender,
 		forms:       forms,
-		log:         log,
 		ext:         ext.New(pm),
 		vs:          vs,
 	}
@@ -125,24 +123,25 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 
 // POST request handler
 func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (string, error) {
+	log := zerolog.Ctx(ctx).With().Str("form", name).Logger()
 	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.POST"))
 	defer span.Finish()
 
 	form, ok := h.forms[name]
 	if !ok {
-		h.log.Warn().Str("name", name).Msg("submission attempt to a nonexistent form")
+		log.Warn().Msg("submission attempt to a nonexistent form")
 		return "", ErrNotFound
 	}
 	v, ok := h.vs[name]
 	if !ok {
-		h.log.Warn().Str("name", name).Msg("submission attempt to the a nonexistent form (validator does not exists)")
+		log.Warn().Msg("submission attempt to the a nonexistent form (validator does not exists)")
 		return "", ErrNotFound
 	}
 
 	ctype := strings.ToLower(strings.TrimSpace(strings.Split(r.Header.Get("Content-Type"), ";")[0]))
 	parser, ok := h.mapping[ctype]
 	if !ok {
-		h.log.Warn().Str("name", name).Str("content-type", ctype).Msg("form parser not found")
+		log.Warn().Str("content-type", ctype).Msg("form parser not found")
 		return "", ErrNotFound
 	}
 
@@ -152,17 +151,17 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	}
 
 	if !v.Email(data["email"]) {
-		h.log.Info().Str("name", form.Name).Str("reason", "email").Msg("submission to the form marked as spam")
+		log.Info().Str("reason", "email").Msg("submission to the form marked as spam")
 		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
 	if !v.Domain(data["domain"]) {
-		h.log.Info().Str("name", form.Name).Str("reason", "domain").Msg("submission to the form marked as spam")
+		log.Info().Str("reason", "domain").Msg("submission to the form marked as spam")
 		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
 	metrics.Submission(form.Name)
-	h.log.Info().Str("name", form.Name).Msg("submission to the form passed the tests")
+	log.Info().Msg("submission to the form passed the tests")
 
 	text, files := h.generate(span.Context(), form, data)
 	attrs := map[string]interface{}{}
@@ -189,6 +188,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 }
 
 func (h *Handler) redirect(ctx context.Context, target string, vars map[string]string) string {
+	log := zerolog.Ctx(ctx)
 	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.redirect"))
 	defer span.Finish()
 
@@ -196,12 +196,12 @@ func (h *Handler) redirect(ctx context.Context, target string, vars map[string]s
 	var targetBytes bytes.Buffer
 	targetTpl, err := template.New("target").Parse(target)
 	if err != nil {
-		h.log.Error().Err(err).Msg("cannot parse redirect url template")
+		log.Error().Err(err).Msg("cannot parse redirect url template")
 	}
 	if targetTpl != nil {
 		err = targetTpl.Execute(&targetBytes, vars)
 		if err != nil {
-			h.log.Error().Err(err).Msg("cannot execute redirect url template")
+			log.Error().Err(err).Msg("cannot execute redirect url template")
 		} else {
 			target = targetBytes.String()
 		}
@@ -214,7 +214,7 @@ func (h *Handler) redirect(ctx context.Context, target string, vars map[string]s
 	}
 	err = h.redirectTpl.Execute(&html, data)
 	if err != nil {
-		h.log.Error().Err(err).Msg("cannot execute redirect template")
+		log.Error().Err(err).Msg("cannot execute redirect template")
 	}
 
 	return html.String()

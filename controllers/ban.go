@@ -12,25 +12,20 @@ import (
 
 type banner struct {
 	store *lru.Cache[string, struct{}]
-	log   *zerolog.Logger
 }
 
 var donotban = []string{"/favicon.ico", "/robots.txt", "/metrics", "/_domain", "/_health"}
 
 // NewBanner creates banner
-func NewBanner(size int, banlist []string, log *zerolog.Logger) *banner {
-	store, err := lru.New[string, struct{}](size)
-	if err != nil {
-		log.Error().Err(err).Msg("cannot init cache")
-	}
-	log.Info().Strs("ids", banlist).Msg("preemptive banning...")
+func NewBanner(size int, banlist []string) *banner {
+	store, _ := lru.New[string, struct{}](size) //nolint:errcheck // only in case of size < 0
 	for _, ip := range banlist {
 		ip = strings.TrimSpace(ip)
 		store.Add(ip, struct{}{})
 		metrics.BanUser("persistent", "-")
 	}
 
-	return &banner{store, log}
+	return &banner{store}
 }
 
 // Ban by request data
@@ -44,7 +39,12 @@ func (b *banner) Ban(c echo.Context, reason string) {
 	b.store.Add(ip, struct{}{})
 	metrics.BanUser(reason, c.Param("name"))
 
-	b.log.Info().Str("method", c.Request().Method).Str("path", c.Request().URL.Path).Str("ip", ip).Msg("has been banned")
+	zerolog.Ctx(c.Request().Context()).
+		Info().
+		Str("method", c.Request().Method).
+		Str("path", c.Request().URL.Path).
+		Str("ip", ip).
+		Msg("has been banned")
 }
 
 func (b *banner) Middleware() echo.MiddlewareFunc {
@@ -53,7 +53,12 @@ func (b *banner) Middleware() echo.MiddlewareFunc {
 			ip := c.RealIP()
 			if b.store.Contains(c.RealIP()) {
 				metrics.BanRequest()
-				b.log.Debug().Str("method", c.Request().Method).Str("path", c.Request().URL.Path).Str("ip", ip).Msg("banned request attempt")
+				zerolog.Ctx(c.Request().Context()).
+					Debug().
+					Str("method", c.Request().Method).
+					Str("path", c.Request().URL.Path).
+					Str("ip", ip).
+					Msg("banned request attempt")
 				return c.NoContent(http.StatusTooManyRequests)
 			}
 			return next(c)

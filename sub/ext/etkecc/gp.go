@@ -31,7 +31,8 @@ type gpfile struct {
 	Regex   string `json:"regex,omitempty"`
 }
 
-func MarkAsPaid(ctx context.Context, log *zerolog.Logger, domain, baseDomain, amount string) {
+func MarkAsPaid(ctx context.Context, domain, baseDomain, amount string) {
+	log := zerolog.Ctx(ctx)
 	if gpURL == "" || gpUser == "" || gpPass == "" {
 		log.Warn().Msg("gp disabled")
 	}

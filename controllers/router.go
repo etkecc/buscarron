@@ -31,15 +31,14 @@ type Config struct {
 	MetricsAuth   echobasicauth.Auth
 	KoFiConfig    *KoFiConfig
 	Validator     domainValidator
-	Logger        *zerolog.Logger
 }
 
 // ConfigureRouter configures echo router
 func ConfigureRouter(e *echo.Echo, cfg *Config) {
-	banner := NewBanner(cfg.BanlistSize, cfg.BanlistStatic, cfg.Logger)
+	banner := NewBanner(cfg.BanlistSize, cfg.BanlistStatic)
 	validator := NewValidator(cfg.Validator, cfg.KoFiConfig.PSD)
 	kofi := NewKoFi(cfg.KoFiConfig)
-	rl := NewRateLimiter(cfg.FormRLsShared, cfg.FormRLs, cfg.Logger)
+	rl := NewRateLimiter(cfg.FormRLsShared, cfg.FormRLs)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Skipper: func(c echo.Context) bool {
 			return slices.Contains(donotban, c.Request().URL.Path)
@@ -84,14 +83,15 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		return c.HTML(http.StatusOK, body)
 	})
 	e.POST("/:name", func(c echo.Context) error {
+		log := zerolog.Ctx(c.Request().Context())
 		body, err := cfg.FormHandler.POST(c.Request().Context(), c.Param("name"), c.Request())
 		if errors.Is(err, sub.ErrNotFound) || errors.Is(err, sub.ErrSpam) {
-			cfg.Logger.Warn().Err(err).Str("name", c.Param("name")).Msg("submission has rejected")
+			log.Warn().Err(err).Str("name", c.Param("name")).Msg("submission has rejected")
 			banner.Ban(c, err.Error())
 			return c.HTML(http.StatusNotFound, body)
 		}
 		if err != nil {
-			cfg.Logger.Error().Err(err).Str("name", c.Param("name")).Msg("submission has failed")
+			log.Error().Err(err).Str("name", c.Param("name")).Msg("submission has failed")
 			return c.HTML(http.StatusInternalServerError, body)
 		}
 

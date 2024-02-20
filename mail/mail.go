@@ -11,13 +11,12 @@ import (
 
 // Client to send mail
 type Client struct {
-	log     *zerolog.Logger
 	from    string
 	replyto string
 	sender  *postmark.Client
 }
 
-func New(token, from, replyto string, log *zerolog.Logger) *Client {
+func New(token, from, replyto string) *Client {
 	if token == "" {
 		return nil
 	}
@@ -33,11 +32,11 @@ func New(token, from, replyto string, log *zerolog.Logger) *Client {
 		from:    from,
 		replyto: replyto,
 		sender:  pm,
-		log:     log,
 	}
 }
 
 func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
+	log := zerolog.Ctx(ctx)
 	span := sentry.StartSpan(ctx, "http.client", sentry.WithDescription("mail.Send"))
 	defer span.Finish()
 
@@ -46,10 +45,10 @@ func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 
 	_, resp, err := c.sender.Email.Send(req)
 	if err != nil {
-		c.log.Error().Err(err).Any("response", resp).Msg("cannot send email")
+		log.Error().Err(err).Any("response", resp).Msg("cannot send email")
 		return err
 	}
 
-	c.log.Debug().Str("subject", req.Subject).Str("to", req.To).Msg("email has been sent")
+	log.Debug().Str("subject", req.Subject).Str("to", req.To).Msg("email has been sent")
 	return nil
 }
