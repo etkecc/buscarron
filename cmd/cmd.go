@@ -40,6 +40,7 @@ var (
 func main() {
 	cfg := config.New()
 	utils.SetName("buscarron")
+	utils.SetSentryDSN(cfg.Sentry)
 	utils.SetLogLevel(cfg.LogLevel)
 	log = zerolog.Ctx(utils.NewContext())
 
