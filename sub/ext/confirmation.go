@@ -24,7 +24,7 @@ func NewConfirmation(sender EmailSender) *confirmation {
 // Execute extension
 // nolint:unparam // interface constraints
 func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.confirmation.Execute"))
+	span := sentry.StartSpan(ctx, "sub.ext.confirmation.Execute")
 	defer span.Finish()
 
 	if e.s == nil {

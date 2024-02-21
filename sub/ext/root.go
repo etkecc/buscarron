@@ -21,7 +21,7 @@ func NewRoot() *root {
 
 // Execute extension
 func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.root.Execute"))
+	span := sentry.StartSpan(ctx, "sub.ext.root.Execute")
 	defer span.Finish()
 
 	defaultText := e.defaultText(form.Name, data)

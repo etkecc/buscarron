@@ -40,7 +40,7 @@ func New(pm EmailSender) *Etkecc {
 
 // Execute extension
 func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.Execute"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.Execute")
 	defer span.Finish()
 
 	var p *pricify.Data

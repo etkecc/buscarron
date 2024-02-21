@@ -38,7 +38,7 @@ etke.cc`
 )
 
 func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int, dnsInternal bool) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateFollowup"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
 	defer span.Finish()
 
 	var txt strings.Builder

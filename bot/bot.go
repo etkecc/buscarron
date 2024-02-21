@@ -41,7 +41,7 @@ func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args 
 //
 //nolint:unparam // return value is used, but called from interfaces
 func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("bot.Send"))
+	span := sentry.StartSpan(ctx, "bot.Send")
 	defer span.Finish()
 
 	parsed := format.RenderMarkdown(message, true, true)
@@ -63,7 +63,7 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 // SendByEmail sends the message into the room as thread reply by email
 func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
 	log := zerolog.Ctx(ctx)
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("bot.SendByEmail"))
+	span := sentry.StartSpan(ctx, "bot.SendByEmail")
 	defer span.Finish()
 
 	evt := b.FindEventBy(span.Context(), roomID, "email", email)
@@ -80,7 +80,7 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 	})
 
 	b.Lock()
-	sendSpan := sentry.StartSpan(span.Context(), "function", sentry.WithDescription("linkpearl.Send"))
+	sendSpan := sentry.StartSpan(span.Context(), "linkpearl.Send")
 	_, err := b.lp.Send(sendSpan.Context(), roomID, content)
 	sendSpan.Finish()
 	b.Unlock()
@@ -91,7 +91,7 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 
 	if len(reactions) > 0 {
 		for _, reaction := range reactions {
-			reactionSpan := sentry.StartSpan(span.Context(), "function", sentry.WithDescription("mautrix.SendReaction"))
+			reactionSpan := sentry.StartSpan(span.Context(), "mautrix.SendReaction")
 			_, err = b.lp.GetClient().SendReaction(reactionSpan.Context(), roomID, evt.ID, reaction)
 			reactionSpan.Finish()
 			if err != nil {
@@ -105,7 +105,7 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 
 // SendFile for the room
 func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("linkpearl.SendFile"))
+	span := sentry.StartSpan(ctx, "linkpearl.SendFile")
 	defer span.Finish()
 
 	b.Lock()
@@ -119,7 +119,7 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 
 // FindEventBy is wrapper around lp.FindEventBy
 func (b *Bot) FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("linkpearl.FindEventBy"))
+	span := sentry.StartSpan(ctx, "linkpearl.FindEventBy")
 	defer span.Finish()
 	return b.lp.FindEventBy(span.Context(), roomID, field, value, fromToken...)
 }

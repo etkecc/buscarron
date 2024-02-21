@@ -10,7 +10,7 @@ import (
 
 //nolint:gocognit // TODO
 func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateDNSInstructions"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
 	defer span.Finish()
 
 	if o.subdomain {

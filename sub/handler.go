@@ -80,7 +80,7 @@ func (h *Handler) initMapping() {
 
 // GET request handler
 func (h *Handler) GET(ctx context.Context, name string, _ *http.Request) (string, error) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.GET"))
+	span := sentry.StartSpan(ctx, "sub.GET")
 	defer span.Finish()
 
 	form := h.forms[name]
@@ -124,7 +124,7 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 // POST request handler
 func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (string, error) {
 	log := zerolog.Ctx(ctx).With().Str("form", name).Logger()
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.POST"))
+	span := sentry.StartSpan(ctx, "sub.POST")
 	defer span.Finish()
 
 	form, ok := h.forms[name]
@@ -189,7 +189,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 
 func (h *Handler) redirect(ctx context.Context, target string, vars map[string]string) string {
 	log := zerolog.Ctx(ctx)
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.redirect"))
+	span := sentry.StartSpan(ctx, "sub.redirect")
 	defer span.Finish()
 
 	var html bytes.Buffer
@@ -222,7 +222,7 @@ func (h *Handler) redirect(ctx context.Context, target string, vars map[string]s
 
 // generate text and files
 func (h *Handler) generate(ctx context.Context, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.generate"))
+	span := sentry.StartSpan(ctx, "sub.generate")
 	defer span.Finish()
 
 	v := h.vs[form.Name]

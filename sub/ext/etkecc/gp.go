@@ -37,7 +37,7 @@ func MarkAsPaid(ctx context.Context, domain, baseDomain, amount string) {
 		log.Warn().Msg("gp disabled")
 	}
 
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("MarkAsPaid"))
+	span := sentry.StartSpan(ctx, "MarkAsPaid")
 	ctx = span.Context()
 	defer span.Finish()
 
@@ -108,7 +108,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 		return fmt.Errorf("disabled")
 	}
 
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.toGP"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.toGP")
 	defer span.Finish()
 
 	req := &gpreq{

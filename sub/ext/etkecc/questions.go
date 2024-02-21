@@ -8,7 +8,7 @@ import (
 )
 
 func (o *order) generateDelegationInstructions(ctx context.Context) string {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateDelegationInstructions"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateDelegationInstructions")
 	defer span.Finish()
 
 	if o.get("serve_base_domain") == "yes" {
@@ -28,7 +28,7 @@ func (o *order) generateDelegationInstructions(ctx context.Context) string {
 }
 
 func (o *order) generateQuestions(ctx context.Context) (string, int) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateQuestions"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateQuestions")
 	defer span.Finish()
 
 	var count int

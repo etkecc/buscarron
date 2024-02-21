@@ -10,7 +10,7 @@ import (
 )
 
 func (o *order) generateOnboarding(ctx context.Context) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateOnboarding"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateOnboarding")
 	defer span.Finish()
 
 	var txt strings.Builder

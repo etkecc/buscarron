@@ -132,7 +132,7 @@ func (o *order) generateHFirewallCommand() string {
 }
 
 func (o *order) generateHVPSCommand(ctx context.Context) string {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateHVPSCommand"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateHVPSCommand")
 	defer span.Finish()
 
 	location, ok := hLocations[strings.ToLower(o.get("turnkey-location"))]
@@ -246,7 +246,7 @@ func (o *order) adaptTurnkeyDNS(ctx context.Context) string {
 
 //nolint:gocognit // TODO
 func (o *order) generateHDNSCommand(ctx context.Context) string {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.generateHDNSCommand"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateHDNSCommand")
 	defer span.Finish()
 
 	req := &hDNSRequest{Records: []hDNSRecord{}}

@@ -37,7 +37,7 @@ func New(token, from, replyto string) *Client {
 
 func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 	log := zerolog.Ctx(ctx)
-	span := sentry.StartSpan(ctx, "http.client", sentry.WithDescription("mail.Send"))
+	span := sentry.StartSpan(ctx, "mail.Send")
 	defer span.Finish()
 
 	req.From = c.from

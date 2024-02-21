@@ -130,7 +130,7 @@ func (o *order) getHostingSize() string {
 
 // preprocess data
 func (o *order) preprocess(ctx context.Context) {
-	span := sentry.StartSpan(ctx, "function", sentry.WithDescription("sub.ext.etkecc.preprocess"))
+	span := sentry.StartSpan(ctx, "sub.ext.etkecc.preprocess")
 	defer span.Finish()
 
 	for _, key := range preprocessFields {
