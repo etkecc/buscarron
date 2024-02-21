@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
+	"gitlab.com/etke.cc/buscarron/utils"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
 )
@@ -38,7 +38,7 @@ etke.cc`
 )
 
 func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int, dnsInternal bool) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
 	defer span.Finish()
 
 	var txt strings.Builder

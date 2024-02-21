@@ -5,12 +5,12 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/getsentry/sentry-go"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 //nolint:gocognit // TODO
 func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
 	defer span.Finish()
 
 	if o.subdomain {

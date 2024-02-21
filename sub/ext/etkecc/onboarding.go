@@ -5,12 +5,12 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/getsentry/sentry-go"
+	"gitlab.com/etke.cc/buscarron/utils"
 	"maunium.net/go/mautrix"
 )
 
 func (o *order) generateOnboarding(ctx context.Context) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.generateOnboarding")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateOnboarding")
 	defer span.Finish()
 
 	var txt strings.Builder

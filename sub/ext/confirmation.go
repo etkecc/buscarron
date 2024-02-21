@@ -4,12 +4,12 @@ import (
 	"context"
 	"reflect"
 
-	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 type confirmation struct {
@@ -24,7 +24,7 @@ func NewConfirmation(sender EmailSender) *confirmation {
 // Execute extension
 // nolint:unparam // interface constraints
 func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "sub.ext.confirmation.Execute")
+	span := utils.StartSpan(ctx, "sub.ext.confirmation.Execute")
 	defer span.Finish()
 
 	if e.s == nil {

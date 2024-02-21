@@ -4,9 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"github.com/rs/zerolog"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 // Client to send mail
@@ -37,7 +37,7 @@ func New(token, from, replyto string) *Client {
 
 func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 	log := zerolog.Ctx(ctx)
-	span := sentry.StartSpan(ctx, "mail.Send")
+	span := utils.StartSpan(ctx, "mail.Send")
 	defer span.Finish()
 
 	req.From = c.from

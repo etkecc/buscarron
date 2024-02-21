@@ -6,13 +6,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/getsentry/sentry-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 type order struct {
@@ -130,7 +130,7 @@ func (o *order) getHostingSize() string {
 
 // preprocess data
 func (o *order) preprocess(ctx context.Context) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.preprocess")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.preprocess")
 	defer span.Finish()
 
 	for _, key := range preprocessFields {

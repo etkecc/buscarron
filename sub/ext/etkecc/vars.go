@@ -5,12 +5,12 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/getsentry/sentry-go"
+	"gitlab.com/etke.cc/buscarron/utils"
 	"maunium.net/go/mautrix"
 )
 
 func (o *order) vars(ctx context.Context) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.vars")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.vars")
 	defer span.Finish()
 
 	var txt strings.Builder

@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/getsentry/sentry-go"
 	"github.com/rs/zerolog"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 var (
@@ -37,7 +37,7 @@ func MarkAsPaid(ctx context.Context, domain, baseDomain, amount string) {
 		log.Warn().Msg("gp disabled")
 	}
 
-	span := sentry.StartSpan(ctx, "MarkAsPaid")
+	span := utils.StartSpan(ctx, "MarkAsPaid")
 	ctx = span.Context()
 	defer span.Finish()
 
@@ -108,7 +108,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 		return fmt.Errorf("disabled")
 	}
 
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.toGP")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.toGP")
 	defer span.Finish()
 
 	req := &gpreq{

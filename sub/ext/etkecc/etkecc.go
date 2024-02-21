@@ -4,7 +4,6 @@ import (
 	"context"
 	"time"
 
-	"github.com/getsentry/sentry-go"
 	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
@@ -13,6 +12,7 @@ import (
 
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/buscarron/utils"
 )
 
 // Etkecc extension
@@ -40,7 +40,7 @@ func New(pm EmailSender) *Etkecc {
 
 // Execute extension
 func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
-	span := sentry.StartSpan(ctx, "sub.ext.etkecc.Execute")
+	span := utils.StartSpan(ctx, "sub.ext.etkecc.Execute")
 	defer span.Finish()
 
 	var p *pricify.Data
