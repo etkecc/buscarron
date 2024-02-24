@@ -228,7 +228,7 @@ matrix_bot_postmoogle_password: TODO64
 matrix_bot_postmoogle_data_secret: TODO32
 
 # bridges::facebook
-matrix_mautrix_facebook_enabled: yes
+matrix_mautrix_meta_messenger_enabled: yes
 
 # bridges::gmessages
 matrix_mautrix_gmessages_enabled: yes
@@ -245,7 +245,7 @@ matrix_heisenbridge_identd_enabled: yes
 matrix_heisenbridge_owner: "{{ matrix_admin }}"
 
 # bridges::instagram
-matrix_mautrix_instagram_enabled: yes
+matrix_mautrix_meta_instagram_enabled: yes
 
 # bridges::linkedin
 matrix_beeper_linkedin_enabled: yes

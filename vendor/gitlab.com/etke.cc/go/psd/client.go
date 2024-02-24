@@ -7,8 +7,20 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"runtime/debug"
 	"time"
 )
+
+var version = func() string {
+	if info, ok := debug.ReadBuildInfo(); ok {
+		for _, setting := range info.Settings {
+			if setting.Key == "vcs.revision" {
+				return setting.Value
+			}
+		}
+	}
+	return "0.0.0-unknown"
+}()
 
 type Client struct {
 	url      *url.URL
@@ -41,6 +53,7 @@ func (p *Client) GetWithContext(ctx context.Context, identifier string) ([]*Targ
 		return nil, err
 	}
 	req.SetBasicAuth(p.login, p.password)
+	req.Header.Set("User-Agent", "Go-psd-client/"+version)
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return nil, err

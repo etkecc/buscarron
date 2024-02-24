@@ -39,7 +39,7 @@ Here's all the essential information you need for a smooth onboarding experience
 **Matrix Bridges**
 
 * Discord: [@discordbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@discordbot:higenjitsuteki.onmatrix.chat)
-* Facebook: [@facebookbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@facebookbot:higenjitsuteki.onmatrix.chat)
+* Facebook: [@messengerbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@messengerbot:higenjitsuteki.onmatrix.chat)
 * Gmessages: [@gmessagesbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@gmessagesbot:higenjitsuteki.onmatrix.chat)
 * Googlechat: [@googlechatbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@googlechatbot:higenjitsuteki.onmatrix.chat)
 * Groupme: [@_groupmepuppet_bot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@_groupmepuppet_bot:higenjitsuteki.onmatrix.chat)
