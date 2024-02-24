@@ -2,7 +2,7 @@
 ## explicit; go 1.15
 blitiri.com.ar/go/spf
 blitiri.com.ar/go/spf/internal/dnstest
-# github.com/VictoriaMetrics/metrics v1.32.0
+# github.com/VictoriaMetrics/metrics v1.33.0
 ## explicit; go 1.17
 github.com/VictoriaMetrics/metrics
 # github.com/archdx/zerolog-sentry v1.8.2
@@ -139,7 +139,7 @@ gitlab.com/etke.cc/go/env
 # gitlab.com/etke.cc/go/pricify v0.0.0-20231211082113-3024cb2f6009
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
-# gitlab.com/etke.cc/go/psd v1.1.0
+# gitlab.com/etke.cc/go/psd v1.1.1
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/psd
 # gitlab.com/etke.cc/go/secgen v1.2.0
@@ -178,7 +178,7 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20240213143201-ec583247a57a
+# golang.org/x/exp v0.0.0-20240222234643-814bf88cf225
 ## explicit; go 1.20
 golang.org/x/exp/constraints
 golang.org/x/exp/maps

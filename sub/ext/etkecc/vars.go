@@ -731,7 +731,7 @@ func (o *order) varsFacebook() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::facebook\n")
-	txt.WriteString("matrix_mautrix_facebook_enabled: yes\n")
+	txt.WriteString("matrix_mautrix_meta_messenger_enabled: yes\n")
 
 	return txt.String()
 }
@@ -778,7 +778,7 @@ func (o *order) varsInstagram() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::instagram\n")
-	txt.WriteString("matrix_mautrix_instagram_enabled: yes\n")
+	txt.WriteString("matrix_mautrix_meta_instagram_enabled: yes\n")
 
 	return txt.String()
 }
