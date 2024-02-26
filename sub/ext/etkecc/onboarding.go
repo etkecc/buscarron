@@ -55,12 +55,12 @@ func (o *order) generateOnboardingLinks() string {
 		txt.WriteString("* Web app: " + link("app.etke.cc") + "\n")
 	}
 	txt.WriteString("* Homeserver: " + link("matrix."+o.domain) + "\n")
-	txt.WriteString("* Synapse Admin: " + link("matrix."+o.domain+"/synapse-admin") + "\n")
+	txt.WriteString("* Synapse Admin: " + link("matrix."+o.domain+"/synapse-admin") + " " + helpLink("etke.cc/help/extras/synapse-admin") + "\n")
 	if o.has("etherpad") {
 		txt.WriteString("* Etherpad (admin): " + link("etherpad."+o.domain+"/admin") + "\n")
 	}
 	if o.has("vaultwarden") {
-		txt.WriteString("* Vaultwarden (admin):" + link("vault."+o.domain+"/admin") + "\n")
+		txt.WriteString("* Vaultwarden (admin):" + link("vault."+o.domain+"/admin") + " " + helpLink("etke.cc/help/extras/vaultwarden") + "\n")
 	}
 
 	items := []string{}
@@ -71,7 +71,11 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	sort.Strings(items)
 	for _, item := range items {
-		txt.WriteString("* " + o.c.String(item) + ": " + link(dnsmap[item]+"."+o.domain) + "\n")
+		txt.WriteString("* " + o.c.String(item) + ": " + link(dnsmap[item]+"."+o.domain))
+		if helpURL := helpmap[item]; helpURL != "" {
+			txt.WriteString(" " + helpLink(helpURL))
+		}
+		txt.WriteString("\n")
 	}
 	txt.WriteString("\n\n")
 
@@ -101,7 +105,11 @@ func (o *order) generateOnboardingBots() string {
 	sort.Strings(items)
 	for _, bot := range items {
 		if o.has(bot) {
-			txt.WriteString("* " + o.c.String(bot) + ": " + matrixLink(botmap[bot]+":"+o.domain) + "\n")
+			txt.WriteString("* " + o.c.String(bot) + ": " + matrixLink(botmap[bot]+":"+o.domain))
+			if helpURL := helpmap[bot]; helpURL != "" {
+				txt.WriteString(" " + helpLink(helpURL))
+			}
+			txt.WriteString("\n")
 		}
 	}
 	txt.WriteString("\n\n")
@@ -131,10 +139,12 @@ func (o *order) generateOnboardingBridges() string {
 	}
 	sort.Strings(items)
 	for _, bridge := range items {
-		txt.WriteString("* " + o.c.String(bridge) + ": " + matrixLink(bridgemap[bridge]+":"+o.domain) + "\n")
+		txt.WriteString("* " + o.c.String(bridge) + ": " + matrixLink(bridgemap[bridge]+":"+o.domain))
+		if helpURL := helpmap[bridge]; helpURL != "" {
+			txt.WriteString(" " + helpLink(helpURL))
+		}
+		txt.WriteString("\n")
 	}
-	txt.WriteString("\n")
-	txt.WriteString("For authentication instructions and assistance, please visit: " + link("etke.cc/help/bridges") + "\n\n")
 
 	return txt.String()
 }
@@ -268,6 +278,14 @@ func matrixLink(id string) string {
 	return "[" + id + "](https://matrix.to/#/" + id + ")"
 }
 
-func link(address string) string {
-	return "[" + address + "](https://" + address + ")"
+func link(label string, address ...string) string {
+	if len(address) == 0 {
+		return "[" + label + "](https://" + label + ")"
+	}
+
+	return "[" + label + "](https://" + address[0] + ")"
+}
+
+func helpLink(address string) string {
+	return "(" + link("help", address) + ")"
 }

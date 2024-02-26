@@ -7,7 +7,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Web app: [app.etke.cc](https://app.etke.cc)
 * Homeserver: [matrix.example.com](https://matrix.example.com)
-* Synapse Admin: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin)
+* Synapse Admin: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
 
 
 **Credentials**
