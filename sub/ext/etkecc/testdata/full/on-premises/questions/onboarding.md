@@ -90,6 +90,15 @@ ssh-todo TODO
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
 2. Send the room id to [@support:etke.cc](https://matrix.to/#/@support:etke.cc)
 
+**Email Service**
+
+1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox
+2. Accept the invitation and prepare your account (set a password, etc.)
+3. Go to the [admin.migadu.com/domains](https://admin.migadu.com/domains) page and select your email domain
+4. Click on **DNS Configuration** and then on **Setup Instructions**
+5. Follow the instructions and configure the DNS records for your domain
+6. Once that's done, click on **Diagnostics** and check if everything is configured correctly
+
 Happy Matrixing!
 
 PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://MatrixRooms.info), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.

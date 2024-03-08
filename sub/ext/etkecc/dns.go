@@ -8,7 +8,6 @@ import (
 	"gitlab.com/etke.cc/buscarron/utils"
 )
 
-//nolint:gocognit // TODO
 func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
 	defer span.Finish()
@@ -27,15 +26,25 @@ func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
 		dns += " (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation)"
 	}
 	dns += ":\n\n"
+
+	for _, record := range o.generateDNSRecords(serverIP) {
+		dns += "- " + strings.Join(record, "\t") + "\n"
+	}
+
+	return dns, false
+}
+
+func (o *order) generateDNSRecords(serverIP string) [][]string {
+	records := [][]string{}
 	if o.get("serve_base_domain") == "yes" {
-		dns += strings.Join([]string{"- @", "A record", serverIP + "\n"}, "\t")
+		records = append(records, []string{"@", "A record", serverIP})
 		if o.hosting != "" {
-			dns += strings.Join([]string{"- @", "AAAA record", "$SERVER_IP6\n"}, "\t")
+			records = append(records, []string{"@", "AAAA record", "$SERVER_IP6"})
 		}
 	}
-	dns += strings.Join([]string{"- matrix", "A record", serverIP + "\n"}, "\t")
+	records = append(records, []string{"matrix", "A record", serverIP})
 	if o.hosting != "" {
-		dns += strings.Join([]string{"- matrix", "AAAA record", "$SERVER_IP6\n"}, "\t")
+		records = append(records, []string{"matrix", "AAAA record", "$SERVER_IP6"})
 	}
 
 	items := []string{}
@@ -47,29 +56,52 @@ func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
 	sort.Strings(items)
 
 	for _, key := range items {
-		dns += strings.Join([]string{"- " + dnsmap[key], "CNAME record", "matrix." + o.domain + "\n"}, "\t")
+		records = append(records, []string{dnsmap[key], "CNAME record", "matrix." + o.domain})
 	}
 
-	spf := "v=spf1 ip4:" + serverIP
-	if o.hosting != "" {
-		spf += " ip6:$SERVER_IP6"
-	}
-	spf += " -all\n"
-
+	spf := o.generateDNSSPF(serverIP)
 	// if there is no SMTP relay, we need to add SPF and DMARC records
 	if len(o.smtp) == 0 {
-		dns += strings.Join([]string{"- matrix", "TXT record", spf}, "\t")
-		dns += strings.Join([]string{"- _dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
+		records = append(records,
+			[]string{"matrix", "TXT record", spf},
+			[]string{"_dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;"},
+		)
 	}
 
 	// if there is email bridge, we need to add MX record and SPF/DMARC records (only if they were not added above)
 	if o.has("email2matrix") || o.has("postmoogle") {
-		dns += strings.Join([]string{"- matrix", "MX record", "matrix." + o.domain + "\n"}, "\t")
+		records = append(records, []string{"matrix", "MX record", "matrix." + o.domain})
 		if len(o.smtp) > 0 {
-			dns += strings.Join([]string{"- matrix", "TXT record", spf}, "\t")
-			dns += strings.Join([]string{"- _dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;\n"}, "\t")
+			records = append(records,
+				[]string{"matrix", "TXT record", spf},
+				[]string{"_dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;"},
+			)
 		}
 	}
 
-	return dns, false
+	if o.has("service-email") {
+		records = append(records,
+			[]string{"@", "MX record", "10 aspmx1.migadu.com"},
+			[]string{"@", "MX record", "20 aspmx2.migadu.com"},
+			[]string{"@", "TXT record", "v=spf1 include:spf.migadu.com -all"},
+			[]string{"autoconfig", "CNAME record", "autoconfig.migadu.com"},
+			[]string{"key1._domainkey", "CNAME record", "key1." + o.domain + "._domainkey.migadu.com"},
+			[]string{"key2._domainkey", "CNAME record", "key2." + o.domain + "._domainkey.migadu.com"},
+			[]string{"key3._domainkey", "CNAME record", "key3." + o.domain + "._domainkey.migadu.com"},
+			[]string{"_dmarc", "TXT record", "v=DMARC1; p=quarantine;"},
+			[]string{"_autodiscover._tcp", "SRV record", "0 1 443 autodiscover.migadu.com"},
+		)
+	}
+
+	return records
+}
+
+func (o *order) generateDNSSPF(serverIP string) string {
+	spf := "v=spf1 ip4:" + serverIP
+	if o.hosting != "" {
+		spf += " ip6:$SERVER_IP6"
+	}
+	spf += " -all"
+
+	return spf
 }

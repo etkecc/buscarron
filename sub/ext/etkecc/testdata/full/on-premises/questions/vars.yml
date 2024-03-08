@@ -1,5 +1,6 @@
 # etke services
 etke_base_matrix: yes
+etke_service_email: yes
 etke_service_support: dedicated
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com
@@ -91,11 +92,11 @@ backup_borg_ssh_key_private: |
 # exim-relay
 exim_relay_relay_use: yes
 exim_relay_relay_auth: yes
-exim_relay_relay_host_name: TODO
-exim_relay_relay_host_port: TODO
-exim_relay_relay_auth_username: TODO
-exim_relay_relay_auth_password: TODO
-exim_relay_sender_address: TODO
+exim_relay_relay_host_name: smtp.migadu.com
+exim_relay_relay_host_port: 587
+exim_relay_relay_auth_username: "matrix@example.com"
+exim_relay_relay_auth_password: TODO64
+exim_relay_sender_address: "matrix@example.com"
 
 # ntfy https://ntfy.example.com
 ntfy_enabled: yes

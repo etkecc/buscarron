@@ -74,7 +74,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"domain":              "https://matrix.ExAmPlE.com ",
 			"username":            " tEsT ",
 			"email":               "tEsT@TEST.cOm",
-			"service-email":       "yes",
+			"service-email":       "on",
 			"service-support":     "dedicated",
 			"borg":                "on",
 			"bridges-encryption":  "on",
@@ -127,7 +127,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"domain":              "https://matrix.ExAmPlE.com ",
 			"username":            " tEsT.admin ",
 			"email":               "tEsT@TEST.cOm",
-			"service-email":       "yes",
+			"service-email":       "on",
 			"service-support":     "dedicated",
 			"borg":                "on",
 			"bridges-encryption":  "on",
@@ -307,7 +307,7 @@ func (s *EtkeccSuite) setupCases() {
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
-			submission: s.merge(s.subs["full/questions"], map[string]string{"service-email": "no"}),
+			submission: s.subs["full/questions"],
 		},
 		{
 			name: "full/hosting/questions",

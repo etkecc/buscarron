@@ -302,11 +302,7 @@ func (o *order) generateHDNSCommand(ctx context.Context) string {
 		req.add(dnsmap[key]+suffix, "CNAME", "matrix."+o.domain+".", zoneID)
 	}
 
-	spf := "v=spf1 ip4:" + serverIP
-	if o.hosting != "" {
-		spf += " ip6:" + serverIP6
-	}
-	spf += " -all"
+	spf := o.generateDNSSPF(serverIP)
 
 	// if there is no SMTP relay, we need to add SPF and DMARC records
 	if len(o.smtp) == 0 {

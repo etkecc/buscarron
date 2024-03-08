@@ -24,7 +24,7 @@ require (
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240211143445-bddf907d137a
-	golang.org/x/net v0.21.0
+	golang.org/x/net v0.22.0
 	golang.org/x/text v0.14.0
 	golang.org/x/time v0.5.0
 	maunium.net/go/mautrix v0.17.0
@@ -56,9 +56,9 @@ require (
 	github.com/yuin/goldmark v1.7.0 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
 	go.mau.fi/util v0.4.0 // indirect
-	golang.org/x/crypto v0.19.0 // indirect
+	golang.org/x/crypto v0.21.0 // indirect
 	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	maunium.net/go/maulogger/v2 v2.4.1 // indirect
