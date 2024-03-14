@@ -266,7 +266,9 @@ func (o *order) generateOnboardingOutro() string {
 
 	txt.WriteString("Happy Matrixing!\n\n")
 
-	txt.WriteString("PS: To enrich your Matrix experience and discover vibrant communities, we recommend using " + link("MatrixRooms.info") + ", our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.\n\n")
+	txt.WriteString("PS: To enrich your Matrix experience and discover vibrant communities, we recommend using ")
+	txt.WriteString("[MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), ")
+	txt.WriteString("our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.\n\n")
 
 	txt.WriteString("Best regards,\n\n")
 	txt.WriteString("etke.cc")

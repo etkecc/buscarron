@@ -20,7 +20,7 @@ Should you encounter any issues or require assistance, please don't hesitate to 
 
 Happy Matrixing!
 
-PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://MatrixRooms.info), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.
+PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.
 
 Best regards,
 
