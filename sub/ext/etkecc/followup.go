@@ -21,9 +21,10 @@ We're thrilled to share that your Matrix server order is confirmed! 🎉
 
 **Payment Instructions**:
 
-1. Visit our [subscription page](https://etke.cc/subscribe).
-2. Set the custom price to **$%d** and email address to **%s**.
-3. Complete the payment.
+1. Visit our [membership page](https://etke.cc/membership).
+2. Select the "By Complexity" tier.
+3. Set the custom price to $%d.
+4. Subscribe on Ko-Fi with the same email address you used for this order (%s).
 
 Once your payment is confirmed, we'll promptly initiate the setup of your Matrix server. Look forward to a new email that will guide you through the onboarding process with all the necessary details.`
 	followupFooter = `
