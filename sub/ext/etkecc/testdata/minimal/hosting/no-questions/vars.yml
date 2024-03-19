@@ -1,6 +1,9 @@
 # etke services
 etke_base_matrix: yes
 etke_service_server: cpx11
+etke_service_server_allowlist: 1.2.3.4/32,5.6.7.8/32
+etke_service_server_firewalls: 124003
+etke_service_server_location: fsn1
 etke_service_support: basic
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

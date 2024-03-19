@@ -83,11 +83,11 @@ github.com/pmezard/go-difflib/difflib
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
 github.com/rs/zerolog/internal/json
-# github.com/stretchr/objx v0.5.0
-## explicit; go 1.12
-github.com/stretchr/objx
-# github.com/stretchr/testify v1.8.4
+# github.com/stretchr/objx v0.5.2
 ## explicit; go 1.20
+github.com/stretchr/objx
+# github.com/stretchr/testify v1.9.0
+## explicit; go 1.17
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/mock
 github.com/stretchr/testify/require
@@ -151,15 +151,16 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator/v2 v2.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator/v2
-# gitlab.com/etke.cc/linkpearl v0.0.0-20240211143445-bddf907d137a
-## explicit; go 1.18
+# gitlab.com/etke.cc/linkpearl v0.0.0-20240316115913-106577b88942
+## explicit; go 1.21
 gitlab.com/etke.cc/linkpearl
-# go.mau.fi/util v0.4.0
+# go.mau.fi/util v0.4.1
 ## explicit; go 1.21
 go.mau.fi/util/base58
 go.mau.fi/util/dbutil
 go.mau.fi/util/exerrors
 go.mau.fi/util/exgjson
+go.mau.fi/util/jsonbytes
 go.mau.fi/util/jsontime
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
@@ -178,7 +179,7 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20240222234643-814bf88cf225
+# golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81
 ## explicit; go 1.20
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
@@ -219,15 +220,13 @@ golang.org/x/time/rate
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/maulogger/v2 v2.4.1
-## explicit; go 1.19
-maunium.net/go/maulogger/v2
-maunium.net/go/maulogger/v2/maulogadapt
-# maunium.net/go/mautrix v0.17.0
-## explicit; go 1.20
+# maunium.net/go/mautrix v0.18.0
+## explicit; go 1.21
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
+maunium.net/go/mautrix/crypto/aescbc
 maunium.net/go/mautrix/crypto/attachment
+maunium.net/go/mautrix/crypto/backup
 maunium.net/go/mautrix/crypto/canonicaljson
 maunium.net/go/mautrix/crypto/cryptohelper
 maunium.net/go/mautrix/crypto/goolm
@@ -239,10 +238,11 @@ maunium.net/go/mautrix/crypto/goolm/megolm
 maunium.net/go/mautrix/crypto/goolm/message
 maunium.net/go/mautrix/crypto/goolm/olm
 maunium.net/go/mautrix/crypto/goolm/pk
-maunium.net/go/mautrix/crypto/goolm/sas
 maunium.net/go/mautrix/crypto/goolm/session
 maunium.net/go/mautrix/crypto/goolm/utilities
 maunium.net/go/mautrix/crypto/olm
+maunium.net/go/mautrix/crypto/pkcs7
+maunium.net/go/mautrix/crypto/signatures
 maunium.net/go/mautrix/crypto/sql_store_upgrade
 maunium.net/go/mautrix/crypto/ssss
 maunium.net/go/mautrix/crypto/utils

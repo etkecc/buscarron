@@ -35,6 +35,11 @@ func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
 }
 
 func (o *order) generateDNSRecords(serverIP string) [][]string {
+	var serverIPv6 string
+	if o.hosting != "" {
+		serverIPv6 = "$SERVER_IP6"
+	}
+
 	records := [][]string{}
 	if o.get("serve_base_domain") == "yes" {
 		records = append(records, []string{"@", "A record", serverIP})
@@ -59,7 +64,7 @@ func (o *order) generateDNSRecords(serverIP string) [][]string {
 		records = append(records, []string{dnsmap[key], "CNAME record", "matrix." + o.domain})
 	}
 
-	spf := o.generateDNSSPF(serverIP)
+	spf := o.generateDNSSPF(serverIP, serverIPv6)
 	// if there is no SMTP relay, we need to add SPF and DMARC records
 	if len(o.smtp) == 0 {
 		records = append(records,
@@ -96,10 +101,10 @@ func (o *order) generateDNSRecords(serverIP string) [][]string {
 	return records
 }
 
-func (o *order) generateDNSSPF(serverIP string) string {
-	spf := "v=spf1 ip4:" + serverIP
-	if o.hosting != "" {
-		spf += " ip6:$SERVER_IP6"
+func (o *order) generateDNSSPF(serverIPv4 string, serverIPv6 ...string) string {
+	spf := "v=spf1 ip4:" + serverIPv4
+	if len(serverIPv6) > 0 && serverIPv6[0] != "" {
+		spf += " ip6:" + serverIPv6[0]
 	}
 	spf += " -all"
 

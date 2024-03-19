@@ -1,5 +1,11 @@
 # etke services
 etke_base_matrix: yes
+etke_service_dns_records:
+  - higenjitsuteki,A,TODO
+  - matrix.higenjitsuteki,A,TODO
+  - matrix.higenjitsuteki,TXT,v=spf1 ip4:TODO -all
+  - _dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;
+etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_support: basic
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

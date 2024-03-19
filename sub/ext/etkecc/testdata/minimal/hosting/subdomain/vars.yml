@@ -1,6 +1,16 @@
 # etke services
 etke_base_matrix: yes
+etke_service_dns_records:
+  - higenjitsuteki,A,SERVER_IP4
+  - higenjitsuteki,AAAA,SERVER_IP6
+  - matrix.higenjitsuteki,A,SERVER_IP4
+  - matrix.higenjitsuteki,AAAA,SERVER_IP6
+  - matrix.higenjitsuteki,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all
+  - _dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;
+etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_server: cpx11
+etke_service_server_firewalls: 124003
+etke_service_server_location: fsn1
 etke_service_support: basic
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

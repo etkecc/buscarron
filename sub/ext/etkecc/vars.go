@@ -3,6 +3,7 @@ package etkecc
 import (
 	"context"
 	"sort"
+	"strconv"
 	"strings"
 
 	"gitlab.com/etke.cc/buscarron/utils"
@@ -86,13 +87,7 @@ func (o *order) vars(ctx context.Context) {
 }
 
 func (o *order) varsEtke() string {
-	enabledServices := map[string]string{}
-	for field := range o.data {
-		if strings.HasPrefix(field, "etke_service") {
-			enabledServices[field] = "yes"
-		}
-	}
-
+	enabledServices := map[string]any{}
 	if o.has("matrix") {
 		enabledServices["etke_base_matrix"] = "yes"
 	}
@@ -107,9 +102,9 @@ func (o *order) varsEtke() string {
 		enabledServices["etke_service_support"] = "basic"
 	}
 
-	if o.hosting != "" {
-		enabledServices["etke_service_server"] = o.hosting
-	}
+	o.varsEtkeDNS(enabledServices)
+	o.varsEtkeHosting(enabledServices)
+	o.varsEtkeServices(enabledServices)
 
 	enabledServices["etke_subscription_email"] = o.get("email")
 	enabledServices["etke_subscription_provider"] = "Ko-Fi"
@@ -120,15 +115,130 @@ func (o *order) varsEtke() string {
 		keys = append(keys, k)
 	}
 	sort.Strings(keys)
+	return o.varsEtkeBuilder(keys, enabledServices)
+}
 
-	var txt strings.Builder
-
-	txt.WriteString("# etke services\n")
-	for _, service := range keys {
-		txt.WriteString(service)
-		txt.WriteString(": " + enabledServices[service] + "\n")
+func (o *order) varsEtkeDNS(enabledServices map[string]any) {
+	if !o.subdomain {
+		return
+	}
+	records := []string{}
+	var serverIPv4, serverIPv6 string
+	if o.hosting != "" {
+		serverIPv4 = "SERVER_IP4"
+		serverIPv6 = "SERVER_IP6"
+	} else {
+		serverIPv4 = o.get("ssh-host")
 	}
 
+	domain := o.domain
+	subdomain := strings.Split(domain, ".")[0]
+	suffix := "." + subdomain
+	var zoneID string
+	for sufix, zone := range hDomains {
+		if strings.HasSuffix(domain, sufix) {
+			zoneID = zone
+			break
+		}
+	}
+	enabledServices["etke_service_dns_zone"] = zoneID
+
+	records = append(records, subdomain+",A,"+serverIPv4)
+	if serverIPv6 != "" {
+		records = append(records, subdomain+",AAAA,"+serverIPv6)
+	}
+	records = append(records, "matrix"+suffix+",A,"+serverIPv4)
+	if serverIPv6 != "" {
+		records = append(records, "matrix"+suffix+",AAAA,"+serverIPv6)
+	}
+
+	items := []string{}
+	for key := range dnsmap {
+		if o.has(key) {
+			items = append(items, key)
+		}
+	}
+	sort.Strings(items)
+	for _, key := range items {
+		records = append(records, dnsmap[key]+suffix+",CNAME,matrix."+o.domain+".")
+	}
+
+	spf := o.generateDNSSPF(serverIPv4, serverIPv6)
+	records = append(records,
+		"matrix"+suffix+",TXT,"+spf,
+		"_dmarc.matrix"+suffix+",TXT,v=DMARC1; p=quarantine;",
+	)
+	if o.has("postmoogle") {
+		records = append(records, "matrix"+suffix+",MX,matrix."+o.domain+".")
+	}
+
+	if o.has("service-email") {
+		records = append(records,
+			subdomain+",MX,10 aspmx1.migadu.com.",
+			subdomain+",MX,20 aspmx2.migadu.com.",
+			subdomain+",TXT,v=spf1 include:spf.migadu.com -all",
+			"autoconfig"+suffix+",CNAME,autoconfig.migadu.com.",
+			"key1._domainkey"+suffix+",CNAME,key1."+o.domain+"._domainkey.migadu.com.",
+			"key2._domainkey"+suffix+",CNAME,key2."+o.domain+"._domainkey.migadu.com.",
+			"key3._domainkey"+suffix+",CNAME,key3."+o.domain+"._domainkey.migadu.com.",
+			"_dmarc"+suffix+",TXT,v=DMARC1; p=quarantine;",
+			"_autodiscover._tcp"+suffix+",SRV,0 1 443 autodiscover.migadu.com",
+		)
+	}
+
+	enabledServices["etke_service_dns_records"] = records
+}
+
+func (o *order) varsEtkeHosting(enabledServices map[string]any) {
+	if o.hosting == "" {
+		return
+	}
+
+	enabledServices["etke_service_server"] = o.hosting
+	location := hLocations[strings.ToLower(o.get("turnkey-location"))]
+	if location == "" {
+		location = "fsn1"
+	}
+	enabledServices["etke_service_server_location"] = location
+	firewalls := []string{strconv.Itoa(defaultFirewall["firewall"])}
+	if o.get("ssh-client-ips") == "N/A" {
+		firewalls = append(firewalls, strconv.Itoa(openFirewall["firewall"]))
+	}
+	enabledServices["etke_service_server_firewalls"] = strings.Join(firewalls, ",")
+
+	if o.has("ssh-client-ips") && o.get("ssh-client-ips") != "N/A" {
+		ips := []string{}
+		for _, ip := range strings.Split(o.get("ssh-client-ips"), ",") {
+			ips = append(ips, strings.TrimSpace(ip)+"/32")
+		}
+		enabledServices["etke_service_server_allowlist"] = strings.Join(ips, ",")
+	}
+}
+
+func (o *order) varsEtkeServices(enabledServices map[string]any) {
+	for field := range o.data {
+		if strings.HasPrefix(field, "etke_service") {
+			enabledServices[field] = "yes"
+		}
+	}
+}
+
+func (o *order) varsEtkeBuilder(keys []string, enabledServices map[string]any) string {
+	var txt strings.Builder
+	txt.WriteString("# etke services\n")
+	for _, service := range keys {
+		if valueStr, ok := enabledServices[service].(string); ok {
+			txt.WriteString(service)
+			txt.WriteString(": " + valueStr + "\n")
+		}
+		if valueSlice, ok := enabledServices[service].([]string); ok {
+			txt.WriteString(service)
+			txt.WriteString(":\n")
+			for _, value := range valueSlice {
+				txt.WriteString("  - " + value + "\n")
+			}
+		}
+	}
 	return txt.String()
 }
 
