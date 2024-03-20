@@ -1,5 +1,12 @@
 # etke services
 etke_base_matrix: yes
+etke_service_dns_external_records:
+  - "@,A,SERVER_IP4"
+  - "@,AAAA,SERVER_IP6"
+  - "matrix,A,SERVER_IP4"
+  - "matrix,AAAA,SERVER_IP6"
+  - "matrix,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all"
+  - "_dmarc.matrix,TXT,v=DMARC1; p=quarantine;"
 etke_service_server: cpx11
 etke_service_server_allowlist: 1.2.3.4/32,5.6.7.8/32
 etke_service_server_firewalls: 124003

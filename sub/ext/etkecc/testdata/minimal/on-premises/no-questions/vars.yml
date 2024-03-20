@@ -1,5 +1,10 @@
 # etke services
 etke_base_matrix: yes
+etke_service_dns_external_records:
+  - "@,A,1.2.3.4"
+  - "matrix,A,1.2.3.4"
+  - "matrix,TXT,v=spf1 ip4:1.2.3.4 -all"
+  - "_dmarc.matrix,TXT,v=DMARC1; p=quarantine;"
 etke_service_support: basic
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

@@ -1,5 +1,28 @@
 # etke services
 etke_base_matrix: yes
+etke_service_dns_external_records:
+  - "@,A,1.2.3.4"
+  - "matrix,A,1.2.3.4"
+  - "buscarron,CNAME,matrix.example.com."
+  - "cinny,CNAME,matrix.example.com."
+  - "element,CNAME,matrix.example.com."
+  - "etherpad,CNAME,matrix.example.com."
+  - "firezone,CNAME,matrix.example.com."
+  - "social,CNAME,matrix.example.com."
+  - "hydrogen,CNAME,matrix.example.com."
+  - "jitsi,CNAME,matrix.example.com."
+  - "linkding,CNAME,matrix.example.com."
+  - "miniflux,CNAME,matrix.example.com."
+  - "ntfy,CNAME,matrix.example.com."
+  - "radicale,CNAME,matrix.example.com."
+  - "schildichat,CNAME,matrix.example.com."
+  - "stats,CNAME,matrix.example.com."
+  - "sygnal,CNAME,matrix.example.com."
+  - "kuma,CNAME,matrix.example.com."
+  - "vault,CNAME,matrix.example.com."
+  - "matrix,TXT,v=spf1 ip4:1.2.3.4 -all"
+  - "_dmarc.matrix,TXT,v=DMARC1; p=quarantine;"
+  - "matrix,MX,matrix.example.com."
 etke_service_support: dedicated
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

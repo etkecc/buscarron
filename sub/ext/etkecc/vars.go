@@ -103,6 +103,7 @@ func (o *order) varsEtke() string {
 	}
 
 	o.varsEtkeDNS(enabledServices)
+	o.varsEtkeExternalDNS(enabledServices)
 	o.varsEtkeHosting(enabledServices)
 	o.varsEtkeServices(enabledServices)
 
@@ -118,11 +119,10 @@ func (o *order) varsEtke() string {
 	return o.varsEtkeBuilder(keys, enabledServices)
 }
 
-func (o *order) varsEtkeDNS(enabledServices map[string]any) {
-	if !o.subdomain {
+func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
+	if o.subdomain {
 		return
 	}
-	records := []string{}
 	var serverIPv4, serverIPv6 string
 	if o.hosting != "" {
 		serverIPv4 = "SERVER_IP4"
@@ -130,22 +130,14 @@ func (o *order) varsEtkeDNS(enabledServices map[string]any) {
 	} else {
 		serverIPv4 = o.get("ssh-host")
 	}
+	enabledServices["etke_service_dns_external_records"] = o.generateVarsDNSRecords("@", "", serverIPv4, serverIPv6)
+}
 
-	domain := o.domain
-	subdomain := strings.Split(domain, ".")[0]
-	suffix := "." + subdomain
-	var zoneID string
-	for sufix, zone := range hDomains {
-		if strings.HasSuffix(domain, sufix) {
-			zoneID = zone
-			break
-		}
-	}
-	enabledServices["etke_service_dns_zone"] = zoneID
-
-	records = append(records, subdomain+",A,"+serverIPv4)
+func (o *order) generateVarsDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 string) []string {
+	records := []string{}
+	records = append(records, domainRecord+",A,"+serverIPv4)
 	if serverIPv6 != "" {
-		records = append(records, subdomain+",AAAA,"+serverIPv6)
+		records = append(records, domainRecord+",AAAA,"+serverIPv6)
 	}
 	records = append(records, "matrix"+suffix+",A,"+serverIPv4)
 	if serverIPv6 != "" {
@@ -174,9 +166,9 @@ func (o *order) varsEtkeDNS(enabledServices map[string]any) {
 
 	if o.has("service-email") {
 		records = append(records,
-			subdomain+",MX,10 aspmx1.migadu.com.",
-			subdomain+",MX,20 aspmx2.migadu.com.",
-			subdomain+",TXT,v=spf1 include:spf.migadu.com -all",
+			domainRecord+",MX,10 aspmx1.migadu.com.",
+			domainRecord+",MX,20 aspmx2.migadu.com.",
+			domainRecord+",TXT,v=spf1 include:spf.migadu.com -all",
 			"autoconfig"+suffix+",CNAME,autoconfig.migadu.com.",
 			"key1._domainkey"+suffix+",CNAME,key1."+o.domain+"._domainkey.migadu.com.",
 			"key2._domainkey"+suffix+",CNAME,key2."+o.domain+"._domainkey.migadu.com.",
@@ -186,7 +178,36 @@ func (o *order) varsEtkeDNS(enabledServices map[string]any) {
 		)
 	}
 
-	enabledServices["etke_service_dns_records"] = records
+	for i, record := range records {
+		records[i] = `"` + record + `"`
+	}
+	return records
+}
+
+func (o *order) varsEtkeDNS(enabledServices map[string]any) {
+	if !o.subdomain {
+		return
+	}
+	var serverIPv4, serverIPv6 string
+	if o.hosting != "" {
+		serverIPv4 = "SERVER_IP4"
+		serverIPv6 = "SERVER_IP6"
+	} else {
+		serverIPv4 = o.get("ssh-host")
+	}
+
+	domain := o.domain
+	subdomain := strings.Split(domain, ".")[0]
+	suffix := "." + subdomain
+	var zoneID string
+	for sufix, zone := range hDomains {
+		if strings.HasSuffix(domain, sufix) {
+			zoneID = zone
+			break
+		}
+	}
+	enabledServices["etke_service_dns_zone"] = zoneID
+	enabledServices["etke_service_dns_records"] = o.generateVarsDNSRecords(subdomain, suffix, serverIPv4, serverIPv6)
 }
 
 func (o *order) varsEtkeHosting(enabledServices map[string]any) {
