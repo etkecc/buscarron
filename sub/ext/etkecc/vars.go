@@ -120,7 +120,7 @@ func (o *order) varsEtke() string {
 }
 
 func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
-	if o.subdomain {
+	if o.subdomain || o.hosting == "" {
 		return
 	}
 	var serverIPv4, serverIPv6 string
@@ -130,6 +130,15 @@ func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
 	} else {
 		serverIPv4 = o.get("ssh-host")
 	}
+
+	if o.v.NS(o.domain, "cloudflare.com") {
+		enabledServices["etke_service_dns_external_proxy"] = "yes"
+	}
+
+	if o.get("serve_base_domain") != "yes" {
+		enabledServices["etke_service_dns_external_delegation"] = "yes"
+	}
+
 	enabledServices["etke_service_dns_external_records"] = o.generateVarsDNSRecords("@", "", serverIPv4, serverIPv6)
 }
 
