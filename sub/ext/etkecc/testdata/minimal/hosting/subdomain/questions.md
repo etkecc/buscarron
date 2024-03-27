@@ -8,20 +8,6 @@ SSH: You are ordering a hosted/managed server. We will set up and manage the ser
 
 ___
 
-```yaml
-set -euxo pipefail
-SERVER_INFO=$(curl -X "POST" "https://api.hetzner.cloud/v1/servers" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{\"name\":\"higenjitsuteki.onmatrix.chat\",\"server_type\":\"cpx11\",\"image\":\"ubuntu-22.04\",\"firewalls\":[{\"firewall\":124003}],\"ssh_keys\":[\"first\",\"second\",\"third\"],\"location\":\"fsn1\"}")
-SERVER_ID=$(echo $SERVER_INFO | jq -r '.server.id')
-SERVER_IP4=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.ip')
-SERVER_IP4_ID=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv4.id')
-SERVER_IP6=$(echo $SERVER_INFO | jq -r '.server.public_net.ipv6.ip' | sed -e 's|/64|1|g')
-curl -X "POST" "https://api.hetzner.cloud/v1/primary_ips/$SERVER_IP4_ID/actions/change_dns_ptr" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD" -d "{ \"ip\": \"$SERVER_IP4\", \"dns_ptr\": \"matrix.higenjitsuteki.onmatrix.chat\" }"
-curl -X "POST" "https://api.hetzner.cloud/v1/servers/$SERVER_ID/actions/enable_backup" -H "Content-Type: application/json" -H "Authorization: Bearer $HETZNER_API_TOKEN_CLOUD"
-echo -e "---\nHello,\n\nWe've received your payment and have prepared a server for you. Its IP addresses are:\n\n- IPv4: $SERVER_IP4\n- IPv6: $SERVER_IP6\n"
-
-curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: application/json" -H "Auth-API-Token: $HETZNER_API_TOKEN" -d "{\"records\":[{\"name\":\"higenjitsuteki\",\"type\":\"A\",\"value\":\"$SERVER_IP4\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"A\",\"value\":\"$SERVER_IP4\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"higenjitsuteki\",\"type\":\"AAAA\",\"value\":\"$SERVER_IP6\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"AAAA\",\"value\":\"$SERVER_IP6\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=spf1 ip4:$SERVER_IP4 ip6:$SERVER_IP6 -all\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"_dmarc.higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=DMARC1; p=quarantine;\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"}]}"
-```
-
 hosts:
 ```
 higenjitsuteki.onmatrix.chat ansible_host=TODO ordered_at=2021-01-01_00:00:00

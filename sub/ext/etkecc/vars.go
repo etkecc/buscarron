@@ -41,6 +41,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsGoToSocial())
 	txt.WriteString(o.varsHydrogen())
 	txt.WriteString(o.varsJitsi())
+	txt.WriteString(o.varsLanguagetool())
 	txt.WriteString(o.varsLinkding())
 	txt.WriteString(o.varsMiniflux())
 	txt.WriteString(o.varsRadicale())
@@ -119,6 +120,32 @@ func (o *order) varsEtke() string {
 	return o.varsEtkeBuilder(keys, enabledServices)
 }
 
+func (o *order) varsEtkeDNS(enabledServices map[string]any) {
+	if !o.subdomain {
+		return
+	}
+	var serverIPv4, serverIPv6 string
+	if o.hosting != "" {
+		serverIPv4 = "SERVER_IP4"
+		serverIPv6 = "SERVER_IP6"
+	} else {
+		serverIPv4 = o.get("ssh-host")
+	}
+
+	domain := o.domain
+	subdomain := strings.Split(domain, ".")[0]
+	suffix := "." + subdomain
+	var zoneID string
+	for sufix, zone := range domains {
+		if strings.HasSuffix(domain, sufix) {
+			zoneID = zone
+			break
+		}
+	}
+	enabledServices["etke_service_dns_zone"] = zoneID
+	enabledServices["etke_service_dns_records"] = o.generateDNSRecords(subdomain, suffix, serverIPv4, serverIPv6)
+}
+
 func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
 	if o.subdomain || o.hosting == "" {
 		return
@@ -139,84 +166,7 @@ func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
 		enabledServices["etke_service_dns_external_delegation"] = "yes"
 	}
 
-	enabledServices["etke_service_dns_external_records"] = o.generateVarsDNSRecords("@", "", serverIPv4, serverIPv6)
-}
-
-func (o *order) generateVarsDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 string) []string {
-	records := []string{}
-	records = append(records, domainRecord+",A,"+serverIPv4)
-	if serverIPv6 != "" {
-		records = append(records, domainRecord+",AAAA,"+serverIPv6)
-	}
-	records = append(records, "matrix"+suffix+",A,"+serverIPv4)
-	if serverIPv6 != "" {
-		records = append(records, "matrix"+suffix+",AAAA,"+serverIPv6)
-	}
-
-	items := []string{}
-	for key := range dnsmap {
-		if o.has(key) {
-			items = append(items, key)
-		}
-	}
-	sort.Strings(items)
-	for _, key := range items {
-		records = append(records, dnsmap[key]+suffix+",CNAME,matrix."+o.domain+".")
-	}
-
-	spf := o.generateDNSSPF(serverIPv4, serverIPv6)
-	records = append(records,
-		"matrix"+suffix+",TXT,"+spf,
-		"_dmarc.matrix"+suffix+",TXT,v=DMARC1; p=quarantine;",
-	)
-	if o.has("postmoogle") {
-		records = append(records, "matrix"+suffix+",MX,matrix."+o.domain+".")
-	}
-
-	if o.has("service-email") {
-		records = append(records,
-			domainRecord+",MX,10 aspmx1.migadu.com.",
-			domainRecord+",MX,20 aspmx2.migadu.com.",
-			domainRecord+",TXT,v=spf1 include:spf.migadu.com -all",
-			"autoconfig"+suffix+",CNAME,autoconfig.migadu.com.",
-			"key1._domainkey"+suffix+",CNAME,key1."+o.domain+"._domainkey.migadu.com.",
-			"key2._domainkey"+suffix+",CNAME,key2."+o.domain+"._domainkey.migadu.com.",
-			"key3._domainkey"+suffix+",CNAME,key3."+o.domain+"._domainkey.migadu.com.",
-			"_dmarc"+suffix+",TXT,v=DMARC1; p=quarantine;",
-			"_autodiscover._tcp"+suffix+",SRV,0 1 443 autodiscover.migadu.com",
-		)
-	}
-
-	for i, record := range records {
-		records[i] = `"` + record + `"`
-	}
-	return records
-}
-
-func (o *order) varsEtkeDNS(enabledServices map[string]any) {
-	if !o.subdomain {
-		return
-	}
-	var serverIPv4, serverIPv6 string
-	if o.hosting != "" {
-		serverIPv4 = "SERVER_IP4"
-		serverIPv6 = "SERVER_IP6"
-	} else {
-		serverIPv4 = o.get("ssh-host")
-	}
-
-	domain := o.domain
-	subdomain := strings.Split(domain, ".")[0]
-	suffix := "." + subdomain
-	var zoneID string
-	for sufix, zone := range hDomains {
-		if strings.HasSuffix(domain, sufix) {
-			zoneID = zone
-			break
-		}
-	}
-	enabledServices["etke_service_dns_zone"] = zoneID
-	enabledServices["etke_service_dns_records"] = o.generateVarsDNSRecords(subdomain, suffix, serverIPv4, serverIPv6)
+	enabledServices["etke_service_dns_external_records"] = o.generateDNSRecords("@", "", serverIPv4, serverIPv6)
 }
 
 func (o *order) varsEtkeHosting(enabledServices map[string]any) {
@@ -225,7 +175,7 @@ func (o *order) varsEtkeHosting(enabledServices map[string]any) {
 	}
 
 	enabledServices["etke_service_server"] = o.hosting
-	location := hLocations[strings.ToLower(o.get("turnkey-location"))]
+	location := locations[strings.ToLower(o.get("turnkey-location"))]
 	if location == "" {
 		location = "fsn1"
 	}
@@ -661,6 +611,23 @@ func (o *order) varsJitsi() string {
 	txt.WriteString("# jitsi_prosody_auth_internal_accounts:\n")
 	txt.WriteString("#  - username: " + o.get("username") + "\n")
 	txt.WriteString("#    password: " + o.pwgen() + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsLanguagetool() string {
+	if !o.has("languagetool") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# languagetool https://languagetool." + o.domain + "\n")
+	txt.WriteString("languagetool_enabled: yes\n")
+	txt.WriteString("languagetool_hostname: languagetool." + o.domain + "\n")
+
+	if o.has("languagetool-ngrams") {
+		txt.WriteString("languagetool_ngrams_enabled: yes\n")
+	}
 
 	return txt.String()
 }

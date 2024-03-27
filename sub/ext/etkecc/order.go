@@ -46,7 +46,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 
 	questions, countQ := o.generateQuestions(ctx)
 	delegation := o.generateDelegationInstructions(ctx)
-	dns, dnsInternal := o.generateDNSInstructions(ctx)
+	dns := o.generateDNSInstructions(ctx)
 	hosts := o.generateHosts()
 
 	if countQ > 0 {
@@ -56,15 +56,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 		o.txt.WriteString("\n___\n\n")
 	}
 
-	if o.hosting != "" {
-		o.txt.WriteString("```yaml\n")
-		o.txt.WriteString(o.generateHVPSCommand(ctx))
-		if dnsInternal {
-			o.txt.WriteString("\n")
-			o.txt.WriteString(dns)
-		}
-		o.txt.WriteString("```\n\n")
-	} else {
+	if dns != "" {
 		o.txt.WriteString("```yaml\n")
 		o.txt.WriteString(dns)
 		o.txt.WriteString("```\n\n")
@@ -87,7 +79,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 
 	o.vars(ctx)
 	o.generateOnboarding(ctx)
-	o.generateFollowup(ctx, questions, delegation, dns, countQ, dnsInternal)
+	o.generateFollowup(ctx, questions, delegation, dns, countQ)
 
 	go o.toGP(ctx, hosts) //nolint:errcheck
 	go o.sendFollowup(ctx)
@@ -142,7 +134,7 @@ func (o *order) preprocess(ctx context.Context) {
 	o.hosting = o.getHostingSize()
 	o.domain = o.v.GetBase(o.data["domain"])
 
-	for suffix := range hDomains {
+	for suffix := range domains {
 		if strings.HasSuffix(o.domain, suffix) {
 			o.subdomain = true
 			break

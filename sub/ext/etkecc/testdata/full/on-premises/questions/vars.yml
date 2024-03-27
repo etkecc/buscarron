@@ -156,6 +156,10 @@ jitsi_jicofo_auth_password: TODO64
 #  - username: test
 #    password: TODO64
 
+# languagetool https://languagetool.example.com
+languagetool_enabled: yes
+languagetool_hostname: languagetool.example.com
+
 # linkding https://linkding.example.com
 linkding_enabled: yes
 linkding_hostname: linkding.example.com

@@ -1,4 +1,4 @@
-price: $171
+price: $172
 
 ```yaml
 
@@ -6,26 +6,27 @@ Please, add the following DNS entries:
 
 - @	A record	1.2.3.4
 - matrix	A record	1.2.3.4
-- buscarron	CNAME record	matrix.example.com
-- cinny	CNAME record	matrix.example.com
-- element	CNAME record	matrix.example.com
-- etherpad	CNAME record	matrix.example.com
-- firezone	CNAME record	matrix.example.com
-- social	CNAME record	matrix.example.com
-- hydrogen	CNAME record	matrix.example.com
-- jitsi	CNAME record	matrix.example.com
-- linkding	CNAME record	matrix.example.com
-- miniflux	CNAME record	matrix.example.com
-- ntfy	CNAME record	matrix.example.com
-- radicale	CNAME record	matrix.example.com
-- schildichat	CNAME record	matrix.example.com
-- stats	CNAME record	matrix.example.com
-- sygnal	CNAME record	matrix.example.com
-- kuma	CNAME record	matrix.example.com
-- vault	CNAME record	matrix.example.com
-- matrix	MX record	matrix.example.com
+- buscarron	CNAME record	matrix.example.com.
+- cinny	CNAME record	matrix.example.com.
+- element	CNAME record	matrix.example.com.
+- etherpad	CNAME record	matrix.example.com.
+- firezone	CNAME record	matrix.example.com.
+- social	CNAME record	matrix.example.com.
+- hydrogen	CNAME record	matrix.example.com.
+- jitsi	CNAME record	matrix.example.com.
+- languagetool	CNAME record	matrix.example.com.
+- linkding	CNAME record	matrix.example.com.
+- miniflux	CNAME record	matrix.example.com.
+- ntfy	CNAME record	matrix.example.com.
+- radicale	CNAME record	matrix.example.com.
+- schildichat	CNAME record	matrix.example.com.
+- stats	CNAME record	matrix.example.com.
+- sygnal	CNAME record	matrix.example.com.
+- kuma	CNAME record	matrix.example.com.
+- vault	CNAME record	matrix.example.com.
 - matrix	TXT record	v=spf1 ip4:1.2.3.4 -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
+- matrix	MX record	matrix.example.com.
 ```
 
 hosts:

@@ -8,13 +8,13 @@ import (
 	"gitlab.com/etke.cc/buscarron/utils"
 )
 
-func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
+func (o *order) generateDNSInstructions(ctx context.Context) string {
+	if o.subdomain || o.hosting != "" {
+		return ""
+	}
+
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
 	defer span.Finish()
-
-	if o.subdomain {
-		return o.generateHDNSCommand(span.Context()), true
-	}
 
 	serverIP := "server IP"
 	if o.has("ssh-host") {
@@ -27,29 +27,25 @@ func (o *order) generateDNSInstructions(ctx context.Context) (string, bool) {
 	}
 	dns += ":\n\n"
 
-	for _, record := range o.generateDNSRecords(serverIP) {
-		dns += "- " + strings.Join(record, "\t") + "\n"
+	for _, record := range o.generateDNSRecords("@", "", serverIP, "") {
+		record = strings.Trim(record, `"`)
+		parts := strings.Split(record, ",")
+		parts[1] += " record"
+		dns += "- " + strings.Join(parts, "\t") + "\n"
 	}
 
-	return dns, false
+	return dns
 }
 
-func (o *order) generateDNSRecords(serverIP string) [][]string {
-	var serverIPv6 string
-	if o.hosting != "" {
-		serverIPv6 = "$SERVER_IP6"
+func (o *order) generateDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 string) []string {
+	records := []string{}
+	records = append(records, domainRecord+",A,"+serverIPv4)
+	if serverIPv6 != "" {
+		records = append(records, domainRecord+",AAAA,"+serverIPv6)
 	}
-
-	records := [][]string{}
-	if o.get("serve_base_domain") == "yes" {
-		records = append(records, []string{"@", "A record", serverIP})
-		if o.hosting != "" {
-			records = append(records, []string{"@", "AAAA record", "$SERVER_IP6"})
-		}
-	}
-	records = append(records, []string{"matrix", "A record", serverIP})
-	if o.hosting != "" {
-		records = append(records, []string{"matrix", "AAAA record", "$SERVER_IP6"})
+	records = append(records, "matrix"+suffix+",A,"+serverIPv4)
+	if serverIPv6 != "" {
+		records = append(records, "matrix"+suffix+",AAAA,"+serverIPv6)
 	}
 
 	items := []string{}
@@ -59,45 +55,36 @@ func (o *order) generateDNSRecords(serverIP string) [][]string {
 		}
 	}
 	sort.Strings(items)
-
 	for _, key := range items {
-		records = append(records, []string{dnsmap[key], "CNAME record", "matrix." + o.domain})
+		records = append(records, dnsmap[key]+suffix+",CNAME,matrix."+o.domain+".")
 	}
 
-	spf := o.generateDNSSPF(serverIP, serverIPv6)
-	// if there is no SMTP relay, we need to add SPF and DMARC records
-	if len(o.smtp) == 0 {
-		records = append(records,
-			[]string{"matrix", "TXT record", spf},
-			[]string{"_dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;"},
-		)
-	}
-
-	// if there is email bridge, we need to add MX record and SPF/DMARC records (only if they were not added above)
-	if o.has("email2matrix") || o.has("postmoogle") {
-		records = append(records, []string{"matrix", "MX record", "matrix." + o.domain})
-		if len(o.smtp) > 0 {
-			records = append(records,
-				[]string{"matrix", "TXT record", spf},
-				[]string{"_dmarc.matrix", "TXT record", "v=DMARC1; p=quarantine;"},
-			)
-		}
+	spf := o.generateDNSSPF(serverIPv4, serverIPv6)
+	records = append(records,
+		"matrix"+suffix+",TXT,"+spf,
+		"_dmarc.matrix"+suffix+",TXT,v=DMARC1; p=quarantine;",
+	)
+	if o.has("postmoogle") {
+		records = append(records, "matrix"+suffix+",MX,matrix."+o.domain+".")
 	}
 
 	if o.has("service-email") {
 		records = append(records,
-			[]string{"@", "MX record", "10 aspmx1.migadu.com"},
-			[]string{"@", "MX record", "20 aspmx2.migadu.com"},
-			[]string{"@", "TXT record", "v=spf1 include:spf.migadu.com -all"},
-			[]string{"autoconfig", "CNAME record", "autoconfig.migadu.com"},
-			[]string{"key1._domainkey", "CNAME record", "key1." + o.domain + "._domainkey.migadu.com"},
-			[]string{"key2._domainkey", "CNAME record", "key2." + o.domain + "._domainkey.migadu.com"},
-			[]string{"key3._domainkey", "CNAME record", "key3." + o.domain + "._domainkey.migadu.com"},
-			[]string{"_dmarc", "TXT record", "v=DMARC1; p=quarantine;"},
-			[]string{"_autodiscover._tcp", "SRV record", "0 1 443 autodiscover.migadu.com"},
+			domainRecord+",MX,10 aspmx1.migadu.com.",
+			domainRecord+",MX,20 aspmx2.migadu.com.",
+			domainRecord+",TXT,v=spf1 include:spf.migadu.com -all",
+			"autoconfig"+suffix+",CNAME,autoconfig.migadu.com.",
+			"key1._domainkey"+suffix+",CNAME,key1."+o.domain+"._domainkey.migadu.com.",
+			"key2._domainkey"+suffix+",CNAME,key2."+o.domain+"._domainkey.migadu.com.",
+			"key3._domainkey"+suffix+",CNAME,key3."+o.domain+"._domainkey.migadu.com.",
+			"_dmarc"+suffix+",TXT,v=DMARC1; p=quarantine;",
+			"_autodiscover._tcp"+suffix+",SRV,0 1 443 autodiscover.migadu.com",
 		)
 	}
 
+	for i, record := range records {
+		records[i] = `"` + record + `"`
+	}
 	return records
 }
 

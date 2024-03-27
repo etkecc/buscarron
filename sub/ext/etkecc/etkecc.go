@@ -68,8 +68,8 @@ func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.F
 
 // PrivateSuffixes returns private suffixes
 func PrivateSuffixes() []string {
-	keys := make([]string, 0, len(hDomains))
-	for k := range hDomains {
+	keys := make([]string, 0, len(domains))
+	for k := range domains {
 		keys = append(keys, k)
 	}
 	return keys

@@ -37,7 +37,7 @@ Best regards,
 etke.cc`
 )
 
-func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int, dnsInternal bool) {
+func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
 	defer span.Finish()
 
@@ -53,7 +53,7 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 		txt.WriteString("\n\n")
 		txt.WriteString("Please, ensure [all mandatory ports are open](https://etke.cc/help/faq#what-ports-should-be-open).")
 
-		if !dnsInternal {
+		if dns != "" {
 			txt.WriteString("\n\n")
 			txt.WriteString(dns)
 		}

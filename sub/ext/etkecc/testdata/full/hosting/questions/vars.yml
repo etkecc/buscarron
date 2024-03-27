@@ -13,6 +13,7 @@ etke_service_dns_records:
   - "social.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "hydrogen.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "jitsi.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "languagetool.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "linkding.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "miniflux.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "ntfy.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -193,6 +194,10 @@ jitsi_jicofo_auth_password: TODO64
 # jitsi_prosody_auth_internal_accounts:
 #  - username: test
 #    password: TODO64
+
+# languagetool https://languagetool.higenjitsuteki.onmatrix.chat
+languagetool_enabled: yes
+languagetool_hostname: languagetool.higenjitsuteki.onmatrix.chat
 
 # linkding https://linkding.higenjitsuteki.onmatrix.chat
 linkding_enabled: yes

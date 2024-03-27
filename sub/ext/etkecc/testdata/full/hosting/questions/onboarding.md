@@ -17,6 +17,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Gotosocial: [social.higenjitsuteki.onmatrix.chat](https://social.higenjitsuteki.onmatrix.chat)
 * Hydrogen: [hydrogen.higenjitsuteki.onmatrix.chat](https://hydrogen.higenjitsuteki.onmatrix.chat)
 * Jitsi: [jitsi.higenjitsuteki.onmatrix.chat](https://jitsi.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/jitsi))
+* Languagetool: [languagetool.higenjitsuteki.onmatrix.chat](https://languagetool.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/languagetool))
 * Linkding: [linkding.higenjitsuteki.onmatrix.chat](https://linkding.higenjitsuteki.onmatrix.chat)
 * Miniflux: [miniflux.higenjitsuteki.onmatrix.chat](https://miniflux.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/miniflux))
 * Ntfy: [ntfy.higenjitsuteki.onmatrix.chat](https://ntfy.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/ntfy))

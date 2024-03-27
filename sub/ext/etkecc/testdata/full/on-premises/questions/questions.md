@@ -1,4 +1,4 @@
-price: $183
+price: $184
 
 ```yaml
 Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin. [Full list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)
@@ -27,33 +27,34 @@ Please, add the following DNS entries:
 
 - @	A record	server IP
 - matrix	A record	server IP
-- buscarron	CNAME record	matrix.example.com
-- cinny	CNAME record	matrix.example.com
-- element	CNAME record	matrix.example.com
-- etherpad	CNAME record	matrix.example.com
-- firezone	CNAME record	matrix.example.com
-- social	CNAME record	matrix.example.com
-- hydrogen	CNAME record	matrix.example.com
-- jitsi	CNAME record	matrix.example.com
-- linkding	CNAME record	matrix.example.com
-- miniflux	CNAME record	matrix.example.com
-- ntfy	CNAME record	matrix.example.com
-- radicale	CNAME record	matrix.example.com
-- schildichat	CNAME record	matrix.example.com
-- stats	CNAME record	matrix.example.com
-- sygnal	CNAME record	matrix.example.com
-- kuma	CNAME record	matrix.example.com
-- vault	CNAME record	matrix.example.com
-- matrix	MX record	matrix.example.com
+- buscarron	CNAME record	matrix.example.com.
+- cinny	CNAME record	matrix.example.com.
+- element	CNAME record	matrix.example.com.
+- etherpad	CNAME record	matrix.example.com.
+- firezone	CNAME record	matrix.example.com.
+- social	CNAME record	matrix.example.com.
+- hydrogen	CNAME record	matrix.example.com.
+- jitsi	CNAME record	matrix.example.com.
+- languagetool	CNAME record	matrix.example.com.
+- linkding	CNAME record	matrix.example.com.
+- miniflux	CNAME record	matrix.example.com.
+- ntfy	CNAME record	matrix.example.com.
+- radicale	CNAME record	matrix.example.com.
+- schildichat	CNAME record	matrix.example.com.
+- stats	CNAME record	matrix.example.com.
+- sygnal	CNAME record	matrix.example.com.
+- kuma	CNAME record	matrix.example.com.
+- vault	CNAME record	matrix.example.com.
 - matrix	TXT record	v=spf1 ip4:server IP -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
-- @	MX record	10 aspmx1.migadu.com
-- @	MX record	20 aspmx2.migadu.com
+- matrix	MX record	matrix.example.com.
+- @	MX record	10 aspmx1.migadu.com.
+- @	MX record	20 aspmx2.migadu.com.
 - @	TXT record	v=spf1 include:spf.migadu.com -all
-- autoconfig	CNAME record	autoconfig.migadu.com
-- key1._domainkey	CNAME record	key1.example.com._domainkey.migadu.com
-- key2._domainkey	CNAME record	key2.example.com._domainkey.migadu.com
-- key3._domainkey	CNAME record	key3.example.com._domainkey.migadu.com
+- autoconfig	CNAME record	autoconfig.migadu.com.
+- key1._domainkey	CNAME record	key1.example.com._domainkey.migadu.com.
+- key2._domainkey	CNAME record	key2.example.com._domainkey.migadu.com.
+- key3._domainkey	CNAME record	key3.example.com._domainkey.migadu.com.
 - _dmarc	TXT record	v=DMARC1; p=quarantine;
 - _autodiscover._tcp	SRV record	0 1 443 autodiscover.migadu.com
 ```

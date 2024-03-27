@@ -35,7 +35,7 @@ func (s *EtkeccSuite) SetupSuite() {
 	s.ext = New(nil)
 	s.ext.test = true
 	s.ext.now = func() time.Time { return time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC) }
-	s.save = false
+	s.save = true
 
 	s.setupSubs()
 	s.setupCases()
@@ -95,6 +95,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"instagram":           "on",
 			"irc":                 "on",
 			"jitsi":               "on",
+			"languagetool":        "on",
 			"linkding":            "on",
 			"linkedin":            "on",
 			"miniflux":            "on",
@@ -148,6 +149,8 @@ func (s *EtkeccSuite) setupSubs() {
 			"instagram":           "on",
 			"irc":                 "on",
 			"jitsi":               "on",
+			"languagetool":        "on",
+			"languagetool-ngrams": "on",
 			"linkding":            "on",
 			"linkedin":            "on",
 			"miniflux":            "on",
@@ -259,7 +262,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/hosting/domain",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
-				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Times(3)
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
@@ -269,7 +272,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/hosting/domain-a",
 			before: func() {
 				s.v.On("A", "example.com").Return(true).Once()
-				s.v.On("NS", "example.com", "cloudflare.com").Return(true).Times(3)
+				s.v.On("NS", "example.com", "cloudflare.com").Return(true).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
 			submission: s.merge(s.subs["minimal/questions"], map[string]string{"turnkey": "cpx11"}),
@@ -300,7 +303,7 @@ func (s *EtkeccSuite) setupCases() {
 			name: "minimal/hosting/no-questions",
 			before: func() {
 				s.v.On("A", "example.com").Return(false).Once()
-				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Times(3)
+				s.v.On("NS", "example.com", "cloudflare.com").Return(false).Once()
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},

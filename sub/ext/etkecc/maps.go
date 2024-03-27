@@ -7,23 +7,24 @@ var defaults = map[string]string{
 }
 
 var dnsmap = map[string]string{
-	"buscarron":   "buscarron",
-	"cinny":       "cinny",
-	"element-web": "element",
-	"etherpad":    "etherpad",
-	"firezone":    "firezone",
-	"gotosocial":  "social",
-	"hydrogen":    "hydrogen",
-	"jitsi":       "jitsi",
-	"linkding":    "linkding",
-	"miniflux":    "miniflux",
-	"ntfy":        "ntfy",
-	"radicale":    "radicale",
-	"schildichat": "schildichat",
-	"stats":       "stats",
-	"sygnal":      "sygnal",
-	"uptime-kuma": "kuma",
-	"vaultwarden": "vault",
+	"buscarron":    "buscarron",
+	"cinny":        "cinny",
+	"element-web":  "element",
+	"etherpad":     "etherpad",
+	"firezone":     "firezone",
+	"gotosocial":   "social",
+	"hydrogen":     "hydrogen",
+	"jitsi":        "jitsi",
+	"languagetool": "languagetool",
+	"linkding":     "linkding",
+	"miniflux":     "miniflux",
+	"ntfy":         "ntfy",
+	"radicale":     "radicale",
+	"schildichat":  "schildichat",
+	"stats":        "stats",
+	"sygnal":       "sygnal",
+	"uptime-kuma":  "kuma",
+	"vaultwarden":  "vault",
 }
 
 var botmap = map[string]string{
@@ -71,6 +72,7 @@ var helpmap = map[string]string{
 	"instagram":    "etke.cc/help/bridges/mautrix-meta-instagram",
 	"irc":          "etke.cc/help/bridges/heisenbridge",
 	"jitsi":        "etke.cc/help/extras/jitsi",
+	"languagetool": "etke.cc/help/extras/languagetool",
 	"linkding":     "",
 	"linkedin":     "etke.cc/help/bridges/beeper-linkedin",
 	"miniflux":     "etke.cc/help/extras/miniflux",
@@ -91,4 +93,29 @@ var helpmap = map[string]string{
 	"vaultwarden":  "etke.cc/help/extras/vaultwarden",
 	"webhooks":     "etke.cc/help/bridges/hookshot",
 	"whatsapp":     "etke.cc/help/bridges/mautrix-whatsapp",
+}
+
+var domains = map[string]string{
+	".etke.host":     "enTDpM8y67STAZcQMpmqr7",
+	".kupo.email":    "X2dqkUMuGzqXenSx3Huz9T",
+	".ma3x.chat":     "4Ys5JTRJ8Hyoip3UPDMVgj",
+	".matrix.fan":    "x8RAPicWWX3kPurkL9ntVo",
+	".matrix.town":   "Gn9RYjWvznHkLfzVdY6Gsa",
+	".onmatrix.chat": "zVNMf3dur7oHP8dcGETZs",
+}
+
+var locations = map[string]string{
+	"ashburn":     "ash",
+	"falkenstein": "fsn1",
+	"helsinki":    "hel1",
+	"hillsboro":   "hil",
+	"nuremberg":   "nbg1",
+}
+
+var defaultFirewall = map[string]int{
+	"firewall": 124003,
+}
+
+var openFirewall = map[string]int{
+	"firewall": 394512,
 }

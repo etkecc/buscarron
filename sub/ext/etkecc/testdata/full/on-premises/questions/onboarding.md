@@ -17,6 +17,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Gotosocial: [social.example.com](https://social.example.com)
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)
 * Jitsi: [jitsi.example.com](https://jitsi.example.com) ([help](https://etke.cc/help/extras/jitsi))
+* Languagetool: [languagetool.example.com](https://languagetool.example.com) ([help](https://etke.cc/help/extras/languagetool))
 * Linkding: [linkding.example.com](https://linkding.example.com)
 * Miniflux: [miniflux.example.com](https://miniflux.example.com) ([help](https://etke.cc/help/extras/miniflux))
 * Ntfy: [ntfy.example.com](https://ntfy.example.com) ([help](https://etke.cc/help/extras/ntfy))

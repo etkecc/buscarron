@@ -9,12 +9,6 @@ Add our SSH keys ([etke.cc/keys.txt](https://etke.cc/keys.txt)) to your server, 
 
 ___
 
-```yaml
-set -euxo pipefail
-export SERVER_IP4=SERVER_IP
-curl -X "POST" "https://dns.hetzner.com/api/v1/records/bulk" -H "Content-Type: application/json" -H "Auth-API-Token: $HETZNER_API_TOKEN" -d "{\"records\":[{\"name\":\"higenjitsuteki\",\"type\":\"A\",\"value\":\"$SERVER_IP4\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"matrix.higenjitsuteki\",\"type\":\"A\",\"value\":\"$SERVER_IP4\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=spf1 ip4:$SERVER_IP4 ip6:$SERVER_IP6 -all\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"},{\"name\":\"_dmarc.higenjitsuteki\",\"type\":\"TXT\",\"value\":\"v=DMARC1; p=quarantine;\",\"zone_id\":\"zVNMf3dur7oHP8dcGETZs\"}]}"
-```
-
 hosts:
 ```
 higenjitsuteki.onmatrix.chat ansible_host=TODO ordered_at=2021-01-01_00:00:00
