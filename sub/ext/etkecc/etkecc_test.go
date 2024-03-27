@@ -35,7 +35,7 @@ func (s *EtkeccSuite) SetupSuite() {
 	s.ext = New(nil)
 	s.ext.test = true
 	s.ext.now = func() time.Time { return time.Date(2021, 1, 1, 0, 0, 0, 0, time.UTC) }
-	s.save = true
+	s.save = false
 
 	s.setupSubs()
 	s.setupCases()
