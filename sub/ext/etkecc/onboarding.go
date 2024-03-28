@@ -145,6 +145,7 @@ func (o *order) generateOnboardingBridges() string {
 		}
 		txt.WriteString("\n")
 	}
+	txt.WriteString("\n\n")
 
 	return txt.String()
 }

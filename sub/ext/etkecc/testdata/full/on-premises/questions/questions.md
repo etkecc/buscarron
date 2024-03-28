@@ -1,4 +1,4 @@
-price: $184
+price: $181
 
 ```yaml
 Reminder bot: What's your timezone (IANA)? Like America/Chicago, Asia/Seoul, or Europe/Berlin. [Full list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List)

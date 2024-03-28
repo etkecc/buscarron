@@ -136,7 +136,7 @@ gitlab.com/etke.cc/go/echo-basic-auth
 # gitlab.com/etke.cc/go/env v1.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/env
-# gitlab.com/etke.cc/go/pricify v0.0.0-20231211082113-3024cb2f6009
+# gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
 # gitlab.com/etke.cc/go/psd v1.1.1

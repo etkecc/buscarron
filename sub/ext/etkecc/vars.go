@@ -418,18 +418,7 @@ func (o *order) varsSynapse() string {
 		txt.WriteString("\n# synapse::sso\n")
 		txt.WriteString("matrix_synapse_oidc_enabled: yes\n")
 		txt.WriteString("matrix_synapse_oidc_providers:\n")
-		txt.WriteString("  - idp_id: " + strings.ToLower(o.get("sso-idp-id")) + "\n")
-		txt.WriteString("    idp_name: " + o.get("sso-idp-name") + "\n")
-		txt.WriteString("    idp_brand: \"" + strings.ToLower(o.get("sso-idp-brand")) + "\"\n")
-		txt.WriteString("    issuer: \"" + o.get("sso-issuer") + "\"\n")
-		txt.WriteString("    client_id: \"" + o.get("sso-client-id") + "\"\n")
-		txt.WriteString("    client_secret: \"" + o.get("sso-client-secret") + "\"\n")
-		txt.WriteString("    scopes: [\"openid\", \"profile\"]\n")
-		txt.WriteString("    allow_existing_users: yes\n")
-		txt.WriteString("    user_mapping_provider:\n")
-		txt.WriteString("      config:\n")
-		txt.WriteString("        localpart_template: \"{% raw %}{{ user.given_name|lower }}{% endraw %}\"\n")
-		txt.WriteString("        display_name_template: \"{% raw %}{{ user.name }}{% endraw %}\"\n")
+		txt.WriteString(o.getOIDCConfig())
 	}
 
 	if o.has("synapse-workers") {

@@ -61,3 +61,8 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 	e.s.Send(span.Context(), req) // nolint // not ready to handle errors
 	return "", []*mautrix.ReqUploadMedia{}
 }
+
+// Validate submission
+func (e *confirmation) Validate(_ context.Context, _ common.Validator, _ *config.Form, _ map[string]string) error {
+	return nil
+}

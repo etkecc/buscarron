@@ -14,6 +14,7 @@ import (
 // Extension is form extension interface
 type Extension interface {
 	Execute(context.Context, common.Validator, *config.Form, map[string]string) (string, []*mautrix.ReqUploadMedia)
+	Validate(context.Context, common.Validator, *config.Form, map[string]string) error
 }
 
 // EmailSender interface

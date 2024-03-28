@@ -117,11 +117,13 @@ func initControllers(cfg *config.Config) {
 	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo)
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb)
+	psdc := psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password)
+	etkecc.SetPSD(psdc)
 	kfcfg := &controllers.KoFiConfig{
 		VerificationToken: cfg.KoFiToken,
 		Sender:            mxb,
 		PaidMarker:        etkecc.MarkAsPaid,
-		PSD:               psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password),
+		PSD:               psdc,
 		Rooms:             rooms,
 		Room:              id.RoomID(cfg.KoFiRoom),
 	}

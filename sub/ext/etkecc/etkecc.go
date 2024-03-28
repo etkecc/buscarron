@@ -2,10 +2,13 @@ package etkecc
 
 import (
 	"context"
+	"fmt"
+	"strings"
 	"time"
 
 	"github.com/mattevans/postmark-go"
 	"gitlab.com/etke.cc/go/pricify"
+	"gitlab.com/etke.cc/go/psd"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"maunium.net/go/mautrix"
@@ -14,6 +17,8 @@ import (
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/buscarron/utils"
 )
+
+var psdc *psd.Client
 
 // Etkecc extension
 type Etkecc struct {
@@ -26,6 +31,11 @@ type Etkecc struct {
 // EmailSender interface
 type EmailSender interface {
 	Send(context.Context, *postmark.Email) error
+}
+
+// SetPSD sets PSD validator
+func SetPSD(c *psd.Client) {
+	psdc = c
 }
 
 // New etke.cc extension
@@ -64,6 +74,24 @@ func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.F
 	}
 
 	return o.execute(span.Context())
+}
+
+// Validate submission
+func (e *Etkecc) Validate(ctx context.Context, v common.Validator, _ *config.Form, data map[string]string) error {
+	if psdc == nil {
+		return nil
+	}
+	domain := strings.ToLower(strings.TrimSpace(data["domain"]))
+	if domain == "" {
+		return fmt.Errorf("domain is empty")
+	}
+	domain = v.GetBase(domain)
+	targets, _ := psdc.GetWithContext(ctx, domain) //nolint:errcheck // that's ok
+	if len(targets) == 0 {
+		return nil
+	}
+
+	return fmt.Errorf("domain already exists")
 }
 
 // PrivateSuffixes returns private suffixes

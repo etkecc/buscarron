@@ -160,6 +160,11 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
+	if err := h.extValidate(span.Context(), form, data); err != nil {
+		log.Info().Str("reason", "extension: "+err.Error()).Msg("submission to the form marked as spam")
+		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
+	}
+
 	metrics.Submission(form.Name)
 	log.Info().Msg("submission to the form passed the tests")
 
@@ -245,4 +250,26 @@ func (h *Handler) generate(ctx context.Context, form *config.Form, data map[stri
 	medias = append(medias, rmedias...) // add submission.md at the end
 
 	return text, medias
+}
+
+// extValidate validates submission with extensions
+func (h *Handler) extValidate(ctx context.Context, form *config.Form, data map[string]string) error {
+	span := utils.StartSpan(ctx, "sub.generate")
+	defer span.Finish()
+
+	v := h.vs[form.Name]
+	for _, extension := range form.Extensions {
+		if extension == "" {
+			continue
+		}
+		e, ok := h.ext[extension]
+		if !ok || e == nil {
+			continue
+		}
+
+		if err := e.Validate(span.Context(), v, form, data); err != nil {
+			return fmt.Errorf("%s: %w", extension, err)
+		}
+	}
+	return nil
 }

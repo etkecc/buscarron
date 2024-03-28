@@ -79,7 +79,7 @@ gotosocial_users_additional:
 matrix_synapse_oidc_enabled: yes
 matrix_synapse_oidc_providers:
   - idp_id: todo
-    idp_name: TODO
+    idp_name: "TODO"
     idp_brand: "todo"
     issuer: "TODO"
     client_id: "TODO"
@@ -89,7 +89,7 @@ matrix_synapse_oidc_providers:
     user_mapping_provider:
       config:
         localpart_template: "{% raw %}{{ user.given_name|lower }}{% endraw %}"
-        display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+        display_name_template: "{% raw %}{{ user.name|capitalize }}{% endraw %}"
 
 # synapse::workers
 matrix_synapse_workers_enabled: yes

@@ -48,6 +48,11 @@ func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.For
 	return out, files
 }
 
+// Validate submission
+func (e *root) Validate(_ context.Context, _ common.Validator, _ *config.Form, _ map[string]string) error {
+	return nil
+}
+
 func (e *root) defaultText(name string, data map[string]string) string {
 	fields := e.sort(data)
 	out := "**New " + name + "**"

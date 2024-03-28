@@ -56,6 +56,8 @@ Here's all the essential information you need for a smooth onboarding experience
 * Twitter: [@twitterbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@twitterbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-twitter))
 * Webhooks: [@hookshot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@hookshot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/hookshot))
 * Whatsapp: [@whatsappbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@whatsappbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-whatsapp))
+
+
 **Credentials**
 
 * Matrix ID: [@test.admin:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test.admin:higenjitsuteki.onmatrix.chat)

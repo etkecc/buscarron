@@ -84,18 +84,24 @@ gotosocial_users_additional:
 # synapse::sso
 matrix_synapse_oidc_enabled: yes
 matrix_synapse_oidc_providers:
-  - idp_id: example
-    idp_name: example
-    idp_brand: "example"
-    issuer: "example"
+  - idp_id: gitea
+    idp_name: "gitea"
+    idp_brand: "gitea"
+    issuer: "https://gitea.gitea.example.com"
+    discover: no
     client_id: "some-id"
     client_secret: "some-secret"
-    scopes: ["openid", "profile"]
+    client_auth_method: "client_secret_post"
+    authorization_endpoint: "https://gitea.example.com/login/oauth/authorize"
+    token_endpoint: "https://gitea.example.com/login/oauth/access_token"
+    userinfo_endpoint: "https://gitea.example.com/api/v1/user"
+    scopes: []
     allow_existing_users: yes
     user_mapping_provider:
       config:
-        localpart_template: "{% raw %}{{ user.given_name|lower }}{% endraw %}"
-        display_name_template: "{% raw %}{{ user.name }}{% endraw %}"
+        subject_claim: "id"
+        localpart_template: "{% raw %}{{ user.login }}{% endraw %}"
+        display_name_template: "{% raw %}{{ user.full_name }}{% endraw %}"
 
 # synapse::workers
 matrix_synapse_workers_enabled: yes

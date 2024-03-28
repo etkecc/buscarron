@@ -90,6 +90,22 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 	var total int
 	verbose := map[string]*Item{}
 
+	var withEmail bool
+	for entry, value := range input {
+		entry = strings.TrimSpace(strings.ToLower(entry))
+		value = strings.TrimSpace(strings.ToLower(value))
+		if _, ok := forbiddenValues[value]; ok {
+			continue
+		}
+		item := d.find(entry, value)
+		if item == nil {
+			continue
+		}
+		if item.InventoryID == "etke_service_email" {
+			withEmail = true
+		}
+	}
+
 	sectionPriceAdded := map[string]bool{}
 	for entry, value := range input {
 		entry = strings.TrimSpace(strings.ToLower(entry))
@@ -101,6 +117,16 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 		item := d.find(entry, value)
 		if item == nil {
 			continue
+		}
+
+		// smtp relay should be free if email service is selected
+		if item.InventoryID == "exim_relay_relay_use" && withEmail {
+			freeRelay := *item
+			freeRelay.Price = 0
+			freeRelay.SectionPrice = 0
+
+			item = &freeRelay
+			value = "with email service"
 		}
 
 		if item.SectionPrice > 0 && !sectionPriceAdded[item.Section] {
