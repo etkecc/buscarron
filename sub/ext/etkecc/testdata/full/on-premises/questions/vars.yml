@@ -35,6 +35,11 @@ gotosocial_users_additional:
    initial_email: test@test.com
    initial_password: TODO64
    initial_type: admin
+funwhale_users_additional:
+ - username: test
+   initial_email: test@test.com
+   initial_password: TODO64
+   initial_type: admin
 
 # synapse::sso
 matrix_synapse_oidc_enabled: yes
@@ -136,6 +141,10 @@ firezone_hostname: firezone.example.com
 firezone_default_admin_email: test@test.com
 firezone_default_admin_password: TODO64
 firezone_database_encryption_key: "TODO32"
+
+# funkwhale
+funkwhale_enabled: yes
+funkwhale_hostname: funkwhale.example.com
 
 # gotosocial https://social.example.com
 gotosocial_enabled: yes

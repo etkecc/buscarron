@@ -14,6 +14,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Element-Web: [element.example.com](https://element.example.com)
 * Etherpad: [etherpad.example.com](https://etherpad.example.com)
 * Firezone: [firezone.example.com](https://firezone.example.com)
+* Funkwhale: [funkwhale.example.com](https://funkwhale.example.com) ([help](https://etke.cc/help/extras/funkwhale))
 * Gotosocial: [social.example.com](https://social.example.com)
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)
 * Jitsi: [jitsi.example.com](https://jitsi.example.com) ([help](https://etke.cc/help/extras/jitsi))
@@ -63,9 +64,11 @@ Here's all the essential information you need for a smooth onboarding experience
 * Matrix ID: [@test.admin:example.com](https://matrix.to/#/@test.admin:example.com)
 * Username: test.admin
 * GoToSocial username: test_admin
-* Password: TODO64
+* Funkwhale username: test_admin
+* Matrix password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64
+* Funwhale password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
 * Linkding password: TODO64

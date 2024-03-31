@@ -14,7 +14,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Matrix ID: [@test:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test:higenjitsuteki.onmatrix.chat)
 * Username: test
-* Password: TODO64
+* Matrix password: TODO64
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.
 

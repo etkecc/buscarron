@@ -170,7 +170,13 @@ func (o *order) generateOnboardingCredentials() string {
 			txt.WriteString("* GoToSocial username: " + gtsLogin + "\n")
 		}
 	}
-	txt.WriteString("* Password: " + mxpass + "\n")
+	if o.has("funkwhale") {
+		gtsLogin := strings.ReplaceAll(o.get("username"), ".", "_")
+		if gtsLogin != o.get("username") {
+			txt.WriteString("* Funkwhale username: " + gtsLogin + "\n")
+		}
+	}
+	txt.WriteString("* Matrix password: " + mxpass + "\n")
 	items := []string{}
 	for item := range o.pass {
 		items = append(items, item)

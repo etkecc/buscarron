@@ -5,7 +5,7 @@ go 1.21.0
 toolchain go1.21.4
 
 require (
-	github.com/VictoriaMetrics/metrics v1.33.0
+	github.com/VictoriaMetrics/metrics v1.33.1
 	github.com/archdx/zerolog-sentry v1.8.2
 	github.com/getsentry/sentry-go v0.27.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7

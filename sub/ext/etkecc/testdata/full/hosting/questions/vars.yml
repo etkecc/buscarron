@@ -10,6 +10,7 @@ etke_service_dns_records:
   - "element.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "etherpad.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "firezone.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "funkwhale.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "social.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "hydrogen.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "jitsi.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -70,6 +71,11 @@ matrix_user_creator_users_additional:
    initial_password: TODO64
    initial_type: bot
 gotosocial_users_additional:
+ - username: test
+   initial_email: test@test.com
+   initial_password: TODO64
+   initial_type: admin
+funwhale_users_additional:
  - username: test
    initial_email: test@test.com
    initial_password: TODO64
@@ -175,6 +181,10 @@ firezone_hostname: firezone.higenjitsuteki.onmatrix.chat
 firezone_default_admin_email: test@test.com
 firezone_default_admin_password: TODO64
 firezone_database_encryption_key: "TODO32"
+
+# funkwhale
+funkwhale_enabled: yes
+funkwhale_hostname: funkwhale.higenjitsuteki.onmatrix.chat
 
 # gotosocial https://social.higenjitsuteki.onmatrix.chat
 gotosocial_enabled: yes

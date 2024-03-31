@@ -2,6 +2,8 @@ package etkecc
 
 import (
 	"context"
+	"fmt"
+	"net/url"
 	"sort"
 	"strconv"
 	"strings"
@@ -38,6 +40,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsElement())
 	txt.WriteString(o.varsEtherpad())
 	txt.WriteString(o.varsFirezone())
+	txt.WriteString(o.varsFunkwhale())
 	txt.WriteString(o.varsGoToSocial())
 	txt.WriteString(o.varsHydrogen())
 	txt.WriteString(o.varsJitsi())
@@ -314,6 +317,14 @@ func (o *order) varsUsers() string {
 		txt.WriteString("   initial_type: admin\n")
 	}
 
+	if o.has("funkwhale") {
+		txt.WriteString("funwhale_users_additional:\n")
+		txt.WriteString(" - username: " + strings.ReplaceAll(o.get("username"), ".", "_") + "\n")
+		txt.WriteString("   initial_email: " + o.get("email") + "\n")
+		txt.WriteString("   initial_password: " + o.password("funwhale") + "\n")
+		txt.WriteString("   initial_type: admin\n")
+	}
+
 	return txt.String()
 }
 
@@ -543,6 +554,19 @@ func (o *order) varsFirezone() string {
 	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
 	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
 	txt.WriteString("firezone_database_encryption_key: \"" + o.bytesgen(32) + "\"\n")
+
+	return txt.String()
+}
+
+func (o *order) varsFunkwhale() string {
+	if !o.has("funkwhale") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# funkwhale\n")
+	txt.WriteString("funkwhale_enabled: yes\n")
+	txt.WriteString("funkwhale_hostname: funkwhale." + o.domain + "\n")
 
 	return txt.String()
 }
@@ -956,4 +980,35 @@ func (o *order) varsWhatsapp() string {
 	txt.WriteString("matrix_mautrix_whatsapp_enabled: yes\n")
 
 	return txt.String()
+}
+
+func (o *order) getOIDCConfig() string {
+	id := strings.ToLower(o.get("sso-idp-id"))
+	name := o.get("sso-idp-name")
+	brand := strings.ToLower(o.get("sso-idp-brand"))
+	issuer := o.get("sso-issuer")
+	clientID := o.get("sso-client-id")
+	clientSecret := o.get("sso-client-secret")
+
+	provider := "default"
+	keys := []string{id, name, brand}
+	for _, key := range keys {
+		if _, ok := oidcmap[key]; ok {
+			provider = key
+			break
+		}
+	}
+	config := fmt.Sprintf(oidcmap[provider], id, name, brand, issuer, clientID, clientSecret)
+
+	// special case: OIDC providers that require to use specific endpoints instead of auto-discovery
+	issuerHost := "example.com"
+	issuerURL, err := url.Parse(issuer)
+	if err == nil {
+		issuerHost = issuerURL.Host
+		if provider == "microsoft" { // tenant id from issuer url: https://login.microsoftonline.com/<tenant id>/v2.0
+			issuerHost = strings.Split(strings.TrimPrefix(issuerURL.Path, "/"), "/")[0]
+		}
+	}
+
+	return strings.ReplaceAll(config, "example.com", issuerHost)
 }

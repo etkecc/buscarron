@@ -14,6 +14,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Element-Web: [element.higenjitsuteki.onmatrix.chat](https://element.higenjitsuteki.onmatrix.chat)
 * Etherpad: [etherpad.higenjitsuteki.onmatrix.chat](https://etherpad.higenjitsuteki.onmatrix.chat)
 * Firezone: [firezone.higenjitsuteki.onmatrix.chat](https://firezone.higenjitsuteki.onmatrix.chat)
+* Funkwhale: [funkwhale.higenjitsuteki.onmatrix.chat](https://funkwhale.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/funkwhale))
 * Gotosocial: [social.higenjitsuteki.onmatrix.chat](https://social.higenjitsuteki.onmatrix.chat)
 * Hydrogen: [hydrogen.higenjitsuteki.onmatrix.chat](https://hydrogen.higenjitsuteki.onmatrix.chat)
 * Jitsi: [jitsi.higenjitsuteki.onmatrix.chat](https://jitsi.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/jitsi))
@@ -63,9 +64,11 @@ Here's all the essential information you need for a smooth onboarding experience
 * Matrix ID: [@test.admin:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test.admin:higenjitsuteki.onmatrix.chat)
 * Username: test.admin
 * GoToSocial username: test_admin
-* Password: TODO64
+* Funkwhale username: test_admin
+* Matrix password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64
+* Funwhale password: TODO64
 * Gotosocial password: TODO64
 * Grafana password: TODO64
 * Linkding password: TODO64
