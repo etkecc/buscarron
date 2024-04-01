@@ -47,6 +47,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsLanguagetool())
 	txt.WriteString(o.varsLinkding())
 	txt.WriteString(o.varsMiniflux())
+	txt.WriteString(o.varsPeertube())
 	txt.WriteString(o.varsRadicale())
 	txt.WriteString(o.varsSchildiChat())
 	txt.WriteString(o.varsSlidingSync())
@@ -671,6 +672,22 @@ func (o *order) varsMiniflux() string {
 	txt.WriteString("miniflux_hostname: miniflux." + o.domain + "\n")
 	txt.WriteString("miniflux_admin_login: " + o.get("username") + "\n")
 	txt.WriteString("miniflux_admin_password: " + o.password("miniflux") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsPeertube() string {
+	if !o.has("peertube") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# peertube\n")
+	txt.WriteString("peertube_enabled: yes\n")
+	txt.WriteString("peertube_hostname: peertube." + o.domain + "\n")
+	txt.WriteString("peertube_config_secret: " + o.pwgen(64) + "\n")
+	txt.WriteString("peertube_config_admin_email: " + o.get("email") + "\n")
+	txt.WriteString("peertube_config_root_user_initial_password: " + o.password("peertube") + "\n")
 
 	return txt.String()
 }

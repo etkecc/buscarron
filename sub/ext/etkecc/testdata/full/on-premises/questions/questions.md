@@ -40,6 +40,7 @@ Please, add the following DNS entries:
 - linkding	CNAME record	matrix.example.com.
 - miniflux	CNAME record	matrix.example.com.
 - ntfy	CNAME record	matrix.example.com.
+- peertube	CNAME record	matrix.example.com.
 - radicale	CNAME record	matrix.example.com.
 - schildichat	CNAME record	matrix.example.com.
 - stats	CNAME record	matrix.example.com.

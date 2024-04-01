@@ -181,6 +181,13 @@ miniflux_hostname: miniflux.example.com
 miniflux_admin_login: test
 miniflux_admin_password: TODO64
 
+# peertube
+peertube_enabled: yes
+peertube_hostname: peertube.example.com
+peertube_config_secret: TODO64
+peertube_config_admin_email: test@test.com
+peertube_config_root_user_initial_password: TODO64
+
 # radicale https://radicale.example.com
 radicale_enabled: yes
 radicale_hostname: radicale.example.com

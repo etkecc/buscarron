@@ -22,6 +22,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Linkding: [linkding.higenjitsuteki.onmatrix.chat](https://linkding.higenjitsuteki.onmatrix.chat)
 * Miniflux: [miniflux.higenjitsuteki.onmatrix.chat](https://miniflux.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/miniflux))
 * Ntfy: [ntfy.higenjitsuteki.onmatrix.chat](https://ntfy.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/ntfy))
+* Peertube: [peertube.higenjitsuteki.onmatrix.chat](https://peertube.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/peertube))
 * Radicale: [radicale.higenjitsuteki.onmatrix.chat](https://radicale.higenjitsuteki.onmatrix.chat)
 * Schildichat: [schildichat.higenjitsuteki.onmatrix.chat](https://schildichat.higenjitsuteki.onmatrix.chat)
 * Stats: [stats.higenjitsuteki.onmatrix.chat](https://stats.higenjitsuteki.onmatrix.chat)
@@ -63,6 +64,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Matrix ID: [@test:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test:higenjitsuteki.onmatrix.chat)
 * Username: test
+* Peertube username: root
 * Matrix password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64
@@ -71,6 +73,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Grafana password: TODO64
 * Linkding password: TODO64
 * Miniflux password: TODO64
+* Peertube password: TODO64
 * Vaultwarden Admin Token / password: TODO64
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.

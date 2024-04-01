@@ -18,6 +18,7 @@ etke_service_dns_records:
   - "linkding.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "miniflux.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "ntfy.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "peertube.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "radicale.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "schildichat.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "stats.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -220,6 +221,13 @@ miniflux_enabled: yes
 miniflux_hostname: miniflux.higenjitsuteki.onmatrix.chat
 miniflux_admin_login: test
 miniflux_admin_password: TODO64
+
+# peertube
+peertube_enabled: yes
+peertube_hostname: peertube.higenjitsuteki.onmatrix.chat
+peertube_config_secret: TODO64
+peertube_config_admin_email: test@test.com
+peertube_config_root_user_initial_password: TODO64
 
 # radicale https://radicale.higenjitsuteki.onmatrix.chat
 radicale_enabled: yes

@@ -22,6 +22,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Linkding: [linkding.example.com](https://linkding.example.com)
 * Miniflux: [miniflux.example.com](https://miniflux.example.com) ([help](https://etke.cc/help/extras/miniflux))
 * Ntfy: [ntfy.example.com](https://ntfy.example.com) ([help](https://etke.cc/help/extras/ntfy))
+* Peertube: [peertube.example.com](https://peertube.example.com) ([help](https://etke.cc/help/extras/peertube))
 * Radicale: [radicale.example.com](https://radicale.example.com)
 * Schildichat: [schildichat.example.com](https://schildichat.example.com)
 * Stats: [stats.example.com](https://stats.example.com)
@@ -65,6 +66,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Username: test.admin
 * GoToSocial username: test_admin
 * Funkwhale username: test_admin
+* Peertube username: root
 * Matrix password: TODO64
 * Etherpad Admin password: TODO64
 * Firezone password: TODO64
@@ -73,6 +75,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Grafana password: TODO64
 * Linkding password: TODO64
 * Miniflux password: TODO64
+* Peertube password: TODO64
 * Vaultwarden Admin Token / password: TODO64
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.

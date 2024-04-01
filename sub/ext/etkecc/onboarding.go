@@ -176,6 +176,9 @@ func (o *order) generateOnboardingCredentials() string {
 			txt.WriteString("* Funkwhale username: " + gtsLogin + "\n")
 		}
 	}
+	if o.has("peertube") {
+		txt.WriteString("* Peertube username: root\n")
+	}
 	txt.WriteString("* Matrix password: " + mxpass + "\n")
 	items := []string{}
 	for item := range o.pass {
