@@ -241,6 +241,15 @@ peertube_hostname: peertube.higenjitsuteki.onmatrix.chat
 peertube_config_secret: TODO64
 peertube_config_admin_email: test@test.com
 peertube_config_root_user_initial_password: TODO64
+peertube_config_object_storage_enabled: yes
+peertube_config_object_storage_region: us-east-1
+peertube_config_object_storage_endpoint: https://s3.example.com
+peertube_config_object_storage_credentials_access_key_id: some-key
+peertube_config_object_storage_credentials_secret_access_key: some-secret
+peertube_config_object_storage_streaming_playlists_bucket_name: mybucket
+peertube_config_object_storage_streaming_playlists_prefix: playlists/
+peertube_config_object_storage_web_videos_bucket_name: mybucket
+peertube_config_object_storage_web_videos_prefix: videos/
 
 # radicale https://radicale.higenjitsuteki.onmatrix.chat
 radicale_enabled: yes

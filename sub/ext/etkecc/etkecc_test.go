@@ -206,6 +206,11 @@ func (s *EtkeccSuite) setupSubs() {
 			"synapse-s3-endpoint":         "https://s3.example.com",
 			"synapse-s3-access-key":       "some-key",
 			"synapse-s3-secret-key":       "some-secret",
+			"peertube-s3-bucket":          "mybucket",
+			"peertube-s3-region":          "us-east-1",
+			"peertube-s3-endpoint":        "https://s3.example.com",
+			"peertube-s3-access-key":      "some-key",
+			"peertube-s3-secret-key":      "some-secret",
 			"telegram-api-hash":           "some-hash",
 			"telegram-api-id":             "123",
 			// on-premises

@@ -689,6 +689,18 @@ func (o *order) varsPeertube() string {
 	txt.WriteString("peertube_config_admin_email: " + o.get("email") + "\n")
 	txt.WriteString("peertube_config_root_user_initial_password: " + o.password("peertube") + "\n")
 
+	if o.has("peertube-s3-bucket") && o.has("peertube-s3-region") && o.has("peertube-s3-endpoint") && o.has("peertube-s3-access-key") && o.has("peertube-s3-secret-key") {
+		txt.WriteString("peertube_config_object_storage_enabled: yes\n")
+		txt.WriteString("peertube_config_object_storage_region: " + o.get("peertube-s3-region") + "\n")
+		txt.WriteString("peertube_config_object_storage_endpoint: " + o.get("peertube-s3-endpoint") + "\n")
+		txt.WriteString("peertube_config_object_storage_credentials_access_key_id: " + o.get("peertube-s3-access-key") + "\n")
+		txt.WriteString("peertube_config_object_storage_credentials_secret_access_key: " + o.get("peertube-s3-secret-key") + "\n")
+		txt.WriteString("peertube_config_object_storage_streaming_playlists_bucket_name: " + o.get("peertube-s3-bucket") + "\n")
+		txt.WriteString("peertube_config_object_storage_streaming_playlists_prefix: playlists/\n")
+		txt.WriteString("peertube_config_object_storage_web_videos_bucket_name: " + o.get("peertube-s3-bucket") + "\n")
+		txt.WriteString("peertube_config_object_storage_web_videos_prefix: videos/\n")
+	}
+
 	return txt.String()
 }
 
