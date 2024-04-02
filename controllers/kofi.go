@@ -15,7 +15,7 @@ import (
 )
 
 type senderByEmail interface {
-	Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID
+	Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]any) id.EventID
 	SendByEmail(ctx context.Context, roomID id.RoomID, email, message string, reactions ...string) map[string]any
 	FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event
 }
@@ -56,7 +56,7 @@ type kofiRequest struct {
 	TierName                   *string   `json:"tier_name"`
 }
 
-func (r *kofiRequest) getStatus(ctx context.Context, psdc *psd.Client) (bool, string) {
+func (r *kofiRequest) getStatus(ctx context.Context, psdc *psd.Client) (exists bool, domain string) {
 	targets, err := psdc.GetWithContext(ctx, r.Email)
 	if err != nil {
 		return false, ""
@@ -168,17 +168,19 @@ func (k *kofi) send(c echo.Context, data *kofiRequest) error {
 	}
 
 	for _, roomID := range k.rooms {
-		if raw := k.sender.SendByEmail(ctx, roomID, data.Email, message, "💸"); raw != nil {
-			log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
-			domain, ok := raw["domain"].(string)
-			baseDomain, _ := raw["base_domain"].(string)
-			if ok && k.markPaid != nil {
-				k.markPaid(ctx, domain, baseDomain, data.Amount)
-			} else {
-				log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
-			}
-			return c.NoContent(http.StatusOK)
+		raw := k.sender.SendByEmail(ctx, roomID, data.Email, message, "💸")
+		if raw == nil {
+			continue
 		}
+		log.Info().Str("roomID", roomID.String()).Msg("successfully sent ko-fi update into the room by email")
+		domain, ok := raw["domain"].(string)
+		baseDomain, _ := raw["base_domain"].(string) //nolint:errcheck // base_domain is optional
+		if ok && k.markPaid != nil {
+			k.markPaid(ctx, domain, baseDomain, data.Amount)
+		} else {
+			log.Error().Any("domain", domain).Msg("cannot mark as paid, domain is not a string")
+		}
+		return c.NoContent(http.StatusOK)
 	}
 	k.fallback(ctx, data, message)
 	return c.NoContent(http.StatusOK)
@@ -188,5 +190,5 @@ func (k *kofi) fallback(ctx context.Context, data *kofiRequest, message string) 
 	if k.sender.FindEventBy(ctx, k.fallbackRoom, "kofi_id", data.KofiTransactionID) != nil {
 		return
 	}
-	k.sender.Send(ctx, k.fallbackRoom, message, map[string]interface{}{"kofi_id": data.KofiTransactionID})
+	k.sender.Send(ctx, k.fallbackRoom, message, map[string]any{"kofi_id": data.KofiTransactionID})
 }

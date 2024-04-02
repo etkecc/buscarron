@@ -22,7 +22,6 @@ func NewConfirmation(sender EmailSender) *confirmation {
 }
 
 // Execute extension
-// nolint:unparam // interface constraints
 func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
 	span := utils.StartSpan(ctx, "sub.ext.confirmation.Execute")
 	defer span.Finish()
@@ -58,7 +57,7 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 		return "", []*mautrix.ReqUploadMedia{}
 	}
 
-	e.s.Send(span.Context(), req) // nolint // not ready to handle errors
+	e.s.Send(span.Context(), req) //nolint // not ready to handle errors
 	return "", []*mautrix.ReqUploadMedia{}
 }
 

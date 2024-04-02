@@ -27,7 +27,7 @@ import (
 
 // Sender interface to send messages
 type Sender interface {
-	Send(context.Context, id.RoomID, string, map[string]interface{}) id.EventID
+	Send(context.Context, id.RoomID, string, map[string]any) id.EventID
 	SendFile(context.Context, id.RoomID, *mautrix.ReqUploadMedia, ...*event.RelatesTo)
 }
 
@@ -169,7 +169,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	log.Info().Msg("submission to the form passed the tests")
 
 	text, files := h.generate(span.Context(), form, data)
-	attrs := map[string]interface{}{}
+	attrs := map[string]any{}
 	if data["email"] != "" {
 		attrs["email"] = data["email"]
 	}
@@ -178,7 +178,6 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		attrs["domain"] = data["domain"]
 	}
 
-	form.Lock()
 	eventID := h.sender.Send(span.Context(), form.RoomID, text, attrs)
 	var relates *event.RelatesTo
 	if eventID != "" {
@@ -187,7 +186,6 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	for _, file := range files {
 		h.sender.SendFile(span.Context(), form.RoomID, file, relates)
 	}
-	form.Unlock()
 
 	return h.redirect(span.Context(), form.Redirect, data), nil
 }

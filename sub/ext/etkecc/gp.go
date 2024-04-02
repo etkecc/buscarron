@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -85,7 +86,7 @@ func MarkAsPaid(ctx context.Context, domain, baseDomain, amount string) {
 		log.Error().Err(err).Msg("gp request marshal failed")
 		return
 	}
-	r, err := http.NewRequestWithContext(ctx, "POST", gpURL+"/post", bytes.NewReader(reqb))
+	r, err := http.NewRequestWithContext(ctx, http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
 		log.Error().Err(err).Msg("gp request failed")
 		return
@@ -133,7 +134,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 	if err != nil {
 		return err
 	}
-	r, err := http.NewRequestWithContext(span.Context(), "POST", gpURL+"/post", bytes.NewReader(reqb))
+	r, err := http.NewRequestWithContext(span.Context(), http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
 		return err
 	}
@@ -145,7 +146,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf(resp.Status)
+		return errors.New(resp.Status)
 	}
 	return nil
 }

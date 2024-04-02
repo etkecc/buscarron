@@ -15,7 +15,7 @@ import (
 
 // Bot represents matrix bot
 type Bot struct {
-	sync.Mutex
+	mu sync.Mutex
 	lp Linkpearl
 }
 
@@ -27,7 +27,7 @@ func New(lp Linkpearl) *Bot {
 }
 
 // Error message to the log and matrix room
-func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args ...interface{}) {
+func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args ...any) {
 	zerolog.Ctx(ctx).Error().Msgf(message, args...)
 
 	if b.lp == nil {
@@ -39,7 +39,7 @@ func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args 
 // Send message to the room
 //
 //nolint:unparam // return value is used, but called from interfaces
-func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]interface{}) id.EventID {
+func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]any) id.EventID {
 	span := utils.StartSpan(ctx, "bot.Send")
 	defer span.Finish()
 
@@ -50,9 +50,9 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 		Parsed: &parsed,
 	}
 
-	b.Lock()
+	b.mu.Lock()
 	eventID, err := b.lp.Send(span.Context(), roomID, &content)
-	b.Unlock()
+	b.mu.Unlock()
 	if err != nil {
 		zerolog.Ctx(ctx).Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
@@ -60,7 +60,7 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 }
 
 // SendByEmail sends the message into the room as thread reply by email
-func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, message string, reactions ...string) map[string]any {
+func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email, message string, reactions ...string) map[string]any {
 	log := zerolog.Ctx(ctx)
 	span := utils.StartSpan(ctx, "bot.SendByEmail")
 	defer span.Finish()
@@ -78,11 +78,11 @@ func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email string, m
 		EventID: evt.ID,
 	})
 
-	b.Lock()
+	b.mu.Lock()
 	sendSpan := utils.StartSpan(span.Context(), "linkpearl.Send")
 	_, err := b.lp.Send(sendSpan.Context(), roomID, content)
 	sendSpan.Finish()
-	b.Unlock()
+	b.mu.Unlock()
 	if err != nil {
 		log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
 		return nil
@@ -107,9 +107,9 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 	span := utils.StartSpan(ctx, "linkpearl.SendFile")
 	defer span.Finish()
 
-	b.Lock()
+	b.mu.Lock()
 	err := b.lp.SendFile(span.Context(), roomID, file, event.MsgFile, relations...)
-	b.Unlock()
+	b.mu.Unlock()
 	if err != nil {
 		b.Error(span.Context(), roomID, "cannot upload file: %v", err)
 		return

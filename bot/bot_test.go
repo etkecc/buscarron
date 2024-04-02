@@ -20,7 +20,7 @@ type BotSuite struct {
 	bot *Bot
 }
 
-var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
+var ctxMatcher = mock.MatchedBy(func(_ context.Context) bool { return true })
 
 func (s *BotSuite) SetupTest() {
 	s.T().Helper()

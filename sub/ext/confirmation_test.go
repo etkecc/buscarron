@@ -18,7 +18,7 @@ type ConfirmationSuite struct {
 	s   *mocks.EmailSender
 }
 
-var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
+var ctxMatcher = mock.MatchedBy(func(_ context.Context) bool { return true })
 
 func (s *ConfirmationSuite) SetupTest() {
 	s.T().Helper()

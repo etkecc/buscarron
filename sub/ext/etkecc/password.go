@@ -35,11 +35,11 @@ func (o *order) bytesgen(length ...int) string {
 	return secgen.Base64Bytes(passlen)
 }
 
-func (o *order) keygen() (string, string) {
+func (o *order) keygen() (pub, priv string) {
 	if o.test {
 		return "ssh-todo TODO", "-----BEGIN OPENSSH PRIVATE KEY-----\nTODO\n-----END OPENSSH PRIVATE KEY-----"
 	}
-	pub, priv, _ := secgen.Keypair() //nolint:errcheck
+	pub, priv, _ = secgen.Keypair() //nolint:errcheck // error is always nil
 
 	return pub, priv
 }

@@ -23,7 +23,7 @@ type HandlerSuite struct {
 	sender *mocks.Sender
 }
 
-var ctxMatcher = mock.MatchedBy(func(ctx context.Context) bool { return true })
+var ctxMatcher = mock.MatchedBy(func(_ context.Context) bool { return true })
 
 func (s *HandlerSuite) SetupSuite() {
 	s.v = &mocks.Validator{}
@@ -81,7 +81,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 func (s *HandlerSuite) TestPOST_NoData() {
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender)
-	request, rerr := http.NewRequest("POST", "", nil)
+	request, rerr := http.NewRequest(http.MethodPost, "", http.NoBody)
 
 	result, err := handler.POST(context.TODO(), "test", request)
 
@@ -97,7 +97,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	s.v.On("Email", "no").Return(false).Once()
 	data := url.Values{}
 	data.Add("email", "no")
-	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest(http.MethodPost, "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	result, err := handler.POST(context.TODO(), "test", request)
@@ -116,7 +116,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	s.v.On("Domain", "no").Return(false).Once()
 	data := url.Values{}
 	data.Add("domain", "no")
-	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest(http.MethodPost, "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	result, err := handler.POST(context.TODO(), "test", request)
@@ -131,7 +131,7 @@ func (s *HandlerSuite) TestPOST() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
 	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n**New test** by email@dkimvalidator.com\n\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n"
-	expectedAttrs := map[string]interface{}{
+	expectedAttrs := map[string]any{
 		"email": "email@dkimvalidator.com",
 	}
 	roomID := id.RoomID("!test:example.com")
@@ -152,7 +152,7 @@ func (s *HandlerSuite) TestPOST() {
 	data.Add("email", "email@dkimvalidator.com")
 	data.Add("field", "value")
 	data.Add("lang", "en")
-	request, rerr := http.NewRequest("POST", "", strings.NewReader(data.Encode()))
+	request, rerr := http.NewRequest(http.MethodPost, "", strings.NewReader(data.Encode()))
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
 	result, err := handler.POST(context.TODO(), "test", request)
@@ -166,7 +166,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com/en'\" /></head><body>Redirecting to <a href='https://example.com/en'>https://example.com/en</a>..."
 	// duplicated message to test extensions
 	expectedMessage := "**New test** by email@dkimvalidator.com\n\n* bool: true\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n* object: map[property:1 sub:map[sub:]]\n**New test** by email@dkimvalidator.com\n\n* bool: true\n* email: email@dkimvalidator.com\n* field: value\n* lang: en\n* object: map[property:1 sub:map[sub:]]\n"
-	expectedAttrs := map[string]interface{}{
+	expectedAttrs := map[string]any{
 		"email": "email@dkimvalidator.com",
 	}
 	roomID := id.RoomID("!test:example.com")
@@ -190,7 +190,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	"object": {"property": 1, "sub": {"sub": null}},
 	"lang": "en"
 }`
-	request, rerr := http.NewRequest("POST", "", strings.NewReader(data))
+	request, rerr := http.NewRequest(http.MethodPost, "", strings.NewReader(data))
 	request.Header.Add("Content-Type", "application/json")
 
 	result, err := handler.POST(context.TODO(), "test", request)

@@ -91,5 +91,5 @@ func (o *order) sendFollowup(ctx context.Context) {
 		TextBody: o.followup.Body,
 		HTMLBody: o.followup.FormattedBody,
 	}
-	o.pm.Send(ctx, req) //nolint:errcheck
+	o.pm.Send(ctx, req) //nolint:errcheck // no need to wait
 }

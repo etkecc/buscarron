@@ -81,7 +81,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	o.generateOnboarding(ctx)
 	o.generateFollowup(ctx, questions, delegation, dns, countQ)
 
-	go o.toGP(ctx, hosts) //nolint:errcheck
+	go o.toGP(ctx, hosts) //nolint:errcheck // no need to wait
 	go o.sendFollowup(ctx)
 
 	return o.txt.String(), o.files

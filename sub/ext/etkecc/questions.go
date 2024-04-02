@@ -27,11 +27,11 @@ func (o *order) generateDelegationInstructions(ctx context.Context) string {
 	return txt.String()
 }
 
-func (o *order) generateQuestions(ctx context.Context) (string, int) {
+func (o *order) generateQuestions(ctx context.Context) (text string, count int) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateQuestions")
 	defer span.Finish()
 
-	var count int
+	count = 0
 	var txt strings.Builder
 	if q := o.generateQuestionsReminderBot(); q != "" {
 		count++
@@ -74,7 +74,7 @@ func (o *order) generateQuestionsTelegramBridge() string {
 	return txt.String()
 }
 
-// nolint:gocognit
+//nolint:gocognit // TODO
 func (o *order) generateQuestionsServices() string {
 	var txt strings.Builder
 

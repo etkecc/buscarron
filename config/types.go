@@ -1,8 +1,6 @@
 package config
 
 import (
-	"sync"
-
 	echobasicauth "gitlab.com/etke.cc/go/echo-basic-auth"
 	"maunium.net/go/mautrix/id"
 )
@@ -86,7 +84,6 @@ type PSD struct {
 
 // Form config
 type Form struct {
-	sync.Mutex
 	// Name of the form
 	Name string
 	// Redirect is an url to redirect after submission

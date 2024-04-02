@@ -64,7 +64,6 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		echo.TrustPrivateNet(true),
 	)
 
-	// middleware.RateLimiter()
 	e.GET("/_health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})

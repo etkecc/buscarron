@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"net/http"
 	"os"
 	"os/signal"
@@ -59,7 +60,7 @@ func main() {
 
 	log.Debug().Msg("starting matrix bot...")
 	go mxb.Start()
-	if err := e.Start(":" + cfg.Port); err != nil && err != http.ErrServerClosed {
+	if err := e.Start(":" + cfg.Port); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Panic().Err(err).Msg("http server failed")
 	}
 }
@@ -86,7 +87,7 @@ func initBot(cfg *config.Config) {
 }
 
 func initControllers(cfg *config.Config) {
-	var rooms []id.RoomID
+	rooms := make([]id.RoomID, 0, len(cfg.Forms))
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
@@ -150,7 +151,7 @@ func initShutdown() {
 	signal.Notify(listener, os.Interrupt, syscall.SIGABRT, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
 	go func() {
 		for range listener {
-			e.Shutdown(context.Background()) // nolint: errcheck
+			e.Shutdown(context.Background()) //nolint:errcheck // we don't care about the error here
 			mxb.Stop()
 			sentry.Flush(5 * time.Second)
 

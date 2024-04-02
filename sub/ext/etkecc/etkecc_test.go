@@ -362,7 +362,7 @@ func (s *EtkeccSuite) setupCases() {
 }
 
 // expected returns expected questions, followup, onboarding, vars
-func (s *EtkeccSuite) expected(name string) (string, string, string, string) {
+func (s *EtkeccSuite) expected(name string) (questions, followup, onboarding, vars string) {
 	s.T().Helper()
 
 	return s.read(name, "questions.md"),
@@ -372,7 +372,7 @@ func (s *EtkeccSuite) expected(name string) (string, string, string, string) {
 }
 
 // merge submissions
-func (s *EtkeccSuite) merge(base map[string]string, custom map[string]string) map[string]string {
+func (s *EtkeccSuite) merge(base, custom map[string]string) map[string]string {
 	s.T().Helper()
 	merged := map[string]string{}
 	for k, v := range base {
