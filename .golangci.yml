@@ -11,7 +11,8 @@ run:
   allow-parallel-runners: false
 
 output:
-  format: colored-line-number
+  formats:
+    - format: colored-line-number
   print-issued-lines: true
   print-linter-name: true
   uniq-by-line: true
@@ -28,38 +29,28 @@ linters-settings:
   gocritic:
     enabled-tags:
       - performance
-  gofumpt:
-    lang-version: "1.18"
   gosimple:
-    go: "1.18"
     checks: [ "all" ]
   govet:
-    check-shadowing: true
     enable:
       - atomicalign
       - shadow
   staticcheck:
-    go: "1.18"
     checks: [ "all" ]
-  stylecheck:
-    go: "1.18"
   unparam:
     check-exported: true
-  unused:
-    go: "1.18"
 linters:
   disable-all: false
   enable:
-    - megacheck
-    - govet
     - errcheck
     - gocognit
-    - nestif
     - gocritic
     - gofumpt
     - goimports
     - gosimple
     - govet
+    - megacheck
+    - nestif
     - staticcheck
     - stylecheck
     - unparam
