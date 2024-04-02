@@ -39,9 +39,11 @@ func (o *order) generateDNSInstructions(ctx context.Context) string {
 
 func (o *order) generateDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 string) []string {
 	records := []string{}
-	records = append(records, domainRecord+",A,"+serverIPv4)
-	if serverIPv6 != "" {
-		records = append(records, domainRecord+",AAAA,"+serverIPv6)
+	if o.has("serve_base_domain") || o.subdomain {
+		records = append(records, domainRecord+",A,"+serverIPv4)
+		if serverIPv6 != "" {
+			records = append(records, domainRecord+",AAAA,"+serverIPv6)
+		}
 	}
 	records = append(records, "matrix"+suffix+",A,"+serverIPv4)
 	if serverIPv6 != "" {

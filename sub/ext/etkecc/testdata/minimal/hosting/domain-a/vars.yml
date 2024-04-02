@@ -3,8 +3,6 @@ etke_base_matrix: yes
 etke_service_dns_external_delegation: yes
 etke_service_dns_external_proxy: yes
 etke_service_dns_external_records:
-  - "@,A,SERVER_IP4"
-  - "@,AAAA,SERVER_IP6"
   - "matrix,A,SERVER_IP4"
   - "matrix,AAAA,SERVER_IP6"
   - "matrix,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all"
