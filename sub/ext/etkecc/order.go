@@ -174,6 +174,11 @@ func (o *order) preprocessSMTP() {
 }
 
 func (o *order) preprocessPrice() {
+	if o.test {
+		o.price = len(o.data)
+		return
+	}
+
 	if o.pd == nil {
 		return
 	}

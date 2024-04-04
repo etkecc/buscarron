@@ -1,4 +1,4 @@
-price: $5
+price: $6
 
 ```yaml
 Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 1vCPU, 2GB RAM.

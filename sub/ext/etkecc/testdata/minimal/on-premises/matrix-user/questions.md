@@ -1,4 +1,4 @@
-price: $5
+price: $12
 
 ```yaml
 
