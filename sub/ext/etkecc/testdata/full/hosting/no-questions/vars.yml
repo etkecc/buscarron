@@ -198,6 +198,12 @@ firezone_database_encryption_key: "TODO32"
 # funkwhale
 funkwhale_enabled: yes
 funkwhale_hostname: funkwhale.higenjitsuteki.onmatrix.chat
+funkwhale_aws_s3_region_name: us-east-1
+funkwhale_aws_s3_endpoint_url: https://s3.example.com
+funkwhale_aws_access_key_id: some-key
+funkwhale_aws_secret_access_key: some-secret
+funkwhale_aws_storage_bucket_name: mybucket
+funkwhale_aws_location: music
 
 # gotosocial https://social.higenjitsuteki.onmatrix.chat
 gotosocial_enabled: yes

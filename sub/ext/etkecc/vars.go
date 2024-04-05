@@ -569,6 +569,15 @@ func (o *order) varsFunkwhale() string {
 	txt.WriteString("funkwhale_enabled: yes\n")
 	txt.WriteString("funkwhale_hostname: funkwhale." + o.domain + "\n")
 
+	if o.has("funkwhale-s3-bucket") && o.has("funkwhale-s3-region") && o.has("funkwhale-s3-endpoint") && o.has("funkwhale-s3-access-key") && o.has("funkwhale-s3-secret-key") {
+		txt.WriteString("funkwhale_aws_s3_region_name: " + o.get("funkwhale-s3-region") + "\n")
+		txt.WriteString("funkwhale_aws_s3_endpoint_url: " + o.get("funkwhale-s3-endpoint") + "\n")
+		txt.WriteString("funkwhale_aws_access_key_id: " + o.get("funkwhale-s3-access-key") + "\n")
+		txt.WriteString("funkwhale_aws_secret_access_key: " + o.get("funkwhale-s3-secret-key") + "\n")
+		txt.WriteString("funkwhale_aws_storage_bucket_name: " + o.get("funkwhale-s3-bucket") + "\n")
+		txt.WriteString("funkwhale_aws_location: music\n")
+	}
+
 	return txt.String()
 }
 
