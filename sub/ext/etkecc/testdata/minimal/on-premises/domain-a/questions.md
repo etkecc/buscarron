@@ -16,7 +16,7 @@ Please, add the following DNS entries (ensure that the CloudFlare proxy is disab
 - matrix	A record	server IP
 - matrix	TXT record	v=spf1 ip4:server IP -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
-- default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAtS+2q3Lgnilz4FGvPGURTpVZn5lTmDkLprN36qDIjBBfQCE9ngCoYR2P3rAWY04PGxsL8iFJNMvEqFWlR8PqZe+597K3JLcsRsIvNfdzcCCI6yoTelag9UvgqyRPADPmtQz3jilxcdPem38k9K6K+yDiNJGdKKmbTYKdVx1an9GfuWmEx4ZIQelUPGUeTnOZOUqCKZLC7NQsmwS4KGGkj03RH5EUGb7hagc63imgN1iAstB+ggiiS9eqTyKt2G9WC6U/0teTqiADM9Idpzmucaya/mDq/v5S9bysjD/7Iz2VOXBvKuGK3Wzb2eI/ZNEDArUh/XpWU5fKMYw+IJHObwBU92QAVegdtBVXaJiVsAD4SUmXDx7smzEr9mem1EcY0jq74mV8/ikAp58D7NHpHadBko0i/05JLht1RukdgZJCPf5sE6GJhUr1x4PU3BHM8ziBVFOVajxgukr/XtT1O7BBgHNXySG+mprVcMyt904IGPrT60Z+bhZHdmdgCiFnAgMBAAE=
+- default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=TODO
 ```
 
 ```yaml

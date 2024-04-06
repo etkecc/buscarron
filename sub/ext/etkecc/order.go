@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"gitlab.com/etke.cc/go/pricify"
-	"gitlab.com/etke.cc/go/secgen"
 	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
@@ -175,11 +174,7 @@ func (o *order) preprocessSMTP() {
 	o.smtp = smtp
 
 	dkim := map[string]string{}
-	record, priv, err := secgen.DKIM()
-	if err == nil {
-		dkim["record"] = record
-		dkim["private"] = priv
-	}
+	dkim["record"], dkim["private"] = o.dkimgen()
 	o.dkim = dkim
 }
 

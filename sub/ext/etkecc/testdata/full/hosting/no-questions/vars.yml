@@ -27,7 +27,7 @@ etke_service_dns_records:
   - "vault.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "matrix.higenjitsuteki,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all"
   - "_dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;"
-  - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAwvivMEc5WRKiFmzi9fiBDbkY3+F7MSqdfY0XREeLJ7eh759y3j6aASqIQ1rHoZicq5S/k3d//IHsYkwpDysk2U5ww+ww2YUuSTbSds6FTIphgFOFb2r3z4TuKIxciTyYoAs6TnQX9lUIAiewbVcJhXSWgAXhJlu02iRyzWUoUWvuYpCIKhuGQDXOvSlZpxHoGrJgnMri0w7nfCz2w0RSqe+wB54iU1TWlI6NcWBwMF+AUX744WxbAY1NXNpdY7UPfnRW0/wv63AniQmIPCcY8smk0vZShNzprYDAu7VJCo+TzzJt/Ygp2k2wRnTt7zfYLp71Xz5OAear72qPrs1dm6TF6aKZ7KPzPZwuE4rJx8Axepk9LK/HEUwIQr23FSO+nf0diVIj3stwfSRGgwAACjic23uoNnq7YxoVXoF7JZDR+2kBccYJp6eW9PBJP61cg1JdY+0qM3Nh0FVB2mZMfSAYVMB0zE9UOqiBGKcUt7+PsW9+f9LyCxfZDU1zvPwvAgMBAAE="
+  - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=TODO"
   - "matrix.higenjitsuteki,MX,matrix.higenjitsuteki.onmatrix.chat."
   - "higenjitsuteki,MX,10 aspmx1.migadu.com."
   - "higenjitsuteki,MX,20 aspmx2.migadu.com."
@@ -151,46 +151,8 @@ backup_borg_ssh_key_private: |
 # exim-relay
 exim_relay_dkim_privkey_contents: |
   -----BEGIN PRIVATE KEY-----
-  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
-  oKwreWSzBiIxh0R3ICGR/5U=
+  TODO
   -----END PRIVATE KEY-----
-  
 exim_relay_relay_use: yes
 exim_relay_relay_auth: yes
 exim_relay_relay_host_name: smtp.migadu.com

@@ -44,7 +44,7 @@ Please, add the following DNS entries:
 * vault    CNAME record    matrix.example.com.
 * matrix    TXT record    v=spf1 ip4:server IP -all
 * _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
-* default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAwUibfapn7eomQG5XqnCGhDoydVZ5/uRSlkMtGNHRNfnSmopEobSN4Hlod/kvUNq7NSVdyHkDUA1G9xxXEuG2Hd5ANbKmlWIJSfw5WiDMFDPtmJ8ka/+mlbjyzyfjSe+PBkmYZeV3P64/NennZDqDFYCuKls1DvlIh3hzomzJcaCz7nIiLIJfU4e3ysR3GJ5PFilcV4uhysRVDpwyMKqaC70Ez/nt13Nf3K0sVV8Djv5j6rbLOtZEsyF3jxPLdPa7Gm2Q7FGQFBV2RTj3wGoHVLve5f9iz4zuA3gBg3qb9gJmrzMnzL8BLvL23RtOBFYnTgUkwcEbCYYnIo+pzRfv3Lp9PYav2oASDMWrPHpjAlpFkRQTuXiX9DMf2fftZuH/VIOYPNrEzzNwB/GDRxjMk1a49y2vswRbIV8q+h/SgkIL4HJhcH3YPzjGVWjpOzEEexfMLnRM60Aff/dRzVCDaH2i+PPAMXT9r59kJdUiMjLeI6AfbY2NQ8ede9fkj+xPAgMBAAE=
+* default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=TODO
 * matrix    MX record    matrix.example.com.
 * @    MX record    10 aspmx1.migadu.com.
 * @    MX record    20 aspmx2.migadu.com.

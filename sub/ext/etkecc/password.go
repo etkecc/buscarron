@@ -44,6 +44,15 @@ func (o *order) keygen() (pub, priv string) {
 	return pub, priv
 }
 
+func (o *order) dkimgen() (record, priv string) {
+	if o.test {
+		return "v=DKIM1; k=rsa; p=TODO", "-----BEGIN PRIVATE KEY-----\nTODO\n-----END PRIVATE KEY-----"
+	}
+	record, priv, _ = secgen.DKIM() //nolint:errcheck // error is always nil
+
+	return record, priv
+}
+
 // password calls pwgen and saves result to internal map to export that password in multiple places (eg vars and onboarding)
 func (o *order) password(name string) string {
 	pass, ok := o.pass[name]
