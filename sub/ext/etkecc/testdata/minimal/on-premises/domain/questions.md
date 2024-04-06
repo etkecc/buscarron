@@ -17,6 +17,7 @@ Please, add the following DNS entries:
 - matrix	A record	server IP
 - matrix	TXT record	v=spf1 ip4:server IP -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
+- default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAooAm4ZCkY9YxYN2ATlv2widBMf6hQavSCq3mzmxaw0FG6/X9zXtZR3h0OnJtPAFHZOt5uwNTqsUkwJk0yZqWqPDarSuN/+uvpwtN/qGN35TIIYmiEGiThOtVoesye8x1ZwTQCZxttL7GvzKOfBRVoJRPC3oM63/dRBcpf6GuTcdALF5GEGk+YDltb64PhyJ5TT57QFzgipgCjTwbugh/MrxwiXDpRRWPrSrSAOVKiITkvP2bedcXDliAiEVOwb+BrOUotiSiD3fr9Tb8bO33CDE62EvgXjFwXLHvDDCJBaI2Gqu2d9+jQX9ZRzWuNsc+HqO6nhlU+i025iZaawEcjC144ZExtqWm8gbqDfK2pJWKr0tyqxlj/Ujd7Mgat9YT4XZQr8YyKexB5GT26SYtj+fvRWxjZartLJbqs5PyluKgl2giz+MjKUvU4I1eeZsOuNG0fLK/FXJ20/1NIvO54Mt8mG3sioVW2UnrAkqmZLe6mQ5F8t5p9AzECEF2vRSfAgMBAAE=
 ```
 
 hosts:

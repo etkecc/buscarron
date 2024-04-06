@@ -40,6 +40,7 @@ Please, add the following DNS entries:
 * vault    CNAME record    matrix.example.com.
 * matrix    TXT record    v=spf1 ip4:1.2.3.4 -all
 * _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
+* default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA1H0d1lDdw+bNAJ4JkbeDyWq/rp56Fq99Z8MMdrrc8Yaqoj2pFVw53up/TCMvtBirlEP/WOVS9ARK/i3ba5yk2t4sOe8FvGtJT9xPjcTWkGPAF5TW5yGs4W4NGebRfqAQddJLpTAT+Gfv3tmPtarJ3LMFhrPWuMLBw+h4FJ29T1YlPEKkshM6CPzo6caNeSezWqtlaIcgzR8GHNZSJ4rdBrey+TchZ90pBuM28jxKHeGsPoYptRIUi9RJmvzxDZfeALCj3bI4Yho88GpcxLdqBEDW1OOBLImQ57MJIYKsKTBUaavmksIq69vmzSZUVCdmg+eaZ5CdUW5+Sgzp3+bGVOIJ59hS9+ovIaHcIQ49+zafA9KJzMDzM6kPsPo+pwD7hJzgkOzWIYlqOIjoKE/Zz9blvnQJ2Y7wC7fjJj8jOTEej65nElaDidnqJrnOyC2ciV2oIMpTaSPNUCF9jAC2zjm2KC4t9OB7VZeFD+SwIa5mr9N/+jaZC7G8pqLhm1/DAgMBAAE=
 * matrix    MX record    matrix.example.com.
 
 Got any questions? Feel free to reply to this email - we're here to assist you!

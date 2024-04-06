@@ -37,6 +37,50 @@ matrix_synapse_password_config_pepper: TODO64
 matrix_coturn_turn_static_auth_secret: TODO64
 matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
+# exim-relay
+exim_relay_dkim_privkey_contents: |
+  -----BEGIN PRIVATE KEY-----
+  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
+  sc2vzfMPjHG86GZ4OLpQ8I6Rkw==
+  -----END PRIVATE KEY-----
+  
+
 # postgres::backups
 devture_postgres_backup_enabled: yes
 devture_postgres_backup_schedule: '@daily'

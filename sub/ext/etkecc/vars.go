@@ -406,12 +406,19 @@ func (o *order) varsBorgBackup() string {
 }
 
 func (o *order) varsEximRelay() string {
-	if len(o.smtp) == 0 {
-		return ""
-	}
 	var txt strings.Builder
 
 	txt.WriteString("\n# exim-relay\n")
+	if o.dkim["private"] != "" {
+		txt.WriteString("exim_relay_dkim_privkey_contents: |\n")
+		for _, line := range strings.Split(o.dkim["private"], "\n") {
+			txt.WriteString("  " + line + "\n")
+		}
+	}
+
+	if len(o.smtp) == 0 {
+		return txt.String()
+	}
 	txt.WriteString("exim_relay_relay_use: yes\n")
 	txt.WriteString("exim_relay_relay_auth: yes\n")
 	txt.WriteString("exim_relay_relay_host_name: " + o.smtp["host"] + "\n")

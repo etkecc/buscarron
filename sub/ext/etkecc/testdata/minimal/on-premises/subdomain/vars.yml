@@ -5,6 +5,7 @@ etke_service_dns_records:
   - "matrix.higenjitsuteki,A,TODO"
   - "matrix.higenjitsuteki,TXT,v=spf1 ip4:TODO -all"
   - "_dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;"
+  - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAvqDeVT+HTnRLLU7Yiph/xYWYjAlTDOd5p9LjVha9aEwaonAklCPZJt650KWSz6EdNK+V/i3l4dlZZ21IhMen5gxqD+rUl9wkWdr7CPWGEEOPbO0LudQGR5w/CUSjb8UiW642tl6mUPAf1RQsLCe60Ay1/1lPnslh9C/J1l8a71Uq/vomEWHnfhWeNNaZPcqAdaR71eqKzMajcRfy7VQ+3Aa1kPbtvd/nhtONSWXMcKpWKA6kLGReDtaPdWwjFKTYHaQw3O1kLsn6p9xrduFs5MUe4//DXICeHXpLnq12+eKg3GdOIgSPl3B+DRLShcwShI/gUoj8Tx1E2qO56pNsgq3wre7SEVS0edWHZbXr45tAvKgTJiox9c8JvLEfi6orfAehjZ+6z+umdnQCzIaZ3dWv2cqTqYN4R+gtacIXAT/YWqq6UWL4+Q7bZGs0GSYL2HhnHsYqXXD77f6BdoiYQp5OHv3q3jJD55uMaIWsT+fV4XHWlMTdQlMdZNr1rY+lAgMBAAE="
 etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_support: basic
 etke_subscription_confirmed: no
@@ -45,6 +46,50 @@ matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
 # matrix-static-files
 matrix_static_files_container_labels_base_domain_enabled: yes
+
+# exim-relay
+exim_relay_dkim_privkey_contents: |
+  -----BEGIN PRIVATE KEY-----
+  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
+  8HKwiyq2znSf432Yj75sDds=
+  -----END PRIVATE KEY-----
+  
 
 # postgres::backups
 devture_postgres_backup_enabled: yes

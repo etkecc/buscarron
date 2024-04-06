@@ -7,6 +7,7 @@ etke_service_dns_records:
   - "matrix.higenjitsuteki,AAAA,SERVER_IP6"
   - "matrix.higenjitsuteki,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all"
   - "_dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;"
+  - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEA6/gVAh45mqHWk65aJe/cPc9HJd2bribliBI6PJiezfnnVKfdCaCAd31OhTRuwNM7IH9957JVNWtJ+1K10OGaNQP5njyWQUepV/rUKCvKgtm+HVVgzxNFVfNAs3pp9g39Zh/r22UVqurNJUvFUHt2m9DnMN68cyK6zxG5k3DcTEgii9qHXNranlif6PGXvM+IeG9+NSLuUeSeeRvYr6GjSezIjHNzZCo0cpMF8LImGb0BErFMkkFZqAtMve6yQcbXgex/T3jG8vq3aVUMjVhIgWNAhYwX1dxYYgT09A/orcCzEtbQk/EL+5t6+scCRiBY6reFuuaFClex/O8OhzwStvWonDxyUM1YoB506kE6V6gDCzlsBZEh+9vRJPrKSXVJGHwcDmqS2yLlioDFguxLkCB4THlH47cNbDcHMfxpjt9UsTcINaYmdwYgGr/zkx3vjSrdRahfXlJLUj5EOQTnpmGqtmCwlG+8OIb+bzOjnDJ61DtvTAwvgWVbDEq+WCH1AgMBAAE="
 etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_server: cpx11
 etke_service_server_firewalls: 124003
@@ -50,6 +51,50 @@ matrix_homeserver_generic_secret_key: "{{ matrix_synapse_macaroon_secret_key }}"
 
 # matrix-static-files
 matrix_static_files_container_labels_base_domain_enabled: yes
+
+# exim-relay
+exim_relay_dkim_privkey_contents: |
+  -----BEGIN PRIVATE KEY-----
+  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
+  fVv5cDerAuXQqQ89YjSVSS4=
+  -----END PRIVATE KEY-----
+  
 
 # synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
 matrix_synapse_admin_enabled: yes

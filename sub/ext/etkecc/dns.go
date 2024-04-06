@@ -66,6 +66,9 @@ func (o *order) generateDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 
 		"matrix"+suffix+",TXT,"+spf,
 		"_dmarc.matrix"+suffix+",TXT,v=DMARC1; p=quarantine;",
 	)
+	if o.dkim["record"] != "" {
+		records = append(records, "default._domainkey.matrix"+suffix+",TXT,"+o.dkim["record"])
+	}
 	if o.has("postmoogle") {
 		records = append(records, "matrix"+suffix+",MX,matrix."+o.domain+".")
 	}

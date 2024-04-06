@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"gitlab.com/etke.cc/go/pricify"
+	"gitlab.com/etke.cc/go/secgen"
 	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
@@ -30,6 +31,7 @@ type order struct {
 	followup  *event.MessageEventContent
 	hosting   string
 	smtp      map[string]string
+	dkim      map[string]string
 	price     int
 
 	txt   strings.Builder
@@ -171,6 +173,14 @@ func (o *order) preprocessSMTP() {
 		smtp["email"] = o.get("smtp-relay-email")
 	}
 	o.smtp = smtp
+
+	dkim := map[string]string{}
+	record, priv, err := secgen.DKIM()
+	if err == nil {
+		dkim["record"] = record
+		dkim["private"] = priv
+	}
+	o.dkim = dkim
 }
 
 func (o *order) preprocessPrice() {
