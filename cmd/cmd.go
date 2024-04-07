@@ -4,9 +4,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -16,6 +18,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
 	"github.com/ziflex/lecho/v3"
+	"gitlab.com/etke.cc/go/healthchecks/v2"
 	"gitlab.com/etke.cc/go/psd"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
@@ -35,10 +38,12 @@ var (
 	version = "development"
 	mxb     *bot.Bot
 	log     *zerolog.Logger
+	hc      *healthchecks.Client
 	e       *echo.Echo
 )
 
 func main() {
+	quit := make(chan struct{})
 	cfg := config.New()
 	utils.SetName("buscarron")
 	utils.SetSentryDSN(cfg.Sentry)
@@ -54,15 +59,26 @@ func main() {
 	log.Info().Int("count", len(cfg.Forms)).Msg("Forms")
 	log.Info().Msg("#############################")
 
+	if cfg.Healthchecks.UUID != "" {
+		log.Info().Str("url", cfg.Healthchecks.URL).Str("uuid", cfg.Healthchecks.UUID).Msg("Healthchecks enabled")
+		hc = healthchecks.New(
+			healthchecks.WithBaseURL(cfg.Healthchecks.URL),
+			healthchecks.WithCheckUUID(cfg.Healthchecks.UUID),
+		)
+		hc.Start(strings.NewReader("buscarron is starting"))
+		go hc.Auto(60 * time.Second)
+	}
+
 	initBot(cfg)
 	initControllers(cfg)
-	initShutdown()
+	initShutdown(quit)
 
 	log.Debug().Msg("starting matrix bot...")
 	go mxb.Start()
 	if err := e.Start(":" + cfg.Port); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Panic().Err(err).Msg("http server failed")
 	}
+	<-quit
 }
 
 func initBot(cfg *config.Config) {
@@ -146,17 +162,22 @@ func initControllers(cfg *config.Config) {
 	log.Debug().Msg("web server has been configured")
 }
 
-func initShutdown() {
+func initShutdown(quit chan struct{}) {
 	listener := make(chan os.Signal, 1)
 	signal.Notify(listener, os.Interrupt, syscall.SIGABRT, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGTERM)
 	go func() {
-		for range listener {
-			e.Shutdown(context.Background()) //nolint:errcheck // we don't care about the error here
-			mxb.Stop()
-			sentry.Flush(5 * time.Second)
+		<-listener
+		defer close(quit)
 
-			os.Exit(0)
+		e.Shutdown(context.Background()) //nolint:errcheck // we don't care about the error here
+		mxb.Stop()
+		sentry.Flush(5 * time.Second)
+		if hc != nil {
+			hc.Shutdown()
+			hc.ExitStatus(0, strings.NewReader("buscarron is shutting down"))
 		}
+
+		os.Exit(0)
 	}()
 }
 
@@ -168,6 +189,9 @@ func recovery() {
 		return
 	}
 
+	if hc != nil {
+		hc.ExitStatus(1, strings.NewReader(fmt.Sprintf("panic: %+v", err)))
+	}
 	sentry.CurrentHub().Recover(err)
 	sentry.Flush(5 * time.Second)
 }

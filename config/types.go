@@ -40,12 +40,20 @@ type Config struct {
 
 	// Sentry DSN
 	Sentry string
+	// Healthchecks.io config
+	Healthchecks Healthchecks
 
 	// Postmark config
 	Postmark *Postmark
 
 	// SMTP config
 	SMTP *SMTP
+}
+
+// Healthchecks.io config
+type Healthchecks struct {
+	URL  string
+	UUID string
 }
 
 // DB config

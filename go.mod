@@ -19,6 +19,7 @@ require (
 	github.com/ziflex/lecho/v3 v3.5.0
 	gitlab.com/etke.cc/go/echo-basic-auth v1.1.0
 	gitlab.com/etke.cc/go/env v1.1.0
+	gitlab.com/etke.cc/go/healthchecks/v2 v2.0.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
 	gitlab.com/etke.cc/go/psd v1.1.1
 	gitlab.com/etke.cc/go/secgen v1.2.0
@@ -36,6 +37,7 @@ require (
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/labstack/gommon v0.4.2 // indirect

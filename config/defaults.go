@@ -3,6 +3,9 @@ package config
 var defaultConfig = &Config{
 	Port:     "8080",
 	LogLevel: "INFO",
+	Healthchecks: Healthchecks{
+		URL: "https://hc-ping.com",
+	},
 	DB: DB{
 		DSN:     "/tmp/buscarron.db",
 		Dialect: "sqlite3",

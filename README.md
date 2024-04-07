@@ -41,6 +41,8 @@ env vars
 ### optional buscarron configs
 
 * **BUSCARRON_SENTRY** - sentry DSN
+* **BUSCARRON_HC_URL** - healthchecks.io URL, default: `https://hc-ping.com`
+* **BUSCARRON_HC_UUID** - healthchecks.io check UUID
 * **BUSCARRON_LOGLEVEL** - log level
 * **BUSCARRON_DB_DSN** - database connection string
 * **BUSCARRON_DB_DIALECT** - database dialect (postgres, sqlite3)

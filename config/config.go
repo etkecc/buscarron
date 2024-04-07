@@ -17,10 +17,14 @@ func New() *Config {
 		Login:      env.String("login"),
 		Password:   env.String("password"),
 		Sentry:     env.String("sentry"),
-		LogLevel:   env.String("loglevel", defaultConfig.LogLevel),
-		Port:       env.String("port", defaultConfig.Port),
-		KoFiToken:  env.String("kofi.token"),
-		KoFiRoom:   env.String("kofi.room"),
+		Healthchecks: Healthchecks{
+			URL:  env.String("hc.url", defaultConfig.Healthchecks.URL),
+			UUID: env.String("hc.uuid"),
+		},
+		LogLevel:  env.String("loglevel", defaultConfig.LogLevel),
+		Port:      env.String("port", defaultConfig.Port),
+		KoFiToken: env.String("kofi.token"),
+		KoFiRoom:  env.String("kofi.room"),
 		Metrics: echobasicauth.Auth{
 			Login:    env.String("metrics.login"),
 			Password: env.String("metrics.password"),

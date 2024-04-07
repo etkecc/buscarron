@@ -30,6 +30,9 @@ github.com/getsentry/sentry-go/internal/traceparser
 # github.com/golang-jwt/jwt v3.2.2+incompatible
 ## explicit
 github.com/golang-jwt/jwt
+# github.com/google/uuid v1.6.0
+## explicit
+github.com/google/uuid
 # github.com/gorilla/css v1.0.1
 ## explicit; go 1.20
 github.com/gorilla/css/scanner
@@ -136,6 +139,9 @@ gitlab.com/etke.cc/go/echo-basic-auth
 # gitlab.com/etke.cc/go/env v1.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/env
+# gitlab.com/etke.cc/go/healthchecks/v2 v2.0.0
+## explicit; go 1.18
+gitlab.com/etke.cc/go/healthchecks/v2
 # gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
