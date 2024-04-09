@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -22,6 +24,7 @@ type senderByEmail interface {
 
 type KoFiConfig struct {
 	VerificationToken string
+	Upstream          string
 	Room              id.RoomID
 	Sender            senderByEmail
 	PaidMarker        func(context.Context, string, string, string)
@@ -31,6 +34,7 @@ type KoFiConfig struct {
 
 type kofi struct {
 	token        string
+	upstream     string
 	psdc         *psd.Client
 	sender       senderByEmail
 	markPaid     func(context.Context, string, string, string)
@@ -125,6 +129,7 @@ func (r *kofiRequest) Logger(ctx context.Context) *zerolog.Logger {
 func NewKoFi(cfg *KoFiConfig) *kofi {
 	return &kofi{
 		token:        cfg.VerificationToken,
+		upstream:     cfg.Upstream,
 		psdc:         cfg.PSD,
 		sender:       cfg.Sender,
 		markPaid:     cfg.PaidMarker,
@@ -133,8 +138,44 @@ func NewKoFi(cfg *KoFiConfig) *kofi {
 	}
 }
 
+func (k *kofi) sendUpstream(req *http.Request) {
+	if k.upstream == "" {
+		return
+	}
+	log := zerolog.Ctx(req.Context())
+	body, err := io.ReadAll(req.Body)
+	if err != nil {
+		log.Error().Err(err).Msg("cannot read request body")
+		return
+	}
+	req.Body = io.NopCloser(bytes.NewReader(body))
+	ctx, cancel := context.WithTimeout(req.Context(), 10*time.Second)
+	defer cancel()
+
+	upreq, err := http.NewRequestWithContext(ctx, http.MethodPost, k.upstream, bytes.NewReader(body))
+	if err != nil {
+		log.Error().Err(err).Msg("cannot create upstream request")
+		return
+	}
+	upreq.Header.Set("Content-Type", req.Header.Get("Content-Type"))
+
+	upresp, err := http.DefaultClient.Do(upreq)
+	if err != nil {
+		log.Error().Err(err).Msg("cannot send request to upstream")
+		return
+	}
+	defer upresp.Body.Close()
+	if upresp.StatusCode != http.StatusOK {
+		log.Warn().Int("status", upresp.StatusCode).Msg("upstream returned non-200 status")
+		return
+	}
+}
+
 func (k *kofi) Handler() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		k.sendUpstream(c.Request())
+		defer c.Request().Body.Close()
+
 		log := zerolog.Ctx(c.Request().Context())
 		raw := c.FormValue("data")
 		var data *kofiRequest

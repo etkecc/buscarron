@@ -138,6 +138,7 @@ func initControllers(cfg *config.Config) {
 	etkecc.SetPSD(psdc)
 	kfcfg := &controllers.KoFiConfig{
 		VerificationToken: cfg.KoFiToken,
+		Upstream:          cfg.KoFiUpstream,
 		Sender:            mxb,
 		PaidMarker:        etkecc.MarkAsPaid,
 		PSD:               psdc,

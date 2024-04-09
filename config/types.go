@@ -23,6 +23,8 @@ type Config struct {
 	Metrics echobasicauth.Auth
 	// KoFiToken is Ko-Fi webhook verification token (do not use: will be excluded)
 	KoFiToken string
+	// KoFiUpstream is Ko-Fi webhook upstream (do not use: will be excluded)
+	KoFiUpstream string
 	// KoFiRoom is Ko-Fi room when ko-fi webhook's target is not found
 	KoFiRoom string
 	// Forms map
