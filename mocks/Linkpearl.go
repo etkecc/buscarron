@@ -18,14 +18,14 @@ type Linkpearl struct {
 	mock.Mock
 }
 
-// FindEventBy provides a mock function with given fields: ctx, roomID, field, value, fromToken
-func (_m *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field string, value string, fromToken ...string) *event.Event {
+// FindEventBy provides a mock function with given fields: ctx, roomID, fieldValue, fromToken
+func (_m *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, fieldValue map[string]string, fromToken ...string) *event.Event {
 	_va := make([]interface{}, len(fromToken))
 	for _i := range fromToken {
 		_va[_i] = fromToken[_i]
 	}
 	var _ca []interface{}
-	_ca = append(_ca, ctx, roomID, field, value)
+	_ca = append(_ca, ctx, roomID, fieldValue)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
@@ -34,8 +34,8 @@ func (_m *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field st
 	}
 
 	var r0 *event.Event
-	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, string, string, ...string) *event.Event); ok {
-		r0 = rf(ctx, roomID, field, value, fromToken...)
+	if rf, ok := ret.Get(0).(func(context.Context, id.RoomID, map[string]string, ...string) *event.Event); ok {
+		r0 = rf(ctx, roomID, fieldValue, fromToken...)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*event.Event)
@@ -130,13 +130,14 @@ func (_m *Linkpearl) SendNotice(ctx context.Context, roomID id.RoomID, message s
 	_m.Called(_ca...)
 }
 
-// Start provides a mock function with given fields: optionalStatusMsg
-func (_m *Linkpearl) Start(optionalStatusMsg ...string) error {
+// Start provides a mock function with given fields: ctx, optionalStatusMsg
+func (_m *Linkpearl) Start(ctx context.Context, optionalStatusMsg ...string) error {
 	_va := make([]interface{}, len(optionalStatusMsg))
 	for _i := range optionalStatusMsg {
 		_va[_i] = optionalStatusMsg[_i]
 	}
 	var _ca []interface{}
+	_ca = append(_ca, ctx)
 	_ca = append(_ca, _va...)
 	ret := _m.Called(_ca...)
 
@@ -145,8 +146,8 @@ func (_m *Linkpearl) Start(optionalStatusMsg ...string) error {
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(...string) error); ok {
-		r0 = rf(optionalStatusMsg...)
+	if rf, ok := ret.Get(0).(func(context.Context, ...string) error); ok {
+		r0 = rf(ctx, optionalStatusMsg...)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -154,9 +155,9 @@ func (_m *Linkpearl) Start(optionalStatusMsg ...string) error {
 	return r0
 }
 
-// Stop provides a mock function with given fields:
-func (_m *Linkpearl) Stop() {
-	_m.Called()
+// Stop provides a mock function with given fields: ctx
+func (_m *Linkpearl) Stop(ctx context.Context) {
+	_m.Called(ctx)
 }
 
 // NewLinkpearl creates a new instance of Linkpearl. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

@@ -120,17 +120,18 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 func (b *Bot) FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
 	span := utils.StartSpan(ctx, "linkpearl.FindEventBy")
 	defer span.Finish()
-	return b.lp.FindEventBy(span.Context(), roomID, field, value, fromToken...)
+	return b.lp.FindEventBy(span.Context(), roomID, map[string]string{field: value}, fromToken...)
 }
 
 // Start performs matrix /sync
 func (b *Bot) Start() {
-	if err := b.lp.Start(); err != nil {
-		zerolog.Ctx(utils.NewContext()).Panic().Err(err).Msg("matrix bot crashed")
+	ctx := utils.NewContext()
+	if err := b.lp.Start(ctx); err != nil {
+		zerolog.Ctx(ctx).Panic().Err(err).Msg("matrix bot crashed")
 	}
 }
 
 // Stop the bot
 func (b *Bot) Stop() {
-	b.lp.Stop()
+	b.lp.Stop(utils.NewContext())
 }

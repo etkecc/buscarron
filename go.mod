@@ -21,10 +21,10 @@ require (
 	gitlab.com/etke.cc/go/env v1.1.0
 	gitlab.com/etke.cc/go/healthchecks/v2 v2.0.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
-	gitlab.com/etke.cc/go/psd v1.1.1
+	gitlab.com/etke.cc/go/psd v1.1.2
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
-	gitlab.com/etke.cc/linkpearl v0.0.0-20240316115913-106577b88942
+	gitlab.com/etke.cc/linkpearl v0.0.0-20240411160933-e834c58b60fa
 	golang.org/x/net v0.24.0
 	golang.org/x/text v0.14.0
 	golang.org/x/time v0.5.0

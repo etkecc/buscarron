@@ -145,7 +145,7 @@ gitlab.com/etke.cc/go/healthchecks/v2
 # gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/pricify
-# gitlab.com/etke.cc/go/psd v1.1.1
+# gitlab.com/etke.cc/go/psd v1.1.2
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/psd
 # gitlab.com/etke.cc/go/secgen v1.2.0
@@ -157,7 +157,7 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator/v2 v2.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator/v2
-# gitlab.com/etke.cc/linkpearl v0.0.0-20240316115913-106577b88942
+# gitlab.com/etke.cc/linkpearl v0.0.0-20240411160933-e834c58b60fa
 ## explicit; go 1.21
 gitlab.com/etke.cc/linkpearl
 # go.mau.fi/util v0.4.1

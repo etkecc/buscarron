@@ -29,7 +29,7 @@ Please, add the following DNS entries:
 - matrix	TXT record	v=spf1 ip4:1.2.3.4 -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 - default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=TODO
-- matrix	MX record	matrix.example.com.
+- matrix	MX record	0 matrix.example.com.
 ```
 
 hosts:

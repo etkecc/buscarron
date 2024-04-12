@@ -48,6 +48,24 @@ func (_m *Extension) Execute(_a0 context.Context, _a1 common.Validator, _a2 *con
 	return r0, r1
 }
 
+// Validate provides a mock function with given fields: _a0, _a1, _a2, _a3
+func (_m *Extension) Validate(_a0 context.Context, _a1 common.Validator, _a2 *config.Form, _a3 map[string]string) error {
+	ret := _m.Called(_a0, _a1, _a2, _a3)
+
+	if len(ret) == 0 {
+		panic("no return value specified for Validate")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, common.Validator, *config.Form, map[string]string) error); ok {
+		r0 = rf(_a0, _a1, _a2, _a3)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // NewExtension creates a new instance of Extension. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewExtension(t interface {

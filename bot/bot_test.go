@@ -112,13 +112,13 @@ func (s *BotSuite) TestSendFile_Error() {
 }
 
 func (s *BotSuite) TestStart() {
-	s.lp.On("Start").Return(nil).Once()
+	s.lp.On("Start", ctxMatcher).Return(nil).Once()
 
 	s.bot.Start()
 }
 
 func (s *BotSuite) TestStart_Error() {
-	s.lp.On("Start").Return(errors.New("test")).Once()
+	s.lp.On("Start", ctxMatcher).Return(errors.New("test")).Once()
 
 	fn := func() {
 		s.bot.Start()
@@ -128,7 +128,7 @@ func (s *BotSuite) TestStart_Error() {
 }
 
 func (s *BotSuite) TestStop() {
-	s.lp.On("Stop").Once()
+	s.lp.On("Stop", ctxMatcher).Once()
 
 	s.bot.Stop()
 }

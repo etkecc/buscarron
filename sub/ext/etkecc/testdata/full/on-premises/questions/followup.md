@@ -45,7 +45,7 @@ Please, add the following DNS entries:
 * matrix    TXT record    v=spf1 ip4:server IP -all
 * _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
 * default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=TODO
-* matrix    MX record    matrix.example.com.
+* matrix    MX record    0 matrix.example.com.
 * @    MX record    10 aspmx1.migadu.com.
 * @    MX record    20 aspmx2.migadu.com.
 * @    TXT record    v=spf1 include:spf.migadu.com -all

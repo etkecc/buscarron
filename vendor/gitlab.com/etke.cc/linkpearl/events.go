@@ -34,7 +34,7 @@ func (l *Linkpearl) Threads(ctx context.Context, roomID id.RoomID, fromToken ...
 }
 
 // FindThreadBy tries to find thread message event by field and value
-func (l *Linkpearl) FindThreadBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
+func (l *Linkpearl) FindThreadBy(ctx context.Context, roomID id.RoomID, fieldValue map[string]string, fromToken ...string) *event.Event {
 	var from string
 	if len(fromToken) > 0 {
 		from = fromToken[0]
@@ -48,9 +48,11 @@ func (l *Linkpearl) FindThreadBy(ctx context.Context, roomID id.RoomID, field, v
 	}
 
 	for _, msg := range resp.Chunk {
-		evt, contains := l.eventContains(ctx, msg, field, value)
-		if contains {
-			return evt
+		for field, value := range fieldValue {
+			evt, contains := l.eventContains(ctx, msg, field, value)
+			if contains {
+				return evt
+			}
 		}
 	}
 
@@ -58,11 +60,11 @@ func (l *Linkpearl) FindThreadBy(ctx context.Context, roomID id.RoomID, field, v
 		return nil
 	}
 
-	return l.FindThreadBy(ctx, roomID, field, value, resp.NextBatch)
+	return l.FindThreadBy(ctx, roomID, fieldValue, resp.NextBatch)
 }
 
 // FindEventBy tries to find message event by field and value
-func (l *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
+func (l *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, fieldValue map[string]string, fromToken ...string) *event.Event {
 	var from string
 	if len(fromToken) > 0 {
 		from = fromToken[0]
@@ -76,9 +78,11 @@ func (l *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field, va
 	}
 
 	for _, msg := range resp.Chunk {
-		evt, contains := l.eventContains(ctx, msg, field, value)
-		if contains {
-			return evt
+		for field, value := range fieldValue {
+			evt, contains := l.eventContains(ctx, msg, field, value)
+			if contains {
+				return evt
+			}
 		}
 	}
 
@@ -86,7 +90,7 @@ func (l *Linkpearl) FindEventBy(ctx context.Context, roomID id.RoomID, field, va
 		return nil
 	}
 
-	return l.FindEventBy(ctx, roomID, field, value, resp.End)
+	return l.FindEventBy(ctx, roomID, fieldValue, resp.End)
 }
 
 func (l *Linkpearl) eventContains(ctx context.Context, evt *event.Event, field, value string) (*event.Event, bool) {
