@@ -21,11 +21,8 @@ func New() *Config {
 			URL:  env.String("hc.url", defaultConfig.Healthchecks.URL),
 			UUID: env.String("hc.uuid"),
 		},
-		LogLevel:     env.String("loglevel", defaultConfig.LogLevel),
-		Port:         env.String("port", defaultConfig.Port),
-		KoFiToken:    env.String("kofi.token"),
-		KoFiUpstream: env.String("kofi.upstream"),
-		KoFiRoom:     env.String("kofi.room"),
+		LogLevel: env.String("loglevel", defaultConfig.LogLevel),
+		Port:     env.String("port", defaultConfig.Port),
 		Metrics: echobasicauth.Auth{
 			Login:    env.String("metrics.login"),
 			Password: env.String("metrics.password"),

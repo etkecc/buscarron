@@ -11,33 +11,38 @@ import (
 )
 
 // Client for healthchecks
+// if client initialized without any options, it will be disabled by default,
+// but you can override it by calling SetEnabled(true).
 type Client struct {
-	http    *http.Client
-	log     func(string, error)
-	baseURL string
-	uuid    string
-	rid     string
-	create  bool
-	done    chan bool
+	enabled   bool
+	http      *http.Client
+	log       func(string, error)
+	userAgent string
+	baseURL   string
+	uuid      string
+	rid       string
+	create    bool
+	done      chan bool
 }
 
 // init client
 func (c *Client) init(options ...Option) {
+	c.enabled = true
+	c.log = DefaultErrLog
+	c.baseURL = DefaultAPI
+	c.userAgent = DefaultUserAgent
+	c.http = &http.Client{Timeout: 10 * time.Second}
+	c.done = make(chan bool, 1)
+	c.uuid = ""
+
+	if len(options) == 0 {
+		c.enabled = false
+	}
+
 	for _, option := range options {
 		option(c)
 	}
-	if c.log == nil {
-		c.log = DefaultErrLog
-	}
-	if c.baseURL == "" {
-		c.baseURL = DefaultAPI
-	}
-	if c.http == nil {
-		c.http = &http.Client{Timeout: 10 * time.Second}
-	}
-	if c.done == nil {
-		c.done = make(chan bool, 1)
-	}
+
 	if c.uuid == "" {
 		randomUUID, _ := uuid.NewRandom()
 		c.uuid = randomUUID.String()
@@ -46,18 +51,32 @@ func (c *Client) init(options ...Option) {
 	}
 }
 
+// call API
 func (c *Client) call(operation, endpoint string, body ...io.Reader) {
-	var err error
-	var resp *http.Response
+	if !c.enabled {
+		return
+	}
+
 	targetURL := fmt.Sprintf("%s/%s%s?rid=%s", c.baseURL, c.uuid, endpoint, c.rid)
 	if c.create {
 		targetURL += "&create=1"
 	}
+
+	var req *http.Request
+	var err error
 	if len(body) > 0 {
-		resp, err = c.http.Post(targetURL, "text/plain; charset=utf-8", body[0])
+		req, err = http.NewRequest(http.MethodPost, targetURL, body[0])
 	} else {
-		resp, err = c.http.Head(targetURL)
+		req, err = http.NewRequest(http.MethodHead, targetURL, http.NoBody)
 	}
+	if err != nil {
+		c.log(operation, err)
+		return
+	}
+	req.Header.Set("User-Agent", c.userAgent)
+	req.Header.Set("Content-Type", "text/plain; charset=utf-8")
+
+	resp, err := c.http.Do(req)
 	if err != nil {
 		c.log(operation, err)
 		return
@@ -74,6 +93,13 @@ func (c *Client) call(operation, endpoint string, body ...io.Reader) {
 		c.log(operation+":response", rerr)
 		return
 	}
+}
+
+// SetEnabled sets the enabled flag, ignoring the options
+// if client initialized without any options, it will be disabled by default,
+// but you can override it by calling SetEnabled(true).
+func (c *Client) SetEnabled(enabled bool) {
+	c.enabled = enabled
 }
 
 // Start signal means the job started

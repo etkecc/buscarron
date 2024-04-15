@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/rs/zerolog"
 	"gitlab.com/etke.cc/buscarron/utils"
 )
 
@@ -30,78 +29,6 @@ type gpfile struct {
 	Action  string `json:"action"`
 	Line    string `json:"line,omitempty"`
 	Regex   string `json:"regex,omitempty"`
-}
-
-func MarkAsPaid(ctx context.Context, domain, baseDomain, amount string) {
-	log := zerolog.Ctx(ctx)
-	if gpURL == "" || gpUser == "" || gpPass == "" {
-		log.Warn().Msg("gp disabled")
-	}
-
-	span := utils.StartSpan(ctx, "MarkAsPaid")
-	ctx = span.Context()
-	defer span.Finish()
-
-	msgdomain := domain
-	if domain != baseDomain {
-		msgdomain += " (or " + baseDomain + ")"
-	}
-
-	req := &gpreq{
-		Message: msgdomain + " - paid",
-		Files: []*gpfile{
-			{
-				Path:    "host_vars/" + domain + "/vars.yml",
-				Action:  "replace",
-				Line:    "# etke services",
-				Regex:   "etke_subscription_confirmed: no",
-				Content: "etke_subscription_confirmed: yes",
-			},
-			{
-				Path:    "host_vars/" + domain + "/vars.yml",
-				Action:  "append",
-				Line:    "# etke services",
-				Content: "etke_subscription_first_payment: " + amount,
-			},
-		},
-	}
-	if domain != baseDomain {
-		req.Files = append(req.Files,
-			&gpfile{
-				Path:    "host_vars/" + baseDomain + "/vars.yml",
-				Action:  "replace",
-				Line:    "# etke services",
-				Regex:   "etke_subscription_confirmed: no",
-				Content: "etke_subscription_confirmed: yes",
-			},
-			&gpfile{
-				Path:    "host_vars/" + baseDomain + "/vars.yml",
-				Action:  "append",
-				Line:    "# etke services",
-				Content: "etke_subscription_first_payment: " + amount,
-			})
-	}
-	reqb, err := json.Marshal(req)
-	if err != nil {
-		log.Error().Err(err).Msg("gp request marshal failed")
-		return
-	}
-	r, err := http.NewRequestWithContext(ctx, http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
-	if err != nil {
-		log.Error().Err(err).Msg("gp request failed")
-		return
-	}
-	r.SetBasicAuth(gpUser, gpPass)
-	r.Header.Set("Content-Type", "application/json")
-	resp, err := http.DefaultClient.Do(r)
-	if err != nil {
-		log.Error().Err(err).Msg("gp request failed")
-		return
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusCreated {
-		log.Error().Str("status", resp.Status).Msg("gp request failed")
-	}
 }
 
 func (o *order) toGP(ctx context.Context, hosts string) error {

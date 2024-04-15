@@ -13,3 +13,9 @@ go hc.Auto()
 hc.Log(strings.NewReader("optional body you can attach to any action"))
 hc.Shutdown()
 ```
+
+Once a client is initialized, you could access it using the `healthchecks.Global()` from anywhere
+
+```go
+hc := healthchecks.Global()
+```

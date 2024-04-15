@@ -22,7 +22,6 @@ import (
 	"gitlab.com/etke.cc/go/psd"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
-	"maunium.net/go/mautrix/id"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
@@ -103,13 +102,11 @@ func initBot(cfg *config.Config) {
 }
 
 func initControllers(cfg *config.Config) {
-	rooms := make([]id.RoomID, 0, len(cfg.Forms))
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
 	vs := make(map[string]common.Validator, len(cfg.Forms))
 	for name, item := range cfg.Forms {
-		rooms = append(rooms, item.RoomID)
 		rls[name] = item.Ratelimit
 		frr[name] = item.RejectRedirect
 		if item.RatelimitShared {
@@ -136,16 +133,6 @@ func initControllers(cfg *config.Config) {
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb)
 	psdc := psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password)
 	etkecc.SetPSD(psdc)
-	kfcfg := &controllers.KoFiConfig{
-		VerificationToken: cfg.KoFiToken,
-		Upstream:          cfg.KoFiUpstream,
-		Sender:            mxb,
-		PaidMarker:        etkecc.MarkAsPaid,
-		PSD:               psdc,
-		Rooms:             rooms,
-		Room:              id.RoomID(cfg.KoFiRoom),
-	}
-
 	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})
 	ccfg := &controllers.Config{
 		FormHandler:   fh,
@@ -153,9 +140,9 @@ func initControllers(cfg *config.Config) {
 		BanlistSize:   cfg.Ban.Size,
 		FormRLsShared: srl,
 		FormRLs:       rls,
-		KoFiConfig:    kfcfg,
 		MetricsAuth:   cfg.Metrics,
 		Validator:     srvv,
+		PSD:           psdc,
 	}
 	e = echo.New()
 	e.Logger = lecho.From(*log)

@@ -59,49 +59,6 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 	return eventID
 }
 
-// SendByEmail sends the message into the room as thread reply by email
-func (b *Bot) SendByEmail(ctx context.Context, roomID id.RoomID, email, message string, reactions ...string) map[string]any {
-	log := zerolog.Ctx(ctx)
-	span := utils.StartSpan(ctx, "bot.SendByEmail")
-	defer span.Finish()
-
-	evt := b.FindEventBy(span.Context(), roomID, "email", email)
-	if evt == nil {
-		log.Warn().Str("roomID", roomID.String()).Msg("event by email was not found in that room")
-		return nil
-	}
-
-	content := format.RenderMarkdown(message, true, true)
-	content.MsgType = event.MsgNotice
-	content.SetRelatesTo(&event.RelatesTo{
-		Type:    event.RelThread,
-		EventID: evt.ID,
-	})
-
-	b.mu.Lock()
-	sendSpan := utils.StartSpan(span.Context(), "linkpearl.Send")
-	_, err := b.lp.Send(sendSpan.Context(), roomID, content)
-	sendSpan.Finish()
-	b.mu.Unlock()
-	if err != nil {
-		log.Warn().Err(err).Str("roomID", roomID.String()).Str("threadID", evt.ID.String()).Msg("cannot send a message by email")
-		return nil
-	}
-
-	if len(reactions) > 0 {
-		for _, reaction := range reactions {
-			reactionSpan := utils.StartSpan(span.Context(), "mautrix.SendReaction")
-			_, err = b.lp.GetClient().SendReaction(reactionSpan.Context(), roomID, evt.ID, reaction)
-			reactionSpan.Finish()
-			if err != nil {
-				log.Warn().Err(err).Str("roomID", roomID.String()).Str("eventID", evt.ID.String()).Msg("cannot send a reaction")
-			}
-		}
-	}
-
-	return evt.Content.Raw
-}
-
 // SendFile for the room
 func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
 	span := utils.StartSpan(ctx, "linkpearl.SendFile")
@@ -114,13 +71,6 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 		b.Error(span.Context(), roomID, "cannot upload file: %v", err)
 		return
 	}
-}
-
-// FindEventBy is wrapper around lp.FindEventBy
-func (b *Bot) FindEventBy(ctx context.Context, roomID id.RoomID, field, value string, fromToken ...string) *event.Event {
-	span := utils.StartSpan(ctx, "linkpearl.FindEventBy")
-	defer span.Finish()
-	return b.lp.FindEventBy(span.Context(), roomID, map[string]string{field: value}, fromToken...)
 }
 
 // Start performs matrix /sync

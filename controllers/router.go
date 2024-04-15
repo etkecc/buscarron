@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
 	echobasicauth "gitlab.com/etke.cc/go/echo-basic-auth"
+	"gitlab.com/etke.cc/go/psd"
 
 	"gitlab.com/etke.cc/buscarron/metrics"
 	"gitlab.com/etke.cc/buscarron/sub"
@@ -29,15 +30,14 @@ type Config struct {
 	FormRLsShared map[string]string
 	FormRLs       map[string]string
 	MetricsAuth   echobasicauth.Auth
-	KoFiConfig    *KoFiConfig
 	Validator     domainValidator
+	PSD           *psd.Client
 }
 
 // ConfigureRouter configures echo router
 func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	banner := NewBanner(cfg.BanlistSize, cfg.BanlistStatic)
-	validator := NewValidator(cfg.Validator, cfg.KoFiConfig.PSD)
-	kofi := NewKoFi(cfg.KoFiConfig)
+	validator := NewValidator(cfg.Validator, cfg.PSD)
 	rl := NewRateLimiter(cfg.FormRLsShared, cfg.FormRLs)
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Skipper: func(c echo.Context) bool {
@@ -68,7 +68,6 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
 	e.GET("/_domain", validator.DomainHander())
-	e.POST("/_kofi", kofi.Handler())
 	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
 		body, err := cfg.FormHandler.GET(c.Request().Context(), c.Param("name"), c.Request())
