@@ -87,11 +87,18 @@ func (e *Etkecc) Validate(ctx context.Context, v common.Validator, _ *config.For
 	}
 	domain = v.GetBase(domain)
 	targets, _ := psdc.GetWithContext(ctx, domain) //nolint:errcheck // that's ok
-	if len(targets) == 0 {
-		return nil
+	if len(targets) > 0 {
+		return fmt.Errorf("domain already exists")
 	}
 
-	return fmt.Errorf("domain already exists")
+	if _, ok := data["ssh-host"]; ok {
+		targets, _ := psdc.GetWithContext(ctx, data["ssh-host"]) //nolint:errcheck // that's ok
+		if len(targets) > 0 {
+			return fmt.Errorf("domain already exists")
+		}
+	}
+
+	return nil
 }
 
 // PrivateSuffixes returns private suffixes
