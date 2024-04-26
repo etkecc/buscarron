@@ -139,7 +139,7 @@ gitlab.com/etke.cc/go/echo-basic-auth
 # gitlab.com/etke.cc/go/env v1.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/env
-# gitlab.com/etke.cc/go/healthchecks/v2 v2.1.1
+# gitlab.com/etke.cc/go/healthchecks/v2 v2.2.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/healthchecks/v2
 # gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
@@ -157,7 +157,7 @@ gitlab.com/etke.cc/go/trysmtp
 # gitlab.com/etke.cc/go/validator/v2 v2.1.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator/v2
-# gitlab.com/etke.cc/linkpearl v0.0.0-20240411160933-e834c58b60fa
+# gitlab.com/etke.cc/linkpearl v0.0.0-20240425105001-435ae2720365
 ## explicit; go 1.21
 gitlab.com/etke.cc/linkpearl
 # go.mau.fi/util v0.4.2

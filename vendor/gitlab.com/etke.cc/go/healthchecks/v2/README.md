@@ -1,21 +1,37 @@
 # healthchecks
 
-A [healthchecks.io](https://github.com/healthchecks/healthchecks) client
+A fully async [healthchecks.io](https://github.com/healthchecks/healthchecks) golang client, with lots of features, some highlights:
 
-check the godoc for information
+* Highly configurable: `WithHTTPClient()`, `WithBaseURL()`, `WithUserAgent()`, `WithErrLog()`, `WithCheckUUID()`, `WithAutoProvision()`, etc.
+* Automatic determination of HTTP method (`POST`, `HEAD`) based on body existence
+* Auto mode: just call `client.Auto(time.Duration)` and client will send `Success()` request automatically with specified frequency
+* Global mode: init client once with `healthchecks.New()`, and access it from anywhere by calling `healthchecks.Global()`
+
+Check [godoc](https://pkg.go.dev/gitlab.com/etke.cc/go/healthchecks/v2) for more details.
 
 ```go
-hc := healthchecks.New(
-    healthchecks.WithCheckUUID("your-uuid"),
+package main
+
+import (
+    "time"
+
+    "gitlab.com/etke.cc/go/healthchecks/v2"
 )
-go hc.Auto()
 
-hc.Log(strings.NewReader("optional body you can attach to any action"))
-hc.Shutdown()
-```
+var hc *healthchecks.Client
 
-Once a client is initialized, you could access it using the `healthchecks.Global()` from anywhere
+func main() {
+    hc = healthchecks.New(
+        healthchecks.WithCheckUUID("CHECK_UUID")
+    )
+    defer hc.Shutdown()
+    // send basic success request
+    hc.Success()
 
-```go
-hc := healthchecks.Global()
+    // or use auto mode, that will send success request with the specified frequency
+    go hc.Auto(1*time.Minute)
+
+    // need to call the client from another place in your project?
+    // just call healthchecks.Global() and you will get the same client
+}
 ```

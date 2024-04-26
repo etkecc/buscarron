@@ -299,6 +299,7 @@ func (o *order) varsMSC1929() string {
 func (o *order) varsUsers() string {
 	var txt strings.Builder
 
+	o.login("matrix", o.get("username"))
 	txt.WriteString("\n# initial users\n")
 	txt.WriteString("matrix_user_creator_users_additional:\n")
 	txt.WriteString(" - username: " + o.get("username") + "\n")
@@ -311,18 +312,20 @@ func (o *order) varsUsers() string {
 	}
 
 	if o.has("gotosocial") {
+		login := o.login("gotosocial", strings.ReplaceAll(o.get("username"), ".", "_"))
 		txt.WriteString("gotosocial_users_additional:\n")
-		txt.WriteString(" - username: " + strings.ReplaceAll(o.get("username"), ".", "_") + "\n")
+		txt.WriteString(" - username: " + login + "\n")
 		txt.WriteString("   initial_email: " + o.get("email") + "\n")
 		txt.WriteString("   initial_password: " + o.password("gotosocial") + "\n")
 		txt.WriteString("   initial_type: admin\n")
 	}
 
 	if o.has("funkwhale") {
-		txt.WriteString("funwhale_users_additional:\n")
-		txt.WriteString(" - username: " + strings.ReplaceAll(o.get("username"), ".", "_") + "\n")
+		login := o.login("funkwhale", strings.ReplaceAll(o.get("username"), ".", "_"))
+		txt.WriteString("funkwhale_users_additional:\n")
+		txt.WriteString(" - username: " + login + "\n")
 		txt.WriteString("   initial_email: " + o.get("email") + "\n")
-		txt.WriteString("   initial_password: " + o.password("funwhale") + "\n")
+		txt.WriteString("   initial_password: " + o.password("funkwhale") + "\n")
 		txt.WriteString("   initial_type: admin\n")
 	}
 
@@ -541,6 +544,7 @@ func (o *order) varsEtherpad() string {
 	}
 	var txt strings.Builder
 
+	o.login("etherpad admin", o.get("username"))
 	txt.WriteString("\n# etherpad\n")
 	txt.WriteString("etherpad_enabled: yes\n")
 	txt.WriteString("etherpad_hostname: etherpad." + o.domain + "\n")
@@ -556,6 +560,7 @@ func (o *order) varsFirezone() string {
 	}
 	var txt strings.Builder
 
+	o.login("firezone", o.get("email"))
 	txt.WriteString("\n# firezone\n")
 	txt.WriteString("firezone_enabled: yes\n")
 	txt.WriteString("firezone_hostname: firezone." + o.domain + "\n")
@@ -668,6 +673,7 @@ func (o *order) varsLinkding() string {
 	}
 	var txt strings.Builder
 
+	o.login("linkding", o.get("username"))
 	txt.WriteString("\n# linkding https://linkding." + o.domain + "\n")
 	txt.WriteString("linkding_enabled: yes\n")
 	txt.WriteString("linkding_hostname: linkding." + o.domain + "\n")
@@ -683,6 +689,7 @@ func (o *order) varsMiniflux() string {
 	}
 	var txt strings.Builder
 
+	o.login("miniflux", o.get("username"))
 	txt.WriteString("\n# miniflux https://miniflux." + o.domain + "\n")
 	txt.WriteString("miniflux_enabled: yes\n")
 	txt.WriteString("miniflux_hostname: miniflux." + o.domain + "\n")
@@ -698,6 +705,7 @@ func (o *order) varsPeertube() string {
 	}
 	var txt strings.Builder
 
+	o.login("peertube", "root")
 	txt.WriteString("\n# peertube\n")
 	txt.WriteString("peertube_enabled: yes\n")
 	txt.WriteString("peertube_hostname: peertube." + o.domain + "\n")
@@ -750,6 +758,7 @@ func (o *order) varsStats() string {
 	}
 	var txt strings.Builder
 
+	o.login("grafana", o.get("username"))
 	txt.WriteString("\n# stats https://stats." + o.domain + "\n")
 	txt.WriteString("grafana_enabled: yes\n")
 	txt.WriteString("prometheus_enabled: yes\n")
@@ -768,10 +777,11 @@ func (o *order) varsVaultwarden() string {
 		return ""
 	}
 	var txt strings.Builder
+	o.login("vaultwarden admin", "_create yourself_")
 	txt.WriteString("\n# vaultwarden https://vault." + o.domain + "\n")
 	txt.WriteString("vaultwarden_enabled: yes\n")
 	txt.WriteString("vaultwarden_hostname: vault." + o.domain + "\n")
-	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin token /") + "\n")
+	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin") + "\n")
 
 	return txt.String()
 }

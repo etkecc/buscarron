@@ -153,47 +153,49 @@ func (o *order) generateOnboardingBridges() string {
 func (o *order) generateOnboardingCredentials() string {
 	var txt strings.Builder
 
-	// hacky way to simplify next loop
-	mxpass := o.pass["matrix"]
-	borgpass := o.pass["borg"]
-	delete(o.pass, "matrix")
-	delete(o.pass, "chatgpt")
-	delete(o.pass, "borg")
-	delete(o.pass, "smtp")
+	// hacky way to print friendly names
+	passwords := make(map[string]string)
+	for service, password := range o.pass {
+		passwords[service] = password
+	}
+	mxpass := passwords["matrix"]
+	delete(o.logins, "matrix")
+	delete(passwords, "matrix")
+	delete(passwords, "chatgpt")
+	delete(passwords, "borg")
+	delete(passwords, "smtp")
 
-	txt.WriteString("**Credentials**\n\n")
+	txt.WriteString("**Matrix Credentials**\n\n")
 	txt.WriteString("* Matrix ID: " + matrixLink("@"+o.get("username")+":"+o.domain) + "\n")
 	txt.WriteString("* Username: " + o.get("username") + "\n")
-	if o.has("gotosocial") {
-		gtsLogin := strings.ReplaceAll(o.get("username"), ".", "_")
-		if gtsLogin != o.get("username") {
-			txt.WriteString("* GoToSocial username: " + gtsLogin + "\n")
-		}
+	txt.WriteString("* Password: " + mxpass + "\n\n")
+
+	serviceCreds := make([]string, 0, len(o.logins))
+	for service := range o.logins {
+		serviceCreds = append(serviceCreds, service)
 	}
-	if o.has("funkwhale") {
-		gtsLogin := strings.ReplaceAll(o.get("username"), ".", "_")
-		if gtsLogin != o.get("username") {
-			txt.WriteString("* Funkwhale username: " + gtsLogin + "\n")
-		}
+	sort.Strings(serviceCreds)
+
+	for _, service := range serviceCreds {
+		txt.WriteString("**" + o.c.String(service) + " Credentials**\n\n")
+		txt.WriteString("* Username: " + o.login(service) + "\n")
+		txt.WriteString("* Password: " + passwords[service] + "\n\n")
+		delete(passwords, service)
 	}
-	if o.has("peertube") {
-		txt.WriteString("* Peertube username: root\n")
+
+	passwordsLeft := []string{}
+	for item := range passwords {
+		passwordsLeft = append(passwordsLeft, item)
 	}
-	txt.WriteString("* Matrix password: " + mxpass + "\n")
-	items := []string{}
-	for item := range o.pass {
-		items = append(items, item)
+	sort.Strings(passwordsLeft)
+	for _, name := range passwordsLeft {
+		txt.WriteString("**" + o.c.String(name) + " Credentials**\n\n")
+		txt.WriteString("* Username: " + o.get("username") + "\n")
+		txt.WriteString("* Password: " + passwords[name] + "\n\n")
 	}
-	sort.Strings(items)
-	for _, name := range items {
-		txt.WriteString("* " + o.c.String(name) + " password: " + o.pass[name] + "\n")
-	}
-	txt.WriteString("\n")
+
 	txt.WriteString("Should you encounter any issues or require assistance, please don't hesitate to check out " + link("etke.cc/help") + ".")
 	txt.WriteString("We're committed to providing you with the support you need.\n\n")
-
-	o.pass["matrix"] = mxpass
-	o.pass["borg"] = borgpass
 	return txt.String()
 }
 
@@ -273,6 +275,8 @@ func (o *order) generateOnboardingAfterMigadu() string {
 
 func (o *order) generateOnboardingOutro() string {
 	var txt strings.Builder
+
+	txt.WriteString("You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we regularly post updates and modifications **pertaining to your server** every week. Please, remain in this room and stay vigilant - each weekly message will include crucial information that we highly recommend you stay informed about. Alternatively, you can also access updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).\n\n")
 
 	txt.WriteString("Happy Matrixing!\n\n")
 

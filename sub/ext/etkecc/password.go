@@ -64,3 +64,15 @@ func (o *order) password(name string) string {
 	o.pass[name] = pass
 	return pass
 }
+
+// login saves login credentials to internal map to export that password in multiple places (eg vars and onboarding)
+func (o *order) login(name string, value ...string) string {
+	if len(value) > 0 {
+		o.logins[name] = value[0]
+		return value[0]
+	}
+	if v, ok := o.logins[name]; ok {
+		return v
+	}
+	return o.get("username")
+}

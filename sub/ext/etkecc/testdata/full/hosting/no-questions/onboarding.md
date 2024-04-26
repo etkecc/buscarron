@@ -60,23 +60,56 @@ Here's all the essential information you need for a smooth onboarding experience
 * Whatsapp: [@whatsappbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@whatsappbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-whatsapp))
 
 
-**Credentials**
+**Matrix Credentials**
 
 * Matrix ID: [@test.admin:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@test.admin:higenjitsuteki.onmatrix.chat)
 * Username: test.admin
-* GoToSocial username: test_admin
-* Funkwhale username: test_admin
-* Peertube username: root
-* Matrix password: TODO64
-* Etherpad Admin password: TODO64
-* Firezone password: TODO64
-* Funwhale password: TODO64
-* Gotosocial password: TODO64
-* Grafana password: TODO64
-* Linkding password: TODO64
-* Miniflux password: TODO64
-* Peertube password: TODO64
-* Vaultwarden Admin Token / password: TODO64
+* Password: TODO64
+
+**Etherpad Admin Credentials**
+
+* Username: test.admin
+* Password: TODO64
+
+**Firezone Credentials**
+
+* Username: test@test.com
+* Password: TODO64
+
+**Funkwhale Credentials**
+
+* Username: test_admin
+* Password: TODO64
+
+**Gotosocial Credentials**
+
+* Username: test_admin
+* Password: TODO64
+
+**Grafana Credentials**
+
+* Username: test.admin
+* Password: TODO64
+
+**Linkding Credentials**
+
+* Username: test.admin
+* Password: TODO64
+
+**Miniflux Credentials**
+
+* Username: test.admin
+* Password: TODO64
+
+**Peertube Credentials**
+
+* Username: root
+* Password: TODO64
+
+**Vaultwarden Admin Credentials**
+
+* Username: _create yourself_
+* Password: TODO64
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.
 
@@ -108,6 +141,8 @@ ssh-todo TODO
 4. Click on **DNS Configuration** and then on **Setup Instructions**
 5. Follow the instructions and configure the DNS records for your domain
 6. Once that's done, click on **Diagnostics** and check if everything is configured correctly
+
+You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we regularly post updates and modifications **pertaining to your server** every week. Please, remain in this room and stay vigilant - each weekly message will include crucial information that we highly recommend you stay informed about. Alternatively, you can also access updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).
 
 Happy Matrixing!
 

@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -14,6 +15,7 @@ import (
 // if client initialized without any options, it will be disabled by default,
 // but you can override it by calling SetEnabled(true).
 type Client struct {
+	wg        sync.WaitGroup
 	enabled   bool
 	http      *http.Client
 	log       func(string, error)
@@ -56,6 +58,9 @@ func (c *Client) call(operation, endpoint string, body ...io.Reader) {
 	if !c.enabled {
 		return
 	}
+
+	c.wg.Add(1)
+	defer c.wg.Done()
 
 	targetURL := fmt.Sprintf("%s/%s%s?rid=%s", c.baseURL, c.uuid, endpoint, c.rid)
 	if c.create {
@@ -104,25 +109,31 @@ func (c *Client) SetEnabled(enabled bool) {
 
 // Start signal means the job started
 func (c *Client) Start(optionalBody ...io.Reader) {
-	c.call("start", "/start", optionalBody...)
+	go c.call("start", "/start", optionalBody...)
 }
 
 // Success signal means the job has completed successfully (or, a continuously running process is still running and healthy).
 func (c *Client) Success(optionalBody ...io.Reader) {
-	c.call("success", "", optionalBody...)
+	go c.call("success", "", optionalBody...)
 }
 
 // Fail signal means the job failed
 func (c *Client) Fail(optionalBody ...io.Reader) {
-	c.call("fail", "/fail", optionalBody...)
+	go c.call("fail", "/fail", optionalBody...)
 }
 
 // Log signal just adds an event to the job log, without changing job status
 func (c *Client) Log(optionalBody ...io.Reader) {
-	c.call("log", "/log", optionalBody...)
+	go c.call("log", "/log", optionalBody...)
 }
 
 // ExitStatus signal sends job's exit code (0-255)
 func (c *Client) ExitStatus(exitCode int, optionalBody ...io.Reader) {
-	c.call("exit status", "/"+strconv.Itoa(exitCode), optionalBody...)
+	go c.call("exit status", "/"+strconv.Itoa(exitCode), optionalBody...)
+}
+
+// Shutdown the client
+func (c *Client) Shutdown() {
+	c.done <- true
+	c.wg.Wait()
 }

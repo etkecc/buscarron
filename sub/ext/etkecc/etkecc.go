@@ -70,6 +70,7 @@ func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.F
 		pd:        p,
 		pm:        e.pm,
 		pass:      map[string]string{},
+		logins:    map[string]string{},
 		files:     make([]*mautrix.ReqUploadMedia, 0, 3),
 	}
 

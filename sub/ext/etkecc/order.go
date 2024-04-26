@@ -33,9 +33,10 @@ type order struct {
 	dkim      map[string]string
 	price     int
 
-	txt   strings.Builder
-	pass  map[string]string
-	files []*mautrix.ReqUploadMedia
+	txt    strings.Builder
+	logins map[string]string
+	pass   map[string]string
+	files  []*mautrix.ReqUploadMedia
 }
 
 var preprocessFields = []string{"email", "domain", "username"}

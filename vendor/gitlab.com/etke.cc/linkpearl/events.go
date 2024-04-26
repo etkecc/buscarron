@@ -15,6 +15,12 @@ type RespThreads struct {
 	NextBatch string         `json:"next_batch"`
 }
 
+// RespRelations is response of https://spec.matrix.org/v1.8/client-server-api/#get_matrixclientv1roomsroomidrelationseventidreltype
+type RespRelations struct {
+	Chunk     []*event.Event `json:"chunk"`
+	NextBatch string         `json:"next_batch"`
+}
+
 // Threads endpoint, ref: https://spec.matrix.org/v1.8/client-server-api/#get_matrixclientv1roomsroomidthreads
 func (l *Linkpearl) Threads(ctx context.Context, roomID id.RoomID, fromToken ...string) (*RespThreads, error) {
 	var from string
@@ -29,6 +35,24 @@ func (l *Linkpearl) Threads(ctx context.Context, roomID id.RoomID, fromToken ...
 
 	var resp *RespThreads
 	urlPath := l.GetClient().BuildURLWithQuery(mautrix.ClientURLPath{"v1", "rooms", roomID, "threads"}, query)
+	_, err := l.GetClient().MakeRequest(ctx, "GET", urlPath, nil, &resp)
+	return resp, UnwrapError(err)
+}
+
+// Relations returns all relations of the given type for the given event
+func (l *Linkpearl) Relations(ctx context.Context, roomID id.RoomID, eventID id.EventID, relType string, fromToken ...string) (*RespRelations, error) {
+	var from string
+	if len(fromToken) > 0 {
+		from = fromToken[0]
+	}
+
+	query := map[string]string{
+		"from":  from,
+		"limit": "100",
+	}
+
+	var resp *RespRelations
+	urlPath := l.GetClient().BuildURLWithQuery(mautrix.ClientURLPath{"v1", "rooms", roomID, "relations", eventID, relType}, query)
 	_, err := l.GetClient().MakeRequest(ctx, "GET", urlPath, nil, &resp)
 	return resp, UnwrapError(err)
 }
