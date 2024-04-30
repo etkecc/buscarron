@@ -15,13 +15,13 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
 	"github.com/ziflex/lecho/v3"
 	"gitlab.com/etke.cc/go/healthchecks/v2"
 	"gitlab.com/etke.cc/go/psd"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
+	_ "modernc.org/sqlite"
 
 	"gitlab.com/etke.cc/buscarron/bot"
 	"gitlab.com/etke.cc/buscarron/config"
@@ -81,6 +81,9 @@ func main() {
 }
 
 func initBot(cfg *config.Config) {
+	if cfg.DB.Dialect == "sqlite3" {
+		cfg.DB.Dialect = "sqlite"
+	}
 	db, err := sql.Open(cfg.DB.Dialect, cfg.DB.DSN)
 	if err != nil {
 		log.Panic().Err(err).Msg("cannot initialize SQL database")

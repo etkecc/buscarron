@@ -12,7 +12,6 @@ default:
 # update go deps
 update *flags:
     go get {{ flags }} ./cmd
-    go get gitlab.com/etke.cc/linkpearl@latest
     go mod tidy
     go mod vendor
 
@@ -26,8 +25,7 @@ lintfix:
 
 # generate mocks
 mocks:
-    @rm -rf mocks
-    @mockery --all --exclude vendor
+    @mockery --all --inpackage --testonly --exclude vendor
 
 # run cpu or mem profiler UI
 profile type:
@@ -45,7 +43,7 @@ run:
 
 # build app
 build:
-    go build -v -o {{ project }} ./cmd
+    CGO_ENABLED=0 go build -ldflags '-extldflags "-static"' -tags timetzdata,goolm -v -o {{ project }} ./cmd
 
 # docker login
 login:
