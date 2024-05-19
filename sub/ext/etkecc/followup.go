@@ -85,11 +85,12 @@ func (o *order) sendFollowup(ctx context.Context) {
 	}
 
 	req := &postmark.Email{
-		To:       o.get("email"),
-		Tag:      "confirmation",
-		Subject:  "Your Matrix Server Order Update (" + o.domain + ") 🚀",
-		TextBody: o.followup.Body,
-		HTMLBody: o.followup.FormattedBody,
+		To:            o.get("email"),
+		Tag:           "confirmation",
+		Subject:       "Your Matrix Server Order Update (" + o.domain + ") 🚀",
+		MessageStream: "followups",
+		TextBody:      o.followup.Body,
+		HTMLBody:      o.followup.FormattedBody,
 	}
 	o.pm.Send(ctx, req) //nolint:errcheck // no need to wait
 }
