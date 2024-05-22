@@ -68,14 +68,12 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsFacebook())
 	txt.WriteString(o.varsGmessages())
 	txt.WriteString(o.varsGooglechat())
-	txt.WriteString(o.varsGroupme())
 	txt.WriteString(o.varsHeisenbridge())
 	txt.WriteString(o.varsInstagram())
 	txt.WriteString(o.varsLinkedin())
 	txt.WriteString(o.varsSignal())
 	txt.WriteString(o.varsSkype())
 	txt.WriteString(o.varsSlack())
-	txt.WriteString(o.varsSteam())
 	txt.WriteString(o.varsTelegram())
 	txt.WriteString(o.varsTwitter())
 	txt.WriteString(o.varsWebhooks())
@@ -867,17 +865,6 @@ func (o *order) varsEmail() string {
 	return txt.String()
 }
 
-func (o *order) varsGroupme() string {
-	if !o.has("groupme") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::groupme\n")
-	txt.WriteString("matrix_mx_puppet_groupme_enabled: yes\n")
-
-	return txt.String()
-}
-
 func (o *order) varsSlack() string {
 	if !o.has("slack") {
 		return ""
@@ -885,17 +872,6 @@ func (o *order) varsSlack() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::slack\n")
 	txt.WriteString("matrix_mautrix_slack_enabled: yes\n")
-
-	return txt.String()
-}
-
-func (o *order) varsSteam() string {
-	if !o.has("steam") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::steam\n")
-	txt.WriteString("matrix_mx_puppet_steam_enabled: yes\n")
 
 	return txt.String()
 }

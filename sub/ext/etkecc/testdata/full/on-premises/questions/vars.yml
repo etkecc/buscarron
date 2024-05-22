@@ -261,9 +261,6 @@ matrix_mautrix_gmessages_enabled: yes
 # bridges::googlechat
 matrix_mautrix_googlechat_enabled: yes
 
-# bridges::groupme
-matrix_mx_puppet_groupme_enabled: yes
-
 # bridges::irc (heisenbridge)
 matrix_heisenbridge_enabled: yes
 matrix_heisenbridge_identd_enabled: yes
@@ -283,9 +280,6 @@ matrix_go_skype_bridge_enabled: yes
 
 # bridges::slack
 matrix_mautrix_slack_enabled: yes
-
-# bridges::steam
-matrix_mx_puppet_steam_enabled: yes
 
 # bridges::telegram
 matrix_mautrix_telegram_enabled: yes
