@@ -334,5 +334,8 @@ matrix_mautrix_twitter_enabled: yes
 # bridges::hookshot
 matrix_hookshot_enabled: yes
 
+# bridges::wechat
+matrix_wechat_enabled: yes
+
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes

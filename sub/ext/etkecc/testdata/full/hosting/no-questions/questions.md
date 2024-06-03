@@ -1,4 +1,4 @@
-price: $98
+price: $99
 
 hosts:
 ```

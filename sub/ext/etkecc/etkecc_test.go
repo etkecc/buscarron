@@ -122,6 +122,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"uptime-kuma":         "on",
 			"vaultwarden":         "on",
 			"webhooks":            "on",
+			"wechat":              "on",
 			"whatsapp":            "on",
 		},
 		"full/no-questions": {
@@ -177,6 +178,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"uptime-kuma":         "on",
 			"vaultwarden":         "on",
 			"webhooks":            "on",
+			"wechat":              "on",
 			"whatsapp":            "on",
 			// components
 			"borg-repository":             "borg-repo",

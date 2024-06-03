@@ -77,6 +77,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsTelegram())
 	txt.WriteString(o.varsTwitter())
 	txt.WriteString(o.varsWebhooks())
+	txt.WriteString(o.varsWechat())
 	txt.WriteString(o.varsWhatsapp())
 
 	text := txt.String()
@@ -998,6 +999,17 @@ func (o *order) varsWebhooks() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::hookshot\n")
 	txt.WriteString("matrix_hookshot_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsWechat() string {
+	if !o.has("wechat") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::wechat\n")
+	txt.WriteString("matrix_wechat_enabled: yes\n")
 
 	return txt.String()
 }

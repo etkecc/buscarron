@@ -51,6 +51,7 @@ var bridgemap = map[string]string{
 	"telegram":   "@telegrambot",
 	"twitter":    "@twitterbot",
 	"webhooks":   "@hookshot",
+	"wechat":     "@wechatbot",
 	"whatsapp":   "@whatsappbot",
 }
 
@@ -92,6 +93,7 @@ var helpmap = map[string]string{
 	"uptime-kuma":  "etke.cc/help/extras/uptime-kuma",
 	"vaultwarden":  "etke.cc/help/extras/vaultwarden",
 	"webhooks":     "etke.cc/help/bridges/hookshot",
+	"wechat":       "etke.cc/help/bridges/wechat",
 	"whatsapp":     "etke.cc/help/bridges/mautrix-whatsapp",
 }
 
