@@ -51,7 +51,7 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 
 	if o.hosting == "" {
 		txt.WriteString("\n\n")
-		txt.WriteString("Please, ensure [all mandatory ports are open](https://etke.cc/help/faq#what-ports-should-be-open).")
+		txt.WriteString("Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls).")
 
 		if dns != "" {
 			txt.WriteString("\n\n")

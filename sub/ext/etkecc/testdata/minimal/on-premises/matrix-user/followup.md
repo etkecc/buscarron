@@ -12,7 +12,7 @@ No need for additional details at this moment; we'll keep it simple:
 
 Once your payment is confirmed, we'll promptly initiate the setup of your Matrix server. Look forward to a new email that will guide you through the onboarding process with all the necessary details.
 
-Please, ensure [all mandatory ports are open](https://etke.cc/help/faq#what-ports-should-be-open).
+Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls).
 
 Please, add the following DNS entries:
 
