@@ -169,6 +169,12 @@ funkwhale_aws_location: music
 # gotosocial https://social.example.com
 gotosocial_enabled: yes
 gotosocial_hostname: social.example.com
+gotosocial_environment_variables_extension: |
+  GOTOSOCIAL_STORAGE_BACKEND=s3
+  GOTOSOCIAL_STORAGE_S3_ENDPOINT=s3.example.com
+  GOTOSOCIAL_STORAGE_S3_BUCKET=mybucket
+  GOTOSOCIAL_STORAGE_S3_ACCESS_KEY=some-key
+  GOTOSOCIAL_STORAGE_S3_SECRET_KEY=some-secret
 
 # hydrogen https://hydrogen.example.com
 matrix_client_hydrogen_enabled: yes
@@ -210,7 +216,7 @@ peertube_config_admin_email: test@test.com
 peertube_config_root_user_initial_password: TODO64
 peertube_config_object_storage_enabled: yes
 peertube_config_object_storage_region: us-east-1
-peertube_config_object_storage_endpoint: https://s3.example.com
+peertube_config_object_storage_endpoint: s3.example.com
 peertube_config_object_storage_credentials_access_key_id: some-key
 peertube_config_object_storage_credentials_secret_access_key: some-secret
 peertube_config_object_storage_streaming_playlists_bucket_name: mybucket

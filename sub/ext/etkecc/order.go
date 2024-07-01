@@ -2,6 +2,7 @@ package etkecc
 
 import (
 	"context"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -153,6 +154,7 @@ func (o *order) preprocess(ctx context.Context) {
 	}
 	o.preprocessSMTP()
 	o.preprocessPrice()
+	o.preprocessS3()
 
 	o.password("matrix")
 }
@@ -177,6 +179,33 @@ func (o *order) preprocessSMTP() {
 	dkim := map[string]string{}
 	dkim["record"], dkim["private"] = o.dkimgen()
 	o.dkim = dkim
+}
+
+func (o *order) preprocessS3() {
+	// synapse needs https://host.url
+	if o.has("synapse-s3-endpoint") {
+		endpointURL, err := url.Parse(o.get("synapse-s3-endpoint"))
+		if err == nil {
+			endpointURL.Scheme = "https"
+			o.data["synapse-s3-endpoint"] = endpointURL.String()
+		}
+	}
+
+	// peertube and gotosocial need host.url
+	if o.has("peertube-s3-endpoint") {
+		endpointURL, err := url.Parse(o.get("peertube-s3-endpoint"))
+		if err == nil {
+			endpointURL.Scheme = ""
+			o.data["peertube-s3-endpoint"] = strings.TrimPrefix(endpointURL.String(), "//")
+		}
+	}
+	if o.has("gotosocial-s3-endpoint") {
+		endpointURL, err := url.Parse(o.get("gotosocial-s3-endpoint"))
+		if err == nil {
+			endpointURL.Scheme = ""
+			o.data["gotosocial-s3-endpoint"] = strings.TrimPrefix(endpointURL.String(), "//")
+		}
+	}
 }
 
 func (o *order) preprocessPrice() {

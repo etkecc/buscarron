@@ -5,9 +5,9 @@ go 1.21.0
 toolchain go1.21.4
 
 require (
-	github.com/VictoriaMetrics/metrics v1.33.1
+	github.com/VictoriaMetrics/metrics v1.34.0
 	github.com/archdx/zerolog-sentry v1.8.3
-	github.com/getsentry/sentry-go v0.28.0
+	github.com/getsentry/sentry-go v0.28.1
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lib/pq v1.10.9
@@ -15,20 +15,20 @@ require (
 	github.com/microcosm-cc/bluemonday v1.0.26
 	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.9.0
-	github.com/ziflex/lecho/v3 v3.6.0
+	github.com/ziflex/lecho/v3 v3.7.0
 	gitlab.com/etke.cc/go/echo-basic-auth v1.1.0
-	gitlab.com/etke.cc/go/env v1.1.0
+	gitlab.com/etke.cc/go/env v1.2.0
 	gitlab.com/etke.cc/go/healthchecks/v2 v2.2.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
 	gitlab.com/etke.cc/go/psd v1.1.2
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240425105001-435ae2720365
-	golang.org/x/net v0.25.0
-	golang.org/x/text v0.15.0
+	golang.org/x/net v0.26.0
+	golang.org/x/text v0.16.0
 	golang.org/x/time v0.5.0
 	maunium.net/go/mautrix v0.18.1
-	modernc.org/sqlite v1.30.0
+	modernc.org/sqlite v1.30.1
 )
 
 require (
@@ -58,16 +58,16 @@ require (
 	github.com/valyala/fastrand v1.1.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
-	github.com/yuin/goldmark v1.7.1 // indirect
+	github.com/yuin/goldmark v1.7.4 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
-	go.mau.fi/util v0.4.2 // indirect
-	golang.org/x/crypto v0.23.0 // indirect
-	golang.org/x/exp v0.0.0-20240531132922-fd00a4e0eefc // indirect
-	golang.org/x/sys v0.20.0 // indirect
+	go.mau.fi/util v0.5.0 // indirect
+	golang.org/x/crypto v0.24.0 // indirect
+	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
+	golang.org/x/sys v0.21.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20240304020402-f0dba7c97c2b // indirect
-	modernc.org/libc v1.51.0 // indirect
+	modernc.org/libc v1.54.0 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/strutil v1.2.0 // indirect
