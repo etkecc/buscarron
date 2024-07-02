@@ -56,6 +56,8 @@ Please, add the following DNS entries:
 * _dmarc    TXT record    v=DMARC1; p=quarantine;
 * _autodiscover._tcp    SRV record    0 1 443 autodiscover.migadu.com
 
+To check the status of your order and stay updated, please keep an eye on your [Order Status Page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947).
+
 Got any questions? Feel free to reply to this email - we're here to assist you!
 
 We're genuinely excited to serve you and provide a top-notch Matrix server experience.

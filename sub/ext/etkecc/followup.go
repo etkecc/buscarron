@@ -2,6 +2,8 @@ package etkecc
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"reflect"
 	"strings"
@@ -28,6 +30,8 @@ We're thrilled to share that your Matrix server order is confirmed! 🎉
 
 Once your payment is confirmed, we'll promptly initiate the setup of your Matrix server. Look forward to a new email that will guide you through the onboarding process with all the necessary details.`
 	followupFooter = `
+To check the status of your order and stay updated, please keep an eye on your [Order Status Page](%s).
+
 Got any questions? Feel free to reply to this email - we're here to assist you!
 
 We're genuinely excited to serve you and provide a top-notch Matrix server experience.
@@ -64,7 +68,10 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 		txt.WriteString(delegation)
 	}
 
-	txt.WriteString(followupFooter)
+	h := sha256.New()
+	h.Write([]byte(o.domain))
+	id := hex.EncodeToString(h.Sum(nil))
+	txt.WriteString(fmt.Sprintf(followupFooter, "https://etke.cc/order/status/#"+id))
 
 	content := format.RenderMarkdown(txt.String(), true, true)
 	o.followup = &content
