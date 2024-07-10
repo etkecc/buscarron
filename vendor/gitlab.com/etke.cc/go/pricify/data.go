@@ -1,6 +1,7 @@
 package pricify
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -19,24 +20,36 @@ type Data struct {
 
 // Item is specific item parsed from the source
 type Item struct {
-	ID           string
-	InventoryID  string
-	Value        string
-	Section      string
-	Price        int
-	SectionPrice int
+	ID                 string
+	InventoryID        string
+	Name               string
+	Description        string
+	Help               string
+	Value              string
+	Price              int
+	SectionID          string
+	SectionName        string
+	SectionDescription string
+	SectionHelp        string
+	SectionPrice       int
 }
 
 // fromSourceItem converts source items into the []*Item and adds them to the Data
-func (d *Data) fromSourceItem(sItems []sourceItem, section string, sectionPrice int) {
+func (d *Data) fromSourceItem(sItems []sourceItem, sectionID, sectionName, sectionDescription, sectionHelp string, sectionPrice int) {
 	for _, sItem := range sItems {
 		item := &Item{
-			ID:           sItem.ID,
-			InventoryID:  sItem.InventoryID,
-			Value:        "yes",
-			Price:        sItem.Price,
-			Section:      section,
-			SectionPrice: sectionPrice,
+			ID:                 sItem.ID,
+			InventoryID:        sItem.InventoryID,
+			Name:               sItem.Name,
+			Description:        sItem.Description,
+			Help:               sItem.Help,
+			Value:              "yes",
+			Price:              sItem.Price,
+			SectionID:          sectionID,
+			SectionName:        sectionName,
+			SectionDescription: sectionDescription,
+			SectionHelp:        sectionHelp,
+			SectionPrice:       sectionPrice,
 		}
 		d.items = append(d.items, item)
 		d.idmap[item.ID] = item
@@ -45,14 +58,17 @@ func (d *Data) fromSourceItem(sItems []sourceItem, section string, sectionPrice 
 }
 
 // fromSourceSection coverts source sections into the []*Item and adds them to the Data
-func (d *Data) fromSourceSection(ssItem sourceSectionItem, section string, sectionPrice int) {
+func (d *Data) fromSourceSection(ssItem sourceSectionItem, sectionID string, sectionPrice int) {
 	for _, sItem := range ssItem.Options {
 		item := &Item{
 			ID:           ssItem.ID,
 			InventoryID:  ssItem.InventoryID,
 			Value:        sItem.ID,
 			Price:        sItem.Price,
-			Section:      section,
+			Name:         fmt.Sprintf("%s (%s)", ssItem.Name, sItem.Name),
+			Description:  ssItem.Description,
+			Help:         ssItem.Help,
+			SectionID:    sectionID,
 			SectionPrice: sectionPrice,
 		}
 		d.items = append(d.items, item)
@@ -122,6 +138,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 		// smtp relay should be free if email service is selected
 		if item.InventoryID == "exim_relay_relay_use" && withEmail {
 			freeRelay := *item
+			freeRelay.Name = freeRelay.Name + " (free with email service)"
 			freeRelay.Price = 0
 			freeRelay.SectionPrice = 0
 
@@ -129,12 +146,15 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 			value = "with email service"
 		}
 
-		if item.SectionPrice > 0 && !sectionPriceAdded[item.Section] {
+		if item.SectionPrice > 0 && !sectionPriceAdded[item.SectionID] {
 			total += item.SectionPrice
-			sectionPriceAdded[item.Section] = true
-			verbose[item.Section] = &Item{
-				ID:          "section-" + item.Section,
-				InventoryID: "section_" + item.Section,
+			sectionPriceAdded[item.SectionID] = true
+			verbose[item.SectionID] = &Item{
+				ID:          "section-" + item.SectionID,
+				InventoryID: "section_" + item.SectionID,
+				Name:        item.SectionName,
+				Description: item.SectionDescription,
+				Help:        item.SectionHelp,
 				Price:       item.SectionPrice,
 			}
 			continue

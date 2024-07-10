@@ -12,19 +12,19 @@ require (
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lib/pq v1.10.9
 	github.com/mattevans/postmark-go v1.0.0
-	github.com/microcosm-cc/bluemonday v1.0.26
+	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.33.0
 	github.com/stretchr/testify v1.9.0
 	github.com/ziflex/lecho/v3 v3.7.0
 	gitlab.com/etke.cc/go/echo-basic-auth v1.1.0
 	gitlab.com/etke.cc/go/env v1.2.0
 	gitlab.com/etke.cc/go/healthchecks/v2 v2.2.0
-	gitlab.com/etke.cc/go/pricify v0.0.0-20240328084628-f6aa337bf012
+	gitlab.com/etke.cc/go/pricify v0.0.0-20240709101247-74e2796c2d3d
 	gitlab.com/etke.cc/go/psd v1.1.2
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240425105001-435ae2720365
-	golang.org/x/net v0.26.0
+	golang.org/x/net v0.27.0
 	golang.org/x/text v0.16.0
 	golang.org/x/time v0.5.0
 	maunium.net/go/mautrix v0.18.1
@@ -61,13 +61,13 @@ require (
 	github.com/yuin/goldmark v1.7.4 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
 	go.mau.fi/util v0.5.0 // indirect
-	golang.org/x/crypto v0.24.0 // indirect
-	golang.org/x/exp v0.0.0-20240613232115-7f521ea00fb8 // indirect
-	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/crypto v0.25.0 // indirect
+	golang.org/x/exp v0.0.0-20240707233637-46b078467d37 // indirect
+	golang.org/x/sys v0.22.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20240304020402-f0dba7c97c2b // indirect
-	modernc.org/libc v1.54.1 // indirect
+	modernc.org/libc v1.54.3 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/strutil v1.2.0 // indirect
