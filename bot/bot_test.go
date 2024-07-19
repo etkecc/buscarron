@@ -120,11 +120,7 @@ func (s *BotSuite) TestStart() {
 func (s *BotSuite) TestStart_Error() {
 	s.lp.On("Start", ctxMatcher).Return(errors.New("test")).Once()
 
-	fn := func() {
-		s.bot.Start()
-	}
-
-	s.Panics(fn)
+	s.Error(s.bot.Start())
 }
 
 func (s *BotSuite) TestStop() {

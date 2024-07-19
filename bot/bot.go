@@ -3,6 +3,7 @@ package bot
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"sync"
 
 	"github.com/rs/zerolog"
@@ -26,11 +27,24 @@ func New(lp Linkpearl) *Bot {
 	}
 }
 
+// Enabled returns true if the bot is enabled
+func (b *Bot) Enabled() bool {
+	if b.lp == nil {
+		return false
+	}
+	if reflect.ValueOf(b.lp).Kind() == reflect.Ptr && reflect.ValueOf(b.lp).IsNil() {
+		return false
+	}
+	return true
+}
+
 // Error message to the log and matrix room
 func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args ...any) {
-	zerolog.Ctx(ctx).Error().Msgf(message, args...)
+	log := zerolog.Ctx(ctx)
+	log.Error().Msgf(message, args...)
 
-	if b.lp == nil {
+	if !b.Enabled() {
+		log.Warn().Msg("bot is disabled, cannot send error message to the room")
 		return
 	}
 	b.Send(ctx, roomID, "ERROR: "+fmt.Sprintf(message, args...), nil)
@@ -40,6 +54,12 @@ func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args 
 //
 //nolint:unparam // return value is used, but called from interfaces
 func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attributes map[string]any) id.EventID {
+	log := zerolog.Ctx(ctx)
+	if !b.Enabled() {
+		log.Warn().Msg("bot is disabled, cannot send message to the room")
+		return ""
+	}
+
 	span := utils.StartSpan(ctx, "bot.Send")
 	defer span.Finish()
 
@@ -54,13 +74,19 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 	eventID, err := b.lp.Send(span.Context(), roomID, &content)
 	b.mu.Unlock()
 	if err != nil {
-		zerolog.Ctx(ctx).Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
+		log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
 	return eventID
 }
 
 // SendFile for the room
 func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqUploadMedia, relations ...*event.RelatesTo) {
+	log := zerolog.Ctx(ctx)
+	if !b.Enabled() {
+		log.Warn().Msg("bot is disabled, cannot send file to the room")
+		return
+	}
+
 	span := utils.StartSpan(ctx, "linkpearl.SendFile")
 	defer span.Finish()
 
@@ -74,14 +100,25 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 }
 
 // Start performs matrix /sync
-func (b *Bot) Start() {
+func (b *Bot) Start() error {
 	ctx := utils.NewContext()
-	if err := b.lp.Start(ctx); err != nil {
-		zerolog.Ctx(ctx).Panic().Err(err).Msg("matrix bot crashed")
+	log := zerolog.Ctx(ctx)
+	if !b.Enabled() {
+		log.Warn().Msg("bot is disabled, cannot start it")
+		return nil
 	}
+
+	return b.lp.Start(ctx)
 }
 
 // Stop the bot
 func (b *Bot) Stop() {
-	b.lp.Stop(utils.NewContext())
+	ctx := utils.NewContext()
+	log := zerolog.Ctx(ctx)
+	if !b.Enabled() {
+		log.Warn().Msg("bot is disabled, cannot stop it")
+		return
+	}
+
+	b.lp.Stop(ctx)
 }

@@ -21,6 +21,8 @@ type Config struct {
 	Port string
 	// Metrics config
 	Metrics echobasicauth.Auth
+	// Redmine config
+	Redmine Redmine
 	// Forms map
 	Forms map[string]*Form
 	// Spamlist with wildcards
@@ -71,6 +73,14 @@ type Postmark struct {
 	Token   string
 	From    string
 	ReplyTo string
+}
+
+type Redmine struct {
+	Host      string
+	APIKey    string
+	ProjectID string
+	TrackerID int
+	StatusID  int
 }
 
 // SMTP config

@@ -21,6 +21,13 @@ func New() *Config {
 			URL:  env.String("hc.url", defaultConfig.Healthchecks.URL),
 			UUID: env.String("hc.uuid"),
 		},
+		Redmine: Redmine{
+			Host:      env.String("redmine.host"),
+			APIKey:    env.String("redmine.apikey"),
+			ProjectID: env.String("redmine.project"),
+			TrackerID: env.Int("redmine.trackerid"),
+			StatusID:  env.Int("redmine.statusid"),
+		},
 		LogLevel: env.String("loglevel", defaultConfig.LogLevel),
 		Port:     env.String("port", defaultConfig.Port),
 		Metrics: echobasicauth.Auth{

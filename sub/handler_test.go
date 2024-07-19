@@ -14,13 +14,15 @@ import (
 	"gitlab.com/etke.cc/buscarron/config"
 	"gitlab.com/etke.cc/buscarron/mocks"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
+	"gitlab.com/etke.cc/go/redmine"
 )
 
 type HandlerSuite struct {
 	suite.Suite
-	v      *mocks.Validator
-	vs     map[string]common.Validator
-	sender *mocks.Sender
+	v       *mocks.Validator
+	vs      map[string]common.Validator
+	sender  *mocks.Sender
+	redmine *redmine.Redmine
 }
 
 var ctxMatcher = mock.MatchedBy(func(_ context.Context) bool { return true })
@@ -29,6 +31,7 @@ func (s *HandlerSuite) SetupSuite() {
 	s.v = &mocks.Validator{}
 	s.vs = map[string]common.Validator{"test": s.v}
 	s.sender = &mocks.Sender{}
+	s.redmine, _ = redmine.New()
 }
 
 func (s *HandlerSuite) SetupTest() {
@@ -36,7 +39,7 @@ func (s *HandlerSuite) SetupTest() {
 }
 
 func (s *HandlerSuite) TestNew() {
-	handler := NewHandler(nil, s.vs, nil, s.sender)
+	handler := NewHandler(nil, s.vs, nil, s.sender, s.redmine)
 
 	s.IsType(&Handler{}, handler)
 }
@@ -48,7 +51,7 @@ func (s *HandlerSuite) TestGet() {
 			Redirect: "https://example.com",
 		},
 	}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 
 	result, err := handler.GET(context.TODO(), "test", nil)
 
@@ -58,7 +61,7 @@ func (s *HandlerSuite) TestGet() {
 
 func (s *HandlerSuite) TestGet_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 
 	result, err := handler.GET(context.TODO(), "test", nil)
 
@@ -69,7 +72,7 @@ func (s *HandlerSuite) TestGet_NoForm() {
 
 func (s *HandlerSuite) TestPOST_NoForm() {
 	forms := map[string]*config.Form{}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 
 	result, err := handler.POST(context.TODO(), "test", nil)
 
@@ -80,7 +83,7 @@ func (s *HandlerSuite) TestPOST_NoForm() {
 
 func (s *HandlerSuite) TestPOST_NoData() {
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 	request, rerr := http.NewRequest(http.MethodPost, "", http.NoBody)
 
 	result, err := handler.POST(context.TODO(), "test", request)
@@ -93,7 +96,7 @@ func (s *HandlerSuite) TestPOST_NoData() {
 func (s *HandlerSuite) TestPOST_SpamEmail() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 	s.v.On("Email", "no").Return(false).Once()
 	data := url.Values{}
 	data.Add("email", "no")
@@ -111,7 +114,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 func (s *HandlerSuite) TestPOST_SpamDomain() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 	s.v.On("Email", "").Return(true).Once()
 	s.v.On("Domain", "no").Return(false).Once()
 	data := url.Values{}
@@ -147,7 +150,7 @@ func (s *HandlerSuite) TestPOST() {
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
 	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 	data := url.Values{}
 	data.Add("email", "email@dkimvalidator.com")
 	data.Add("field", "value")
@@ -182,7 +185,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
 	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
-	handler := NewHandler(forms, s.vs, nil, s.sender)
+	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
 	data := `{
 	"email": "email@dkimvalidator.com",
 	"field": "value",

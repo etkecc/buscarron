@@ -22,6 +22,7 @@ import (
 	"gitlab.com/etke.cc/buscarron/sub/ext"
 	"gitlab.com/etke.cc/buscarron/sub/ext/common"
 	"gitlab.com/etke.cc/buscarron/utils"
+	"gitlab.com/etke.cc/go/redmine"
 	"gitlab.com/etke.cc/linkpearl"
 )
 
@@ -43,6 +44,7 @@ type Handler struct {
 	sender      Sender
 	mapping     map[string]func(r *http.Request) (map[string]string, error)
 	forms       map[string]*config.Form
+	rdm         *redmine.Redmine
 	ext         map[string]ext.Extension
 	vs          map[string]common.Validator
 }
@@ -57,12 +59,13 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender) *Handler {
+func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender, rdm *redmine.Redmine) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
 		sender:      sender,
 		forms:       forms,
+		rdm:         rdm,
 		ext:         ext.New(pm),
 		vs:          vs,
 	}
@@ -178,6 +181,8 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		attrs["domain"] = data["domain"]
 	}
 
+	go h.newIssue(span.Context(), form, data, text, files)
+
 	eventID := h.sender.Send(span.Context(), form.RoomID, text, attrs)
 	var relates *event.RelatesTo
 	if eventID != "" {
@@ -188,6 +193,31 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	}
 
 	return h.redirect(span.Context(), form.Redirect, data), nil
+}
+
+func (h *Handler) newIssue(ctx context.Context, form *config.Form, data map[string]string, text string, files []*mautrix.ReqUploadMedia) {
+	log := zerolog.Ctx(ctx).With().Str("form", form.Name).Logger()
+	var attachments []*redmine.UploadRequest
+	if len(files) > 0 {
+		attachments = []*redmine.UploadRequest{}
+		for _, media := range files {
+			attachments = append(attachments, &redmine.UploadRequest{
+				Stream: bytes.NewReader(media.ContentBytes),
+				Path:   media.FileName,
+			})
+		}
+	}
+
+	_, err := h.rdm.NewIssue(
+		fmt.Sprintf("New %s - %s", form.Name, data["domain"]),
+		"email",
+		data["email"],
+		text,
+		attachments...,
+	)
+	if err != nil {
+		log.Error().Err(err).Msg("cannot create redmine issue")
+	}
 }
 
 func (h *Handler) redirect(ctx context.Context, target string, vars map[string]string) string {

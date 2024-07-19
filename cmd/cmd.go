@@ -19,6 +19,7 @@ import (
 	"github.com/ziflex/lecho/v3"
 	"gitlab.com/etke.cc/go/healthchecks/v2"
 	"gitlab.com/etke.cc/go/psd"
+	"gitlab.com/etke.cc/go/redmine"
 	"gitlab.com/etke.cc/go/validator/v2"
 	"gitlab.com/etke.cc/linkpearl"
 	_ "modernc.org/sqlite"
@@ -36,6 +37,7 @@ import (
 var (
 	version = "development"
 	mxb     *bot.Bot
+	rdm     *redmine.Redmine
 	log     *zerolog.Logger
 	hc      *healthchecks.Client
 	e       *echo.Echo
@@ -68,12 +70,43 @@ func main() {
 		go hc.Auto(60 * time.Second)
 	}
 
+	var err error
+	rdm, err = redmine.New(
+		redmine.WithLog(log),
+		redmine.WithHost(cfg.Redmine.Host),
+		redmine.WithAPIKey(cfg.Redmine.APIKey),
+		redmine.WithProjectIdentifier(cfg.Redmine.ProjectID),
+		redmine.WithTrackerID(cfg.Redmine.TrackerID),
+		redmine.WithWaitingForOperatorStatusID(cfg.Redmine.StatusID),
+	)
+	if err != nil {
+		log.Warn().Err(err).Msg("cannot initialize redmine client")
+	}
+	if rdm.Enabled() {
+		log.Info().Msg("redmine integration enabled")
+	}
+
 	initBot(cfg)
-	initControllers(cfg)
+	initControllers(cfg, rdm)
 	initShutdown(quit)
 
 	log.Debug().Msg("starting matrix bot...")
-	go mxb.Start()
+
+	// sometimes homeserver may be down for a few minutes, so we need to restart the service
+	go func() {
+		if !mxb.Enabled() {
+			return
+		}
+		for {
+			log.Info().Msg("starting matrix bot...")
+			if err := mxb.Start(); err != nil {
+				log.Warn().Err(err).Msg("matrix bot failed, restarting in 10s...")
+				hc.Fail(strings.NewReader(fmt.Sprintf("matrix bot failed: %+v, restarting in 10s...", err)))
+			}
+			time.Sleep(10 * time.Second)
+		}
+	}()
+
 	if err := e.Start(":" + cfg.Port); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Panic().Err(err).Msg("http server failed")
 	}
@@ -88,6 +121,9 @@ func initBot(cfg *config.Config) {
 	if err != nil {
 		log.Panic().Err(err).Msg("cannot initialize SQL database")
 	}
+	if cfg.DB.Dialect == "sqlite" {
+		db.SetMaxOpenConns(1)
+	}
 
 	lp, err := linkpearl.New(&linkpearl.Config{
 		Homeserver: cfg.Homeserver,
@@ -98,13 +134,12 @@ func initBot(cfg *config.Config) {
 		Logger:     *log,
 	})
 	if err != nil {
-		log.Panic().Err(err).Msg("cannot initialize matrix bot")
+		log.Warn().Err(err).Msg("cannot initialize matrix bot")
 	}
 	mxb = bot.New(lp)
-	log.Debug().Msg("bot has been created")
 }
 
-func initControllers(cfg *config.Config) {
+func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
 	srl := make(map[string]string)
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
@@ -133,7 +168,7 @@ func initControllers(cfg *config.Config) {
 		vs[name] = v
 	}
 	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo)
-	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb)
+	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, rdm)
 	psdc := psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password)
 	etkecc.SetPSD(psdc)
 	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})

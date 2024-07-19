@@ -58,6 +58,14 @@ env vars
 * **BUSCARRON_METRICS_PASSWORD** - /metrics password
 * **BUSCARRON_METRICS_IPS** - /metrics allowed ips
 
+### optional redmine configs
+
+* **BUSCARRON_REDMINE_HOST** - redmine host, e.g. `https://redmine.example.com`
+* **BUSCARRON_REDMINE_APIKEY** - redmine API key
+* **BUSCARRON_REDMINE_PROJECT** - redmine project identifier, e.g. `internal-project`
+* **BUSCARRON_REDMINE_TRACKERID** - redmine tracker ID, e.g. `1`
+* **BUSCARRON_REDMINE_STATUSID** - redmine status ID, e.g. `1`
+
 You can find default values in [config/defaults.go](config/defaults.go)
 
 ## Where to get
