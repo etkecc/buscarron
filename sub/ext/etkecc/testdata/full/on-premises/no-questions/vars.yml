@@ -1,5 +1,6 @@
 # etke services
 etke_base_matrix: yes
+etke_order_issue_id: 123
 etke_service_support: dedicated
 etke_subscription_confirmed: no
 etke_subscription_email: test@test.com

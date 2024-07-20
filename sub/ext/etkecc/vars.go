@@ -92,6 +92,10 @@ func (o *order) vars(ctx context.Context) {
 
 func (o *order) varsEtke() string {
 	enabledServices := map[string]any{}
+	if o.has("issue_id") && o.get("issue_id") != "0" {
+		enabledServices["etke_order_issue_id"] = o.get("issue_id")
+	}
+
 	if o.has("matrix") {
 		enabledServices["etke_base_matrix"] = "yes"
 	}

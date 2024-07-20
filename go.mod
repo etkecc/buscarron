@@ -21,7 +21,7 @@ require (
 	gitlab.com/etke.cc/go/healthchecks/v2 v2.2.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20240709101247-74e2796c2d3d
 	gitlab.com/etke.cc/go/psd v1.1.2
-	gitlab.com/etke.cc/go/redmine v0.0.0-20240719202852-02ab41d3e5c4
+	gitlab.com/etke.cc/go/redmine v0.0.0-20240720124809-c48982317bbe
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240716084747-f2a547f02d54
