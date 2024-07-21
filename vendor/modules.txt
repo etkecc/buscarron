@@ -163,7 +163,7 @@ gitlab.com/etke.cc/go/pricify
 # gitlab.com/etke.cc/go/psd v1.1.2
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/psd
-# gitlab.com/etke.cc/go/redmine v0.0.0-20240720124809-c48982317bbe
+# gitlab.com/etke.cc/go/redmine v0.0.0-20240721125204-fa9ed064bb9c
 ## explicit; go 1.21
 gitlab.com/etke.cc/go/redmine
 # gitlab.com/etke.cc/go/secgen v1.2.0

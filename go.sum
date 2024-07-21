@@ -117,8 +117,8 @@ gitlab.com/etke.cc/go/pricify v0.0.0-20240709101247-74e2796c2d3d h1:X/8YdGb2rO9D
 gitlab.com/etke.cc/go/pricify v0.0.0-20240709101247-74e2796c2d3d/go.mod h1:U4LHTZ0nxqfoO9AX98z3iedF8XW6iR8bs7C0qfQ23mw=
 gitlab.com/etke.cc/go/psd v1.1.2 h1:nplS8Sc8tV+G/zq0QtC0pfW97EI8v3ZiSoYOYKCTbjY=
 gitlab.com/etke.cc/go/psd v1.1.2/go.mod h1:6b444NOkXlZ1n7WLCNazAkOC2bHPgqgfB9earThwKPk=
-gitlab.com/etke.cc/go/redmine v0.0.0-20240720124809-c48982317bbe h1:Vk7ZxM+cHcITyQfVde+wwZe/VEk3GZid6y8n+o+j1lY=
-gitlab.com/etke.cc/go/redmine v0.0.0-20240720124809-c48982317bbe/go.mod h1:2whHwZbLHZu1C2DxgZyLZF+N9MSCs0vrYvX5WQbNwMU=
+gitlab.com/etke.cc/go/redmine v0.0.0-20240721125204-fa9ed064bb9c h1:Ed5DMsr2dsdoA7d5i0xPgphH/06wjoaca6m0zwYuCXA=
+gitlab.com/etke.cc/go/redmine v0.0.0-20240721125204-fa9ed064bb9c/go.mod h1:2whHwZbLHZu1C2DxgZyLZF+N9MSCs0vrYvX5WQbNwMU=
 gitlab.com/etke.cc/go/secgen v1.2.0 h1:qpV7rUn5Rs6eWxAmbGG/idPCOgsN4HggGmSZ+1R/L70=
 gitlab.com/etke.cc/go/secgen v1.2.0/go.mod h1:v5L07AIXtNpC/miYiK0TMIn+ZKbiYrTRiXTw6qTL6pw=
 gitlab.com/etke.cc/go/trysmtp v1.1.3 h1:e2EHond77onMaecqCg6mWumffTSEf+ycgj88nbeefDI=

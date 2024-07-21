@@ -3,7 +3,10 @@ package redmine
 import (
 	"fmt"
 	"io"
+	"net/http"
+	"net/url"
 	"sort"
+	"strconv"
 	"strings"
 	"sync"
 
@@ -28,8 +31,10 @@ type API interface {
 	IssueCreate(req redmine.IssueCreate) (redmine.IssueObject, redmine.StatusCode, error)
 	IssueUpdate(id int64, req redmine.IssueUpdate) (redmine.StatusCode, error)
 	IssueSingleGet(id int64, req redmine.IssueSingleGetRequest) (redmine.IssueObject, redmine.StatusCode, error)
+	IssueDelete(id int64) (redmine.StatusCode, error)
 	AttachmentUpload(filePath string) (redmine.AttachmentUploadObject, redmine.StatusCode, error)
 	AttachmentUploadStream(f io.Reader, fileName string) (redmine.AttachmentUploadObject, redmine.StatusCode, error)
+	Del(in, out any, uri url.URL, statusExpected redmine.StatusCode) (redmine.StatusCode, error)
 }
 
 // Redmine is a Redmine client
@@ -145,6 +150,31 @@ func (r *Redmine) NewIssue(subject, senderMedium, senderAddress, text string, fi
 	return issue.ID, nil
 }
 
+// GetIssue returns an issue by its ID
+func (r *Redmine) GetIssue(issueID int64, includes ...redmine.IssueInclude) (redmine.IssueObject, error) {
+	log := r.cfg.Log.With().Int64("issue_id", issueID).Logger()
+	var issue redmine.IssueObject
+	if !r.Enabled() {
+		log.Debug().Msg("redmine is disabled, ignoring GetIssue() call")
+		return issue, nil
+	}
+	if issueID == 0 {
+		return issue, nil
+	}
+
+	r.wg.Add(1)
+	defer r.wg.Done()
+
+	issue, err := retryResult(&log, func() (redmine.IssueObject, redmine.StatusCode, error) {
+		return r.cfg.api.IssueSingleGet(issueID, redmine.IssueSingleGetRequest{Includes: includes})
+	})
+	if err != nil {
+		log.Error().Err(err).Msg("failed to get issue")
+		return issue, err
+	}
+	return issue, nil
+}
+
 // UpdateIssue updates the status using one of the constants and notes of an issue
 func (r *Redmine) UpdateIssue(issueID int64, status Status, text string, files ...*UploadRequest) error {
 	log := r.cfg.Log.With().Int64("issue_id", issueID).Logger()
@@ -190,52 +220,53 @@ func (r *Redmine) UpdateIssue(issueID int64, status Status, text string, files .
 	return nil
 }
 
-// StatusIs returns true if the issue has the specified status ID
-func (r *Redmine) StatusIs(issueID, statusID int64) (bool, error) {
+// DeleteIssue deletes an issue by its ID
+func (r *Redmine) DeleteIssue(issueID int64) error {
 	log := r.cfg.Log.With().Int64("issue_id", issueID).Logger()
 	if !r.Enabled() {
-		log.Debug().Msg("redmine is disabled, ignoring StatusIs() call")
-		return false, nil
+		log.Debug().Msg("redmine is disabled, ignoring DeleteIssue() call")
+		return nil
 	}
 	if issueID == 0 {
-		return false, nil
+		return nil
 	}
 
 	r.wg.Add(1)
 	defer r.wg.Done()
 
-	issue, err := retryResult(&log, func() (redmine.IssueObject, redmine.StatusCode, error) {
-		return r.cfg.api.IssueSingleGet(issueID, redmine.IssueSingleGetRequest{})
+	err := retry(&log, func() (redmine.StatusCode, error) {
+		return r.cfg.api.IssueDelete(issueID)
 	})
 	if err != nil {
-		log.Error().Err(err).Msg("failed to get issue")
-		return false, err
+		log.Error().Err(err).Msg("failed to delete issue")
+		return err
 	}
-	return issue.Status.ID == statusID, nil
+	return nil
+}
+
+// GetStatus returns the status of an issue
+func (r *Redmine) GetStatus(issueID int64) (redmine.IssueStatusObject, error) {
+	issue, err := r.GetIssue(issueID)
+	if err != nil {
+		return redmine.IssueStatusObject{}, err
+	}
+	return issue.Status, nil
 }
 
 // IsClosed returns true if the issue is closed or has "Done" status
 func (r *Redmine) IsClosed(issueID int64) (bool, error) {
 	log := r.cfg.Log.With().Int64("issue_id", issueID).Logger()
-	if !r.Enabled() {
-		log.Debug().Msg("redmine is disabled, ignoring IsClosed() call")
-		return false, nil
-	}
-	if issueID == 0 {
-		return false, nil
-	}
-
-	r.wg.Add(1)
-	defer r.wg.Done()
-
-	issue, err := retryResult(&log, func() (redmine.IssueObject, redmine.StatusCode, error) {
-		return r.cfg.api.IssueSingleGet(issueID, redmine.IssueSingleGetRequest{})
-	})
+	status, err := r.GetStatus(issueID)
 	if err != nil {
 		log.Error().Err(err).Msg("failed to get issue")
 		return false, err
 	}
-	return issue.Status.IsClosed || issue.Status.ID == r.cfg.DoneStatusID, nil
+
+	if status.ID == 0 {
+		return false, nil
+	}
+
+	return status.IsClosed || status.ID == r.cfg.DoneStatusID, nil
 }
 
 // GetNotes returns the notes of an issue
@@ -286,6 +317,30 @@ func (r *Redmine) GetNotes(issueID int64) ([]*redmine.IssueJournalObject, error)
 	}
 	log.Debug().Int("journals", len(eligibleJournals)).Msg("journals found")
 	return eligibleJournals, nil
+}
+
+// DeleteAttachment deletes an attachment by its ID
+func (r *Redmine) DeleteAttachment(attachmentID int64) error {
+	log := r.cfg.Log.With().Int64("attachment_id", attachmentID).Logger()
+	if !r.Enabled() {
+		log.Debug().Msg("redmine is disabled, ignoring DeleteAttachment() call")
+		return nil
+	}
+	if attachmentID == 0 {
+		return nil
+	}
+
+	r.wg.Add(1)
+	defer r.wg.Done()
+
+	err := retry(&log, func() (redmine.StatusCode, error) {
+		return r.cfg.api.Del(nil, nil, url.URL{Path: "/attachments/" + strconv.FormatInt(attachmentID, 10) + ".json"}, http.StatusNoContent)
+	})
+	if err != nil {
+		log.Error().Err(err).Msg("failed to delete attachment")
+		return err
+	}
+	return nil
 }
 
 // Shutdown waits for all goroutines to finish
