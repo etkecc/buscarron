@@ -6,7 +6,7 @@ toolchain go1.21.4
 
 require (
 	github.com/VictoriaMetrics/metrics v1.35.1
-	github.com/archdx/zerolog-sentry v1.8.3
+	github.com/archdx/zerolog-sentry v1.8.4
 	github.com/getsentry/sentry-go v0.28.1
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.12.0
@@ -21,7 +21,7 @@ require (
 	gitlab.com/etke.cc/go/healthchecks/v2 v2.2.0
 	gitlab.com/etke.cc/go/pricify v0.0.0-20240709101247-74e2796c2d3d
 	gitlab.com/etke.cc/go/psd v1.1.2
-	gitlab.com/etke.cc/go/redmine v0.0.0-20240721125204-fa9ed064bb9c
+	gitlab.com/etke.cc/go/redmine v0.0.0-20240722123615-e5d35c63624e
 	gitlab.com/etke.cc/go/secgen v1.2.0
 	gitlab.com/etke.cc/go/validator/v2 v2.1.0
 	gitlab.com/etke.cc/linkpearl v0.0.0-20240716084747-f2a547f02d54
@@ -29,7 +29,7 @@ require (
 	golang.org/x/text v0.16.0
 	golang.org/x/time v0.5.0
 	maunium.net/go/mautrix v0.19.0
-	modernc.org/sqlite v1.30.2
+	modernc.org/sqlite v1.31.1
 )
 
 require (
@@ -69,7 +69,7 @@ require (
 	golang.org/x/sys v0.22.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/gc/v3 v3.0.0-20240304020402-f0dba7c97c2b // indirect
+	modernc.org/gc/v3 v3.0.0-20240722195230-4a140ff9c08e // indirect
 	modernc.org/libc v1.55.3 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect

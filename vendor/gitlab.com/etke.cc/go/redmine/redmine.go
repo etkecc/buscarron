@@ -35,6 +35,18 @@ type API interface {
 	AttachmentUpload(filePath string) (redmine.AttachmentUploadObject, redmine.StatusCode, error)
 	AttachmentUploadStream(f io.Reader, fileName string) (redmine.AttachmentUploadObject, redmine.StatusCode, error)
 	Del(in, out any, uri url.URL, statusExpected redmine.StatusCode) (redmine.StatusCode, error)
+	Post(in, out any, uri url.URL, statusExpected redmine.StatusCode) (redmine.StatusCode, error)
+}
+
+// IssueRelation is a minimal struct for issue relations
+type IssueRelation struct {
+	IssueToID    int64  `json:"issue_to_id"`
+	RelationType string `json:"relation_type"`
+}
+
+// IssueRelationRequest is a request to create a new issue relation
+type IssueRelationRequest struct {
+	Relation IssueRelation `json:"relation"`
 }
 
 // Redmine is a Redmine client
@@ -82,6 +94,7 @@ func (r *Redmine) Enabled() bool {
 	return r.cfg.Enabled()
 }
 
+// Configure applies the new configuration options
 func (r *Redmine) Configure(options ...Option) {
 	r.cfg.apply(options...)
 }
@@ -338,6 +351,40 @@ func (r *Redmine) DeleteAttachment(attachmentID int64) error {
 	})
 	if err != nil {
 		log.Error().Err(err).Msg("failed to delete attachment")
+		return err
+	}
+	return nil
+}
+
+func (r *Redmine) NewIssueRelation(issueID, relatedIssueID int64, relationType string) error {
+	log := r.cfg.Log.With().Int64("issue_id", issueID).Int64("related_issue_id", relatedIssueID).Str("relation_type", relationType).Logger()
+	if !r.Enabled() {
+		log.Debug().Msg("redmine is disabled, ignoring NewIssueRelation() call")
+		return nil
+	}
+	if issueID == 0 || relatedIssueID == 0 {
+		log.Warn().Msg("missing required fields, ignoring NewIssueRelation() call")
+		return nil
+	}
+	if relationType == "" {
+		relationType = "relates"
+	}
+
+	r.wg.Add(1)
+	defer r.wg.Done()
+
+	relation := &IssueRelationRequest{
+		Relation: IssueRelation{
+			IssueToID:    relatedIssueID,
+			RelationType: relationType,
+		},
+	}
+
+	err := retry(&log, func() (redmine.StatusCode, error) {
+		return r.cfg.api.Post(relation, nil, url.URL{Path: fmt.Sprintf("/issues/%d/relations.json", issueID)}, http.StatusCreated)
+	})
+	if err != nil {
+		log.Error().Err(err).Msg("failed to create issue relation")
 		return err
 	}
 	return nil
