@@ -223,7 +223,8 @@ func (h *Handler) updateIssue(ctx context.Context, issueID int64, formName, text
 		}
 	}
 
-	if err := h.rdm.UpdateIssue(issueID, redmine.WaitingForOperator, text, attachments...); err != nil {
+	statusID := h.rdm.StatusToID(redmine.WaitingForOperator)
+	if err := h.rdm.UpdateIssue(issueID, statusID, text, attachments...); err != nil {
 		log.Error().Err(err).Msg("cannot update redmine issue")
 	}
 }
