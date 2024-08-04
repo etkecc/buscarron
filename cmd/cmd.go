@@ -86,11 +86,19 @@ func main() {
 		log.Info().Msg("redmine integration enabled")
 	}
 
-	initBot(cfg)
 	initControllers(cfg, rdm)
 	initShutdown(quit)
 
-	log.Debug().Msg("starting matrix bot...")
+	for {
+		log.Debug().Msg("starting matrix bot...")
+		if err := initBot(cfg); err != nil {
+			log.Warn().Err(err).Msg("matrix bot startup failed, restarting in 10s...")
+			hc.Fail(strings.NewReader(fmt.Sprintf("matrix bot startup failed: %+v, restarting in 10s...", err)))
+			time.Sleep(10 * time.Second)
+			continue
+		}
+		break
+	}
 
 	// sometimes homeserver may be down for a few minutes, so we need to restart the service
 	go func() {
@@ -113,13 +121,13 @@ func main() {
 	<-quit
 }
 
-func initBot(cfg *config.Config) {
+func initBot(cfg *config.Config) error {
 	if cfg.DB.Dialect == "sqlite3" {
 		cfg.DB.Dialect = "sqlite"
 	}
 	db, err := sql.Open(cfg.DB.Dialect, cfg.DB.DSN)
 	if err != nil {
-		log.Panic().Err(err).Msg("cannot initialize SQL database")
+		return err
 	}
 	if cfg.DB.Dialect == "sqlite" {
 		db.SetMaxOpenConns(1)
@@ -134,9 +142,10 @@ func initBot(cfg *config.Config) {
 		Logger:     *log,
 	})
 	if err != nil {
-		log.Warn().Err(err).Msg("cannot initialize matrix bot")
+		return err
 	}
 	mxb = bot.New(lp)
+	return nil
 }
 
 func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
