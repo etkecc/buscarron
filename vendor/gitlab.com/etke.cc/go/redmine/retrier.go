@@ -16,8 +16,9 @@ const (
 	RetryDelay = 5 * time.Second
 )
 
-// retry retries the given function until it succeeds or the maximum number of retries is reached
-func retry(log *zerolog.Logger, fn func() (redmine.StatusCode, error)) error {
+// Retry retries the given function until it succeeds or the maximum number of retries is reached
+// it should be used everywhere you call the underlying API object (inside the library: r.cfg.api, outside: r.GetAPI())
+func Retry(log *zerolog.Logger, fn func() (redmine.StatusCode, error)) error {
 	for i := 1; i <= MaxRetries; i++ {
 		statusCode, err := fn()
 		if statusCode == http.StatusNotFound {
@@ -42,8 +43,9 @@ func retry(log *zerolog.Logger, fn func() (redmine.StatusCode, error)) error {
 	return fmt.Errorf("failed after %d retries", MaxRetries)
 }
 
-// retryResult retries the given function until it succeeds or the maximum number of retries is reached
-func retryResult[V any](log *zerolog.Logger, fn func() (V, redmine.StatusCode, error)) (V, error) {
+// RetryResult retries the given function until it succeeds or the maximum number of retries is reached
+// it should be used everywhere you call the underlying API object (inside the library: r.cfg.api, outside: r.GetAPI())
+func RetryResult[V any](log *zerolog.Logger, fn func() (V, redmine.StatusCode, error)) (V, error) {
 	var zero V
 	for i := 1; i <= MaxRetries; i++ {
 		v, statusCode, err := fn()

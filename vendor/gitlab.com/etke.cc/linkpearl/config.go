@@ -43,6 +43,9 @@ type Config struct {
 	// EventsLimit for methods like lp.Threads() or lp.FindEventBy()
 	EventsLimit int
 
+	// UserAgent for requests
+	UserAgent string
+
 	// Logger
 	Logger zerolog.Logger
 

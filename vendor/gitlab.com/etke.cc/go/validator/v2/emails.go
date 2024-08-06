@@ -20,7 +20,8 @@ var (
 )
 
 // Email checks if email is valid
-func (v *V) Email(email string, optionalSenderIP ...net.IP) bool {
+// returnPath and optionalSenderIP are optional fields
+func (v *V) Email(email, returnPath string, optionalSenderIP ...net.IP) bool {
 	// edge case: email may be optional
 	if email == "" {
 		return !v.cfg.Email.Enforce
@@ -31,11 +32,21 @@ func (v *V) Email(email string, optionalSenderIP ...net.IP) bool {
 		v.cfg.Log("email %s invalid, reason: %v", email, err)
 		return false
 	}
+	if returnPath != "" {
+		rpAddress, err := mail.ParseAddress(returnPath)
+		if err != nil {
+			v.cfg.Log("return path %s invalid, reason: %v", returnPath, err)
+		}
+		if rpAddress != nil {
+			returnPath = rpAddress.Address
+		}
+	}
+
 	email = address.Address
-	return v.emailChecks(email, optionalSenderIP...)
+	return v.emailChecks(email, returnPath, optionalSenderIP...)
 }
 
-func (v *V) emailChecks(email string, optionalSenderIP ...net.IP) bool {
+func (v *V) emailChecks(email, returnPath string, optionalSenderIP ...net.IP) bool {
 	maxChecks := 4
 	var senderIP net.IP
 	if len(optionalSenderIP) > 0 {
@@ -47,7 +58,7 @@ func (v *V) emailChecks(email string, optionalSenderIP ...net.IP) bool {
 
 	go v.emailSpamlist(ctx, email, errchan)
 	go v.emailNoMX(ctx, email, errchan)
-	go v.emailNoSPF(ctx, email, senderIP, errchan)
+	go v.emailNoSPF(ctx, email, returnPath, senderIP, errchan)
 	go v.emailNoSMTP(ctx, email, errchan)
 
 	var checks int
@@ -128,7 +139,33 @@ func (v *V) emailNoSMTP(ctx context.Context, email string, errchan chan error) {
 	}
 }
 
-func (v *V) emailNoSPF(ctx context.Context, email string, senderIP net.IP, errchan chan error) {
+// shouldValidateReturnPath checks if returnPath should be validated in SPF check
+func (v *V) shouldValidateReturnPath(email, returnPath string) bool {
+	if returnPath == "" {
+		return false
+	}
+	if email == returnPath {
+		return false
+	}
+
+	var emailDomain, returnPathDomain string
+	emailParts := strings.Split(email, "@")
+	if len(emailParts) < 2 {
+		return false
+	}
+	emailDomain = v.GetBase(emailParts[1])
+
+	if returnPath != "" {
+		returnPathParts := strings.Split(returnPath, "@")
+		if len(returnPathParts) < 2 {
+			return false
+		}
+		returnPathDomain = v.GetBase(returnPathParts[1])
+	}
+	return emailDomain == returnPathDomain
+}
+
+func (v *V) emailNoSPF(ctx context.Context, email, returnPath string, senderIP net.IP, errchan chan error) {
 	select {
 	case <-ctx.Done():
 		return
@@ -138,8 +175,20 @@ func (v *V) emailNoSPF(ctx context.Context, email string, senderIP net.IP, errch
 			return
 		}
 
-		result, _ := spf.CheckHostWithSender(senderIP, "", email, spf.WithTraceFunc(v.cfg.Log)) //nolint:errcheck // not a error
-		if result == spf.Fail {
+		opts := []spf.Option{
+			spf.WithContext(ctx),
+			spf.WithTraceFunc(v.cfg.Log),
+		}
+
+		resultEmail, _ := spf.CheckHostWithSender(senderIP, "", email, opts...) //nolint:errcheck // not a error
+		if resultEmail == spf.Fail {
+			if v.shouldValidateReturnPath(email, returnPath) {
+				resultReturnPath, _ := spf.CheckHostWithSender(senderIP, "", returnPath, opts...) //nolint:errcheck // not a error
+				if resultReturnPath == spf.Fail {
+					errchan <- ErrSPF
+					return
+				}
+			}
 			errchan <- ErrSPF
 			return
 		}

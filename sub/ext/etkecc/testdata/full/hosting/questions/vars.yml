@@ -282,6 +282,12 @@ matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO64
 matrix_bot_honoroit_roomid: 'TBD'
 
+# bots::maubot
+matrix_bot_maubot_enabled: yes
+matrix_bot_maubot_initial_password: TODO64
+matrix_bot_maubot_admins:
+  - "@test:higenjitsuteki.onmatrix.chat": TODO64
+
 # bots::reminder
 matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO

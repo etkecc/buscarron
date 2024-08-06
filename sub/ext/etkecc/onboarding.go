@@ -62,6 +62,9 @@ func (o *order) generateOnboardingLinks() string {
 	if o.has("vaultwarden") {
 		txt.WriteString("* Vaultwarden (admin):" + link("vault."+o.domain+"/admin") + " " + helpLink("etke.cc/help/extras/vaultwarden") + "\n")
 	}
+	if o.has("maubot") {
+		txt.WriteString("* Maubot (admin): " + link("matrix."+o.domain+"/_matrix/maubot") + "\n")
+	}
 
 	items := []string{}
 	for item := range dnsmap {

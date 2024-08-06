@@ -101,6 +101,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"languagetool":        "on",
 			"linkding":            "on",
 			"linkedin":            "on",
+			"maubot":              "on",
 			"miniflux":            "on",
 			"nginx-proxy-website": "on",
 			"ntfy":                "on",
@@ -158,6 +159,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"languagetool-ngrams": "on",
 			"linkding":            "on",
 			"linkedin":            "on",
+			"maubot":              "on",
 			"miniflux":            "on",
 			"nginx-proxy-website": "on",
 			"ntfy":                "on",
@@ -468,6 +470,10 @@ func (s *EtkeccSuite) TestExecute() {
 			actualF := s.rts(files[2].Content)
 			s.saveMocks(test.name, actualQ, actualF, actualO, actualV)
 
+			if s.save {
+				s.T().Log("Save mode enabled, skipping assertions")
+				return
+			}
 			s.Equal(expectedQ, actualQ)
 			s.Equal(expectedF, actualF)
 			s.Equal(expectedO, actualO)

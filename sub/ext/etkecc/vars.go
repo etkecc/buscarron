@@ -60,6 +60,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsBuscarron())
 	txt.WriteString(o.varsChatGPT())
 	txt.WriteString(o.varsHonoroit())
+	txt.WriteString(o.varsMaubot())
 	txt.WriteString(o.varsReminder())
 
 	// bridges
@@ -835,6 +836,23 @@ func (o *order) varsHonoroit() string {
 	txt.WriteString("matrix_bot_honoroit_enabled: yes\n")
 	txt.WriteString("matrix_bot_honoroit_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_honoroit_roomid: 'TBD'\n")
+
+	return txt.String()
+}
+
+func (o *order) varsMaubot() string {
+	if !o.has("maubot") {
+		return ""
+	}
+	var txt strings.Builder
+
+	login := "@" + o.get("username") + ":" + o.domain
+	o.login("maubot admin", login)
+	txt.WriteString("\n# bots::maubot\n")
+	txt.WriteString("matrix_bot_maubot_enabled: yes\n")
+	txt.WriteString("matrix_bot_maubot_initial_password: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_bot_maubot_admins:\n")
+	txt.WriteString("  - \"" + login + "\": " + o.password("maubot admin") + "\n")
 
 	return txt.String()
 }

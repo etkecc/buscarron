@@ -9,6 +9,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Synapse Admin: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
 * Etherpad (admin): [etherpad.higenjitsuteki.onmatrix.chat/admin](https://etherpad.higenjitsuteki.onmatrix.chat/admin)
 * Vaultwarden (admin):[vault.higenjitsuteki.onmatrix.chat/admin](https://vault.higenjitsuteki.onmatrix.chat/admin) ([help](https://etke.cc/help/extras/vaultwarden))
+* Maubot (admin): [matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot](https://matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot)
 * Buscarron: [buscarron.higenjitsuteki.onmatrix.chat](https://buscarron.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/buscarron))
 * Cinny: [cinny.higenjitsuteki.onmatrix.chat](https://cinny.higenjitsuteki.onmatrix.chat)
 * Element-Web: [element.higenjitsuteki.onmatrix.chat](https://element.higenjitsuteki.onmatrix.chat)
@@ -36,6 +37,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Buscarron: [@buscarron:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@buscarron:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/buscarron))
 * Chatgpt: [@chatgpt:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@chatgpt:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/chatgpt))
 * Honoroit: [@honoroit:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@honoroit:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/honoroit))
+* Maubot: [@maubot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@maubot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/maubot))
 * Reminder-Bot: [@reminder:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@reminder:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/reminder))
 
 
@@ -93,6 +95,11 @@ Here's all the essential information you need for a smooth onboarding experience
 **Linkding Credentials**
 
 * Username: test.admin
+* Password: TODO64
+
+**Maubot Admin Credentials**
+
+* Username: @test.admin:higenjitsuteki.onmatrix.chat
 * Password: TODO64
 
 **Miniflux Credentials**

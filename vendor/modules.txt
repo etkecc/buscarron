@@ -109,7 +109,7 @@ github.com/stretchr/testify/assert
 github.com/stretchr/testify/mock
 github.com/stretchr/testify/require
 github.com/stretchr/testify/suite
-# github.com/tidwall/gjson v1.17.1
+# github.com/tidwall/gjson v1.17.3
 ## explicit; go 1.12
 github.com/tidwall/gjson
 # github.com/tidwall/match v1.1.1
@@ -163,7 +163,7 @@ gitlab.com/etke.cc/go/pricify
 # gitlab.com/etke.cc/go/psd v1.1.2
 ## explicit; go 1.21.0
 gitlab.com/etke.cc/go/psd
-# gitlab.com/etke.cc/go/redmine v0.0.0-20240723122141-833b800d7fe9
+# gitlab.com/etke.cc/go/redmine v0.0.0-20240729093606-3b609cecf0ce
 ## explicit; go 1.21
 gitlab.com/etke.cc/go/redmine
 # gitlab.com/etke.cc/go/secgen v1.2.0
@@ -172,10 +172,10 @@ gitlab.com/etke.cc/go/secgen
 # gitlab.com/etke.cc/go/trysmtp v1.1.3
 ## explicit; go 1.17
 gitlab.com/etke.cc/go/trysmtp
-# gitlab.com/etke.cc/go/validator/v2 v2.1.0
+# gitlab.com/etke.cc/go/validator/v2 v2.2.0
 ## explicit; go 1.18
 gitlab.com/etke.cc/go/validator/v2
-# gitlab.com/etke.cc/linkpearl v0.0.0-20240716084747-f2a547f02d54
+# gitlab.com/etke.cc/linkpearl v0.0.0-20240731121617-2241628d0fda
 ## explicit; go 1.21
 gitlab.com/etke.cc/linkpearl
 # go.mau.fi/util v0.6.0
@@ -219,7 +219,7 @@ golang.org/x/net/http2/h2c
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/publicsuffix
-# golang.org/x/sys v0.22.0
+# golang.org/x/sys v0.23.0
 ## explicit; go 1.18
 golang.org/x/sys/cpu
 golang.org/x/sys/execabs
@@ -237,7 +237,7 @@ golang.org/x/text/secure/bidirule
 golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
-# golang.org/x/time v0.5.0
+# golang.org/x/time v0.6.0
 ## explicit; go 1.18
 golang.org/x/time/rate
 # gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c
@@ -278,10 +278,10 @@ maunium.net/go/mautrix/id
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/pushrules/glob
 maunium.net/go/mautrix/sqlstatestore
-# modernc.org/gc/v3 v3.0.0-20240722195230-4a140ff9c08e
+# modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a
 ## explicit; go 1.20
 modernc.org/gc/v3
-# modernc.org/libc v1.55.3
+# modernc.org/libc v1.56.0
 ## explicit; go 1.20
 modernc.org/libc
 modernc.org/libc/errno

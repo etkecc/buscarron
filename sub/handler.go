@@ -153,7 +153,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		return h.redirect(span.Context(), form.RejectRedirect, data), err
 	}
 
-	if !v.Email(data["email"]) {
+	if !v.Email(data["email"], "") {
 		log.Info().Str("reason", "email").Msg("submission to the form marked as spam")
 		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}

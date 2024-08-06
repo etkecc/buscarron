@@ -23,6 +23,8 @@ const (
 	DefaultEventsLimit = 1000
 	// DefaultTypingTimeout in seconds for typing notifications
 	DefaultTypingTimeout = 60
+	// DefaultUserAgent for HTTP requests
+	DefaultUserAgent = "Linkpearl (library; +https://gitlab.com/etke.cc/linkpearl)"
 )
 
 // Linkpearl object
@@ -59,6 +61,9 @@ func setDefaults(cfg *Config) {
 		// By default, we approve all join requests
 		cfg.JoinPermit = func(_ context.Context, _ *event.Event) bool { return true }
 	}
+	if cfg.UserAgent == "" {
+		cfg.UserAgent = DefaultUserAgent
+	}
 }
 
 func initCrypter(secret string) (*Crypter, error) {
@@ -72,6 +77,7 @@ func initCrypter(secret string) (*Crypter, error) {
 // New linkpearl
 func New(cfg *Config) (*Linkpearl, error) {
 	setDefaults(cfg)
+	mautrix.DefaultUserAgent = cfg.UserAgent
 	api, err := mautrix.NewClient(cfg.Homeserver, "", "")
 	if err != nil {
 		return nil, err

@@ -33,6 +33,7 @@ var botmap = map[string]string{
 	"buscarron":    "@buscarron",
 	"chatgpt":      "@chatgpt",
 	"honoroit":     "@honoroit",
+	"maubot":       "@maubot",
 	"reminder-bot": "@reminder",
 }
 
@@ -76,6 +77,7 @@ var helpmap = map[string]string{
 	"languagetool": "etke.cc/help/extras/languagetool",
 	"linkding":     "etke.cc/help/extras/linkding",
 	"linkedin":     "etke.cc/help/bridges/beeper-linkedin",
+	"maubot":       "etke.cc/help/bots/maubot",
 	"miniflux":     "etke.cc/help/extras/miniflux",
 	"ntfy":         "etke.cc/help/extras/ntfy",
 	"peertube":     "etke.cc/help/extras/peertube",

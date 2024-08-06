@@ -9,6 +9,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Synapse Admin: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
 * Etherpad (admin): [etherpad.example.com/admin](https://etherpad.example.com/admin)
 * Vaultwarden (admin):[vault.example.com/admin](https://vault.example.com/admin) ([help](https://etke.cc/help/extras/vaultwarden))
+* Maubot (admin): [matrix.example.com/_matrix/maubot](https://matrix.example.com/_matrix/maubot)
 * Buscarron: [buscarron.example.com](https://buscarron.example.com) ([help](https://etke.cc/help/bots/buscarron))
 * Cinny: [cinny.example.com](https://cinny.example.com)
 * Element-Web: [element.example.com](https://element.example.com)
@@ -36,6 +37,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Buscarron: [@buscarron:example.com](https://matrix.to/#/@buscarron:example.com) ([help](https://etke.cc/help/bots/buscarron))
 * Chatgpt: [@chatgpt:example.com](https://matrix.to/#/@chatgpt:example.com) ([help](https://etke.cc/help/bots/chatgpt))
 * Honoroit: [@honoroit:example.com](https://matrix.to/#/@honoroit:example.com) ([help](https://etke.cc/help/bots/honoroit))
+* Maubot: [@maubot:example.com](https://matrix.to/#/@maubot:example.com) ([help](https://etke.cc/help/bots/maubot))
 * Reminder-Bot: [@reminder:example.com](https://matrix.to/#/@reminder:example.com) ([help](https://etke.cc/help/bots/reminder))
 
 
@@ -93,6 +95,11 @@ Here's all the essential information you need for a smooth onboarding experience
 **Linkding Credentials**
 
 * Username: test.admin
+* Password: TODO64
+
+**Maubot Admin Credentials**
+
+* Username: @test.admin:example.com
 * Password: TODO64
 
 **Miniflux Credentials**

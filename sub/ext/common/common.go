@@ -12,7 +12,7 @@ type Validator interface {
 	MX(string) bool
 	NS(string, ...string) bool
 	CNAME(string) bool
-	Email(string, ...net.IP) bool
+	Email(string, string, ...net.IP) bool
 	Domain(string) bool
 	DomainString(string) bool
 	GetBase(string) string

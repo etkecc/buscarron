@@ -97,7 +97,7 @@ func (s *HandlerSuite) TestPOST_SpamEmail() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
-	s.v.On("Email", "no").Return(false).Once()
+	s.v.On("Email", "no", "").Return(false).Once()
 	data := url.Values{}
 	data.Add("email", "no")
 	request, rerr := http.NewRequest(http.MethodPost, "", strings.NewReader(data.Encode()))
@@ -115,7 +115,7 @@ func (s *HandlerSuite) TestPOST_SpamDomain() {
 	expected := "<html><head><title>Redirecting...</title><meta http-equiv=\"Refresh\" content=\"0; url='https://example.com'\" /></head><body>Redirecting to <a href='https://example.com'>https://example.com</a>..."
 	forms := map[string]*config.Form{"test": {Redirect: "https://example.com", RejectRedirect: "https://example.com"}}
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
-	s.v.On("Email", "").Return(true).Once()
+	s.v.On("Email", "", "").Return(true).Once()
 	s.v.On("Domain", "no").Return(false).Once()
 	data := url.Values{}
 	data.Add("domain", "no")
@@ -147,7 +147,7 @@ func (s *HandlerSuite) TestPOST() {
 			Extensions:     []string{"", "root", "invalid"},
 		},
 	}
-	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
+	s.v.On("Email", "email@dkimvalidator.com", "").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
 	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
@@ -182,7 +182,7 @@ func (s *HandlerSuite) TestPOST_JSON() {
 			Extensions:     []string{"", "root", "invalid"},
 		},
 	}
-	s.v.On("Email", "email@dkimvalidator.com").Return(true).Once()
+	s.v.On("Email", "email@dkimvalidator.com", "").Return(true).Once()
 	s.v.On("Domain", "").Return(true).Once()
 	s.sender.On("Send", ctxMatcher, roomID, expectedMessage, expectedAttrs).Return(id.EventID("!test:example.com")).Once()
 	handler := NewHandler(forms, s.vs, nil, s.sender, s.redmine)
