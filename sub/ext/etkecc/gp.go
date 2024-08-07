@@ -32,10 +32,14 @@ type gpfile struct {
 }
 
 func (o *order) toGP(ctx context.Context, hosts string) error {
+	ctx = context.WithoutCancel(ctx)
+	log := o.logger(ctx)
 	if gpURL == "" || gpUser == "" || gpPass == "" || o.test {
 		return fmt.Errorf("disabled")
 	}
 
+	log.Info().Msg("sending to GP")
+	defer log.Info().Msg("sent to GP")
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.toGP")
 	defer span.Finish()
 
@@ -59,20 +63,24 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 		})
 	reqb, err := json.Marshal(req)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to marshal request")
 		return err
 	}
 	r, err := http.NewRequestWithContext(span.Context(), http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
+		log.Error().Err(err).Msg("failed to create request")
 		return err
 	}
 	r.SetBasicAuth(gpUser, gpPass)
 	r.Header.Set("Content-Type", "application/json")
 	resp, err := http.DefaultClient.Do(r)
 	if err != nil {
+		log.Error().Err(err).Msg("failed to send request")
 		return err
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusCreated {
+		log.Error().Str("status", resp.Status).Msg("failed to send request")
 		return errors.New(resp.Status)
 	}
 	return nil

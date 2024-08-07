@@ -13,6 +13,9 @@ func (o *order) generateOnboarding(ctx context.Context) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateOnboarding")
 	defer span.Finish()
 
+	log := o.logger(span.Context())
+	log.Info().Msg("generating onboarding")
+
 	var txt strings.Builder
 
 	txt.WriteString(o.generateOnboardingIntro())
@@ -36,6 +39,7 @@ func (o *order) generateOnboarding(ctx context.Context) {
 			ContentLength: int64(len(text)),
 		},
 	)
+	log.Info().Msg("onboarding has been generated")
 }
 
 func (o *order) generateOnboardingIntro() string {

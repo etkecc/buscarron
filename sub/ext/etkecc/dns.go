@@ -9,7 +9,10 @@ import (
 )
 
 func (o *order) generateDNSInstructions(ctx context.Context) string {
+	log := o.logger(ctx)
+	log.Info().Msg("generating DNS instructions")
 	if o.subdomain || o.hosting != "" {
+		log.Info().Msg("skipping DNS instructions for subdomain or hosting")
 		return ""
 	}
 
@@ -34,6 +37,7 @@ func (o *order) generateDNSInstructions(ctx context.Context) string {
 		dns += "- " + strings.Join(parts, "\t") + "\n"
 	}
 
+	log.Info().Msg("DNS instructions have been generated")
 	return dns
 }
 

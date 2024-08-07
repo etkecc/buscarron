@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/rs/zerolog"
 	"gitlab.com/etke.cc/go/pricify"
 	"golang.org/x/text/cases"
 	"maunium.net/go/mautrix"
@@ -42,15 +43,24 @@ type order struct {
 
 var preprocessFields = []string{"email", "domain", "username"}
 
+func (o *order) logger(ctx context.Context) zerolog.Logger {
+	return zerolog.Ctx(ctx).With().
+		Str("domain", o.data["domain"]).
+		Str("email", o.data["email"]).
+		Logger()
+}
+
 // execute converts order to special message and files
 func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia) {
+	log := o.logger(ctx)
+	log.Info().Msg("starting order execution")
 	o.preprocess(ctx)
 	o.txt.WriteString("price: $" + strconv.Itoa(o.price) + "\n\n")
 
 	questions, countQ := o.generateQuestions(ctx)
 	delegation := o.generateDelegationInstructions(ctx)
 	dns := o.generateDNSInstructions(ctx)
-	hosts := o.generateHosts()
+	hosts := o.generateHosts(ctx)
 
 	if countQ > 0 {
 		o.txt.WriteString("```yaml\n")
@@ -87,6 +97,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	go o.toGP(ctx, hosts) //nolint:errcheck // no need to wait
 	go o.sendFollowup(ctx)
 
+	log.Info().Msg("order has been executed")
 	return o.txt.String(), o.files
 }
 
@@ -127,7 +138,8 @@ func (o *order) getHostingSize() string {
 func (o *order) preprocess(ctx context.Context) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.preprocess")
 	defer span.Finish()
-
+	log := o.logger(ctx)
+	log.Info().Msg("preprocessing order")
 	for _, key := range preprocessFields {
 		o.data[key] = strings.TrimSpace(strings.ToLower(o.data[key]))
 	}
@@ -152,14 +164,17 @@ func (o *order) preprocess(ctx context.Context) {
 	if o.has("smtp-relay-password") {
 		o.pass["smtp"] = o.get("smtp-relay-password")
 	}
-	o.preprocessSMTP()
-	o.preprocessPrice()
-	o.preprocessS3()
+	o.preprocessSMTP(span.Context())
+	o.preprocessPrice(span.Context())
+	o.preprocessS3(span.Context())
 
 	o.password("matrix")
+	log.Info().Msg("order has been preprocessed")
 }
 
-func (o *order) preprocessSMTP() {
+func (o *order) preprocessSMTP(ctx context.Context) {
+	log := o.logger(ctx)
+	log.Info().Msg("preprocessing smtp")
 	smtp := map[string]string{}
 	if o.has("service-email") {
 		smtp["host"] = "smtp.migadu.com"
@@ -179,9 +194,12 @@ func (o *order) preprocessSMTP() {
 	dkim := map[string]string{}
 	dkim["record"], dkim["private"] = o.dkimgen()
 	o.dkim = dkim
+	log.Info().Msg("smtp has been preprocessed")
 }
 
-func (o *order) preprocessS3() {
+func (o *order) preprocessS3(ctx context.Context) {
+	log := o.logger(ctx)
+	log.Info().Msg("preprocessing s3")
 	// synapse needs https://host.url
 	if o.has("synapse-s3-endpoint") {
 		endpointURL, err := url.Parse(o.get("synapse-s3-endpoint"))
@@ -206,17 +224,23 @@ func (o *order) preprocessS3() {
 			o.data["gotosocial-s3-endpoint"] = strings.TrimPrefix(endpointURL.String(), "//")
 		}
 	}
+	log.Info().Msg("s3 has been preprocessed")
 }
 
-func (o *order) preprocessPrice() {
+func (o *order) preprocessPrice(ctx context.Context) {
+	log := o.logger(ctx)
+	log.Info().Msg("preprocessing price")
 	if o.test {
 		o.price = len(o.data)
+		log.Info().Msg("price has been preprocessed (test)")
 		return
 	}
 
 	if o.pd == nil {
+		log.Warn().Msg("price data is nil")
 		return
 	}
 
 	o.price = o.pd.Calculate(o.data)
+	log.Info().Msg("price has been preprocessed")
 }

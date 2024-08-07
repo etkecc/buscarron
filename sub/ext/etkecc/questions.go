@@ -10,6 +10,8 @@ import (
 func (o *order) generateDelegationInstructions(ctx context.Context) string {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDelegationInstructions")
 	defer span.Finish()
+	log := o.logger(ctx)
+	log.Info().Msg("generating delegation instructions")
 
 	if o.get("serve_base_domain") == "yes" {
 		return ""
@@ -24,12 +26,15 @@ func (o *order) generateDelegationInstructions(ctx context.Context) string {
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/support") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/support") + "\n")
 	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/order/status#delegation-redirects") + "\n\n")
 
+	log.Info().Msg("delegation instructions have been generated")
 	return txt.String()
 }
 
 func (o *order) generateQuestions(ctx context.Context) (text string, count int) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateQuestions")
 	defer span.Finish()
+	log := o.logger(ctx)
+	log.Info().Msg("generating questions")
 
 	count = 0
 	var txt strings.Builder
@@ -49,6 +54,8 @@ func (o *order) generateQuestions(ctx context.Context) (text string, count int) 
 		count++
 		txt.WriteString(q)
 	}
+
+	log.Info().Msg("questions have been generated")
 	return txt.String(), count
 }
 

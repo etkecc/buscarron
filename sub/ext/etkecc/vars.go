@@ -16,6 +16,9 @@ func (o *order) vars(ctx context.Context) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.vars")
 	defer span.Finish()
 
+	log := o.logger(span.Context())
+	log.Info().Msg("generating vars")
+
 	var txt strings.Builder
 
 	// base
@@ -89,6 +92,7 @@ func (o *order) vars(ctx context.Context) {
 		ContentType:   "text/yaml",
 		ContentLength: int64(len(text)),
 	})
+	log.Info().Msg("vars have been generated")
 }
 
 func (o *order) varsEtke() string {

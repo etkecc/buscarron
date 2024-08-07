@@ -90,13 +90,13 @@ func main() {
 	initShutdown(quit)
 
 	for {
-		log.Debug().Msg("starting matrix bot...")
 		if err := initBot(cfg); err != nil {
 			log.Warn().Err(err).Msg("matrix bot startup failed, restarting in 10s...")
 			hc.Fail(strings.NewReader(fmt.Sprintf("matrix bot startup failed: %+v, restarting in 10s...", err)))
 			time.Sleep(10 * time.Second)
 			continue
 		}
+		controllers.SetFormHandlerSender(mxb)
 		break
 	}
 

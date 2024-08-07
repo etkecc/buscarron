@@ -47,7 +47,17 @@ func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args 
 		log.Warn().Msg("bot is disabled, cannot send error message to the room")
 		return
 	}
-	b.Send(ctx, roomID, "ERROR: "+fmt.Sprintf(message, args...), nil)
+
+	parsed := format.RenderMarkdown("ERROR: "+fmt.Sprintf(message, args...), true, true)
+	parsed.MsgType = event.MsgNotice
+	content := event.Content{
+		Parsed: &parsed,
+	}
+
+	_, err := b.lp.Send(ctx, roomID, &content)
+	if err != nil {
+		log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send error message")
+	}
 }
 
 // Send message to the room
@@ -71,8 +81,8 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 	}
 
 	b.mu.Lock()
+	defer b.mu.Unlock()
 	eventID, err := b.lp.Send(span.Context(), roomID, &content)
-	b.mu.Unlock()
 	if err != nil {
 		log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
@@ -91,8 +101,8 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 	defer span.Finish()
 
 	b.mu.Lock()
+	defer b.mu.Unlock()
 	err := b.lp.SendFile(span.Context(), roomID, file, event.MsgFile, relations...)
-	b.mu.Unlock()
 	if err != nil {
 		b.Error(span.Context(), roomID, "cannot upload file: %v", err)
 		return

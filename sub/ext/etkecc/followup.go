@@ -45,6 +45,9 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
 	defer span.Finish()
 
+	log := o.logger(ctx)
+	log.Info().Msg("generating followup")
+
 	var txt strings.Builder
 	txt.WriteString(followupHeader)
 	if countQ > 0 {
@@ -84,12 +87,17 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 			ContentLength: int64(len(content.Body)),
 		},
 	)
+	log.Info().Msg("followup has been generated")
 }
 
 func (o *order) sendFollowup(ctx context.Context) {
+	ctx = context.WithoutCancel(ctx)
 	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Ptr && reflect.ValueOf(o.pm).IsNil()) {
 		return
 	}
+
+	log := o.logger(ctx)
+	log.Info().Msg("sending followup")
 
 	req := &postmark.Email{
 		To:            o.get("email"),
@@ -99,5 +107,8 @@ func (o *order) sendFollowup(ctx context.Context) {
 		TextBody:      o.followup.Body,
 		HTMLBody:      o.followup.FormattedBody,
 	}
-	o.pm.Send(ctx, req) //nolint:errcheck // no need to wait
+	if err := o.pm.Send(ctx, req); err != nil {
+		log.Error().Err(err).Msg("cannot send followup")
+	}
+	log.Info().Msg("followup has been sent")
 }

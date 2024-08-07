@@ -68,6 +68,51 @@ func (r *Redmine) GetAPI() *redmine.Context {
 	return typed
 }
 
+// GetHost returns the Redmine host
+func (r *Redmine) GetHost() string {
+	return r.cfg.Host
+}
+
+// GetAPIKey returns the Redmine API key
+func (r *Redmine) GetAPIKey() string {
+	return r.cfg.APIKey
+}
+
+// GetProjectIdentifier returns the Redmine project identifier
+func (r *Redmine) GetProjectIdentifier() string {
+	return r.cfg.ProjectIdentifier
+}
+
+// GetProjectID returns the Redmine project ID
+func (r *Redmine) GetProjectID() int64 {
+	return r.cfg.ProjectID
+}
+
+// GetUserID returns the Redmine user ID
+func (r *Redmine) GetUserID() int64 {
+	return r.cfg.UserID
+}
+
+// GetTrackerID returns the Redmine tracker ID
+func (r *Redmine) GetTrackerID() int64 {
+	return r.cfg.TrackerID
+}
+
+// GetNewStatusID returns the Redmine new status ID
+func (r *Redmine) GetWaitingForOperatorStatusID() int64 {
+	return r.cfg.WaitingForOperatorStatusID
+}
+
+// GetWaitingForCustomerStatusID returns the Redmine waiting for customer status ID
+func (r *Redmine) GetWaitingForCustomerStatusID() int64 {
+	return r.cfg.WaitingForCustomerStatusID
+}
+
+// GetDoneStatusID returns the Redmine done status ID
+func (r *Redmine) GetDoneStatusID() int64 {
+	return r.cfg.DoneStatusID
+}
+
 // Enabled returns true if the Redmine client is enabled
 func (r *Redmine) Enabled() bool {
 	return r.cfg.Enabled()

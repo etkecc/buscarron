@@ -21,6 +21,7 @@ import (
 type FormHandler interface {
 	GET(context.Context, string, *http.Request) (string, error)
 	POST(context.Context, string, *http.Request) (string, error)
+	SetSender(sender sub.Sender)
 }
 
 type Config struct {
@@ -34,8 +35,11 @@ type Config struct {
 	PSD           *psd.Client
 }
 
+var formHandler FormHandler
+
 // ConfigureRouter configures echo router
 func ConfigureRouter(e *echo.Echo, cfg *Config) {
+	formHandler = cfg.FormHandler
 	banner := NewBanner(cfg.BanlistSize, cfg.BanlistStatic)
 	validator := NewValidator(cfg.Validator, cfg.PSD)
 	rl := NewRateLimiter(cfg.FormRLsShared, cfg.FormRLs)
@@ -70,7 +74,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	e.GET("/_domain", validator.DomainHander())
 	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
-		body, err := cfg.FormHandler.GET(c.Request().Context(), c.Param("name"), c.Request())
+		body, err := formHandler.GET(c.Request().Context(), c.Param("name"), c.Request())
 		if errors.Is(err, sub.ErrNotFound) {
 			return c.HTML(http.StatusNotFound, body)
 		}
@@ -82,7 +86,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	})
 	e.POST("/:name", func(c echo.Context) error {
 		log := zerolog.Ctx(c.Request().Context())
-		body, err := cfg.FormHandler.POST(c.Request().Context(), c.Param("name"), c.Request())
+		body, err := formHandler.POST(c.Request().Context(), c.Param("name"), c.Request())
 		if errors.Is(err, sub.ErrNotFound) || errors.Is(err, sub.ErrSpam) {
 			log.Warn().Err(err).Str("name", c.Param("name")).Msg("submission has rejected")
 			banner.Ban(c, err.Error())
@@ -95,4 +99,10 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 
 		return c.HTML(http.StatusOK, body)
 	}, banner.Middleware(), rl.Middleware())
+}
+
+// SetFormHandlerSender sets sender for form handler
+// it's a hack to avoid circular dependencies and allow setting matrix bot once it configured, while having HTTP server up & running, even if matrix part is down
+func SetFormHandlerSender(sender sub.Sender) {
+	formHandler.SetSender(sender)
 }

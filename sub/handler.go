@@ -81,6 +81,11 @@ func (h *Handler) initMapping() {
 	}
 }
 
+// SetSender sets sender
+func (h *Handler) SetSender(sender Sender) {
+	h.sender = sender
+}
+
 // GET request handler
 func (h *Handler) GET(ctx context.Context, name string, _ *http.Request) (string, error) {
 	span := utils.StartSpan(ctx, "sub.GET")
@@ -137,7 +142,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	}
 	v, ok := h.vs[name]
 	if !ok {
-		log.Warn().Msg("submission attempt to the a nonexistent form (validator does not exists)")
+		log.Warn().Msg("submission attempt to an unknown form (validator does not exists)")
 		return "", ErrNotFound
 	}
 
@@ -184,7 +189,9 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		attrs["issue_id"] = data["issue_id"]
 	}
 
+	log.Info().Msg("generating submission text and files")
 	text, files := h.generate(span.Context(), form, data)
+	log.Info().Msg("submission text and files have been generated")
 	if data["email"] != "" {
 		attrs["email"] = data["email"]
 	}
@@ -195,14 +202,17 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 
 	go h.updateIssue(span.Context(), issueID, form.Name, text, files)
 
+	log.Info().Msg("sending submission to the room")
 	eventID := h.sender.Send(span.Context(), form.RoomID, text, attrs)
 	var relates *event.RelatesTo
 	if eventID != "" {
 		relates = linkpearl.RelatesTo(eventID)
 	}
+	log.Info().Msg("submission has been sent to the room; sending files")
 	for _, file := range files {
 		h.sender.SendFile(span.Context(), form.RoomID, file, relates)
 	}
+	log.Info().Msg("files have been sent")
 
 	return h.redirect(span.Context(), form.Redirect, data), nil
 }

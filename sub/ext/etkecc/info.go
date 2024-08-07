@@ -1,10 +1,13 @@
 package etkecc
 
 import (
+	"context"
 	"strings"
 )
 
-func (o *order) generateHosts() string {
+func (o *order) generateHosts(ctx context.Context) string {
+	log := o.logger(ctx)
+	log.Info().Msg("generating hosts")
 	hasUser := o.has("ssh-user") && o.get("ssh-user") != "root"
 	hasPass := o.has("ssh-password") && o.get("ssh-password") != ""
 	hasPort := o.has("ssh-port") && o.get("ssh-port") != "22"
@@ -37,5 +40,6 @@ func (o *order) generateHosts() string {
 	txt.WriteString("ordered_at=")
 	txt.WriteString(o.orderedAt.Format("2006-01-02_15:04:05"))
 
+	log.Info().Msg("hosts have been generated")
 	return txt.String()
 }
