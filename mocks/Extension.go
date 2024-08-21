@@ -3,8 +3,8 @@
 package mocks
 
 import (
-	config "gitlab.com/etke.cc/buscarron/config"
-	common "gitlab.com/etke.cc/buscarron/sub/ext/common"
+	config "github.com/etkecc/buscarron/internal/config"
+	common "github.com/etkecc/buscarron/internal/sub/ext/common"
 
 	context "context"
 

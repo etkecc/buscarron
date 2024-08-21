@@ -1,4 +1,4 @@
-# Buscarron [![Matrix](https://img.shields.io/matrix/buscarron:etke.cc?logo=matrix&server_fqdn=matrix.org&style=for-the-badge)](https://matrix.to/#/#buscarron:etke.cc)[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/etkecc) [![coverage report](https://gitlab.com/etke.cc/buscarron/badges/main/coverage.svg)](https://gitlab.com/etke.cc/buscarron/-/commits/main) [![Go Report Card](https://goreportcard.com/badge/gitlab.com/etke.cc/buscarron)](https://goreportcard.com/report/gitlab.com/etke.cc/buscarron) [![Go Reference](https://pkg.go.dev/badge/gitlab.com/etke.cc/buscarron.svg)](https://pkg.go.dev/gitlab.com/etke.cc/buscarron)
+# Buscarron [![Matrix](https://img.shields.io/matrix/buscarron:etke.cc?logo=matrix&server_fqdn=matrix.org&style=for-the-badge)](https://matrix.to/#/#buscarron:etke.cc)
 
 > [more about that name](https://finalfantasy.fandom.com/wiki/Buscarron_Stacks)
 
@@ -67,7 +67,3 @@ env vars
 * **BUSCARRON_REDMINE_STATUSID** - redmine status ID, e.g. `1`
 
 You can find default values in [config/defaults.go](config/defaults.go)
-
-## Where to get
-
-[docker registry](https://gitlab.com/etke.cc/buscarron/container_registry), [etke.cc](https://etke.cc)
