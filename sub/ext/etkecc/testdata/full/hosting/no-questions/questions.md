@@ -1,4 +1,8 @@
+
+
 price: $101
+
+[status page](https://etke.cc/order/status/#749f066f31d6e795088f154897aba00b72bdbf951e4d5721caa37ee9d6eb31d9)
 
 hosts:
 ```

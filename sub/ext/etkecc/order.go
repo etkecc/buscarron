@@ -2,6 +2,8 @@ package etkecc
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"net/url"
 	"strconv"
 	"strings"
@@ -55,7 +57,12 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	log := o.logger(ctx)
 	log.Info().Msg("starting order execution")
 	o.preprocess(ctx)
-	o.txt.WriteString("price: $" + strconv.Itoa(o.price) + "\n\n")
+	o.txt.WriteString("\n\nprice: $" + strconv.Itoa(o.price) + "\n\n")
+
+	h := sha256.New()
+	h.Write([]byte(o.domain))
+	id := hex.EncodeToString(h.Sum(nil))
+	o.txt.WriteString("[status page](https://etke.cc/order/status/#" + id + ")\n\n")
 
 	questions, countQ := o.generateQuestions(ctx)
 	delegation := o.generateDelegationInstructions(ctx)
