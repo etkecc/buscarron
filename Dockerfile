@@ -9,7 +9,7 @@ FROM scratch
 ENV BUSCARRON_DB_DSN /data/buscarron.db
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=builder /app/PROJECT /bin/buscarron
+COPY --from=builder /app/buscarron /bin/buscarron
 
 USER app
 
