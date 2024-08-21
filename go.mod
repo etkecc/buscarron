@@ -1,8 +1,8 @@
 module gitlab.com/etke.cc/buscarron
 
-go 1.21.0
+go 1.22
 
-toolchain go1.21.4
+toolchain go1.23.0
 
 require (
 	github.com/VictoriaMetrics/metrics v1.35.1
@@ -28,8 +28,8 @@ require (
 	golang.org/x/net v0.28.0
 	golang.org/x/text v0.17.0
 	golang.org/x/time v0.6.0
-	maunium.net/go/mautrix v0.19.0
-	modernc.org/sqlite v1.31.1
+	maunium.net/go/mautrix v0.20.0
+	modernc.org/sqlite v1.32.0
 )
 
 require (
@@ -49,6 +49,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect
 	github.com/nixys/nxs-go-redmine/v5 v5.1.0 // indirect
+	github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
@@ -63,14 +64,14 @@ require (
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.4 // indirect
 	gitlab.com/etke.cc/go/trysmtp v1.1.3 // indirect
-	go.mau.fi/util v0.6.0 // indirect
+	go.mau.fi/util v0.7.0 // indirect
 	golang.org/x/crypto v0.26.0 // indirect
-	golang.org/x/exp v0.0.0-20240719175910-8a7402abbf56 // indirect
-	golang.org/x/sys v0.23.0 // indirect
+	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa // indirect
+	golang.org/x/sys v0.24.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a // indirect
-	modernc.org/libc v1.57.0 // indirect
+	modernc.org/libc v1.59.9 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/strutil v1.2.0 // indirect

@@ -156,6 +156,13 @@ func (o *order) preprocess(ctx context.Context) {
 		}
 	}
 
+	if o.hosting != "" {
+		delete(o.data, "ssh-host")
+		delete(o.data, "ssh-user")
+		delete(o.data, "ssh-password")
+		delete(o.data, "ssh-port")
+	}
+
 	o.data["serve_base_domain"] = "no"
 	if !o.v.A(o.domain) && !o.v.CNAME(o.domain) {
 		o.data["serve_base_domain"] = "yes"
