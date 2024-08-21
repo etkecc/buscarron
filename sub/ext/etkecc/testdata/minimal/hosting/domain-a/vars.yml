@@ -17,6 +17,9 @@ etke_subscription_confirmed: no
 etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
+# ssh
+system_security_ssh_service: ssh
+
 # postgres
 devture_postgres_connection_password: TODO64
 

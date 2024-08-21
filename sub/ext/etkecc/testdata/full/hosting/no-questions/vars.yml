@@ -51,6 +51,7 @@ etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
 # ssh
+system_security_ssh_service: ssh
 system_security_ssh_authorizedkeys_host:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host
 

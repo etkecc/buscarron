@@ -48,8 +48,9 @@ func (s *BotSuite) TestError() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: event.MsgNotice,
-			Body:    "ERROR: msg arg",
+			MsgType:  event.MsgNotice,
+			Body:     "ERROR: msg arg",
+			Mentions: &event.Mentions{},
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
@@ -60,8 +61,9 @@ func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: event.MsgNotice,
-			Body:    "msg",
+			MsgType:  event.MsgNotice,
+			Body:     "msg",
+			Mentions: &event.Mentions{},
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 
@@ -72,8 +74,9 @@ func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: event.MsgNotice,
-			Body:    "msg",
+			MsgType:  event.MsgNotice,
+			Body:     "msg",
+			Mentions: &event.Mentions{},
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), errors.New("test")).Once()
 
@@ -104,8 +107,9 @@ func (s *BotSuite) TestSendFile_Error() {
 	s.lp.On("SendFile", ctxMatcher, roomID, req, event.MsgFile).Return(errors.New("test")).Once()
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType: "m.notice",
-			Body:    "ERROR: cannot upload file: test",
+			MsgType:  "m.notice",
+			Body:     "ERROR: cannot upload file: test",
+			Mentions: &event.Mentions{},
 		},
 	}).Return(id.EventID("$doesnt:matt.er"), nil).Once()
 	s.bot.SendFile(context.TODO(), id.RoomID("!doesnt:matt.er"), req)

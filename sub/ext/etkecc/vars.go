@@ -236,8 +236,12 @@ func (o *order) varsEtkeBuilder(keys []string, enabledServices map[string]any) s
 
 func (o *order) varsSSH() string {
 	var txt strings.Builder
-	if (o.has("ssh-port") && o.get("ssh-port") != "22") || o.has("ssh-client-key") {
+	if (o.has("ssh-port") && o.get("ssh-port") != "22") || o.has("ssh-client-key") || o.hosting != "" {
 		txt.WriteString("\n# ssh\n")
+	}
+
+	if o.hosting != "" {
+		txt.WriteString("system_security_ssh_service: ssh\n")
 	}
 
 	if o.has("ssh-port") && o.get("ssh-port") != "22" {
