@@ -1,8 +1,8 @@
 module github.com/etkecc/buscarron
 
-go 1.22
+go 1.22.0
 
-toolchain go1.23.0
+toolchain go1.23.1
 
 require (
 	github.com/VictoriaMetrics/metrics v1.35.1
@@ -11,12 +11,12 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.1
 	github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259
-	github.com/etkecc/go-pricify v0.0.0-20240820090445-813b9f3766a8
+	github.com/etkecc/go-pricify v0.0.0-20240831160400-f10e47dce8da
 	github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56
 	github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
 	github.com/etkecc/go-secgen v1.2.1
 	github.com/etkecc/go-validator/v2 v2.2.2
-	github.com/getsentry/sentry-go v0.28.1
+	github.com/getsentry/sentry-go v0.29.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/lib/pq v1.10.9
@@ -26,11 +26,11 @@ require (
 	github.com/stretchr/testify v1.9.0
 	github.com/swaggo/swag v1.16.3
 	github.com/ziflex/lecho/v3 v3.7.0
-	golang.org/x/net v0.28.0
-	golang.org/x/text v0.17.0
+	golang.org/x/net v0.29.0
+	golang.org/x/text v0.18.0
 	golang.org/x/time v0.6.0
 	maunium.net/go/mautrix v0.20.0
-	modernc.org/sqlite v1.32.0
+	modernc.org/sqlite v1.33.0
 )
 
 require (
@@ -75,15 +75,14 @@ require (
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.4 // indirect
 	go.mau.fi/util v0.7.0 // indirect
-	golang.org/x/crypto v0.26.0 // indirect
-	golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa // indirect
-	golang.org/x/sys v0.24.0 // indirect
-	golang.org/x/tools v0.24.0 // indirect
+	golang.org/x/crypto v0.27.0 // indirect
+	golang.org/x/exp v0.0.0-20240909161429-701f63a606c0 // indirect
+	golang.org/x/sys v0.25.0 // indirect
+	golang.org/x/tools v0.25.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a // indirect
-	modernc.org/libc v1.59.9 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/strutil v1.2.0 // indirect

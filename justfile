@@ -4,7 +4,7 @@ default:
 
 # update go deps
 update *flags:
-    go get {{ flags }} ./cmd
+    go get {{ flags }} ./cmd/buscarron
     go mod tidy
     go mod vendor
 
@@ -22,11 +22,11 @@ mocks:
 
 # generate swagger docks
 swagger:
-    @swag init --dir ./cmd,./
+    @swag init --parseDependency --dir ./cmd/buscarron,./
 
 # automatically fix swagger issues
 swaggerfix: && swagger
-    @swag fmt --dir ./cmd,./
+    @swag fmt --dir ./cmd/buscarron,./
 
 # run unit tests
 test packages="./...":
@@ -36,8 +36,11 @@ test packages="./...":
 
 # run app
 run:
-    @go run ./cmd
+    @go run ./cmd/buscarron
+
+install:
+    @CGO_ENABLED=0 go install -ldflags '-extldflags "-static"' -tags timetzdata,goolm -v ./cmd/buscarron
 
 # build app
 build:
-    CGO_ENABLED=0 go build -ldflags '-extldflags "-static"' -tags timetzdata,goolm -v -o buscarron ./cmd
+    @CGO_ENABLED=0 go build -ldflags '-extldflags "-static"' -tags timetzdata,goolm -v ./cmd/buscarron

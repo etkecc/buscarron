@@ -224,7 +224,7 @@ var oidcmap = map[string]string{
 		"    allow_existing_users: yes\n" +
 		"    user_mapping_provider:\n" +
 		"      config:\n" +
-		"        localpart_template: \"{%% raw %%}{{ user.given_name|lower }}{%% endraw %%}\"\n" +
+		"        localpart_template: \"{%% raw %%}{{ user.email.split('@')[0] }}{%% endraw %%}\"\n" +
 		"        display_name_template: \"{%% raw %%}{{ user.name|capitalize }}{%% endraw %%}\"\n" +
 		"        email_template: \"{%% raw %%}{{ user.email }}{%% endraw %%}\"\n",
 	"lemonldap": "" +

@@ -106,6 +106,11 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 	var total int
 	verbose := map[string]*Item{}
 
+	// default value for etke_base_matrix
+	if _, ok := input["etke_base_matrix"]; !ok {
+		input["etke_base_matrix"] = "yes"
+	}
+
 	var withEmail bool
 	for entry, value := range input {
 		entry = strings.TrimSpace(strings.ToLower(entry))

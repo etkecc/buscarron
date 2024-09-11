@@ -43,7 +43,7 @@ github.com/etkecc/go-healthchecks/v2
 # github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259
 ## explicit; go 1.22
 github.com/etkecc/go-linkpearl
-# github.com/etkecc/go-pricify v0.0.0-20240820090445-813b9f3766a8
+# github.com/etkecc/go-pricify v0.0.0-20240831160400-f10e47dce8da
 ## explicit; go 1.17
 github.com/etkecc/go-pricify
 # github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56
@@ -61,7 +61,7 @@ github.com/etkecc/go-trysmtp
 # github.com/etkecc/go-validator/v2 v2.2.2
 ## explicit; go 1.18
 github.com/etkecc/go-validator/v2
-# github.com/getsentry/sentry-go v0.28.1
+# github.com/getsentry/sentry-go v0.29.0
 ## explicit; go 1.18
 github.com/getsentry/sentry-go
 github.com/getsentry/sentry-go/echo
@@ -227,7 +227,7 @@ go.mau.fi/util/jsontime
 go.mau.fi/util/ptr
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
-# golang.org/x/crypto v0.26.0
+# golang.org/x/crypto v0.27.0
 ## explicit; go 1.20
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
@@ -241,11 +241,11 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20240808152545-0cdaa3abc0fa
-## explicit; go 1.20
+# golang.org/x/exp v0.0.0-20240909161429-701f63a606c0
+## explicit; go 1.22.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
-# golang.org/x/net v0.28.0
+# golang.org/x/net v0.29.0
 ## explicit; go 1.18
 golang.org/x/net/context
 golang.org/x/net/html
@@ -256,13 +256,13 @@ golang.org/x/net/http2/h2c
 golang.org/x/net/http2/hpack
 golang.org/x/net/idna
 golang.org/x/net/publicsuffix
-# golang.org/x/sys v0.24.0
+# golang.org/x/sys v0.25.0
 ## explicit; go 1.18
 golang.org/x/sys/cpu
 golang.org/x/sys/execabs
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.17.0
+# golang.org/x/text v0.18.0
 ## explicit; go 1.18
 golang.org/x/text/cases
 golang.org/x/text/internal
@@ -278,8 +278,8 @@ golang.org/x/text/width
 # golang.org/x/time v0.6.0
 ## explicit; go 1.18
 golang.org/x/time/rate
-# golang.org/x/tools v0.24.0
-## explicit; go 1.19
+# golang.org/x/tools v0.25.0
+## explicit; go 1.22.0
 golang.org/x/tools/go/ast/astutil
 golang.org/x/tools/go/buildutil
 golang.org/x/tools/go/internal/cgo
@@ -329,43 +329,41 @@ maunium.net/go/mautrix/sqlstatestore
 # modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a
 ## explicit; go 1.20
 modernc.org/gc/v3
-# modernc.org/libc v1.59.9
-## explicit; go 1.20
-modernc.org/libc
-modernc.org/libc/errno
-modernc.org/libc/fcntl
-modernc.org/libc/fts
-modernc.org/libc/grp
-modernc.org/libc/honnef.co/go/netdb
-modernc.org/libc/langinfo
-modernc.org/libc/limits
-modernc.org/libc/netdb
-modernc.org/libc/netinet/in
-modernc.org/libc/poll
-modernc.org/libc/pthread
-modernc.org/libc/pwd
-modernc.org/libc/signal
-modernc.org/libc/stdio
-modernc.org/libc/stdlib
-modernc.org/libc/sys/socket
-modernc.org/libc/sys/stat
-modernc.org/libc/sys/types
-modernc.org/libc/termios
-modernc.org/libc/time
-modernc.org/libc/unistd
-modernc.org/libc/utime
-modernc.org/libc/uuid
-modernc.org/libc/uuid/uuid
-modernc.org/libc/wctype
 # modernc.org/mathutil v1.6.0
 ## explicit; go 1.18
 modernc.org/mathutil
 # modernc.org/memory v1.8.0
 ## explicit; go 1.18
 modernc.org/memory
-# modernc.org/sqlite v1.32.0
+# modernc.org/sqlite v1.33.0
 ## explicit; go 1.20
 modernc.org/sqlite
+modernc.org/sqlite/internal/libc
+modernc.org/sqlite/internal/libc/errno
+modernc.org/sqlite/internal/libc/fcntl
+modernc.org/sqlite/internal/libc/fts
+modernc.org/sqlite/internal/libc/grp
+modernc.org/sqlite/internal/libc/honnef.co/go/netdb
+modernc.org/sqlite/internal/libc/langinfo
+modernc.org/sqlite/internal/libc/limits
+modernc.org/sqlite/internal/libc/netdb
+modernc.org/sqlite/internal/libc/netinet/in
+modernc.org/sqlite/internal/libc/poll
+modernc.org/sqlite/internal/libc/pthread
+modernc.org/sqlite/internal/libc/pwd
+modernc.org/sqlite/internal/libc/signal
+modernc.org/sqlite/internal/libc/stdio
+modernc.org/sqlite/internal/libc/stdlib
+modernc.org/sqlite/internal/libc/sys/socket
+modernc.org/sqlite/internal/libc/sys/stat
+modernc.org/sqlite/internal/libc/sys/types
+modernc.org/sqlite/internal/libc/termios
+modernc.org/sqlite/internal/libc/time
+modernc.org/sqlite/internal/libc/unistd
+modernc.org/sqlite/internal/libc/utime
+modernc.org/sqlite/internal/libc/uuid
+modernc.org/sqlite/internal/libc/uuid/uuid
+modernc.org/sqlite/internal/libc/wctype
 modernc.org/sqlite/lib
 # modernc.org/strutil v1.2.0
 ## explicit; go 1.18
