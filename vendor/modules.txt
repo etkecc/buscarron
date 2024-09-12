@@ -52,7 +52,7 @@ github.com/etkecc/go-psd
 # github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
 ## explicit; go 1.21
 github.com/etkecc/go-redmine
-# github.com/etkecc/go-secgen v1.2.1
+# github.com/etkecc/go-secgen v1.3.0
 ## explicit; go 1.19
 github.com/etkecc/go-secgen
 # github.com/etkecc/go-trysmtp v1.1.4
@@ -329,41 +329,43 @@ maunium.net/go/mautrix/sqlstatestore
 # modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a
 ## explicit; go 1.20
 modernc.org/gc/v3
+# modernc.org/libc v1.60.1
+## explicit; go 1.20
+modernc.org/libc
+modernc.org/libc/errno
+modernc.org/libc/fcntl
+modernc.org/libc/fts
+modernc.org/libc/grp
+modernc.org/libc/honnef.co/go/netdb
+modernc.org/libc/langinfo
+modernc.org/libc/limits
+modernc.org/libc/netdb
+modernc.org/libc/netinet/in
+modernc.org/libc/poll
+modernc.org/libc/pthread
+modernc.org/libc/pwd
+modernc.org/libc/signal
+modernc.org/libc/stdio
+modernc.org/libc/stdlib
+modernc.org/libc/sys/socket
+modernc.org/libc/sys/stat
+modernc.org/libc/sys/types
+modernc.org/libc/termios
+modernc.org/libc/time
+modernc.org/libc/unistd
+modernc.org/libc/utime
+modernc.org/libc/uuid
+modernc.org/libc/uuid/uuid
+modernc.org/libc/wctype
 # modernc.org/mathutil v1.6.0
 ## explicit; go 1.18
 modernc.org/mathutil
 # modernc.org/memory v1.8.0
 ## explicit; go 1.18
 modernc.org/memory
-# modernc.org/sqlite v1.33.0
+# modernc.org/sqlite v1.33.1
 ## explicit; go 1.20
 modernc.org/sqlite
-modernc.org/sqlite/internal/libc
-modernc.org/sqlite/internal/libc/errno
-modernc.org/sqlite/internal/libc/fcntl
-modernc.org/sqlite/internal/libc/fts
-modernc.org/sqlite/internal/libc/grp
-modernc.org/sqlite/internal/libc/honnef.co/go/netdb
-modernc.org/sqlite/internal/libc/langinfo
-modernc.org/sqlite/internal/libc/limits
-modernc.org/sqlite/internal/libc/netdb
-modernc.org/sqlite/internal/libc/netinet/in
-modernc.org/sqlite/internal/libc/poll
-modernc.org/sqlite/internal/libc/pthread
-modernc.org/sqlite/internal/libc/pwd
-modernc.org/sqlite/internal/libc/signal
-modernc.org/sqlite/internal/libc/stdio
-modernc.org/sqlite/internal/libc/stdlib
-modernc.org/sqlite/internal/libc/sys/socket
-modernc.org/sqlite/internal/libc/sys/stat
-modernc.org/sqlite/internal/libc/sys/types
-modernc.org/sqlite/internal/libc/termios
-modernc.org/sqlite/internal/libc/time
-modernc.org/sqlite/internal/libc/unistd
-modernc.org/sqlite/internal/libc/utime
-modernc.org/sqlite/internal/libc/uuid
-modernc.org/sqlite/internal/libc/uuid/uuid
-modernc.org/sqlite/internal/libc/wctype
 modernc.org/sqlite/lib
 # modernc.org/strutil v1.2.0
 ## explicit; go 1.18

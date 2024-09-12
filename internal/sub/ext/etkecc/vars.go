@@ -579,7 +579,7 @@ func (o *order) varsFirezone() string {
 	txt.WriteString("firezone_hostname: firezone." + o.domain + "\n")
 	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
 	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
-	txt.WriteString("firezone_database_encryption_key: \"" + o.bytesgen(32) + "\"\n")
+	txt.WriteString("firezone_database_encryption_key: \"" + o.base64bytesgen(32) + "\"\n")
 
 	return txt.String()
 }
@@ -817,8 +817,8 @@ func (o *order) varsBaibot() string {
 	txt.WriteString("matrix_bot_baibot_enabled: yes\n")
 	txt.WriteString("matrix_bot_baibot_config_user_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_baibot_config_user_encryption_recovery_passphrase: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_baibot_config_persistence_session_encryption_key: " + o.bytesgen(32) + "\n")
-	txt.WriteString("matrix_bot_baibot_config_persistence_config_encryption_key: " + o.bytesgen(32) + "\n")
+	txt.WriteString("matrix_bot_baibot_config_persistence_session_encryption_key: " + o.hexBytesGen(32) + "\n")
+	txt.WriteString("matrix_bot_baibot_config_persistence_config_encryption_key: " + o.hexBytesGen(32) + "\n")
 
 	return txt.String()
 }

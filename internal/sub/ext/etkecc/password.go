@@ -22,7 +22,7 @@ func (o *order) pwgen(length ...int) string {
 	return secgen.Password(passlen)
 }
 
-func (o *order) bytesgen(length ...int) string {
+func (o *order) base64bytesgen(length ...int) string {
 	passlen := defaultPassLen
 	if len(length) > 0 {
 		passlen = length[0]
@@ -33,6 +33,19 @@ func (o *order) bytesgen(length ...int) string {
 	}
 
 	return secgen.Base64Bytes(passlen)
+}
+
+func (o *order) hexBytesGen(length ...int) string {
+	passlen := defaultPassLen
+	if len(length) > 0 {
+		passlen = length[0]
+	}
+
+	if o.test {
+		return "TODO" + strconv.Itoa(passlen)
+	}
+
+	return secgen.HexBytes(passlen)
 }
 
 func (o *order) keygen() (pub, priv string) {
