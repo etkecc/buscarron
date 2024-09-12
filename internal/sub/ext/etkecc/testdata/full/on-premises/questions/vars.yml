@@ -225,6 +225,12 @@ vaultwarden_enabled: yes
 vaultwarden_hostname: vault.example.com
 vaultwarden_config_admin_token: TODO64
 
+# bots::baibot
+matrix_bot_baibot_enabled: yes
+matrix_bot_baibot_config_user_encryption_recovery_passphrase: TODO64
+matrix_bot_baibot_config_persistence_session_encryption_key: TODO32
+matrix_bot_baibot_config_persistence_config_encryption_key: TODO32
+
 # bots::buscarron
 matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_password: TODO64

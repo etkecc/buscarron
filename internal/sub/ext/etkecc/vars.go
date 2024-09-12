@@ -60,6 +60,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsVaultwarden())
 
 	// bots
+	txt.WriteString(o.varsBaibot())
 	txt.WriteString(o.varsBuscarron())
 	txt.WriteString(o.varsChatGPT())
 	txt.WriteString(o.varsHonoroit())
@@ -802,6 +803,21 @@ func (o *order) varsVaultwarden() string {
 	txt.WriteString("vaultwarden_enabled: yes\n")
 	txt.WriteString("vaultwarden_hostname: vault." + o.domain + "\n")
 	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin") + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsBaibot() string {
+	if !o.has("baibot") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# bots::baibot\n")
+	txt.WriteString("matrix_bot_baibot_enabled: yes\n")
+	txt.WriteString("matrix_bot_baibot_config_user_encryption_recovery_passphrase: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_bot_baibot_config_persistence_session_encryption_key: " + o.bytesgen(32) + "\n")
+	txt.WriteString("matrix_bot_baibot_config_persistence_config_encryption_key: " + o.bytesgen(32) + "\n")
 
 	return txt.String()
 }

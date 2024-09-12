@@ -30,6 +30,7 @@ var dnsmap = map[string]string{
 }
 
 var botmap = map[string]string{
+	"baibot":       "@baibot",
 	"buscarron":    "@buscarron",
 	"chatgpt":      "@chatgpt",
 	"honoroit":     "@honoroit",
@@ -57,6 +58,7 @@ var bridgemap = map[string]string{
 }
 
 var helpmap = map[string]string{
+	"baibot":       "etke.cc/help/bots/baibot",
 	"buscarron":    "etke.cc/help/bots/buscarron",
 	"chatgpt":      "etke.cc/help/bots/chatgpt",
 	"cinny":        "",
