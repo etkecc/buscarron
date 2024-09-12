@@ -815,6 +815,7 @@ func (o *order) varsBaibot() string {
 
 	txt.WriteString("\n# bots::baibot\n")
 	txt.WriteString("matrix_bot_baibot_enabled: yes\n")
+	txt.WriteString("matrix_bot_baibot_config_user_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_baibot_config_user_encryption_recovery_passphrase: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_baibot_config_persistence_session_encryption_key: " + o.bytesgen(32) + "\n")
 	txt.WriteString("matrix_bot_baibot_config_persistence_config_encryption_key: " + o.bytesgen(32) + "\n")

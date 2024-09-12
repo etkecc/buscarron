@@ -259,6 +259,7 @@ vaultwarden_config_admin_token: TODO64
 
 # bots::baibot
 matrix_bot_baibot_enabled: yes
+matrix_bot_baibot_config_user_password: TODO64
 matrix_bot_baibot_config_user_encryption_recovery_passphrase: TODO64
 matrix_bot_baibot_config_persistence_session_encryption_key: TODO32
 matrix_bot_baibot_config_persistence_config_encryption_key: TODO32
