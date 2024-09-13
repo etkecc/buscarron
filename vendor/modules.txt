@@ -43,8 +43,8 @@ github.com/etkecc/go-healthchecks/v2
 # github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259
 ## explicit; go 1.22
 github.com/etkecc/go-linkpearl
-# github.com/etkecc/go-pricify v0.0.0-20240831160400-f10e47dce8da
-## explicit; go 1.17
+# github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
+## explicit; go 1.22
 github.com/etkecc/go-pricify
 # github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56
 ## explicit; go 1.21.0
@@ -142,7 +142,7 @@ github.com/mitchellh/mapstructure
 # github.com/ncruces/go-strftime v0.1.9
 ## explicit; go 1.17
 github.com/ncruces/go-strftime
-# github.com/nixys/nxs-go-redmine/v5 v5.1.0
+# github.com/nixys/nxs-go-redmine/v5 v5.1.1
 ## explicit; go 1.21
 github.com/nixys/nxs-go-redmine/v5
 github.com/nixys/nxs-go-redmine/v5/mimereader

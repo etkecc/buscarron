@@ -31,8 +31,8 @@ github.com/etkecc/go-healthchecks/v2 v2.2.1 h1:veGW/EoFuF4mB9ylHhCB4C98MY2kjl3++
 github.com/etkecc/go-healthchecks/v2 v2.2.1/go.mod h1:IowWGN4F6By6z0eh63+639OscylgtdvT9ITjfN6hnZA=
 github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259 h1:dPTbAGkvxpMeCW3umXW08x+V9cWZTrxJVB8Ci5/Xxww=
 github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259/go.mod h1:1t/feey8th1xSrJaa3CqYzrmc4yUUv/YPv7djgI7aQY=
-github.com/etkecc/go-pricify v0.0.0-20240831160400-f10e47dce8da h1:ISdg9KMxqUgIVeEeGnbJJtWzjNbPcuBg5eORbvbhVrE=
-github.com/etkecc/go-pricify v0.0.0-20240831160400-f10e47dce8da/go.mod h1:lc3lQ1PlQmjY2LLo0bmYoqppRlUvtFFRxHcsMfYHvi0=
+github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49 h1:zbXd2N7h/U21Bd4nJrMnqBvFKRBARVz+gmzPPo2NUY8=
+github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49/go.mod h1:TahWK9KZrcClk9mNOpGYK2ewEFiENlPOFZVhy15551g=
 github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56 h1:WgHl5bTrf+3RqSrSXJiE4S2tkW+UKnMbWR4K+nWEh48=
 github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56/go.mod h1:D+viZZ4CaSlJLz2E99eoLkO8Xvb6Q5/1jEgQ3tbVY0U=
 github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b h1:lVK0uhg6dXqe2XG05vgQc2m90Ivqczq+ArolbYXSPF8=
@@ -110,8 +110,8 @@ github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RR
 github.com/ncruces/go-strftime v0.1.9 h1:bY0MQC28UADQmHmaF5dgpLmImcShSi2kHU9XLdhx/f4=
 github.com/ncruces/go-strftime v0.1.9/go.mod h1:Fwc5htZGVVkseilnfgOVb9mKy6w1naJmn9CehxcKcls=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
-github.com/nixys/nxs-go-redmine/v5 v5.1.0 h1:atRBqkyAQnN1Xo4gcu7wl71IqZVuIw0EM728nSKiuJY=
-github.com/nixys/nxs-go-redmine/v5 v5.1.0/go.mod h1:rl6ABSqq7L9G6U7sP7DcoKG2hf0aQKIMy8WFLuTBTuE=
+github.com/nixys/nxs-go-redmine/v5 v5.1.1 h1:pdJQ4cZp/rXhEqIdm/baSzPv6UzDHq5S7VL5SI0r3DY=
+github.com/nixys/nxs-go-redmine/v5 v5.1.1/go.mod h1:rl6ABSqq7L9G6U7sP7DcoKG2hf0aQKIMy8WFLuTBTuE=
 github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7 h1:Dx7Ovyv/SFnMFw3fD4oEoeorXc6saIiQ23LrGLth0Gw=
 github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7/go.mod h1:pxMtw7cyUw6B2bRH0ZBANSPg+AoSud1I1iyJHI69jH4=
 github.com/pingcap/errors v0.11.4 h1:lFuQV/oaUMGcD2tqt+01ROSmJs75VG1ToEOkZIZ4nE4=

@@ -35,7 +35,7 @@ type Item struct {
 }
 
 // fromSourceItem converts source items into the []*Item and adds them to the Data
-func (d *Data) fromSourceItem(sItems []sourceItem, sectionID, sectionName, sectionDescription, sectionHelp string, sectionPrice int) {
+func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sectionDescription, sectionHelp string, sectionPrice int) {
 	for _, sItem := range sItems {
 		item := &Item{
 			ID:                 sItem.ID,
@@ -58,7 +58,7 @@ func (d *Data) fromSourceItem(sItems []sourceItem, sectionID, sectionName, secti
 }
 
 // fromSourceSection coverts source sections into the []*Item and adds them to the Data
-func (d *Data) fromSourceSection(ssItem sourceSectionItem, sectionID string, sectionPrice int) {
+func (d *Data) fromSourceSection(ssItem *sourceSectionItem, sectionID string, sectionPrice int) {
 	for _, sItem := range ssItem.Options {
 		item := &Item{
 			ID:           ssItem.ID,
@@ -102,12 +102,15 @@ func (d *Data) Calculate(input map[string]string) int {
 }
 
 // CalculateVerbose calculates total price and provides details about each found item
-func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item) {
-	var total int
-	verbose := map[string]*Item{}
+//
+//nolint:gocognit // needs refactoring
+func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map[string]*Item) {
+	verbose = map[string]*Item{}
 
 	// default value for etke_base_matrix
-	if _, ok := input["etke_base_matrix"]; !ok {
+	_, iidMatrix := input["etke_base_matrix"]
+	_, idMatrix := input["matrix"]
+	if !iidMatrix && !idMatrix {
 		input["etke_base_matrix"] = "yes"
 	}
 
@@ -143,7 +146,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (int, map[string]*Item)
 		// smtp relay should be free if email service is selected
 		if item.InventoryID == "exim_relay_relay_use" && withEmail {
 			freeRelay := *item
-			freeRelay.Name = freeRelay.Name + " (free with email service)"
+			freeRelay.Name += " (free with email service)"
 			freeRelay.Price = 0
 			freeRelay.SectionPrice = 0
 

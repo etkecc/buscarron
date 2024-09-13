@@ -3,8 +3,8 @@ default:
     @just --list --justfile {{ justfile() }}
 
 # update go deps
-update:
-    go get .
+update *flags:
+    go get {{ flags }} .
     go mod tidy
 
 # run linter
@@ -17,6 +17,6 @@ lintfix:
 
 # run unit tests
 test:
-    @go test -coverprofile=cover.out ./...
+    @go test -cover -coverprofile=cover.out -coverpkg=./... -covermode=set ./...
     @go tool cover -func=cover.out
     -@rm -f cover.out

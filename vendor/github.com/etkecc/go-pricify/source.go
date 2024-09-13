@@ -3,17 +3,17 @@ package pricify
 import "encoding/json"
 
 type sourceModel struct {
-	Bases     []sourceItem      `json:"bases"`
-	Instances sourceSectionItem `json:"instances"`
-	Support   sourceSectionItem `json:"support"`
+	Bases     []*sourceItem      `json:"bases"`
+	Instances *sourceSectionItem `json:"instances"`
+	Support   *sourceSectionItem `json:"support"`
 
-	MatrixApps         []sourceItem `json:"matrixApps"`
-	MatrixBots         []sourceItem `json:"matrixBots"`
-	MatrixBridges      []sourceItem `json:"matrixBridges"`
-	MatrixBridgesPrice int          `json:"matrixBridgesPrice"`
-	MatrixAdditional   []sourceItem `json:"additionalMatrixServices"`
+	MatrixApps         []*sourceItem `json:"matrixApps"`
+	MatrixBots         []*sourceItem `json:"matrixBots"`
+	MatrixBridges      []*sourceItem `json:"matrixBridges"`
+	MatrixBridgesPrice int           `json:"matrixBridgesPrice"`
+	MatrixAdditional   []*sourceItem `json:"additionalMatrixServices"`
 
-	AdditionalServices []sourceItem `json:"additionalServices"`
+	AdditionalServices []*sourceItem `json:"additionalServices"`
 }
 
 type sourceSectionItem struct {
