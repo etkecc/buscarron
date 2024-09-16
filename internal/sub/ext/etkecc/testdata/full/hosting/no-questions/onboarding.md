@@ -36,7 +36,6 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Baibot: [@baibot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@baibot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/baibot))
 * Buscarron: [@buscarron:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@buscarron:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/buscarron))
-* Chatgpt: [@chatgpt:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@chatgpt:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/chatgpt))
 * Honoroit: [@honoroit:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@honoroit:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/honoroit))
 * Maubot: [@maubot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@maubot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/maubot))
 * Reminder-Bot: [@reminder:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@reminder:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/reminder))

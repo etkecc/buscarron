@@ -2,6 +2,10 @@
 ## explicit; go 1.15
 blitiri.com.ar/go/spf
 blitiri.com.ar/go/spf/internal/dnstest
+# filippo.io/edwards25519 v1.1.0
+## explicit; go 1.20
+filippo.io/edwards25519
+filippo.io/edwards25519/field
 # github.com/KyleBanks/depth v1.2.1
 ## explicit
 github.com/KyleBanks/depth
@@ -40,8 +44,8 @@ github.com/etkecc/go-env/dotenv
 # github.com/etkecc/go-healthchecks/v2 v2.2.1
 ## explicit; go 1.18
 github.com/etkecc/go-healthchecks/v2
-# github.com/etkecc/go-linkpearl v0.0.0-20240820090551-8c5298047259
-## explicit; go 1.22
+# github.com/etkecc/go-linkpearl v0.0.0-20240916112808-1ff87355b2b3
+## explicit; go 1.22.0
 github.com/etkecc/go-linkpearl
 # github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 ## explicit; go 1.22
@@ -213,15 +217,18 @@ github.com/yuin/goldmark/util
 # github.com/ziflex/lecho/v3 v3.7.0
 ## explicit; go 1.17
 github.com/ziflex/lecho/v3
-# go.mau.fi/util v0.7.0
-## explicit; go 1.22
+# go.mau.fi/util v0.8.0
+## explicit; go 1.22.0
 go.mau.fi/util/base58
 go.mau.fi/util/confusable
 go.mau.fi/util/dbutil
 go.mau.fi/util/exerrors
 go.mau.fi/util/exgjson
+go.mau.fi/util/exhttp
+go.mau.fi/util/exslices
 go.mau.fi/util/exsync
 go.mau.fi/util/exzerolog
+go.mau.fi/util/glob
 go.mau.fi/util/jsonbytes
 go.mau.fi/util/jsontime
 go.mau.fi/util/ptr
@@ -293,8 +300,8 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/mautrix v0.20.0
-## explicit; go 1.22
+# maunium.net/go/mautrix v0.21.0
+## explicit; go 1.22.0
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
 maunium.net/go/mautrix/crypto/aescbc
@@ -302,17 +309,20 @@ maunium.net/go/mautrix/crypto/attachment
 maunium.net/go/mautrix/crypto/backup
 maunium.net/go/mautrix/crypto/canonicaljson
 maunium.net/go/mautrix/crypto/cryptohelper
+maunium.net/go/mautrix/crypto/ed25519
 maunium.net/go/mautrix/crypto/goolm
 maunium.net/go/mautrix/crypto/goolm/account
 maunium.net/go/mautrix/crypto/goolm/cipher
 maunium.net/go/mautrix/crypto/goolm/crypto
+maunium.net/go/mautrix/crypto/goolm/goolmbase64
 maunium.net/go/mautrix/crypto/goolm/libolmpickle
 maunium.net/go/mautrix/crypto/goolm/megolm
 maunium.net/go/mautrix/crypto/goolm/message
-maunium.net/go/mautrix/crypto/goolm/olm
 maunium.net/go/mautrix/crypto/goolm/pk
+maunium.net/go/mautrix/crypto/goolm/ratchet
 maunium.net/go/mautrix/crypto/goolm/session
 maunium.net/go/mautrix/crypto/goolm/utilities
+maunium.net/go/mautrix/crypto/libolm
 maunium.net/go/mautrix/crypto/olm
 maunium.net/go/mautrix/crypto/pkcs7
 maunium.net/go/mautrix/crypto/signatures
@@ -324,7 +334,6 @@ maunium.net/go/mautrix/format
 maunium.net/go/mautrix/format/mdext
 maunium.net/go/mautrix/id
 maunium.net/go/mautrix/pushrules
-maunium.net/go/mautrix/pushrules/glob
 maunium.net/go/mautrix/sqlstatestore
 # modernc.org/gc/v3 v3.0.0-20240801135723-a856999a2e4a
 ## explicit; go 1.20

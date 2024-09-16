@@ -168,7 +168,6 @@ func (o *order) generateOnboardingCredentials() string {
 	mxpass := passwords["matrix"]
 	delete(o.logins, "matrix")
 	delete(passwords, "matrix")
-	delete(passwords, "chatgpt")
 	delete(passwords, "borg")
 	delete(passwords, "smtp")
 

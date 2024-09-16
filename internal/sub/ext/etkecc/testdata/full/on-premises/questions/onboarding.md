@@ -36,7 +36,6 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Baibot: [@baibot:example.com](https://matrix.to/#/@baibot:example.com) ([help](https://etke.cc/help/bots/baibot))
 * Buscarron: [@buscarron:example.com](https://matrix.to/#/@buscarron:example.com) ([help](https://etke.cc/help/bots/buscarron))
-* Chatgpt: [@chatgpt:example.com](https://matrix.to/#/@chatgpt:example.com) ([help](https://etke.cc/help/bots/chatgpt))
 * Honoroit: [@honoroit:example.com](https://matrix.to/#/@honoroit:example.com) ([help](https://etke.cc/help/bots/honoroit))
 * Maubot: [@maubot:example.com](https://matrix.to/#/@maubot:example.com) ([help](https://etke.cc/help/bots/maubot))
 * Reminder-Bot: [@reminder:example.com](https://matrix.to/#/@reminder:example.com) ([help](https://etke.cc/help/bots/reminder))

@@ -62,7 +62,6 @@ func (o *order) vars(ctx context.Context) {
 	// bots
 	txt.WriteString(o.varsBaibot())
 	txt.WriteString(o.varsBuscarron())
-	txt.WriteString(o.varsChatGPT())
 	txt.WriteString(o.varsHonoroit())
 	txt.WriteString(o.varsMaubot())
 	txt.WriteString(o.varsReminder())
@@ -314,11 +313,6 @@ func (o *order) varsUsers() string {
 	txt.WriteString(" - username: " + o.get("username") + "\n")
 	txt.WriteString("   initial_password: " + o.password("matrix") + "\n")
 	txt.WriteString("   initial_type: admin\n")
-	if o.has("chatgpt") {
-		txt.WriteString(" - username: chatgpt\n")
-		txt.WriteString("   initial_password: " + o.password("chatgpt") + "\n")
-		txt.WriteString("   initial_type: bot\n")
-	}
 
 	if o.has("gotosocial") {
 		login := o.login("gotosocial", strings.ReplaceAll(o.get("username"), ".", "_"))
@@ -829,20 +823,6 @@ func (o *order) varsBuscarron() string {
 	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
 	txt.WriteString("matrix_bot_buscarron_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_buscarron_forms: []\n")
-
-	return txt.String()
-}
-
-func (o *order) varsChatGPT() string {
-	if !o.has("chatgpt") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# bots::chatgpt\n")
-	txt.WriteString("matrix_bot_chatgpt_enabled: yes\n")
-	txt.WriteString("matrix_bot_chatgpt_openai_api_key: " + o.get("chatgpt-api-key") + "\n")
-	txt.WriteString("matrix_bot_chatgpt_matrix_bot_password: " + o.password("chatgpt") + "\n")
 
 	return txt.String()
 }

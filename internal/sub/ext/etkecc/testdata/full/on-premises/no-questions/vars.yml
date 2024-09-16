@@ -32,9 +32,6 @@ matrix_user_creator_users_additional:
  - username: test.admin
    initial_password: TODO64
    initial_type: admin
- - username: chatgpt
-   initial_password: TODO64
-   initial_type: bot
 gotosocial_users_additional:
  - username: test_admin
    initial_email: test@test.com
@@ -268,11 +265,6 @@ matrix_bot_baibot_config_persistence_config_encryption_key: TODO32
 matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_password: TODO64
 matrix_bot_buscarron_forms: []
-
-# bots::chatgpt
-matrix_bot_chatgpt_enabled: yes
-matrix_bot_chatgpt_openai_api_key: TODO
-matrix_bot_chatgpt_matrix_bot_password: TODO64
 
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
