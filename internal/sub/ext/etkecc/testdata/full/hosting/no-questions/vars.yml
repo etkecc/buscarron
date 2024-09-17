@@ -114,6 +114,7 @@ matrix_synapse_workers_preset: specialized-workers
 
 # synapse::extensions::s3_storage_provider
 matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes
+matrix_synapse_ext_synapse_s3_storage_provider_config_prefix: synapse
 matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: mybucket
 matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: us-east-1
 matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: https://s3.example.com

@@ -455,6 +455,7 @@ func (o *order) varsSynapse() string {
 	if o.has("synapse-s3") || o.has("synapse-s3-storage") {
 		txt.WriteString("\n# synapse::extensions::s3_storage_provider\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_prefix: synapse\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: " + o.get("synapse-s3-bucket") + "\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: " + o.get("synapse-s3-region") + "\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: " + o.get("synapse-s3-endpoint") + "\n")
