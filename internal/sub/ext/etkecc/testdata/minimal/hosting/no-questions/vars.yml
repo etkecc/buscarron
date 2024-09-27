@@ -24,12 +24,12 @@ system_security_ssh_authorizedkeys_host:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user2@host
 
 # postgres
-devture_postgres_connection_password: TODO64
+postgres_connection_password: TODO64
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
 matrix_admin: "@test:example.com"
-devture_traefik_config_certificatesResolvers_acme_email: test@test.com
+traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 
 # MSC1929 admin contacts

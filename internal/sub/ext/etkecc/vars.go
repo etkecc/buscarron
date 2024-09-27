@@ -269,7 +269,7 @@ func (o *order) varsPostgres() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres\n")
-	txt.WriteString("devture_postgres_connection_password: " + o.pwgen() + "\n")
+	txt.WriteString("postgres_connection_password: " + o.pwgen() + "\n")
 
 	return txt.String()
 }
@@ -280,7 +280,7 @@ func (o *order) varsHomeserver() string {
 	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
 	txt.WriteString("matrix_domain: " + o.domain + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":" + o.domain + "\"\n")
-	txt.WriteString("devture_traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
+	txt.WriteString("traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}
@@ -380,11 +380,11 @@ func (o *order) varsPostgresBackup() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# postgres::backups\n")
-	txt.WriteString("devture_postgres_backup_enabled: yes\n")
-	txt.WriteString("devture_postgres_backup_schedule: '@daily'\n")
-	txt.WriteString("devture_postgres_backup_keep_days: 7\n")
-	txt.WriteString("devture_postgres_backup_keep_weeks: 0\n")
-	txt.WriteString("devture_postgres_backup_keep_months: 0\n")
+	txt.WriteString("postgres_backup_enabled: yes\n")
+	txt.WriteString("postgres_backup_schedule: '@daily'\n")
+	txt.WriteString("postgres_backup_keep_days: 7\n")
+	txt.WriteString("postgres_backup_keep_weeks: 0\n")
+	txt.WriteString("postgres_backup_keep_months: 0\n")
 
 	return txt.String()
 }

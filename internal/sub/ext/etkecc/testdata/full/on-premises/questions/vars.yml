@@ -8,12 +8,12 @@ etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
 # postgres
-devture_postgres_connection_password: TODO64
+postgres_connection_password: TODO64
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
 matrix_admin: "@test:example.com"
-devture_traefik_config_certificatesResolvers_acme_email: test@test.com
+traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_bridges_encryption_enabled: yes
 
 # MSC1929 admin contacts

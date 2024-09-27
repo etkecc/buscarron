@@ -7,12 +7,12 @@ etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
 # postgres
-devture_postgres_connection_password: TODO64
+postgres_connection_password: TODO64
 
 # homeserver https://matrix.example.com
 matrix_domain: example.com
 matrix_admin: "@test:example.com"
-devture_traefik_config_certificatesResolvers_acme_email: test@test.com
+traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 
 # MSC1929 admin contacts
@@ -48,11 +48,11 @@ exim_relay_dkim_privkey_contents: |
   -----END PRIVATE KEY-----
 
 # postgres::backups
-devture_postgres_backup_enabled: yes
-devture_postgres_backup_schedule: '@daily'
-devture_postgres_backup_keep_days: 7
-devture_postgres_backup_keep_weeks: 0
-devture_postgres_backup_keep_months: 0
+postgres_backup_enabled: yes
+postgres_backup_schedule: '@daily'
+postgres_backup_keep_days: 7
+postgres_backup_keep_weeks: 0
+postgres_backup_keep_months: 0
 
 # synapse-admin https://matrix.example.com/synapse-admin
 matrix_synapse_admin_enabled: yes
