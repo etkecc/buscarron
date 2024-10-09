@@ -244,7 +244,7 @@ func (o *order) generateOnboardingAfterBuscarron() string {
 
 	txt.WriteString("**buscarron**\n\n")
 	txt.WriteString("1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them\n")
-	txt.WriteString("2. Send the list of (form name, Matrix room id, redirect URL after submission) to " + matrixLink("@support:etke.cc") + "\n\n")
+	txt.WriteString("2. Send the list of (form name, Matrix room id, redirect URL after submission) [to us](https://etke.cc/contacts/)\n\n")
 
 	return txt.String()
 }
@@ -257,7 +257,7 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 
 	txt.WriteString("**honoroit**\n\n")
 	txt.WriteString("1. Create a matrix room (encryption supported) and invite the honoroit user into it\n")
-	txt.WriteString("2. Send the room id to " + matrixLink("@support:etke.cc") + "\n\n")
+	txt.WriteString("2. Send the room id [to us](https://etke.cc/contacts/)\n\n")
 
 	return txt.String()
 }
@@ -290,8 +290,8 @@ func (o *order) generateOnboardingOutro() string {
 	txt.WriteString("[MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), ")
 	txt.WriteString("our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.\n\n")
 
-	txt.WriteString("Best regards,\n\n")
-	txt.WriteString("etke.cc")
+	txt.WriteString("Warm regards,\n\n")
+	txt.WriteString("the [etke.cc](https://etke.cc) team\n")
 
 	return txt.String()
 }

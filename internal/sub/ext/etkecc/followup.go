@@ -32,13 +32,13 @@ Once your payment is confirmed, we'll promptly initiate the setup of your Matrix
 	followupFooter = `
 To check the status of your order and stay updated, please keep an eye on your [Order Status Page](%s).
 
-Got any questions? Feel free to reply to this email - we're here to assist you!
+Got any questions? Feel free to [contact us](https://etke.cc/contacts/) - we're here to assist you!
 
 We're genuinely excited to serve you and provide a top-notch Matrix server experience.
 
-Best regards,
+Warm regards,
 
-etke.cc`
+the [etke.cc](https://etke.cc) team`
 )
 
 func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int) {

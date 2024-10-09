@@ -24,6 +24,6 @@ Happy Matrixing!
 
 PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.
 
-Best regards,
+Warm regards,
 
-etke.cc
+the [etke.cc](https://etke.cc) team

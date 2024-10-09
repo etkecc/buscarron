@@ -132,12 +132,12 @@ ssh-todo TODO
 **buscarron**
 
 1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
-2. Send the list of (form name, Matrix room id, redirect URL after submission) to [@support:etke.cc](https://matrix.to/#/@support:etke.cc)
+2. Send the list of (form name, Matrix room id, redirect URL after submission) [to us](https://etke.cc/contacts/)
 
 **honoroit**
 
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
-2. Send the room id to [@support:etke.cc](https://matrix.to/#/@support:etke.cc)
+2. Send the room id [to us](https://etke.cc/contacts/)
 
 **Email Service**
 
@@ -154,6 +154,6 @@ Happy Matrixing!
 
 PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.
 
-Best regards,
+Warm regards,
 
-etke.cc
+the [etke.cc](https://etke.cc) team
