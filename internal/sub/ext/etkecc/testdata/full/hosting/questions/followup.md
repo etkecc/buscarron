@@ -22,5 +22,4 @@ Got any questions? Feel free to [contact us](https://etke.cc/contacts/) - we're 
 We're genuinely excited to serve you and provide a top-notch Matrix server experience.
 
 Warm regards,
-
 the [etke.cc](https://etke.cc) team
