@@ -24,7 +24,7 @@ func (o *order) generateDelegationInstructions(ctx context.Context) string {
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/server") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/server") + "\n")
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/client") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/client") + "\n")
 	txt.WriteString("* " + link(o.domain+"/.well-known/matrix/support") + " -> " + link("matrix."+o.domain+"/.well-known/matrix/support") + "\n")
-	txt.WriteString("To learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/order/status#delegation-redirects") + "\n\n")
+	txt.WriteString("\nTo learn more about why these redirects are necessary and what the connection between the base domain (" + o.domain + ") and the Matrix domain (matrix." + o.domain + ") is, read the following guide: " + link("etke.cc/order/status#delegation-redirects") + "\n\n")
 
 	log.Info().Msg("delegation instructions have been generated")
 	return txt.String()
