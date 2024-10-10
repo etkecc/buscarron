@@ -17,7 +17,6 @@ import (
 	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
-	"maunium.net/go/mautrix/id"
 
 	"github.com/etkecc/buscarron/internal/config"
 	"github.com/etkecc/buscarron/internal/metrics"
@@ -28,12 +27,6 @@ import (
 	"github.com/etkecc/go-redmine"
 )
 
-// Sender interface to send messages
-type Sender interface {
-	Send(context.Context, id.RoomID, string, map[string]any) id.EventID
-	SendFile(context.Context, id.RoomID, *mautrix.ReqUploadMedia, ...*event.RelatesTo)
-}
-
 // EmailSender interface
 type EmailSender interface {
 	Send(context.Context, *postmark.Email) error
@@ -43,7 +36,7 @@ type EmailSender interface {
 type Handler struct {
 	redirectTpl *template.Template
 	sanitizer   *bluemonday.Policy
-	sender      Sender
+	sender      common.Sender
 	mapping     map[string]func(r *http.Request) (map[string]string, error)
 	forms       map[string]*config.Form
 	rdm         *redmine.Redmine
@@ -61,7 +54,7 @@ var (
 )
 
 // NewHandler creates new HTTP forms handler
-func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender Sender, rdm *redmine.Redmine) *Handler {
+func NewHandler(forms map[string]*config.Form, vs map[string]common.Validator, pm EmailSender, sender common.Sender, rdm *redmine.Redmine) *Handler {
 	h := &Handler{
 		redirectTpl: template.Must(template.New("redirect").Parse(redirect)),
 		sanitizer:   bluemonday.StrictPolicy(),
@@ -84,7 +77,7 @@ func (h *Handler) initMapping() {
 }
 
 // SetSender sets sender
-func (h *Handler) SetSender(sender Sender) {
+func (h *Handler) SetSender(sender common.Sender) {
 	h.sender = sender
 }
 
@@ -205,7 +198,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	}
 
 	log.Info().Msg("generating submission text and files")
-	text, files := h.generate(span.Context(), form, data)
+	htmlResponse, text, files := h.generate(span.Context(), form, data)
 	log.Info().Msg("submission text and files have been generated")
 	if data["email"] != "" {
 		attrs["email"] = data["email"]
@@ -231,6 +224,10 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		}
 		log.Info().Msg("files have been sent")
 	}(span.Context(), form, text, attrs)
+
+	if htmlResponse != "" {
+		return htmlResponse, nil
+	}
 
 	return h.redirect(span.Context(), form.Redirect, data), nil
 }
@@ -302,13 +299,13 @@ func (h *Handler) redirect(ctx context.Context, target string, vars map[string]s
 }
 
 // generate text and files
-func (h *Handler) generate(ctx context.Context, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (h *Handler) generate(ctx context.Context, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	span := utils.StartSpan(ctx, "sub.generate")
 	defer span.Finish()
 
 	v := h.vs[form.Name]
 	medias := []*mautrix.ReqUploadMedia{}
-	text, rmedias := h.ext["root"].Execute(span.Context(), v, form, data)
+	htmlResponse, text, rmedias := h.ext["root"].Execute(span.Context(), v, form, data)
 
 	for _, extension := range form.Extensions {
 		if extension == "" {
@@ -319,13 +316,14 @@ func (h *Handler) generate(ctx context.Context, form *config.Form, data map[stri
 			continue
 		}
 
-		etext, emedias := e.Execute(span.Context(), v, form, data)
+		ehtmlResponse, etext, emedias := e.Execute(span.Context(), v, form, data)
+		htmlResponse += ehtmlResponse
 		text += etext
 		medias = append(medias, emedias...)
 	}
 	medias = append(medias, rmedias...) // add submission.md at the end
 
-	return text, medias
+	return htmlResponse, text, medias
 }
 
 // extValidate validates submission with extensions

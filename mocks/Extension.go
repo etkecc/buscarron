@@ -19,7 +19,7 @@ type Extension struct {
 }
 
 // Execute provides a mock function with given fields: _a0, _a1, _a2, _a3
-func (_m *Extension) Execute(_a0 context.Context, _a1 common.Validator, _a2 *config.Form, _a3 map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (_m *Extension) Execute(_a0 context.Context, _a1 common.Validator, _a2 *config.Form, _a3 map[string]string) (string, string, []*mautrix.ReqUploadMedia) {
 	ret := _m.Called(_a0, _a1, _a2, _a3)
 
 	if len(ret) == 0 {
@@ -27,8 +27,9 @@ func (_m *Extension) Execute(_a0 context.Context, _a1 common.Validator, _a2 *con
 	}
 
 	var r0 string
-	var r1 []*mautrix.ReqUploadMedia
-	if rf, ok := ret.Get(0).(func(context.Context, common.Validator, *config.Form, map[string]string) (string, []*mautrix.ReqUploadMedia)); ok {
+	var r1 string
+	var r2 []*mautrix.ReqUploadMedia
+	if rf, ok := ret.Get(0).(func(context.Context, common.Validator, *config.Form, map[string]string) (string, string, []*mautrix.ReqUploadMedia)); ok {
 		return rf(_a0, _a1, _a2, _a3)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context, common.Validator, *config.Form, map[string]string) string); ok {
@@ -37,15 +38,21 @@ func (_m *Extension) Execute(_a0 context.Context, _a1 common.Validator, _a2 *con
 		r0 = ret.Get(0).(string)
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, common.Validator, *config.Form, map[string]string) []*mautrix.ReqUploadMedia); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, common.Validator, *config.Form, map[string]string) string); ok {
 		r1 = rf(_a0, _a1, _a2, _a3)
 	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).([]*mautrix.ReqUploadMedia)
+		r1 = ret.Get(1).(string)
+	}
+
+	if rf, ok := ret.Get(2).(func(context.Context, common.Validator, *config.Form, map[string]string) []*mautrix.ReqUploadMedia); ok {
+		r2 = rf(_a0, _a1, _a2, _a3)
+	} else {
+		if ret.Get(2) != nil {
+			r2 = ret.Get(2).([]*mautrix.ReqUploadMedia)
 		}
 	}
 
-	return r0, r1
+	return r0, r1, r2
 }
 
 // Validate provides a mock function with given fields: _a0, _a1, _a2, _a3

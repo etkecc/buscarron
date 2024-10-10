@@ -15,13 +15,14 @@ import (
 
 	"github.com/etkecc/buscarron/internal/metrics"
 	"github.com/etkecc/buscarron/internal/sub"
+	"github.com/etkecc/buscarron/internal/sub/ext/common"
 )
 
 // FormHandler for web server
 type FormHandler interface {
 	GET(context.Context, string, *http.Request) (string, error)
 	POST(context.Context, string, *http.Request) (string, error)
-	SetSender(sender sub.Sender)
+	SetSender(sender common.Sender)
 }
 
 type Config struct {
@@ -103,6 +104,6 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 
 // SetFormHandlerSender sets sender for form handler
 // it's a hack to avoid circular dependencies and allow setting matrix bot once it configured, while having HTTP server up & running, even if matrix part is down
-func SetFormHandlerSender(sender sub.Sender) {
+func SetFormHandlerSender(sender common.Sender) {
 	formHandler.SetSender(sender)
 }

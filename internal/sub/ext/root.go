@@ -20,14 +20,14 @@ func NewRoot() *root {
 }
 
 // Execute extension
-func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	span := utils.StartSpan(ctx, "sub.ext.root.Execute")
 	defer span.Finish()
 
 	defaultText := e.defaultText(form.Name, data)
 	var out string
 	if form.Text == "" {
-		return defaultText, []*mautrix.ReqUploadMedia{}
+		return "", defaultText, []*mautrix.ReqUploadMedia{}
 	}
 
 	out, err := common.ParseTemplate(form.Text, data)
@@ -36,7 +36,7 @@ func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.For
 	}
 	out += "\n\n"
 
-	files := []*mautrix.ReqUploadMedia{
+	files = []*mautrix.ReqUploadMedia{
 		{
 			Content:       strings.NewReader(defaultText),
 			FileName:      "submission.md",
@@ -45,7 +45,7 @@ func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.For
 		},
 	}
 
-	return out, files
+	return "", out, files
 }
 
 // Validate submission

@@ -49,7 +49,7 @@ func New(pm EmailSender) *Etkecc {
 }
 
 // Execute extension
-func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	span := utils.StartSpan(ctx, "sub.ext.etkecc.Execute")
 	defer span.Finish()
 

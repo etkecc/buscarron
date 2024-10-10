@@ -53,7 +53,7 @@ func (o *order) logger(ctx context.Context) zerolog.Logger {
 }
 
 // execute converts order to special message and files
-func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia) {
+func (o *order) execute(ctx context.Context) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	log := o.logger(ctx)
 	log.Info().Msg("starting order execution")
 	o.preprocess(ctx)
@@ -105,7 +105,7 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	o.txt.WriteString("\n\n")
 
 	log.Info().Msg("order has been executed")
-	return o.txt.String(), o.files
+	return o.followup.FormattedBody, o.txt.String(), o.files
 }
 
 // get returns a value for the key from data store if exists, otherwise returns default value

@@ -5,6 +5,8 @@ package mocks
 import (
 	context "context"
 
+	common "github.com/etkecc/buscarron/internal/sub/ext/common"
+
 	http "net/http"
 
 	mock "github.com/stretchr/testify/mock"
@@ -69,6 +71,11 @@ func (_m *FormHandler) POST(_a0 context.Context, _a1 string, _a2 *http.Request) 
 	}
 
 	return r0, r1
+}
+
+// SetSender provides a mock function with given fields: sender
+func (_m *FormHandler) SetSender(sender common.Sender) {
+	_m.Called(sender)
 }
 
 // NewFormHandler creates a new instance of FormHandler. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.

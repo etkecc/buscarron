@@ -22,28 +22,28 @@ func NewConfirmation(sender EmailSender) *confirmation {
 }
 
 // Execute extension
-func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (string, []*mautrix.ReqUploadMedia) {
+func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	span := utils.StartSpan(ctx, "sub.ext.confirmation.Execute")
 	defer span.Finish()
 
 	if e.s == nil {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 	if form.Confirmation.Subject == "" && form.Confirmation.Body == "" {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 
 	email, ok := data["email"]
 	if !ok {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 	subject, err := common.ParseTemplate(form.Confirmation.Subject, data)
 	if err != nil {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 	body, err := common.ParseTemplate(form.Confirmation.Body, data)
 	if err != nil {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 	req := &postmark.Email{
 		To:       email,
@@ -54,11 +54,11 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 
 	// special case with nil interface
 	if e.s == nil || (reflect.ValueOf(e.s).Kind() == reflect.Ptr && reflect.ValueOf(e.s).IsNil()) {
-		return "", []*mautrix.ReqUploadMedia{}
+		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 
 	e.s.Send(span.Context(), req) //nolint // not ready to handle errors
-	return "", []*mautrix.ReqUploadMedia{}
+	return "", "", []*mautrix.ReqUploadMedia{}
 }
 
 // Validate submission

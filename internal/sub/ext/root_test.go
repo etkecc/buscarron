@@ -31,7 +31,7 @@ func (s *RootSuite) TestExecute() {
 		"test": "on",
 	}
 
-	actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test"}, data)
+	_, actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }
@@ -42,7 +42,7 @@ func (s *RootSuite) TestExecute_Template() {
 		"test": "on",
 	}
 
-	actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test", Text: "**New form**:\n\ntestValue: {{ .test }}"}, data)
+	_, actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test", Text: "**New form**:\n\ntestValue: {{ .test }}"}, data)
 
 	s.Equal(expected, actual)
 }
@@ -54,7 +54,7 @@ func (s *RootSuite) TestExecute_Email() {
 		"test":  "on",
 	}
 
-	actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test"}, data)
+	_, actual, _ := s.ext.Execute(context.TODO(), nil, &config.Form{Name: "test"}, data)
 
 	s.Equal(expected, actual)
 }

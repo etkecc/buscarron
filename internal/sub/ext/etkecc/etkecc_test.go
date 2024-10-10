@@ -465,7 +465,7 @@ func (s *EtkeccSuite) TestExecute() {
 			test.before()
 
 			var actualQ, actualF, actualO, actualV string
-			actualQ, files := s.ext.Execute(context.TODO(), s.v, &config.Form{Name: test.name}, test.submission)
+			_, actualQ, files := s.ext.Execute(context.TODO(), s.v, &config.Form{Name: test.name}, test.submission)
 			for _, file := range files {
 				switch file.FileName {
 				case "followup.md":
