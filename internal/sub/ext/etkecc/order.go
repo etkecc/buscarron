@@ -57,6 +57,9 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	log := o.logger(ctx)
 	log.Info().Msg("starting order execution")
 	o.preprocess(ctx)
+	o.vars(ctx)
+	o.generateOnboarding(ctx)
+
 	o.txt.WriteString("\n\nprice: $" + strconv.Itoa(o.price) + "\n\n")
 
 	h := sha256.New()
@@ -68,6 +71,10 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 	delegation := o.generateDelegationInstructions(ctx)
 	dns := o.generateDNSInstructions(ctx)
 	hosts := o.generateHosts(ctx)
+	o.generateFollowup(ctx, questions, delegation, dns, countQ)
+
+	go o.toGP(ctx, hosts) //nolint:errcheck // no need to wait
+	go o.sendFollowup(ctx)
 
 	if countQ > 0 {
 		o.txt.WriteString("```yaml\n")
@@ -96,13 +103,6 @@ func (o *order) execute(ctx context.Context) (string, []*mautrix.ReqUploadMedia)
 		o.txt.WriteString("```\n\n")
 	}
 	o.txt.WriteString("\n\n")
-
-	o.vars(ctx)
-	o.generateOnboarding(ctx)
-	o.generateFollowup(ctx, questions, delegation, dns, countQ)
-
-	go o.toGP(ctx, hosts) //nolint:errcheck // no need to wait
-	go o.sendFollowup(ctx)
 
 	log.Info().Msg("order has been executed")
 	return o.txt.String(), o.files

@@ -9,7 +9,9 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+	"sync/atomic"
 
+	"github.com/etkecc/go-kit/workpool"
 	"github.com/mattevans/postmark-go"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/rs/zerolog"
@@ -129,6 +131,31 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 	return data, nil
 }
 
+func (h *Handler) isSpam(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) bool {
+	log := zerolog.Ctx(ctx).With().Str("form", form.Name).Logger()
+	wp := workpool.New(3)
+	isSpam := atomic.Bool{}
+	wp.Do(func() {
+		if !v.Email(data["email"], "") {
+			log.Info().Str("reason", "email").Msg("submission to the form marked as spam")
+			isSpam.Store(true)
+		}
+	}).Do(func() {
+		if !v.Domain(data["domain"]) {
+			log.Info().Str("reason", "domain").Msg("submission to the form marked as spam")
+			isSpam.Store(true)
+		}
+	}).Do(func() {
+		if err := h.extValidate(ctx, form, data); err != nil {
+			log.Info().Str("reason", "extension: "+err.Error()).Msg("submission to the form marked as spam")
+			isSpam.Store(true)
+		}
+	})
+
+	wp.Run()
+	return isSpam.Load()
+}
+
 // POST request handler
 func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (string, error) {
 	log := zerolog.Ctx(ctx).With().Str("form", name).Logger()
@@ -157,19 +184,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	if err != nil {
 		return h.redirect(span.Context(), form.RejectRedirect, data), err
 	}
-
-	if !v.Email(data["email"], "") {
-		log.Info().Str("reason", "email").Msg("submission to the form marked as spam")
-		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
-	}
-
-	if !v.Domain(data["domain"]) {
-		log.Info().Str("reason", "domain").Msg("submission to the form marked as spam")
-		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
-	}
-
-	if err := h.extValidate(span.Context(), form, data); err != nil {
-		log.Info().Str("reason", "extension: "+err.Error()).Msg("submission to the form marked as spam")
+	if h.isSpam(span.Context(), v, form, data) {
 		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
 	}
 
@@ -202,17 +217,20 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 
 	go h.updateIssue(span.Context(), issueID, form.Name, text, files)
 
-	log.Info().Msg("sending submission to the room")
-	eventID := h.sender.Send(span.Context(), form.RoomID, text, attrs)
-	var relates *event.RelatesTo
-	if eventID != "" {
-		relates = linkpearl.RelatesTo(eventID)
-	}
-	log.Info().Msg("submission has been sent to the room; sending files")
-	for _, file := range files {
-		h.sender.SendFile(span.Context(), form.RoomID, file, relates)
-	}
-	log.Info().Msg("files have been sent")
+	go func(ctx context.Context, form *config.Form, text string, attrs map[string]any) {
+		ctx = context.WithoutCancel(ctx)
+		log.Info().Msg("sending submission to the room")
+		eventID := h.sender.Send(ctx, form.RoomID, text, attrs)
+		var relates *event.RelatesTo
+		if eventID != "" {
+			relates = linkpearl.RelatesTo(eventID)
+		}
+		log.Info().Msg("submission has been sent to the room; sending files")
+		for _, file := range files {
+			h.sender.SendFile(ctx, form.RoomID, file, relates)
+		}
+		log.Info().Msg("files have been sent")
+	}(span.Context(), form, text, attrs)
 
 	return h.redirect(span.Context(), form.Redirect, data), nil
 }
