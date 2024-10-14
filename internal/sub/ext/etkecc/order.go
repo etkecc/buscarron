@@ -32,6 +32,7 @@ type order struct {
 	domain    string
 	subdomain bool
 	followup  *event.MessageEventContent
+	response  string
 	hosting   string
 	smtp      map[string]string
 	dkim      map[string]string
@@ -105,7 +106,7 @@ func (o *order) execute(ctx context.Context) (htmlResponse, matrixMessage string
 	o.txt.WriteString("\n\n")
 
 	log.Info().Msg("order has been executed")
-	return o.followup.FormattedBody, o.txt.String(), o.files
+	return o.response, o.txt.String(), o.files
 }
 
 // get returns a value for the key from data store if exists, otherwise returns default value

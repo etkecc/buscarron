@@ -37,8 +37,8 @@ github.com/etkecc/go-linkpearl v0.0.0-20240916112808-1ff87355b2b3 h1:Mkf7lWP0lf5
 github.com/etkecc/go-linkpearl v0.0.0-20240916112808-1ff87355b2b3/go.mod h1:lmPUKcFUSGuJ2kwqL9Yc5gWsBKVGQr+smuDCX+BqMWY=
 github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49 h1:zbXd2N7h/U21Bd4nJrMnqBvFKRBARVz+gmzPPo2NUY8=
 github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49/go.mod h1:TahWK9KZrcClk9mNOpGYK2ewEFiENlPOFZVhy15551g=
-github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56 h1:WgHl5bTrf+3RqSrSXJiE4S2tkW+UKnMbWR4K+nWEh48=
-github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56/go.mod h1:D+viZZ4CaSlJLz2E99eoLkO8Xvb6Q5/1jEgQ3tbVY0U=
+github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8 h1:ariQTBlHHe71O507IZ97QSHFrk0Eo2vlMm1skJ97Y7Q=
+github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8/go.mod h1:x4ORuml+JdRsska0sXHbpSQAqvQyqDLjXydP5Ax5wBg=
 github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b h1:lVK0uhg6dXqe2XG05vgQc2m90Ivqczq+ArolbYXSPF8=
 github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b/go.mod h1:3WkqNRTtw5NQmueBzaurnOavNs2TQqTsT/VXk0SU1Tc=
 github.com/etkecc/go-secgen v1.3.0 h1:DfytmSQL7W0nL7E0kmgDCrorU7V3e2bT5XBgrIisbbs=
@@ -160,8 +160,8 @@ github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQ
 github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/histogram v1.2.0 h1:wyYGAZZt3CpwUiIb9AU/Zbllg1llXyrtApRS815OLoQ=
 github.com/valyala/histogram v1.2.0/go.mod h1:Hb4kBwb4UxsaNbbbh+RRz8ZR6pdodR57tzWUS3BUzXY=
-github.com/yuin/goldmark v1.7.4 h1:BDXOHExt+A7gwPCJgPIIq7ENvceR7we7rOS9TNoLZeg=
-github.com/yuin/goldmark v1.7.4/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
+github.com/yuin/goldmark v1.7.6 h1:cZgJxVh5mL5cu8KOnwxvFJy5TFB0BHUskZZyq7TYbDg=
+github.com/yuin/goldmark v1.7.6/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
 github.com/ziflex/lecho/v3 v3.7.0 h1:MSzYINEHtAaCx2XpbdF1A85aSyXitNJxF4T9dG6jzRQ=
 github.com/ziflex/lecho/v3 v3.7.0/go.mod h1:LBlLsyIwa0MFxtJ2WU5WzHfuMR/jnq26TXddWfJ+s/0=
 go.mau.fi/util v0.8.0 h1:MiSny8jgQq4XtCLAT64gDJhZVhqiDeMVIEBDFVw+M0g=

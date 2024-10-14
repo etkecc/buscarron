@@ -13,7 +13,7 @@ require (
 	github.com/etkecc/go-kit v1.2.0
 	github.com/etkecc/go-linkpearl v0.0.0-20240916112808-1ff87355b2b3
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
-	github.com/etkecc/go-psd v0.0.0-20240820090455-a55658424f56
+	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
 	github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
 	github.com/etkecc/go-secgen v1.3.0
 	github.com/etkecc/go-validator/v2 v2.2.3
@@ -75,7 +75,7 @@ require (
 	github.com/valyala/fastrand v1.1.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
-	github.com/yuin/goldmark v1.7.4 // indirect
+	github.com/yuin/goldmark v1.7.6 // indirect
 	go.mau.fi/util v0.8.0 // indirect
 	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect

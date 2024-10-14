@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/etkecc/buscarron/internal/utils"
+	formatCustom "github.com/etkecc/go-kit/format"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
@@ -75,7 +76,9 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 	id := hex.EncodeToString(h.Sum(nil))
 	txt.WriteString(fmt.Sprintf(followupFooter, "https://etke.cc/order/status/#"+id))
 
-	content := format.RenderMarkdown(txt.String(), true, true)
+	text := txt.String()
+	o.response = formatCustom.Render(text)
+	content := format.RenderMarkdown(text, true, true)
 	o.followup = &content
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
