@@ -6,20 +6,12 @@ Open the required ports ([etke.cc/order/status/#ports-and-firewalls](https://etk
 
 Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls), and the following ssh key added to the **/home/TODO/.ssh/authorized_keys**: `ssh-todo TODO etke.cc`. Here is how you can do that:
 
-```bash
-# ensure the .ssh directory exists
-mkdir -p /home/TODO/.ssh
-# ensure the authorized_keys file exists
-touch /home/TODO/.ssh/authorized_keys
-# add the key to the authorized_keys file
-echo 'ssh-todo TODO etke.cc' >> /home/TODO/.ssh/authorized_keys
-# ensure the correct permissions are set on the authorized_keys file
-chmod 600 /home/TODO/.ssh/authorized_keys
-# ensure the correct permissions are set on the .ssh directory
-chmod 700 /home/TODO/.ssh
-# ensure the correct ownership is set on the .ssh directory
-chown -hR TODO:TODO /home/TODO/.ssh
-```
+1.  ensure the .ssh directory exists: `mkdir -p /home/TODO/.ssh`
+2.  ensure the authorized_keys file exists: `touch /home/TODO/.ssh/authorized_keys`
+3.  add the key to the authorized_keys file: `echo 'ssh-todo TODO etke.cc' >> /home/TODO/.ssh/authorized_keys`
+4.  ensure the correct permissions are set on the authorized_keys file: `chmod 600 /home/TODO/.ssh/authorized_keys`
+5.  ensure the correct permissions are set on the .ssh directory: `chmod 700 /home/TODO/.ssh`
+6.  ensure the correct ownership is set on the .ssh directory: `chown -hR TODO:TODO /home/TODO/.ssh`
 
 To check the status of your order and stay updated, please keep an eye on your [Order Status Page](https://etke.cc/order/status/#749f066f31d6e795088f154897aba00b72bdbf951e4d5721caa37ee9d6eb31d9).
 

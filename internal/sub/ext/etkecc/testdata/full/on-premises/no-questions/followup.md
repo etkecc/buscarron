@@ -14,20 +14,12 @@ Once your payment is confirmed, we'll promptly initiate the setup of your Matrix
 
 Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls), and the following ssh key added to the **/home/user/.ssh/authorized_keys**: `ssh-todo TODO etke.cc`. Here is how you can do that:
 
-```bash
-# ensure the .ssh directory exists
-mkdir -p /home/user/.ssh
-# ensure the authorized_keys file exists
-touch /home/user/.ssh/authorized_keys
-# add the key to the authorized_keys file
-echo 'ssh-todo TODO etke.cc' >> /home/user/.ssh/authorized_keys
-# ensure the correct permissions are set on the authorized_keys file
-chmod 600 /home/user/.ssh/authorized_keys
-# ensure the correct permissions are set on the .ssh directory
-chmod 700 /home/user/.ssh
-# ensure the correct ownership is set on the .ssh directory
-chown -hR user:user /home/user/.ssh
-```
+1.  ensure the .ssh directory exists: `mkdir -p /home/user/.ssh`
+2.  ensure the authorized_keys file exists: `touch /home/user/.ssh/authorized_keys`
+3.  add the key to the authorized_keys file: `echo 'ssh-todo TODO etke.cc' >> /home/user/.ssh/authorized_keys`
+4.  ensure the correct permissions are set on the authorized_keys file: `chmod 600 /home/user/.ssh/authorized_keys`
+5.  ensure the correct permissions are set on the .ssh directory: `chmod 700 /home/user/.ssh`
+6.  ensure the correct ownership is set on the .ssh directory: `chown -hR user:user /home/user/.ssh`
 
 Please, add the following DNS entries:
 
