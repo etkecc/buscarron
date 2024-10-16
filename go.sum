@@ -18,6 +18,8 @@ github.com/aymerick/douceur v0.2.0 h1:Mv+mAeH1Q+n9Fr+oyamOlAkUNPWPlA8PPGR0QAaYuP
 github.com/aymerick/douceur v0.2.0/go.mod h1:wlT5vV2O3h55X9m7iVYN0TBM0NH/MmbLnd30/FjWUq4=
 github.com/buger/jsonparser v1.1.1 h1:2PnMjfWD7wBILjqQbt530v576A/cAbQvEW9gGIpYMUs=
 github.com/buger/jsonparser v1.1.1/go.mod h1:6RYKKt7H4d4+iWqouImQ9R2FZql3VbhNgx27UK13J/0=
+github.com/charmbracelet/keygen v0.5.1 h1:zBkkYPtmKDVTw+cwUyY6ZwGDhRxXkEp0Oxs9sqMLqxI=
+github.com/charmbracelet/keygen v0.5.1/go.mod h1:zznJVmK/GWB6dAtjluqn2qsttiCBhA5MZSiwb80fcHw=
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -41,8 +43,8 @@ github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8 h1:ariQTBlHHe71O507I
 github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8/go.mod h1:x4ORuml+JdRsska0sXHbpSQAqvQyqDLjXydP5Ax5wBg=
 github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b h1:lVK0uhg6dXqe2XG05vgQc2m90Ivqczq+ArolbYXSPF8=
 github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b/go.mod h1:3WkqNRTtw5NQmueBzaurnOavNs2TQqTsT/VXk0SU1Tc=
-github.com/etkecc/go-secgen v1.3.0 h1:DfytmSQL7W0nL7E0kmgDCrorU7V3e2bT5XBgrIisbbs=
-github.com/etkecc/go-secgen v1.3.0/go.mod h1:6dkfdOtmtVxkj1hIJM6U6yA7frSNpr1H5brz5t18Y3I=
+github.com/etkecc/go-secgen v1.4.0 h1:PapLpen3aIqG2LDu+U6KWDb4SMW2UGuvetpJjd86yUc=
+github.com/etkecc/go-secgen v1.4.0/go.mod h1:6dkfdOtmtVxkj1hIJM6U6yA7frSNpr1H5brz5t18Y3I=
 github.com/etkecc/go-trysmtp v1.1.5 h1:MQ4l4bE9nWUqRKoJOalGHGLkb/hRmzbcBMlClufEOng=
 github.com/etkecc/go-trysmtp v1.1.5/go.mod h1:J4zQu+kgM37xQY148wUz0Dm6y+YhtzMghAv/AaXt0sQ=
 github.com/etkecc/go-validator/v2 v2.2.4 h1:E4sE4FpYPVP6VRvnndni+8qUXbeSuHxkniFsi6uCRFQ=
@@ -160,8 +162,8 @@ github.com/valyala/fasttemplate v1.2.2 h1:lxLXG0uE3Qnshl9QyaK6XJxMXlQZELvChBOCmQ
 github.com/valyala/fasttemplate v1.2.2/go.mod h1:KHLXt3tVN2HBp8eijSv/kGJopbvo7S+qRAEEKiv+SiQ=
 github.com/valyala/histogram v1.2.0 h1:wyYGAZZt3CpwUiIb9AU/Zbllg1llXyrtApRS815OLoQ=
 github.com/valyala/histogram v1.2.0/go.mod h1:Hb4kBwb4UxsaNbbbh+RRz8ZR6pdodR57tzWUS3BUzXY=
-github.com/yuin/goldmark v1.7.7 h1:5m9rrB1sW3JUMToKFQfb+FGt1U7r57IHu5GrYrG2nqU=
-github.com/yuin/goldmark v1.7.7/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
+github.com/yuin/goldmark v1.7.8 h1:iERMLn0/QJeHFhxSt3p6PeN9mGnvIKSpG9YYorDMnic=
+github.com/yuin/goldmark v1.7.8/go.mod h1:uzxRWxtg69N339t3louHJ7+O03ezfj6PlliRlaOzY1E=
 github.com/ziflex/lecho/v3 v3.7.0 h1:MSzYINEHtAaCx2XpbdF1A85aSyXitNJxF4T9dG6jzRQ=
 github.com/ziflex/lecho/v3 v3.7.0/go.mod h1:LBlLsyIwa0MFxtJ2WU5WzHfuMR/jnq26TXddWfJ+s/0=
 go.mau.fi/util v0.8.1 h1:Ga43cz6esQBYqcjZ/onRoVnYWoUwjWbsxVeJg2jOTSo=

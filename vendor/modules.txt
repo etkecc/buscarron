@@ -28,6 +28,9 @@ github.com/aymerick/douceur/parser
 # github.com/buger/jsonparser v1.1.1
 ## explicit; go 1.13
 github.com/buger/jsonparser
+# github.com/charmbracelet/keygen v0.5.1
+## explicit; go 1.17
+github.com/charmbracelet/keygen
 # github.com/davecgh/go-spew v1.1.1
 ## explicit
 github.com/davecgh/go-spew/spew
@@ -60,7 +63,7 @@ github.com/etkecc/go-psd
 # github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
 ## explicit; go 1.21
 github.com/etkecc/go-redmine
-# github.com/etkecc/go-secgen v1.3.0
+# github.com/etkecc/go-secgen v1.4.0
 ## explicit; go 1.19
 github.com/etkecc/go-secgen
 # github.com/etkecc/go-trysmtp v1.1.5
@@ -208,7 +211,7 @@ github.com/valyala/fasttemplate
 # github.com/valyala/histogram v1.2.0
 ## explicit; go 1.12
 github.com/valyala/histogram
-# github.com/yuin/goldmark v1.7.7
+# github.com/yuin/goldmark v1.7.8
 ## explicit; go 1.19
 github.com/yuin/goldmark
 github.com/yuin/goldmark/ast

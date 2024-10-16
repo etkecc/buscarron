@@ -260,7 +260,7 @@ func (o *order) preprocessPrice(ctx context.Context) {
 func (o *order) preprocessSSH(ctx context.Context) {
 	log := o.logger(ctx)
 	log.Info().Msg("preprocessing ssh")
-	pub, priv := o.keygen()
+	pub, priv := o.keygenWithPassphrase()
 	pub = strings.TrimSpace(pub) + " etke.cc"
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
 		Content:       strings.NewReader(pub),
