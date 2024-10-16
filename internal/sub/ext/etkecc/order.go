@@ -272,7 +272,7 @@ func (o *order) preprocessSSH(ctx context.Context) {
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(priv),
 			ContentBytes:  []byte(priv),
-			FileName:      "sshkey",
+			FileName:      "sshkey.priv",
 			ContentType:   "text/plain",
 			ContentLength: int64(len(priv)),
 		})
