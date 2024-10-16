@@ -11,7 +11,7 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.1
 	github.com/etkecc/go-kit v1.2.0
-	github.com/etkecc/go-linkpearl v0.0.0-20240916112808-1ff87355b2b3
+	github.com/etkecc/go-linkpearl v0.0.0-20241016081935-715b568101ef
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
 	github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
@@ -30,7 +30,7 @@ require (
 	golang.org/x/net v0.30.0
 	golang.org/x/text v0.19.0
 	golang.org/x/time v0.7.0
-	maunium.net/go/mautrix v0.21.0
+	maunium.net/go/mautrix v0.21.1
 	modernc.org/sqlite v1.33.1
 )
 
@@ -75,8 +75,8 @@ require (
 	github.com/valyala/fastrand v1.1.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
-	github.com/yuin/goldmark v1.7.6 // indirect
-	go.mau.fi/util v0.8.0 // indirect
+	github.com/yuin/goldmark v1.7.7 // indirect
+	go.mau.fi/util v0.8.1 // indirect
 	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/exp v0.0.0-20241009180824-f66d83c29e7c // indirect
 	golang.org/x/sys v0.26.0 // indirect

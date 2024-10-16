@@ -474,8 +474,9 @@ func (s *EtkeccSuite) TestExecute() {
 					actualO = s.rts(file.Content)
 				case "vars.yml":
 					actualV = s.rts(file.Content)
+				case "sshkey.pub", "sshkey":
 				default:
-					s.Fail("unexpected file: %q", file.FileName)
+					s.Fail("unexpected file", file.FileName)
 				}
 			}
 			s.saveMocks(test.name, actualQ, actualF, actualO, actualV)

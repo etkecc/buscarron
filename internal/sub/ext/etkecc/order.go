@@ -182,9 +182,9 @@ func (o *order) preprocess(ctx context.Context) {
 	o.preprocessSMTP(span.Context())
 	o.preprocessPrice(span.Context())
 	o.preprocessS3(span.Context())
+	o.preprocessSSH(span.Context())
 
 	o.password("matrix")
-	log.Info().Msg("order has been preprocessed")
 }
 
 func (o *order) preprocessSMTP(ctx context.Context) {
@@ -209,7 +209,6 @@ func (o *order) preprocessSMTP(ctx context.Context) {
 	dkim := map[string]string{}
 	dkim["record"], dkim["private"] = o.dkimgen()
 	o.dkim = dkim
-	log.Info().Msg("smtp has been preprocessed")
 }
 
 func (o *order) preprocessS3(ctx context.Context) {
@@ -239,7 +238,6 @@ func (o *order) preprocessS3(ctx context.Context) {
 			o.data["gotosocial-s3-endpoint"] = strings.TrimPrefix(endpointURL.String(), "//")
 		}
 	}
-	log.Info().Msg("s3 has been preprocessed")
 }
 
 func (o *order) preprocessPrice(ctx context.Context) {
@@ -257,5 +255,25 @@ func (o *order) preprocessPrice(ctx context.Context) {
 	}
 
 	o.price = o.pd.Calculate(o.data)
-	log.Info().Msg("price has been preprocessed")
+}
+
+func (o *order) preprocessSSH(ctx context.Context) {
+	log := o.logger(ctx)
+	log.Info().Msg("preprocessing ssh")
+	pub, priv := o.keygen()
+	pub = strings.TrimSpace(pub) + " etke.cc"
+	o.files = append(o.files, &mautrix.ReqUploadMedia{
+		Content:       strings.NewReader(pub),
+		ContentBytes:  []byte(pub),
+		FileName:      "sshkey.pub",
+		ContentType:   "text/plain",
+		ContentLength: int64(len(pub)),
+	},
+		&mautrix.ReqUploadMedia{
+			Content:       strings.NewReader(priv),
+			ContentBytes:  []byte(priv),
+			FileName:      "sshkey",
+			ContentType:   "text/plain",
+			ContentLength: int64(len(priv)),
+		})
 }
