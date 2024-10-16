@@ -13,10 +13,25 @@ Sygnal: are you sure you want it? It's a push gateway, usable only for Matrix cl
 
 BorgBackup: please, provide the desired repository url (user@host:repo). We will generate an SSH key and encryption passphrase on your server. We will send you the public part of the generated SSH key. You will need to add that SSH key to your provider.
 
-Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 1vCPU, 2GB RAM.
-Add our SSH keys ([etke.cc/keys.txt](https://etke.cc/keys.txt)) to your server, open the required ports ([etke.cc/order/status/#ports-and-firewalls](https://etke.cc/order/status/#ports-and-firewalls)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
+Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 2vCPU, 2GB RAM.
+Open the required ports ([etke.cc/order/status/#ports-and-firewalls](https://etke.cc/order/status/#ports-and-firewalls)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
-Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls).
+Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls), and the following ssh key added to the **/home/TODO/.ssh/authorized_keys**: `ssh-todo TODO etke.cc`. Here is how you can do that:
+
+```bash
+# ensure the .ssh directory exists
+mkdir -p /home/TODO/.ssh
+# ensure the authorized_keys file exists
+touch /home/TODO/.ssh/authorized_keys
+# add the key to the authorized_keys file
+echo 'ssh-todo TODO etke.cc' >> /home/TODO/.ssh/authorized_keys
+# ensure the correct permissions are set on the authorized_keys file
+chmod 600 /home/TODO/.ssh/authorized_keys
+# ensure the correct permissions are set on the .ssh directory
+chmod 700 /home/TODO/.ssh
+# ensure the correct ownership is set on the .ssh directory
+chown -hR TODO:TODO /home/TODO/.ssh
+```
 
 Please, add the following DNS entries:
 

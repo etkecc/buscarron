@@ -17,6 +17,9 @@ etke_subscription_confirmed: no
 etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
+# ssh
+ansible_ssh_private_key_file: "{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv"
+
 # postgres
 postgres_connection_password: TODO64
 

@@ -236,9 +236,8 @@ func (o *order) varsEtkeBuilder(keys []string, enabledServices map[string]any) s
 
 func (o *order) varsSSH() string {
 	var txt strings.Builder
-	if (o.has("ssh-port") && o.get("ssh-port") != "22") || o.has("ssh-client-key") {
-		txt.WriteString("\n# ssh\n")
-	}
+	txt.WriteString("\n# ssh\n")
+	txt.WriteString("ansible_ssh_private_key_file: \"{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv\"\n")
 
 	if o.has("ssh-port") && o.get("ssh-port") != "22" {
 		txt.WriteString("system_security_ssh_port: ")

@@ -1,10 +1,26 @@
 Hello,
 We're thrilled to share that your Matrix server order is confirmed! 🎉
 
-Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 1vCPU, 2GB RAM.
-Add our SSH keys ([etke.cc/keys.txt](https://etke.cc/keys.txt)) to your server, open the required ports ([etke.cc/order/status/#ports-and-firewalls](https://etke.cc/order/status/#ports-and-firewalls)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
+Server: please, create an x86/amd64 VPS with any Debian-based distro. Minimal comfortable configuration for a Matrix server without any additional components: 2vCPU, 2GB RAM.
+Open the required ports ([etke.cc/order/status/#ports-and-firewalls](https://etke.cc/order/status/#ports-and-firewalls)) send us your server's IP address, the username (with permissions to call sudo), and password (if set).
 
-Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls).
+Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls), and the following ssh key added to the **/home/TODO/.ssh/authorized_keys**: `ssh-todo TODO etke.cc`. Here is how you can do that:
+
+```bash
+# ensure the .ssh directory exists
+mkdir -p /home/TODO/.ssh
+# ensure the authorized_keys file exists
+touch /home/TODO/.ssh/authorized_keys
+# add the key to the authorized_keys file
+echo 'ssh-todo TODO etke.cc' >> /home/TODO/.ssh/authorized_keys
+# ensure the correct permissions are set on the authorized_keys file
+chmod 600 /home/TODO/.ssh/authorized_keys
+# ensure the correct permissions are set on the .ssh directory
+chmod 700 /home/TODO/.ssh
+# ensure the correct ownership is set on the .ssh directory
+chown -hR TODO:TODO /home/TODO/.ssh
+```
+
 To check the status of your order and stay updated, please keep an eye on your [Order Status Page](https://etke.cc/order/status/#749f066f31d6e795088f154897aba00b72bdbf951e4d5721caa37ee9d6eb31d9).
 
 Got any questions? Feel free to [contact us](https://etke.cc/contacts/) - we're here to assist you!

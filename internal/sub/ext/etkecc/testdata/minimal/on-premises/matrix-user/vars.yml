@@ -7,6 +7,7 @@ etke_subscription_email: test@test.com
 etke_subscription_provider: Ko-Fi
 
 # ssh
+ansible_ssh_private_key_file: "{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv"
 system_security_ssh_port: 222
 system_security_ssh_authorizedkeys_host:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host

@@ -12,7 +12,22 @@ No need for additional details at this moment; we'll keep it simple:
 
 Once your payment is confirmed, we'll promptly initiate the setup of your Matrix server. Look forward to a new email that will guide you through the onboarding process with all the necessary details.
 
-Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls).
+Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#ports-and-firewalls), and the following ssh key added to the **/home/user/.ssh/authorized_keys**: `ssh-todo TODO etke.cc`. Here is how you can do that:
+
+```bash
+# ensure the .ssh directory exists
+mkdir -p /home/user/.ssh
+# ensure the authorized_keys file exists
+touch /home/user/.ssh/authorized_keys
+# add the key to the authorized_keys file
+echo 'ssh-todo TODO etke.cc' >> /home/user/.ssh/authorized_keys
+# ensure the correct permissions are set on the authorized_keys file
+chmod 600 /home/user/.ssh/authorized_keys
+# ensure the correct permissions are set on the .ssh directory
+chmod 700 /home/user/.ssh
+# ensure the correct ownership is set on the .ssh directory
+chown -hR user:user /home/user/.ssh
+```
 
 Please, add the following DNS entries:
 
