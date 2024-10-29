@@ -261,6 +261,11 @@ matrix_mautrix_discord_enabled: yes
 matrix_bot_postmoogle_enabled: yes
 matrix_bot_postmoogle_password: TODO64
 matrix_bot_postmoogle_data_secret: TODO32
+matrix_bot_postmoogle_dkim_signature: 'v=DKIM1; k=rsa; p=TODO'
+matrix_bot_postmoogle_dkim_privkey: |
+  -----BEGIN PRIVATE KEY-----
+  TODO
+  -----END PRIVATE KEY-----
 
 # bridges::facebook
 matrix_mautrix_meta_messenger_enabled: yes

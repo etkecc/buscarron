@@ -893,6 +893,13 @@ func (o *order) varsEmail() string {
 	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
 	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
+	if o.dkim["postmoogle_private"] != "" {
+		txt.WriteString("matrix_bot_postmoogle_dkim_signature: '" + o.dkim["postmoogle_record"] + "'\n")
+		txt.WriteString("matrix_bot_postmoogle_dkim_privkey: |\n")
+		for _, line := range strings.Split(o.dkim["postmoogle_private"], "\n") {
+			txt.WriteString("  " + line + "\n")
+		}
+	}
 
 	return txt.String()
 }

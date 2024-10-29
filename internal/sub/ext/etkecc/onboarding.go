@@ -60,6 +60,9 @@ func (o *order) generateOnboardingLinks() string {
 	}
 	txt.WriteString("* Homeserver: " + link("matrix."+o.domain) + "\n")
 	txt.WriteString("* Synapse Admin: " + link("matrix."+o.domain+"/synapse-admin") + " " + helpLink("etke.cc/help/extras/synapse-admin") + "\n")
+	if o.has("service-email") {
+		txt.WriteString("* Email Service (admin): " + link("admin.migadu.com") + "\n")
+	}
 	if o.has("etherpad") {
 		txt.WriteString("* Etherpad (admin): " + link("etherpad."+o.domain+"/admin") + "\n")
 	}
@@ -263,7 +266,7 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 }
 
 func (o *order) generateOnboardingAfterMigadu() string {
-	if !o.has("service-email") {
+	if !o.has("service-email") || o.subdomain {
 		return ""
 	}
 	var txt strings.Builder

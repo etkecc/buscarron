@@ -7,6 +7,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
 * Synapse Admin: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
+* Email Service (admin): [admin.migadu.com](https://admin.migadu.com)
 * Etherpad (admin): [etherpad.higenjitsuteki.onmatrix.chat/admin](https://etherpad.higenjitsuteki.onmatrix.chat/admin)
 * Vaultwarden (admin):[vault.higenjitsuteki.onmatrix.chat/admin](https://vault.higenjitsuteki.onmatrix.chat/admin) ([help](https://etke.cc/help/extras/vaultwarden))
 * Maubot (admin): [matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot](https://matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot)
@@ -138,15 +139,6 @@ ssh-todo TODO
 
 1. Create a matrix room (encryption supported) and invite the honoroit user into it
 2. Send the room id [to us](https://etke.cc/contacts/)
-
-**Email Service**
-
-1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox
-2. Accept the invitation and prepare your account (set a password, etc.)
-3. Go to the [admin.migadu.com/domains](https://admin.migadu.com/domains) page and select your email domain
-4. Click on **DNS Configuration** and then on **Setup Instructions**
-5. Follow the instructions and configure the DNS records for your domain
-6. Once that's done, click on **Diagnostics** and check if everything is configured correctly
 
 You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we regularly post updates and modifications **pertaining to your server** every week. Please, remain in this room and stay vigilant - each weekly message will include crucial information that we highly recommend you stay informed about. Alternatively, you can also access updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).
 

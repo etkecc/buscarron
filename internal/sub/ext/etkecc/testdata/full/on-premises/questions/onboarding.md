@@ -7,6 +7,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Homeserver: [matrix.example.com](https://matrix.example.com)
 * Synapse Admin: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
+* Email Service (admin): [admin.migadu.com](https://admin.migadu.com)
 * Etherpad (admin): [etherpad.example.com/admin](https://etherpad.example.com/admin)
 * Vaultwarden (admin):[vault.example.com/admin](https://vault.example.com/admin) ([help](https://etke.cc/help/extras/vaultwarden))
 * Maubot (admin): [matrix.example.com/_matrix/maubot](https://matrix.example.com/_matrix/maubot)

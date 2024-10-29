@@ -31,10 +31,10 @@ github.com/etkecc/go-echo-basic-auth v1.1.1 h1:UHOGTP9V92cKIL8oLaze9Kt7pRpQf8uX7
 github.com/etkecc/go-echo-basic-auth v1.1.1/go.mod h1:CDteie9ngWqpPflukr4WSMlyScEsKRcSwbosDYTzaZI=
 github.com/etkecc/go-env v1.2.1 h1:b/mIa8D1d9hc3rI8h5bEtBHsnKkBZ6UbmYPog3QIPTU=
 github.com/etkecc/go-env v1.2.1/go.mod h1:yTs1DWEsllAZYA417r4V+OmMuYinGXtBzKkLGNvCv5c=
-github.com/etkecc/go-healthchecks/v2 v2.2.1 h1:veGW/EoFuF4mB9ylHhCB4C98MY2kjl3++wZ7g6KRSXg=
-github.com/etkecc/go-healthchecks/v2 v2.2.1/go.mod h1:IowWGN4F6By6z0eh63+639OscylgtdvT9ITjfN6hnZA=
-github.com/etkecc/go-kit v1.2.0 h1:+3ZvCfbnQM7N1Yu7s1iwhbffgUv2XTcz8Go71Z3CBp4=
-github.com/etkecc/go-kit v1.2.0/go.mod h1:yikghi8YaYbTjRXNtx82g0LFv90YqZi2vLf5Chw0ysg=
+github.com/etkecc/go-healthchecks/v2 v2.2.2 h1:YV7e+Ga8JY3aZX4Qf6Q1Ca+DnqbT5Drjli3PufB4J1g=
+github.com/etkecc/go-healthchecks/v2 v2.2.2/go.mod h1:IowWGN4F6By6z0eh63+639OscylgtdvT9ITjfN6hnZA=
+github.com/etkecc/go-kit v1.3.1 h1:wkTwwPIpocR1vVgpMi/Ht3ttGkj6cWurV6R8cpX5XX8=
+github.com/etkecc/go-kit v1.3.1/go.mod h1:yikghi8YaYbTjRXNtx82g0LFv90YqZi2vLf5Chw0ysg=
 github.com/etkecc/go-linkpearl v0.0.0-20241016081935-715b568101ef h1:c+7TLGW847a/7nOxNg8ICXBa8DB3WnnH9mAN9d2Ntuw=
 github.com/etkecc/go-linkpearl v0.0.0-20241016081935-715b568101ef/go.mod h1:VEzhQeweZez8RKYSEYQhULddGeaNsaVcuWzlb1k8EFM=
 github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49 h1:zbXd2N7h/U21Bd4nJrMnqBvFKRBARVz+gmzPPo2NUY8=
@@ -118,8 +118,8 @@ github.com/ncruces/go-strftime v0.1.9/go.mod h1:Fwc5htZGVVkseilnfgOVb9mKy6w1naJm
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/nixys/nxs-go-redmine/v5 v5.1.1 h1:pdJQ4cZp/rXhEqIdm/baSzPv6UzDHq5S7VL5SI0r3DY=
 github.com/nixys/nxs-go-redmine/v5 v5.1.1/go.mod h1:rl6ABSqq7L9G6U7sP7DcoKG2hf0aQKIMy8WFLuTBTuE=
-github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7 h1:Dx7Ovyv/SFnMFw3fD4oEoeorXc6saIiQ23LrGLth0Gw=
-github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7/go.mod h1:pxMtw7cyUw6B2bRH0ZBANSPg+AoSud1I1iyJHI69jH4=
+github.com/petermattis/goid v0.0.0-20241025130422-66cb2e6d7274 h1:qli3BGQK0tYDkSEvZ/FzZTi9ZrOX86Q6CIhKLGc489A=
+github.com/petermattis/goid v0.0.0-20241025130422-66cb2e6d7274/go.mod h1:pxMtw7cyUw6B2bRH0ZBANSPg+AoSud1I1iyJHI69jH4=
 github.com/pingcap/errors v0.11.4 h1:lFuQV/oaUMGcD2tqt+01ROSmJs75VG1ToEOkZIZ4nE4=
 github.com/pingcap/errors v0.11.4/go.mod h1:Oi8TUi2kEtXXLMJk9l1cGmz20kV3TaQ0usTwv5KuLY8=
 github.com/pkg/diff v0.0.0-20210226163009-20ebb0f2a09e/go.mod h1:pJLUxLENpZxwdsKMEsNbx1VGcRFpLqf3715MtcvvzbA=
