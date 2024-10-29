@@ -49,7 +49,6 @@ Please, add the following DNS entries:
 * _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
 * default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=TODO
 * matrix    MX record    0 matrix.example.com.
-* postmoogle._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=TODO
 
 To check the status of your order and stay updated, please keep an eye on your [Order Status Page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947).
 

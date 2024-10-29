@@ -34,7 +34,6 @@ Please, add the following DNS entries:
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 - default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=TODO
 - matrix	MX record	0 matrix.example.com.
-- postmoogle._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=TODO
 ```
 
 hosts:

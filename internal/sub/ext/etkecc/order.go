@@ -208,7 +208,6 @@ func (o *order) preprocessSMTP(ctx context.Context) {
 
 	dkim := map[string]string{}
 	dkim["record"], dkim["private"] = o.dkimgen()
-	dkim["postmoogle_record"], dkim["postmoogle_private"] = o.dkimgen()
 	o.dkim = dkim
 }
 

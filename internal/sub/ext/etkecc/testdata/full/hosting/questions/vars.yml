@@ -30,7 +30,6 @@ etke_service_dns_records:
   - "_dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;"
   - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=TODO"
   - "matrix.higenjitsuteki,MX,0 matrix.higenjitsuteki.onmatrix.chat."
-  - "postmoogle._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=TODO"
   - "higenjitsuteki,MX,10 aspmx1.migadu.com."
   - "higenjitsuteki,MX,20 aspmx2.migadu.com."
   - "higenjitsuteki,TXT,v=spf1 include:spf.migadu.com -all"
@@ -304,11 +303,6 @@ matrix_mautrix_discord_enabled: yes
 matrix_bot_postmoogle_enabled: yes
 matrix_bot_postmoogle_password: TODO64
 matrix_bot_postmoogle_data_secret: TODO32
-matrix_bot_postmoogle_dkim_signature: 'v=DKIM1; k=rsa; p=TODO'
-matrix_bot_postmoogle_dkim_privkey: |
-  -----BEGIN PRIVATE KEY-----
-  TODO
-  -----END PRIVATE KEY-----
 
 # bridges::facebook
 matrix_mautrix_meta_messenger_enabled: yes
