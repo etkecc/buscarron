@@ -890,9 +890,9 @@ func (o *order) varsEmail() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# bridges::email\n")
-	txt.WriteString("matrix_bot_postmoogle_enabled: yes\n")
-	txt.WriteString("matrix_bot_postmoogle_password: " + o.pwgen() + "\n")
-	txt.WriteString("matrix_bot_postmoogle_data_secret: " + o.pwgen(32) + "\n")
+	txt.WriteString("matrix_postmoogle_enabled: yes\n")
+	txt.WriteString("matrix_postmoogle_password: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_postmoogle_data_secret: " + o.pwgen(32) + "\n")
 
 	return txt.String()
 }

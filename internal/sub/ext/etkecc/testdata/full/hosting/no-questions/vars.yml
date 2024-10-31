@@ -331,9 +331,9 @@ matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
 matrix_mautrix_discord_enabled: yes
 
 # bridges::email
-matrix_bot_postmoogle_enabled: yes
-matrix_bot_postmoogle_password: TODO64
-matrix_bot_postmoogle_data_secret: TODO32
+matrix_postmoogle_enabled: yes
+matrix_postmoogle_password: TODO64
+matrix_postmoogle_data_secret: TODO32
 
 # bridges::facebook
 matrix_mautrix_meta_messenger_enabled: yes
