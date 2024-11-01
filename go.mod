@@ -6,7 +6,7 @@ toolchain go1.23.1
 
 require (
 	github.com/VictoriaMetrics/metrics v1.35.1
-	github.com/archdx/zerolog-sentry v1.8.4
+	github.com/archdx/zerolog-sentry v1.8.5
 	github.com/charmbracelet/keygen v0.5.1
 	github.com/etkecc/go-echo-basic-auth v1.1.1
 	github.com/etkecc/go-env v1.2.1

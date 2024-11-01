@@ -288,7 +288,7 @@ func (s *EtkeccSuite) setupCases() {
 				s.v.On("CNAME", "example.com").Return(false).Once()
 				s.v.On("GetBase", "https://matrix.example.com").Return("example.com").Once()
 			},
-			submission: s.merge(s.subs["minimal/questions"], map[string]string{"turnkey": "cpx11"}),
+			submission: s.merge(s.subs["minimal/questions"], map[string]string{"turnkey": "cpx11", "turnkey-location": "hil"}),
 		},
 		{
 			name: "minimal/hosting/domain-a",

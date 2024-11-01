@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -187,8 +188,8 @@ func (o *order) varsEtkeHosting(enabledServices map[string]any) {
 	}
 
 	enabledServices["etke_service_server"] = o.hosting
-	location := locations[strings.ToLower(o.get("turnkey-location"))]
-	if location == "" {
+	location := strings.TrimSpace(strings.ToLower(o.get("turnkey-location")))
+	if !slices.Contains(locations, location) {
 		location = "fsn1"
 	}
 	enabledServices["etke_service_server_location"] = location
