@@ -23,7 +23,7 @@ func (o *order) vars(ctx context.Context) {
 	var txt strings.Builder
 
 	// base
-	txt.WriteString(o.varsEtke())
+	txt.WriteString(o.varsEtke(span.Context()))
 	txt.WriteString(o.varsSSH())
 	txt.WriteString(o.varsPostgres())
 	txt.WriteString(o.varsHomeserver())
@@ -96,7 +96,7 @@ func (o *order) vars(ctx context.Context) {
 	log.Info().Msg("vars have been generated")
 }
 
-func (o *order) varsEtke() string {
+func (o *order) varsEtke(ctx context.Context) string {
 	enabledServices := map[string]any{}
 	if o.has("issue_id") && o.get("issue_id") != "0" {
 		enabledServices["etke_order_issue_id"] = o.get("issue_id")
@@ -118,7 +118,7 @@ func (o *order) varsEtke() string {
 
 	o.varsEtkeDNS(enabledServices)
 	o.varsEtkeExternalDNS(enabledServices)
-	o.varsEtkeHosting(enabledServices)
+	o.varsEtkeHosting(ctx, enabledServices)
 	o.varsEtkeServices(enabledServices)
 
 	enabledServices["etke_subscription_email"] = o.get("email")
@@ -182,14 +182,16 @@ func (o *order) varsEtkeExternalDNS(enabledServices map[string]any) {
 	enabledServices["etke_service_dns_external_records"] = o.generateDNSRecords("@", "", serverIPv4, serverIPv6)
 }
 
-func (o *order) varsEtkeHosting(enabledServices map[string]any) {
+func (o *order) varsEtkeHosting(ctx context.Context, enabledServices map[string]any) {
 	if o.hosting == "" {
 		return
 	}
 
+	log := o.logger(ctx).With().Str("hosting", o.hosting).Logger()
 	enabledServices["etke_service_server"] = o.hosting
 	location := strings.TrimSpace(strings.ToLower(o.get("turnkey-location")))
 	if !slices.Contains(locations, location) {
+		log.Error().Str("location", location).Msg("invalid location")
 		location = "fsn1"
 	}
 	enabledServices["etke_service_server_location"] = location
