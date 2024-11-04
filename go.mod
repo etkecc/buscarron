@@ -11,7 +11,7 @@ require (
 	github.com/etkecc/go-echo-basic-auth v1.1.1
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
-	github.com/etkecc/go-kit v1.3.1
+	github.com/etkecc/go-kit v1.4.0
 	github.com/etkecc/go-linkpearl v0.0.0-20241016081935-715b568101ef
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8

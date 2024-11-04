@@ -201,9 +201,6 @@ radicale_hostname: radicale.example.com
 # schildichat https://schildichat.example.com
 matrix_client_schildichat_enabled: yes
 
-# sliding-sync
-matrix_sliding_sync_enabled: yes
-
 # stats https://stats.example.com
 grafana_enabled: yes
 prometheus_enabled: yes

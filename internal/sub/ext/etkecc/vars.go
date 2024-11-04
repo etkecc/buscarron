@@ -54,7 +54,6 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsPeertube())
 	txt.WriteString(o.varsRadicale())
 	txt.WriteString(o.varsSchildiChat())
-	txt.WriteString(o.varsSlidingSync())
 	txt.WriteString(o.varsStats())
 	txt.WriteString(o.varsSynapseAdmin())
 	txt.WriteString(o.varsUptimeKuma())
@@ -750,18 +749,6 @@ func (o *order) varsSchildiChat() string {
 
 	txt.WriteString("\n# schildichat https://schildichat." + o.domain + "\n")
 	txt.WriteString("matrix_client_schildichat_enabled: yes\n")
-
-	return txt.String()
-}
-
-func (o *order) varsSlidingSync() string {
-	if !o.has("sliding-sync") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# sliding-sync\n")
-	txt.WriteString("matrix_sliding_sync_enabled: yes\n")
 
 	return txt.String()
 }

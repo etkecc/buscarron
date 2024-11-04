@@ -243,9 +243,6 @@ radicale_hostname: radicale.higenjitsuteki.onmatrix.chat
 # schildichat https://schildichat.higenjitsuteki.onmatrix.chat
 matrix_client_schildichat_enabled: yes
 
-# sliding-sync
-matrix_sliding_sync_enabled: yes
-
 # stats https://stats.higenjitsuteki.onmatrix.chat
 grafana_enabled: yes
 prometheus_enabled: yes
