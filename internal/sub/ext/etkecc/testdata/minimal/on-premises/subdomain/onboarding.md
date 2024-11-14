@@ -7,7 +7,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 * Web app: [app.etke.cc](https://app.etke.cc)
 * Homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
-* Synapse Admin: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin) ([help](https://etke.cc/help/extras/synapse-admin))
+* Admin Panel: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin/?username=test&server=matrix.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/synapse-admin))
 
 
 **Matrix Credentials**
