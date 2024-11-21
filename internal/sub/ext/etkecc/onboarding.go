@@ -60,7 +60,7 @@ func (o *order) generateOnboardingLinks() string {
 		txt.WriteString("* Web app: " + link("app.etke.cc") + "\n")
 	}
 	txt.WriteString("* Homeserver: " + link("matrix."+o.domain) + "\n")
-	synapseAdminLink := fmt.Sprintf("[matrix.%s/synapse-admin](https://matrix.%s/synapse-admin/?username=%s&server=%s)", o.domain, o.domain, o.get("username"), "matrix."+o.domain)
+	synapseAdminLink := fmt.Sprintf("[matrix.%s/admin](https://matrix.%s/admin/?username=%s&server=%s)", o.domain, o.domain, o.get("username"), "matrix."+o.domain)
 	txt.WriteString("* Admin Panel: " + synapseAdminLink + " " + helpLink("etke.cc/help/extras/synapse-admin") + "\n")
 	if o.has("service-email") {
 		txt.WriteString("* Email Service (admin): " + link("admin.migadu.com") + "\n")

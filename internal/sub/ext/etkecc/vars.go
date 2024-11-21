@@ -488,8 +488,9 @@ func (o *order) varsSynapseCredentials() string {
 
 func (o *order) varsSynapseAdmin() string {
 	var txt strings.Builder
-	txt.WriteString("\n# synapse-admin https://matrix." + o.domain + "/synapse-admin\n")
+	txt.WriteString("\n# synapse-admin https://matrix." + o.domain + "/admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
+	txt.WriteString("matrix_synapse_admin_path_prefix: \"/admin\"\n")
 
 	return txt.String()
 }

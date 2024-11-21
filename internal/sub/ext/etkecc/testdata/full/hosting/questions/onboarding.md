@@ -6,7 +6,7 @@ Here's all the essential information you need for a smooth onboarding experience
 **Server Links**
 
 * Homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
-* Admin Panel: [matrix.higenjitsuteki.onmatrix.chat/synapse-admin](https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin/?username=test&server=matrix.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/synapse-admin))
+* Admin Panel: [matrix.higenjitsuteki.onmatrix.chat/admin](https://matrix.higenjitsuteki.onmatrix.chat/admin/?username=test&server=matrix.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/synapse-admin))
 * Email Service (admin): [admin.migadu.com](https://admin.migadu.com)
 * Etherpad (admin): [etherpad.higenjitsuteki.onmatrix.chat/admin](https://etherpad.higenjitsuteki.onmatrix.chat/admin)
 * Vaultwarden (admin):[vault.higenjitsuteki.onmatrix.chat/admin](https://vault.higenjitsuteki.onmatrix.chat/admin) ([help](https://etke.cc/help/extras/vaultwarden))

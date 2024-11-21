@@ -62,5 +62,6 @@ exim_relay_dkim_privkey_contents: |
   TODO
   -----END PRIVATE KEY-----
 
-# synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/synapse-admin
+# synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/admin
 matrix_synapse_admin_enabled: yes
+matrix_synapse_admin_path_prefix: "/admin"

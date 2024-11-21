@@ -6,7 +6,7 @@ Here's all the essential information you need for a smooth onboarding experience
 **Server Links**
 
 * Homeserver: [matrix.example.com](https://matrix.example.com)
-* Admin Panel: [matrix.example.com/synapse-admin](https://matrix.example.com/synapse-admin/?username=test.admin&server=matrix.example.com) ([help](https://etke.cc/help/extras/synapse-admin))
+* Admin Panel: [matrix.example.com/admin](https://matrix.example.com/admin/?username=test.admin&server=matrix.example.com) ([help](https://etke.cc/help/extras/synapse-admin))
 * Etherpad (admin): [etherpad.example.com/admin](https://etherpad.example.com/admin)
 * Vaultwarden (admin):[vault.example.com/admin](https://vault.example.com/admin) ([help](https://etke.cc/help/extras/vaultwarden))
 * Maubot (admin): [matrix.example.com/_matrix/maubot](https://matrix.example.com/_matrix/maubot)

@@ -57,5 +57,6 @@ postgres_backup_keep_days: 7
 postgres_backup_keep_weeks: 0
 postgres_backup_keep_months: 0
 
-# synapse-admin https://matrix.example.com/synapse-admin
+# synapse-admin https://matrix.example.com/admin
 matrix_synapse_admin_enabled: yes
+matrix_synapse_admin_path_prefix: "/admin"

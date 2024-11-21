@@ -1464,6 +1464,17 @@ func (c *conn) closeV2(db uintptr) error {
 	return nil
 }
 
+func (c *conn) ResetSession(ctx context.Context) error {
+	if c.db == 0 {
+		return driver.ErrBadConn
+	}
+	return nil
+}
+
+func (c *conn) IsValid() bool {
+	return c.db != 0
+}
+
 // FunctionImpl describes an [application-defined SQL function]. If Scalar is
 // set, it is treated as a scalar function; otherwise, it is treated as an
 // aggregate function using MakeAggregate.

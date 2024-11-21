@@ -241,8 +241,9 @@ prometheus_node_exporter_process_extra_arguments:
 grafana_default_admin_user: test.admin
 grafana_default_admin_password: TODO64
 
-# synapse-admin https://matrix.example.com/synapse-admin
+# synapse-admin https://matrix.example.com/admin
 matrix_synapse_admin_enabled: yes
+matrix_synapse_admin_path_prefix: "/admin"
 
 # uptime kuma https://kuma.example.com
 uptime_kuma_enabled: yes

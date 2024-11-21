@@ -12,7 +12,7 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.4.1
-	github.com/etkecc/go-linkpearl v0.0.0-20241016081935-715b568101ef
+	github.com/etkecc/go-linkpearl v0.0.0-20241116172526-6e608364cff7
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
 	github.com/etkecc/go-redmine v0.0.0-20240820090507-19ce08baf06b
@@ -31,8 +31,8 @@ require (
 	golang.org/x/net v0.31.0
 	golang.org/x/text v0.20.0
 	golang.org/x/time v0.8.0
-	maunium.net/go/mautrix v0.21.1
-	modernc.org/sqlite v1.33.1
+	maunium.net/go/mautrix v0.22.0
+	modernc.org/sqlite v1.34.1
 )
 
 require (
@@ -77,7 +77,7 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
-	go.mau.fi/util v0.8.1 // indirect
+	go.mau.fi/util v0.8.2 // indirect
 	golang.org/x/crypto v0.29.0 // indirect
 	golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f // indirect
 	golang.org/x/sys v0.27.0 // indirect
@@ -86,7 +86,7 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	modernc.org/gc/v3 v3.0.0-20241004144649-1aea3fae8852 // indirect
-	modernc.org/libc v1.61.0 // indirect
+	modernc.org/libc v1.61.2 // indirect
 	modernc.org/mathutil v1.6.0 // indirect
 	modernc.org/memory v1.8.0 // indirect
 	modernc.org/strutil v1.2.0 // indirect
