@@ -34,7 +34,6 @@ var (
 
 // Render renders the given markdown to HTML.
 func Render(markdown string) (htmlString string) {
-	markdown = strings.TrimLeft(strings.TrimSpace(strings.ReplaceAll(markdown, "\n", "<br>")), "<br>")
 	var buf bytes.Buffer
 	if err := Renderer.Convert([]byte(markdown), &buf); err != nil {
 		return fmt.Sprintf("<p>Error rendering markdown: %s</p>", err)

@@ -47,7 +47,7 @@ github.com/etkecc/go-env/dotenv
 # github.com/etkecc/go-healthchecks/v2 v2.2.2
 ## explicit; go 1.18
 github.com/etkecc/go-healthchecks/v2
-# github.com/etkecc/go-kit v1.4.1
+# github.com/etkecc/go-kit v1.4.2
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
 github.com/etkecc/go-kit/workpool
