@@ -178,7 +178,7 @@ languagetool_hostname: languagetool.example.com
 # linkding https://linkding.example.com
 linkding_enabled: yes
 linkding_hostname: linkding.example.com
-linkding_superuser_login: test
+linkding_superuser_username: test
 linkding_superuser_password: TODO64
 
 # miniflux https://miniflux.example.com

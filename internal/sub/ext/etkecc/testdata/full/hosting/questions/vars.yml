@@ -220,7 +220,7 @@ languagetool_hostname: languagetool.higenjitsuteki.onmatrix.chat
 # linkding https://linkding.higenjitsuteki.onmatrix.chat
 linkding_enabled: yes
 linkding_hostname: linkding.higenjitsuteki.onmatrix.chat
-linkding_superuser_login: test
+linkding_superuser_username: test
 linkding_superuser_password: TODO64
 
 # miniflux https://miniflux.higenjitsuteki.onmatrix.chat
