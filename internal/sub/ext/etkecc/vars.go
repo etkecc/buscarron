@@ -97,6 +97,7 @@ func (o *order) vars(ctx context.Context) {
 
 func (o *order) varsEtke(ctx context.Context) string {
 	enabledServices := map[string]any{}
+	enabledServices["etke_order_email"] = o.get("email")
 	if o.has("issue_id") && o.get("issue_id") != "0" {
 		enabledServices["etke_order_issue_id"] = o.get("issue_id")
 	}
@@ -281,7 +282,6 @@ func (o *order) varsHomeserver() string {
 	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
 	txt.WriteString("matrix_domain: " + o.domain + "\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":" + o.domain + "\"\n")
-	txt.WriteString("traefik_config_certificatesResolvers_acme_email: " + o.get("email") + "\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
 	}

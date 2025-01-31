@@ -1,5 +1,6 @@
 # etke services
 etke_base_matrix: yes
+etke_order_email: test@test.com
 etke_order_issue_id: 123
 etke_service_dns_records:
   - "higenjitsuteki,A,SERVER_IP4"
@@ -58,7 +59,6 @@ postgres_connection_password: TODO64
 # homeserver https://matrix.higenjitsuteki.onmatrix.chat
 matrix_domain: higenjitsuteki.onmatrix.chat
 matrix_admin: "@test:higenjitsuteki.onmatrix.chat"
-traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_bridges_encryption_enabled: yes
 
 # MSC1929 admin contacts

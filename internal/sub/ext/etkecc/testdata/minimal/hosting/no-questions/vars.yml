@@ -1,5 +1,6 @@
 # etke services
 etke_base_matrix: yes
+etke_order_email: test@test.com
 etke_order_issue_id: 123
 etke_service_dns_external_records:
   - "@,A,SERVER_IP4"
@@ -30,7 +31,6 @@ postgres_connection_password: TODO64
 # homeserver https://matrix.example.com
 matrix_domain: example.com
 matrix_admin: "@test:example.com"
-traefik_config_certificatesResolvers_acme_email: test@test.com
 matrix_client_element_enabled: no
 
 # MSC1929 admin contacts
