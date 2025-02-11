@@ -181,6 +181,13 @@ func (o *order) generateOnboardingCredentials() string {
 	txt.WriteString("* Username: " + o.get("username") + "\n")
 	txt.WriteString("* Password: " + mxpass + "\n\n")
 
+	if o.has("radicale") {
+		txt.WriteString("**Radicale (CalDAV/CardDAV) Credentials**\n\n")
+		txt.WriteString("* Username: your Matrix username (" + o.get("username") + ")\n")
+		txt.WriteString("* Password: your Matrix password\n\n")
+		txt.WriteString("> Radicale can be used by any user of your Matrix server with their Matrix credentials, thanks to [radicale-auth-matrix](https://github.com/etkecc/radicale-auth-matrix).\n\n")
+	}
+
 	serviceCreds := make([]string, 0, len(o.logins))
 	for service := range o.logins {
 		serviceCreds = append(serviceCreds, service)

@@ -68,6 +68,13 @@ Here's all the essential information you need for a smooth onboarding experience
 * Username: test.admin
 * Password: TODO64
 
+**Radicale (CalDAV/CardDAV) Credentials**
+
+* Username: your Matrix username (test.admin)
+* Password: your Matrix password
+
+> Radicale can be used by any user of your Matrix server with their Matrix credentials, thanks to [radicale-auth-matrix](https://github.com/etkecc/radicale-auth-matrix).
+
 **Etherpad Admin Credentials**
 
 * Username: test.admin
