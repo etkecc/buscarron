@@ -12,6 +12,7 @@ etke_service_dns_records:
   - "element.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "etherpad.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "firezone.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "fluffychat.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "funkwhale.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "social.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "hydrogen.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -189,6 +190,9 @@ firezone_hostname: firezone.higenjitsuteki.onmatrix.chat
 firezone_default_admin_email: test@test.com
 firezone_default_admin_password: TODO64
 firezone_database_encryption_key: "TODO32"
+
+# fluffychat https://fluffychat.higenjitsuteki.onmatrix.chat
+matrix_client_fluffychat_enabled: yes
 
 # funkwhale
 funkwhale_enabled: yes

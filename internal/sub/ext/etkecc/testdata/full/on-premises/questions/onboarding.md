@@ -16,6 +16,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Element-Web: [element.example.com](https://element.example.com)
 * Etherpad: [etherpad.example.com](https://etherpad.example.com) ([help](https://etke.cc/help/extras/etherpad))
 * Firezone: [firezone.example.com](https://firezone.example.com) ([help](https://etke.cc/help/extras/firezone))
+* Fluffychat: [fluffychat.example.com](https://fluffychat.example.com)
 * Funkwhale: [funkwhale.example.com](https://funkwhale.example.com) ([help](https://etke.cc/help/extras/funkwhale))
 * Gotosocial: [social.example.com](https://social.example.com) ([help](https://etke.cc/help/extras/gotosocial))
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)

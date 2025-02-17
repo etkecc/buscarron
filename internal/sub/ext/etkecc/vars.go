@@ -44,6 +44,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsElement())
 	txt.WriteString(o.varsEtherpad())
 	txt.WriteString(o.varsFirezone())
+	txt.WriteString(o.varsFluffyChat())
 	txt.WriteString(o.varsFunkwhale())
 	txt.WriteString(o.varsGoToSocial())
 	txt.WriteString(o.varsHydrogen())
@@ -573,6 +574,18 @@ func (o *order) varsFirezone() string {
 	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
 	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
 	txt.WriteString("firezone_database_encryption_key: \"" + o.base64bytesgen(32) + "\"\n")
+
+	return txt.String()
+}
+
+func (o *order) varsFluffyChat() string {
+	if !o.has("fluffychat") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# fluffychat https://fluffychat." + o.domain + "\n")
+	txt.WriteString("matrix_client_fluffychat_enabled: yes\n")
 
 	return txt.String()
 }

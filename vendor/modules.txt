@@ -51,8 +51,8 @@ github.com/etkecc/go-healthchecks/v2
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
 github.com/etkecc/go-kit/workpool
-# github.com/etkecc/go-linkpearl v0.0.0-20250116124126-9b61062f191e
-## explicit; go 1.22.0
+# github.com/etkecc/go-linkpearl v0.0.0-20250217075507-d5e511599d5c
+## explicit; go 1.23.0
 github.com/etkecc/go-linkpearl
 # github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 ## explicit; go 1.22
@@ -224,11 +224,12 @@ github.com/yuin/goldmark/util
 # github.com/ziflex/lecho/v3 v3.7.0
 ## explicit; go 1.17
 github.com/ziflex/lecho/v3
-# go.mau.fi/util v0.8.4
-## explicit; go 1.22.0
+# go.mau.fi/util v0.8.5
+## explicit; go 1.23.0
 go.mau.fi/util/base58
 go.mau.fi/util/confusable
 go.mau.fi/util/dbutil
+go.mau.fi/util/exbytes
 go.mau.fi/util/exerrors
 go.mau.fi/util/exgjson
 go.mau.fi/util/exhttp
@@ -255,8 +256,8 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20250210185358-939b2ce775ac
-## explicit; go 1.22.0
+# golang.org/x/exp v0.0.0-20250215185904-eff6e970281f
+## explicit; go 1.23.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
 # golang.org/x/net v0.35.0
@@ -305,8 +306,8 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/mautrix v0.23.0
-## explicit; go 1.22.0
+# maunium.net/go/mautrix v0.23.1
+## explicit; go 1.23.0
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
 maunium.net/go/mautrix/crypto/aescbc
@@ -317,7 +318,7 @@ maunium.net/go/mautrix/crypto/cryptohelper
 maunium.net/go/mautrix/crypto/ed25519
 maunium.net/go/mautrix/crypto/goolm
 maunium.net/go/mautrix/crypto/goolm/account
-maunium.net/go/mautrix/crypto/goolm/cipher
+maunium.net/go/mautrix/crypto/goolm/aessha2
 maunium.net/go/mautrix/crypto/goolm/crypto
 maunium.net/go/mautrix/crypto/goolm/goolmbase64
 maunium.net/go/mautrix/crypto/goolm/libolmpickle
@@ -326,7 +327,6 @@ maunium.net/go/mautrix/crypto/goolm/message
 maunium.net/go/mautrix/crypto/goolm/pk
 maunium.net/go/mautrix/crypto/goolm/ratchet
 maunium.net/go/mautrix/crypto/goolm/session
-maunium.net/go/mautrix/crypto/goolm/utilities
 maunium.net/go/mautrix/crypto/libolm
 maunium.net/go/mautrix/crypto/olm
 maunium.net/go/mautrix/crypto/pkcs7
@@ -374,7 +374,7 @@ modernc.org/mathutil
 # modernc.org/memory v1.8.2
 ## explicit; go 1.21
 modernc.org/memory
-# modernc.org/sqlite v1.34.5
+# modernc.org/sqlite v1.35.0
 ## explicit; go 1.21
 modernc.org/sqlite
 modernc.org/sqlite/lib

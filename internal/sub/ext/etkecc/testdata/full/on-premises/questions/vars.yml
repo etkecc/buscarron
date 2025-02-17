@@ -148,6 +148,9 @@ firezone_default_admin_email: test@test.com
 firezone_default_admin_password: TODO64
 firezone_database_encryption_key: "TODO32"
 
+# fluffychat https://fluffychat.example.com
+matrix_client_fluffychat_enabled: yes
+
 # funkwhale
 funkwhale_enabled: yes
 funkwhale_hostname: funkwhale.example.com
