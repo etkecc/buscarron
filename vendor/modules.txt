@@ -51,7 +51,7 @@ github.com/etkecc/go-healthchecks/v2
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
 github.com/etkecc/go-kit/workpool
-# github.com/etkecc/go-linkpearl v0.0.0-20250217075507-d5e511599d5c
+# github.com/etkecc/go-linkpearl v0.0.0-20250218100459-0e671f157c8b
 ## explicit; go 1.23.0
 github.com/etkecc/go-linkpearl
 # github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
@@ -242,8 +242,8 @@ go.mau.fi/util/jsontime
 go.mau.fi/util/ptr
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
-# golang.org/x/crypto v0.33.0
-## explicit; go 1.20
+# golang.org/x/crypto v0.34.0
+## explicit; go 1.23.0
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
 golang.org/x/crypto/blowfish
@@ -256,7 +256,7 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20250215185904-eff6e970281f
+# golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa
 ## explicit; go 1.23.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps

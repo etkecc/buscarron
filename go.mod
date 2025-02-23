@@ -12,7 +12,7 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.5.0
-	github.com/etkecc/go-linkpearl v0.0.0-20250217075507-d5e511599d5c
+	github.com/etkecc/go-linkpearl v0.0.0-20250218100459-0e671f157c8b
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
@@ -78,8 +78,8 @@ require (
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	go.mau.fi/util v0.8.5 // indirect
-	golang.org/x/crypto v0.33.0 // indirect
-	golang.org/x/exp v0.0.0-20250215185904-eff6e970281f // indirect
+	golang.org/x/crypto v0.34.0 // indirect
+	golang.org/x/exp v0.0.0-20250218142911-aa4b98e5adaa // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/tools v0.30.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
