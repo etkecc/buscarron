@@ -298,6 +298,9 @@ matrix_bot_matrix_reminder_bot_enabled: yes
 matrix_bot_matrix_reminder_bot_reminders_timezone: TODO
 matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
 
+# bridges::bluesky
+matrix_mautrix_bluesky_enabled: yes
+
 # bridges::discord
 matrix_mautrix_discord_enabled: yes
 

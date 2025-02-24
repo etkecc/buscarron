@@ -68,6 +68,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsReminder())
 
 	// bridges
+	txt.WriteString(o.varsBluesky())
 	txt.WriteString(o.varsDiscord())
 	txt.WriteString(o.varsEmail())
 	txt.WriteString(o.varsFacebook())
@@ -877,6 +878,17 @@ func (o *order) varsReminder() string {
 	txt.WriteString("matrix_bot_matrix_reminder_bot_enabled: yes\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: " + o.get("reminder-bot-tz") + "\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + o.pwgen() + "\n")
+
+	return txt.String()
+}
+
+func (o *order) varsBluesky() string {
+	if !o.has("bluesky") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::bluesky\n")
+	txt.WriteString("matrix_mautrix_bluesky_enabled: yes\n")
 
 	return txt.String()
 }

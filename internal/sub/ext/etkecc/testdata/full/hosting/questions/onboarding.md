@@ -45,6 +45,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 **Matrix Bridges**
 
+* Bluesky: [@blueskybot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@blueskybot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-bluesky))
 * Discord: [@discordbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@discordbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-discord))
 * Facebook: [@messengerbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@messengerbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-meta-messenger))
 * Gmessages: [@gmessagesbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@gmessagesbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-gmessages))

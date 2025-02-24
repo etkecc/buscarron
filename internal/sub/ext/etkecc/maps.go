@@ -39,6 +39,7 @@ var botmap = map[string]string{
 }
 
 var bridgemap = map[string]string{
+	"bluesky":    "@blueskybot",
 	"discord":    "@discordbot",
 	"facebook":   "@messengerbot",
 	"gmessages":  "@gmessagesbot",
@@ -59,6 +60,7 @@ var bridgemap = map[string]string{
 
 var helpmap = map[string]string{
 	"baibot":       "etke.cc/help/bots/baibot",
+	"bluesky":      "etke.cc/help/bridges/mautrix-bluesky",
 	"buscarron":    "etke.cc/help/bots/buscarron",
 	"cinny":        "",
 	"discord":      "etke.cc/help/bridges/mautrix-discord",
