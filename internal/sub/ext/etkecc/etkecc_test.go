@@ -75,7 +75,7 @@ func (s *EtkeccSuite) setupSubs() {
 		"full/questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",
 			"username":            " tEsT ",
-			"email":               "tEsT@TEST.cOm",
+			"email":               "test@example.cOm",
 			"issue_id":            "123",
 			"service-email":       "on",
 			"service-support":     "dedicated",

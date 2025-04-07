@@ -84,7 +84,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 **Firezone Credentials**
 
-* Username: test@test.com
+* Username: test@example.com
 * Password: TODO64
 
 **Funkwhale Credentials**

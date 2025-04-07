@@ -22,6 +22,7 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
 	"github.com/ziflex/lecho/v3"
+	"maunium.net/go/mautrix/event"
 	_ "modernc.org/sqlite"
 
 	"github.com/etkecc/buscarron/internal/bot"
@@ -140,6 +141,14 @@ func initBot(cfg *config.Config) error {
 		DB:         db,
 		Dialect:    cfg.DB.Dialect,
 		Logger:     *log,
+		JoinPermit: func(ctx context.Context, e *event.Event) bool {
+			for _, form := range cfg.Forms {
+				if form.RoomID == e.RoomID {
+					return true
+				}
+			}
+			return false
+		},
 	})
 	if err != nil {
 		return err

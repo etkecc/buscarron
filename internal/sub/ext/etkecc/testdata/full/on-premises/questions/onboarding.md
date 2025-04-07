@@ -84,7 +84,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 **Firezone Credentials**
 
-* Username: test@test.com
+* Username: test@example.com
 * Password: TODO64
 
 **Funkwhale Credentials**
@@ -150,6 +150,10 @@ ssh-todo TODO
 2. Send the room id [to us](https://etke.cc/contacts/)
 
 **Email Service**
+
+
+
+> **WARNING!**: You have ordered [etke.cc email service](https://etke.cc/help/extras/email-hosting/) for your Matrix server's domain, **BUT you already have an email service** configured on that domain! Configuring the new email service **will break your existing email service!**. Please, ensure you are ready for that!
 
 1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox
 2. Accept the invitation and prepare your account (set a password, etc.)

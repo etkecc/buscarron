@@ -1,6 +1,6 @@
 # etke services
 etke_base_matrix: yes
-etke_order_email: test@test.com
+etke_order_email: test@example.com
 etke_order_issue_id: 123
 etke_service_dns_records:
   - "higenjitsuteki,A,SERVER_IP4"
@@ -48,7 +48,7 @@ etke_service_server_firewalls: 124003
 etke_service_server_location: fsn1
 etke_service_support: dedicated
 etke_subscription_confirmed: no
-etke_subscription_email: test@test.com
+etke_subscription_email: test@example.com
 etke_subscription_provider: Ko-Fi
 
 # ssh
@@ -66,7 +66,7 @@ matrix_bridges_encryption_enabled: yes
 matrix_static_files_file_matrix_support_enabled: yes
 matrix_static_files_file_matrix_support_property_m_contacts:
   - matrix_id: "@test:higenjitsuteki.onmatrix.chat"
-    email_address: test@test.com
+    email_address: test@example.com
     role: m.role.admin
 
 # initial users
@@ -76,12 +76,12 @@ matrix_user_creator_users_additional:
    initial_type: admin
 gotosocial_users_additional:
  - username: test
-   initial_email: test@test.com
+   initial_email: test@example.com
    initial_password: TODO64
    initial_type: admin
 funkwhale_users_additional:
  - username: test
-   initial_email: test@test.com
+   initial_email: test@example.com
    initial_password: TODO64
    initial_type: admin
 
@@ -187,7 +187,7 @@ etherpad_admin_password: TODO64
 # firezone
 firezone_enabled: yes
 firezone_hostname: firezone.higenjitsuteki.onmatrix.chat
-firezone_default_admin_email: test@test.com
+firezone_default_admin_email: test@example.com
 firezone_default_admin_password: TODO64
 firezone_database_encryption_key: "TODO32"
 
@@ -237,7 +237,7 @@ miniflux_admin_password: TODO64
 peertube_enabled: yes
 peertube_hostname: peertube.higenjitsuteki.onmatrix.chat
 peertube_config_secret: TODO64
-peertube_config_admin_email: test@test.com
+peertube_config_admin_email: test@example.com
 peertube_config_root_user_initial_password: TODO64
 
 # radicale https://radicale.higenjitsuteki.onmatrix.chat

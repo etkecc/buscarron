@@ -280,7 +280,16 @@ func (o *order) generateOnboardingAfterMigadu() string {
 	}
 	var txt strings.Builder
 
+	var orderEmailHost string
+	orderEmailParts := strings.Split(o.get("email"), "@")
+	if len(orderEmailParts) == 2 {
+		orderEmailHost = orderEmailParts[1]
+	}
+
 	txt.WriteString("**Email Service**\n\n")
+	if orderEmailHost == o.domain {
+		txt.WriteString("\n\n> **WARNING!**: You have ordered [etke.cc email service](https://etke.cc/help/extras/email-hosting/) for your Matrix server's domain, **BUT you already have an email service** configured on that domain! Configuring the new email service **will break your existing email service!**. Please, ensure you are ready for that!\n\n")
+	}
 	txt.WriteString("1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox\n")
 	txt.WriteString("2. Accept the invitation and prepare your account (set a password, etc.)\n")
 	txt.WriteString("3. Go to the " + link("admin.migadu.com/domains") + " page and select your email domain\n")
