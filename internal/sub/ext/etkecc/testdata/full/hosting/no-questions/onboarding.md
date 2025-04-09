@@ -13,6 +13,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Maubot (admin): [matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot](https://matrix.higenjitsuteki.onmatrix.chat/_matrix/maubot)
 * Buscarron: [buscarron.higenjitsuteki.onmatrix.chat](https://buscarron.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bots/buscarron))
 * Cinny: [cinny.higenjitsuteki.onmatrix.chat](https://cinny.higenjitsuteki.onmatrix.chat)
+* Element-Call: [call.higenjitsuteki.onmatrix.chat](https://call.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/element-call))
 * Element-Web: [element.higenjitsuteki.onmatrix.chat](https://element.higenjitsuteki.onmatrix.chat)
 * Etherpad: [etherpad.higenjitsuteki.onmatrix.chat](https://etherpad.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/etherpad))
 * Firezone: [firezone.higenjitsuteki.onmatrix.chat](https://firezone.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/firezone))

@@ -12,6 +12,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Maubot (admin): [matrix.example.com/_matrix/maubot](https://matrix.example.com/_matrix/maubot)
 * Buscarron: [buscarron.example.com](https://buscarron.example.com) ([help](https://etke.cc/help/bots/buscarron))
 * Cinny: [cinny.example.com](https://cinny.example.com)
+* Element-Call: [call.example.com](https://call.example.com) ([help](https://etke.cc/help/extras/element-call))
 * Element-Web: [element.example.com](https://element.example.com)
 * Etherpad: [etherpad.example.com](https://etherpad.example.com) ([help](https://etke.cc/help/extras/etherpad))
 * Firezone: [firezone.example.com](https://firezone.example.com) ([help](https://etke.cc/help/extras/firezone))

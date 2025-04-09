@@ -143,6 +143,9 @@ matrix_client_cinny_enabled: yes
 # element https://element.example.com
 matrix_client_element_enabled: yes
 
+# element call https://call.element.example.com
+matrix_element_call_enabled: yes
+
 # etherpad
 etherpad_enabled: yes
 etherpad_hostname: etherpad.example.com

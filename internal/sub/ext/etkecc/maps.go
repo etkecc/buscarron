@@ -9,6 +9,7 @@ var defaults = map[string]string{
 var dnsmap = map[string]string{
 	"buscarron":    "buscarron",
 	"cinny":        "cinny",
+	"element-call": "call",
 	"element-web":  "element",
 	"etherpad":     "etherpad",
 	"firezone":     "firezone",
@@ -64,6 +65,7 @@ var helpmap = map[string]string{
 	"buscarron":    "etke.cc/help/bots/buscarron",
 	"cinny":        "",
 	"discord":      "etke.cc/help/bridges/mautrix-discord",
+	"element-call": "etke.cc/help/extras/element-call",
 	"element-web":  "",
 	"etherpad":     "etke.cc/help/extras/etherpad",
 	"facebook":     "etke.cc/help/bridges/mautrix-meta-messenger",
@@ -81,6 +83,7 @@ var helpmap = map[string]string{
 	"languagetool": "etke.cc/help/extras/languagetool",
 	"linkding":     "etke.cc/help/extras/linkding",
 	"linkedin":     "etke.cc/help/bridges/beeper-linkedin",
+	"matrix-rtc":   "etke.cc/help/extras/matrix-rtc",
 	"maubot":       "etke.cc/help/bots/maubot",
 	"miniflux":     "etke.cc/help/extras/miniflux",
 	"ntfy":         "etke.cc/help/extras/ntfy",

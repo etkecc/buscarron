@@ -9,6 +9,7 @@ etke_service_dns_records:
   - "matrix.higenjitsuteki,AAAA,SERVER_IP6"
   - "buscarron.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "cinny.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "call.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "element.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "etherpad.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "firezone.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -186,6 +187,9 @@ matrix_client_cinny_enabled: yes
 
 # element https://element.higenjitsuteki.onmatrix.chat
 matrix_client_element_enabled: yes
+
+# element call https://call.element.higenjitsuteki.onmatrix.chat
+matrix_element_call_enabled: yes
 
 # etherpad
 etherpad_enabled: yes

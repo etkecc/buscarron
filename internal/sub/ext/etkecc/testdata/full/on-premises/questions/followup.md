@@ -31,6 +31,7 @@ Please, add the following DNS entries:
 * matrix    A record    server IP
 * buscarron    CNAME record    matrix.example.com.
 * cinny    CNAME record    matrix.example.com.
+* call    CNAME record    matrix.example.com.
 * element    CNAME record    matrix.example.com.
 * etherpad    CNAME record    matrix.example.com.
 * firezone    CNAME record    matrix.example.com.

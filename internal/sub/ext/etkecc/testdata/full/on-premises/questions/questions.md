@@ -1,6 +1,6 @@
 
 
-price: $60
+price: $62
 
 [status page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947)
 
@@ -33,6 +33,7 @@ Please, add the following DNS entries:
 - matrix	A record	server IP
 - buscarron	CNAME record	matrix.example.com.
 - cinny	CNAME record	matrix.example.com.
+- call	CNAME record	matrix.example.com.
 - element	CNAME record	matrix.example.com.
 - etherpad	CNAME record	matrix.example.com.
 - firezone	CNAME record	matrix.example.com.

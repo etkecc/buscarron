@@ -109,6 +109,9 @@ exim_relay_relay_auth_username: "matrix@example.com"
 exim_relay_relay_auth_password: TODO64
 exim_relay_sender_address: "matrix@example.com"
 
+# matrix rtc
+matrix_rtc_enabled: yes
+
 # ntfy https://ntfy.example.com
 ntfy_enabled: yes
 
@@ -134,6 +137,9 @@ matrix_client_cinny_enabled: yes
 
 # element https://element.example.com
 matrix_client_element_enabled: yes
+
+# element call https://call.element.example.com
+matrix_element_call_enabled: yes
 
 # etherpad
 etherpad_enabled: yes

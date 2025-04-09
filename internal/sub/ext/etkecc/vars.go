@@ -35,6 +35,7 @@ func (o *order) vars(ctx context.Context) {
 	// additional low-level services
 	txt.WriteString(o.varsBorgBackup())
 	txt.WriteString(o.varsEximRelay())
+	txt.WriteString(o.varsMatrixRTC())
 	txt.WriteString(o.varsNtfy())
 	txt.WriteString(o.varsPostgresBackup())
 	txt.WriteString(o.varsSygnal())
@@ -42,6 +43,7 @@ func (o *order) vars(ctx context.Context) {
 	// additional services
 	txt.WriteString(o.varsCinny())
 	txt.WriteString(o.varsElement())
+	txt.WriteString(o.varsElementCall())
 	txt.WriteString(o.varsEtherpad())
 	txt.WriteString(o.varsFirezone())
 	txt.WriteString(o.varsFluffyChat())
@@ -444,6 +446,17 @@ func (o *order) varsEximRelay() string {
 	return txt.String()
 }
 
+func (o *order) varsMatrixRTC() string {
+	if !o.has("matrix-rtc") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# matrix rtc\n")
+	txt.WriteString("matrix_rtc_enabled: yes\n")
+
+	return txt.String()
+}
+
 func (o *order) varsSynapse() string {
 	var txt strings.Builder
 
@@ -646,6 +659,18 @@ func (o *order) varsElement() string {
 
 	txt.WriteString("\n# element https://element." + o.domain + "\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsElementCall() string {
+	if !o.has("element-call") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# element call https://call.element." + o.domain + "\n")
+	txt.WriteString("matrix_element_call_enabled: yes\n")
 
 	return txt.String()
 }

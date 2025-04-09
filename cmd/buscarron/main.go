@@ -141,7 +141,7 @@ func initBot(cfg *config.Config) error {
 		DB:         db,
 		Dialect:    cfg.DB.Dialect,
 		Logger:     *log,
-		JoinPermit: func(ctx context.Context, e *event.Event) bool {
+		JoinPermit: func(_ context.Context, e *event.Event) bool {
 			for _, form := range cfg.Forms {
 				if form.RoomID == e.RoomID {
 					return true
