@@ -12,14 +12,14 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.6.0
-	github.com/etkecc/go-linkpearl v0.0.0-20250316201104-ca0474576fbc
+	github.com/etkecc/go-linkpearl v0.0.0-20250416104026-a65bda9f5f37
 	github.com/etkecc/go-pricify v0.0.0-20240913071909-f9bafa3c5c49
 	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.4
-	github.com/getsentry/sentry-go v0.31.1
-	github.com/getsentry/sentry-go/echo v0.31.1
+	github.com/getsentry/sentry-go v0.32.0
+	github.com/getsentry/sentry-go/echo v0.32.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.3
 	github.com/lib/pq v1.10.9
@@ -28,11 +28,11 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.10.0
 	github.com/swaggo/swag v1.16.3
-	github.com/ziflex/lecho/v3 v3.7.0
+	github.com/ziflex/lecho/v3 v3.8.0
 	golang.org/x/net v0.39.0
 	golang.org/x/text v0.24.0
 	golang.org/x/time v0.11.0
-	maunium.net/go/mautrix v0.23.2
+	maunium.net/go/mautrix v0.23.3
 	modernc.org/sqlite v1.37.0
 )
 
@@ -59,7 +59,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/mattn/go-sqlite3 v1.14.27 // indirect
+	github.com/mattn/go-sqlite3 v1.14.28 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v0.1.9 // indirect
@@ -77,7 +77,7 @@ require (
 	github.com/valyala/fastrand v1.1.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
-	github.com/yuin/goldmark v1.7.8 // indirect
+	github.com/yuin/goldmark v1.7.11 // indirect
 	go.mau.fi/util v0.8.6 // indirect
 	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
@@ -85,7 +85,7 @@ require (
 	golang.org/x/tools v0.32.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.62.1 // indirect
+	modernc.org/libc v1.64.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.9.1 // indirect
+	modernc.org/memory v1.10.0 // indirect
 )

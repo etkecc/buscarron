@@ -269,8 +269,8 @@ func (o *order) varsSSH() string {
 
 	if o.get("ssh-user") == "matrix" {
 		txt.WriteString("\n# matrix user\n")
-		txt.WriteString("matrix_user_username: matrixserver\n")
-		txt.WriteString("matrix_user_groupname: matrixserver\n")
+		txt.WriteString("matrix_user_name: matrixserver\n")
+		txt.WriteString("matrix_group_name: matrixserver\n")
 	}
 
 	return txt.String()

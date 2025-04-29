@@ -15,8 +15,8 @@ system_security_ssh_authorizedkeys_host:
   - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user2@host
 
 # matrix user
-matrix_user_username: matrixserver
-matrix_user_groupname: matrixserver
+matrix_user_name: matrixserver
+matrix_group_name: matrixserver
 
 # postgres
 postgres_connection_password: TODO64
