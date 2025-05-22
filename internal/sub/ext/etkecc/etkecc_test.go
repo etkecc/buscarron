@@ -68,7 +68,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"ssh-user":     "user",
 			"ssh-password": "password",
 			// hosting
-			"ssh-client-ips": "1.2.3.4, 5.6.7.8",
+			"ssh-client-ips": "1.2.3.4, 5.6.7.8,",
 			"ssh-client-key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user@host\nssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEt3k0bEgBjfZRqU3MvWla8sgUUsm5mJRYu2CWYcYDCz user2@host",
 		},
 

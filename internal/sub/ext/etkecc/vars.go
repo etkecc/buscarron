@@ -209,11 +209,14 @@ func (o *order) varsEtkeHosting(ctx context.Context, enabledServices map[string]
 		ips := []string{}
 		for _, ip := range strings.Split(o.get("ssh-client-ips"), ",") {
 			ip = strings.TrimSpace(ip)
-			if strings.Contains(ip, "/") {
-				ips = append(ips, ip)
+			if ip == "" {
 				continue
 			}
-			ips = append(ips, strings.TrimSpace(ip)+"/32")
+			if !strings.Contains(ip, "/") {
+				ips = append(ips, ip+"/32")
+				continue
+			}
+			ips = append(ips, ip)
 		}
 		enabledServices["etke_service_server_allowlist"] = strings.Join(ips, ",")
 	}
