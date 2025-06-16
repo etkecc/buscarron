@@ -233,6 +233,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"synapse-s3-secret-key":       "some-secret",
 			"telegram-api-hash":           "some-hash",
 			"telegram-api-id":             "123",
+			"telegram-bot-token":          "123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11",
 			// on-premises
 			"ssh-host":     "1.2.3.4",
 			"ssh-port":     "222",

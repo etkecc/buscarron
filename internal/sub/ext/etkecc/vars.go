@@ -1058,6 +1058,10 @@ func (o *order) varsTelegram() string {
 	txt.WriteString("matrix_mautrix_telegram_api_id: " + o.get("telegram-api-id") + "\n")
 	txt.WriteString("matrix_mautrix_telegram_api_hash: " + o.get("telegram-api-hash") + "\n")
 
+	if o.has("telegram-bot-token") {
+		txt.WriteString(`matrix_mautrix_telegram_bot_token: "` + o.get("telegram-bot-token") + `"` + "\n")
+	}
+
 	return txt.String()
 }
 

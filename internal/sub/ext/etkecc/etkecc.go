@@ -56,7 +56,7 @@ func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.F
 	var p *pricify.Data
 	var err error
 	p, err = pricify.New()
-	if err != nil {
+	if err != nil && p == nil {
 		p = e.pricify
 	}
 

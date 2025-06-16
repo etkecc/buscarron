@@ -7,7 +7,7 @@ import (
 
 const dataURL = "https://etke.cc/order/components.json"
 
-// New price data
+// New price data, always returns cache (if available) on error
 func New(uriOverride ...string) (*Data, error) {
 	uri := dataURL
 	if len(uriOverride) > 0 {
@@ -16,18 +16,18 @@ func New(uriOverride ...string) (*Data, error) {
 
 	resp, err := http.Get(uri)
 	if err != nil {
-		return nil, err
+		return getCache(), err
 	}
 
 	sourceb, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return getCache(), err
 	}
 	defer resp.Body.Close()
 
 	source, err := parseSource(sourceb)
 	if err != nil {
-		return nil, err
+		return getCache(), err
 	}
 	return convertToData(source), nil
 }

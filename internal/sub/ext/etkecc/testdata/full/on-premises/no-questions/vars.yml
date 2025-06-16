@@ -332,6 +332,7 @@ matrix_mautrix_slack_enabled: yes
 matrix_mautrix_telegram_enabled: yes
 matrix_mautrix_telegram_api_id: 123
 matrix_mautrix_telegram_api_hash: some-hash
+matrix_mautrix_telegram_bot_token: "123456789:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
 
 # bridges::twitter
 matrix_mautrix_twitter_enabled: yes

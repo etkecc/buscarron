@@ -58,5 +58,6 @@ func convertToData(source *sourceModel) *Data {
 
 	data.fromSourceItem(source.AdditionalServices, "additional", "", "", "", 0)
 
+	setCache(data)
 	return data
 }
