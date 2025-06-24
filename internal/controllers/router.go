@@ -53,7 +53,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		Format:           `${custom} - - [${time_custom}] "${method} ${path} ${protocol}" ${status} ${bytes_out} "${referer}" "${user_agent}"` + "\n",
 		CustomTimeFormat: "2/Jan/2006:15:04:05 -0700",
 		CustomTagFunc: func(c echo.Context, w *bytes.Buffer) (int, error) {
-			return w.Write([]byte(kit.AnonymizeIP(c.RealIP())))
+			return w.WriteString(kit.AnonymizeIP(c.RealIP()))
 		},
 	}))
 	e.Use(middleware.Recover())
