@@ -124,3 +124,43 @@ func (p *Client) GetWithContext(ctx context.Context, identifier string, jobOverr
 func (p *Client) Get(identifier string) (Items, error) {
 	return p.GetWithContext(context.Background(), identifier)
 }
+
+// GetRaw returns the raw data for the given identifier, without using the cache or parsing the response.
+// Do not use this method unless you need the raw data, as it does not parse the response
+func (p *Client) GetRaw(ctx context.Context, identifier string, jobOverride ...string) ([]byte, error) {
+	if p.url == nil {
+		return nil, nil
+	}
+	cloned := *p.url
+	job := "node"
+	if len(jobOverride) > 0 {
+		job = jobOverride[0]
+	}
+	uri := cloned.JoinPath("/" + job + "/" + identifier)
+	urlTarget := uri.String()
+
+	childCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(childCtx, http.MethodGet, urlTarget, http.NoBody)
+	if err != nil {
+		return nil, err
+	}
+	req.SetBasicAuth(p.login, p.password)
+
+	req.Header.Set("User-Agent", p.userAgent)
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode == http.StatusGone { // not found, to distinguish from reverse proxy 404 error
+		return nil, nil
+	} else if resp.StatusCode != http.StatusOK {
+		err = fmt.Errorf("HTTP error: %s", resp.Status) //nolint:goerr113 // that's ok
+		return nil, err
+	}
+
+	return io.ReadAll(resp.Body)
+}

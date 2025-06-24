@@ -8,18 +8,18 @@ require (
 	github.com/VictoriaMetrics/metrics v1.38.0
 	github.com/archdx/zerolog-sentry v1.8.5
 	github.com/charmbracelet/keygen v0.5.3
-	github.com/etkecc/go-echo-basic-auth v1.2.0
+	github.com/etkecc/go-echo-basic-auth v1.3.0
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
-	github.com/etkecc/go-kit v1.6.0
-	github.com/etkecc/go-linkpearl v0.0.0-20250416104026-a65bda9f5f37
+	github.com/etkecc/go-kit v1.7.0
+	github.com/etkecc/go-linkpearl v0.0.0-20250617213914-419fd498ee39
 	github.com/etkecc/go-pricify v0.0.0-20250616083600-561a980de623
-	github.com/etkecc/go-psd v0.0.0-20241014083754-1bc4ec777ba8
+	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.4
-	github.com/getsentry/sentry-go v0.33.0
-	github.com/getsentry/sentry-go/echo v0.33.0
+	github.com/getsentry/sentry-go v0.34.0
+	github.com/getsentry/sentry-go/echo v0.34.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lib/pq v1.10.9
@@ -32,7 +32,7 @@ require (
 	golang.org/x/net v0.41.0
 	golang.org/x/text v0.26.0
 	golang.org/x/time v0.12.0
-	maunium.net/go/mautrix v0.24.0
+	maunium.net/go/mautrix v0.24.1
 	modernc.org/sqlite v1.38.0
 )
 
@@ -78,14 +78,14 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.12 // indirect
-	go.mau.fi/util v0.8.7 // indirect
+	go.mau.fi/util v0.8.8 // indirect
 	golang.org/x/crypto v0.39.0 // indirect
-	golang.org/x/exp v0.0.0-20250606033433-dcc06ee1d476 // indirect
+	golang.org/x/exp v0.0.0-20250620022241-b7579e27df2b // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/tools v0.34.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.65.10 // indirect
+	modernc.org/libc v1.66.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )

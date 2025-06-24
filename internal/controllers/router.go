@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"bytes"
 	"context"
 	"errors"
 	"net/http"
 	"slices"
 
 	echobasicauth "github.com/etkecc/go-echo-basic-auth"
+	"github.com/etkecc/go-kit"
 	"github.com/etkecc/go-psd"
 	sentryecho "github.com/getsentry/sentry-go/echo"
 	"github.com/labstack/echo/v4"
@@ -48,8 +50,11 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		Skipper: func(c echo.Context) bool {
 			return slices.Contains(donotban, c.Request().URL.Path)
 		},
-		Format:           `${remote_ip} - - [${time_custom}] "${method} ${path} ${protocol}" ${status} ${bytes_out} "${referer}" "${user_agent}"` + "\n",
+		Format:           `${custom} - - [${time_custom}] "${method} ${path} ${protocol}" ${status} ${bytes_out} "${referer}" "${user_agent}"` + "\n",
 		CustomTimeFormat: "2/Jan/2006:15:04:05 -0700",
+		CustomTagFunc: func(c echo.Context, w *bytes.Buffer) (int, error) {
+			return w.Write([]byte(kit.AnonymizeIP(c.RealIP())))
+		},
 	}))
 	e.Use(middleware.Recover())
 	e.Use(sentryecho.New(sentryecho.Options{}))
