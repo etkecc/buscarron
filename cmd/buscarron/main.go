@@ -162,11 +162,16 @@ func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
 	rls := make(map[string]string, len(cfg.Forms))
 	frr := make(map[string]string, len(cfg.Forms))
 	vs := make(map[string]common.Validator, len(cfg.Forms))
+	vfrom := ""
 	for name, item := range cfg.Forms {
 		rls[name] = item.Ratelimit
 		frr[name] = item.RejectRedirect
 		if item.RatelimitShared {
 			srl[name] = item.Ratelimit
+		}
+
+		if cfg.SMTP.From != "" {
+			vfrom = cfg.SMTP.From
 		}
 
 		vcfg := &validator.Config{
@@ -189,7 +194,17 @@ func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, rdm)
 	psdc := psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password)
 	etkecc.SetPSD(psdc)
-	srvv := validator.New(&validator.Config{Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()}})
+	srvv := validator.New(&validator.Config{
+		Log: func(msg string, args ...any) { log.Info().Msgf(msg, args...) },
+		Email: validator.Email{
+			Enforce: true,
+			SMTP:    true,
+			MX:      true,
+			From:    vfrom,
+		},
+		Domain: validator.Domain{PrivateSuffixes: etkecc.PrivateSuffixes()},
+	},
+	)
 	ccfg := &controllers.Config{
 		FormHandler:   fh,
 		BanlistStatic: cfg.Ban.List,

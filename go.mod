@@ -8,10 +8,11 @@ require (
 	github.com/VictoriaMetrics/metrics v1.38.0
 	github.com/archdx/zerolog-sentry v1.8.5
 	github.com/charmbracelet/keygen v0.5.3
-	github.com/etkecc/go-echo-basic-auth v1.3.0
+	github.com/etkecc/go-echo-basic-auth v1.3.1
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
-	github.com/etkecc/go-kit v1.7.0
+	github.com/etkecc/go-kit v1.7.1
+	github.com/etkecc/go-kit/format v0.0.0-20250624085102-2d210bbce01f
 	github.com/etkecc/go-linkpearl v0.0.0-20250617213914-419fd498ee39
 	github.com/etkecc/go-pricify v0.0.0-20250616083600-561a980de623
 	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
@@ -85,7 +86,7 @@ require (
 	golang.org/x/tools v0.34.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.66.0 // indirect
+	modernc.org/libc v1.66.1 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )

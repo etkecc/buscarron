@@ -124,19 +124,40 @@ func (h *Handler) parseJSON(r *http.Request) (map[string]string, error) {
 	return data, nil
 }
 
+//nolint:gocognit // this function is a bit complex, but it's necessary to validate spam
 func (h *Handler) isSpam(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) bool {
-	log := zerolog.Ctx(ctx).With().Str("form", form.Name).Logger()
+	log := zerolog.Ctx(ctx).With().Str("form", form.Name).Str("email", data["email"]).Str("domain", data["domain"]).Logger()
 	wp := workpool.New(3)
 	isSpam := atomic.Bool{}
 	wp.Do(func() {
+		valid, cached := utils.GetCachedValidation("email-" + data["email"])
+		if cached {
+			isSpam.Store(!valid)
+			if !valid {
+				log.Info().Str("reason", "email").Bool("cached", true).Msg("submission to the form marked as spam")
+			}
+			return
+		}
+
 		if !v.Email(data["email"], "") {
 			log.Info().Str("reason", "email").Msg("submission to the form marked as spam")
 			isSpam.Store(true)
+			utils.SetCachedValidation("email-"+data["email"], false)
 		}
 	}).Do(func() {
+		valid, cached := utils.GetCachedValidation("domain-" + data["domain"])
+		if cached {
+			isSpam.Store(!valid)
+			if !valid {
+				log.Info().Str("reason", "domain").Bool("cached", true).Msg("submission to the form marked as spam")
+			}
+			return
+		}
+
 		if !v.Domain(data["domain"]) {
 			log.Info().Str("reason", "domain").Msg("submission to the form marked as spam")
 			isSpam.Store(true)
+			utils.SetCachedValidation("domain-"+data["domain"], false)
 		}
 	}).Do(func() {
 		if err := h.extValidate(ctx, form, data); err != nil {

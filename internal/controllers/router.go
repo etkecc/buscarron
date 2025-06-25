@@ -77,7 +77,8 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	e.GET("/_health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{"status": "ok"})
 	})
-	e.GET("/_domain", validator.DomainHander())
+	e.GET("/_validate", validator.Handler())
+	e.GET("/_domain", validator.Handler()) // backward compatibility
 	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
 		body, err := formHandler.GET(c.Request().Context(), c.Param("name"), c.Request())
