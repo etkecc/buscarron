@@ -10,6 +10,7 @@ etke_subscription_provider: Ko-Fi
 
 # ssh
 ansible_ssh_private_key_file: "{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv"
+system_security_ufw_ssh_allowed: yes
 
 # postgres
 postgres_connection_password: TODO64

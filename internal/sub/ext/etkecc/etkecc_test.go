@@ -132,6 +132,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"webhooks":            "on",
 			"wechat":              "on",
 			"whatsapp":            "on",
+			"ssh-client-ips":      "N/A",
 		},
 		"full/no-questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",

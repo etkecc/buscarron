@@ -249,6 +249,31 @@ func (o *order) varsEtkeBuilder(keys []string, enabledServices map[string]any) s
 	return txt.String()
 }
 
+func (o *order) varsSSHFirewall() string {
+	var txt strings.Builder
+	if o.get("ssh-client-ips") == "N/A" {
+		txt.WriteString("system_security_ufw_ssh_allowed: yes\n")
+		return txt.String()
+	}
+	txt.WriteString("system_security_ufw_rules_custom:\n")
+	for idx, ip := range strings.Split(o.get("ssh-client-ips"), ",") {
+		ip = strings.TrimSpace(ip)
+		if ip == "" {
+			continue
+		}
+		if !strings.Contains(ip, "/") {
+			ip += "/32"
+		}
+
+		txt.WriteString(fmt.Sprintf("  - name: customer-ssh-%d\n", idx+1))
+		txt.WriteString("    rule: allow\n")
+		txt.WriteString("    from: " + ip + "\n")
+		txt.WriteString("    port: \"{{ system_security_ssh_port }}\"\n")
+		txt.WriteString("    proto: tcp\n")
+	}
+	return txt.String()
+}
+
 func (o *order) varsSSH() string {
 	var txt strings.Builder
 	txt.WriteString("\n# ssh\n")
@@ -258,6 +283,10 @@ func (o *order) varsSSH() string {
 		txt.WriteString("system_security_ssh_port: ")
 		txt.WriteString(o.get("ssh-port"))
 		txt.WriteString("\n")
+	}
+
+	if o.has("ssh-client-ips") {
+		txt.WriteString(o.varsSSHFirewall())
 	}
 
 	if o.has("ssh-client-key") {

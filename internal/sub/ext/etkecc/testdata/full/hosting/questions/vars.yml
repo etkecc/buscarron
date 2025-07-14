@@ -45,7 +45,7 @@ etke_service_dns_records:
 etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_email: yes
 etke_service_server: cpx11
-etke_service_server_firewalls: 124003
+etke_service_server_firewalls: 124003,394512
 etke_service_server_location: fsn1
 etke_service_support: dedicated
 etke_subscription_confirmed: no
@@ -54,6 +54,7 @@ etke_subscription_provider: Ko-Fi
 
 # ssh
 ansible_ssh_private_key_file: "{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv"
+system_security_ufw_ssh_allowed: yes
 
 # postgres
 postgres_connection_password: TODO64
