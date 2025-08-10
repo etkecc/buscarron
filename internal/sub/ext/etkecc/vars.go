@@ -6,7 +6,6 @@ import (
 	"net/url"
 	"slices"
 	"sort"
-	"strconv"
 	"strings"
 
 	"github.com/etkecc/buscarron/internal/utils"
@@ -199,27 +198,7 @@ func (o *order) varsEtkeHosting(ctx context.Context, enabledServices map[string]
 		location = "fsn1"
 	}
 	enabledServices["etke_service_server_location"] = location
-	firewalls := []string{strconv.Itoa(defaultFirewall["firewall"])}
-	if o.get("ssh-client-ips") == "N/A" {
-		firewalls = append(firewalls, strconv.Itoa(openFirewall["firewall"]))
-	}
-	enabledServices["etke_service_server_firewalls"] = strings.Join(firewalls, ",")
-
-	if o.has("ssh-client-ips") && o.get("ssh-client-ips") != "N/A" {
-		ips := []string{}
-		for _, ip := range strings.Split(o.get("ssh-client-ips"), ",") {
-			ip = strings.TrimSpace(ip)
-			if ip == "" {
-				continue
-			}
-			if !strings.Contains(ip, "/") {
-				ips = append(ips, ip+"/32")
-				continue
-			}
-			ips = append(ips, ip)
-		}
-		enabledServices["etke_service_server_allowlist"] = strings.Join(ips, ",")
-	}
+	enabledServices["etke_service_server_firewalls"] = defaultFirewall
 }
 
 func (o *order) varsEtkeServices(enabledServices map[string]any) {

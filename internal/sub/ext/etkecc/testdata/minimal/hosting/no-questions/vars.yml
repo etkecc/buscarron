@@ -11,7 +11,6 @@ etke_service_dns_external_records:
   - "_dmarc.matrix,TXT,v=DMARC1; p=quarantine;"
   - "default._domainkey.matrix,TXT,v=DKIM1; k=rsa; p=TODO"
 etke_service_server: cpx11
-etke_service_server_allowlist: 1.2.3.4/32,5.6.7.8/32
 etke_service_server_firewalls: 124003
 etke_service_server_location: fsn1
 etke_service_support: basic

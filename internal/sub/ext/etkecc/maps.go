@@ -373,10 +373,4 @@ var domains = map[string]string{
 
 var locations = []string{"ash", "fsn1", "hel1", "hil", "nbg1"}
 
-var defaultFirewall = map[string]int{
-	"firewall": 124003,
-}
-
-var openFirewall = map[string]int{
-	"firewall": 394512,
-}
+var defaultFirewall = "124003"

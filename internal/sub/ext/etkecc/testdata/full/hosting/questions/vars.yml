@@ -45,7 +45,7 @@ etke_service_dns_records:
 etke_service_dns_zone: zVNMf3dur7oHP8dcGETZs
 etke_service_email: yes
 etke_service_server: cpx11
-etke_service_server_firewalls: 124003,394512
+etke_service_server_firewalls: 124003
 etke_service_server_location: fsn1
 etke_service_support: dedicated
 etke_subscription_confirmed: no
