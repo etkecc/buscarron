@@ -290,6 +290,11 @@ matrix_bot_buscarron_enabled: yes
 matrix_bot_buscarron_password: TODO64
 matrix_bot_buscarron_forms: []
 
+# bots::draupnir
+matrix_bot_draupnir_enabled: yes
+matrix_bot_draupnir_password: TODO64
+matrix_bot_draupnir_config_managementRoom: 'TBD'
+
 # bots::honoroit
 matrix_bot_honoroit_enabled: yes
 matrix_bot_honoroit_password: TODO64

@@ -222,6 +222,7 @@ func (o *order) generateOnboardingAfter() string {
 
 	txt.WriteString(o.generateOnboardingAfterBorgBackup())
 	txt.WriteString(o.generateOnboardingAfterBuscarron())
+	txt.WriteString(o.generateOnboardingAfterDraupnir())
 	txt.WriteString(o.generateOnboardingAfterHonoroit())
 	txt.WriteString(o.generateOnboardingAfterMigadu())
 
@@ -257,6 +258,20 @@ func (o *order) generateOnboardingAfterBuscarron() string {
 	txt.WriteString("**buscarron**\n\n")
 	txt.WriteString("1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them\n")
 	txt.WriteString("2. Send the list of (form name, Matrix room id, redirect URL after submission) [to us](https://etke.cc/contacts/)\n\n")
+
+	return txt.String()
+}
+
+func (o *order) generateOnboardingAfterDraupnir() string {
+	if !o.has("draupnir") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("**Draupnir** (moderation bot)\n\n")
+	txt.WriteString("1. Create an **un**encrypted private matrix room to use as the management room\n")
+	txt.WriteString("2. Send the room id [to us](https://etke.cc/contacts/)\n")
+	txt.WriteString("3. Once you receive the confirmation that the bot is ready, follow [the step-by-step guide](https://etke.cc/help/bots/draupnir/#getting-started) to finish the bot setup\n\n")
 
 	return txt.String()
 }

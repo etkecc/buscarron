@@ -64,6 +64,7 @@ func (o *order) vars(ctx context.Context) {
 	// bots
 	txt.WriteString(o.varsBaibot())
 	txt.WriteString(o.varsBuscarron())
+	txt.WriteString(o.varsDraupnir())
 	txt.WriteString(o.varsHonoroit())
 	txt.WriteString(o.varsMaubot())
 	txt.WriteString(o.varsReminder())
@@ -869,6 +870,20 @@ func (o *order) varsBuscarron() string {
 	txt.WriteString("matrix_bot_buscarron_enabled: yes\n")
 	txt.WriteString("matrix_bot_buscarron_password: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_bot_buscarron_forms: []\n")
+
+	return txt.String()
+}
+
+func (o *order) varsDraupnir() string {
+	if !o.has("draupnir") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# bots::draupnir\n")
+	txt.WriteString("matrix_bot_draupnir_enabled: yes\n")
+	txt.WriteString("matrix_bot_draupnir_password: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_bot_draupnir_config_managementRoom: 'TBD'\n")
 
 	return txt.String()
 }
