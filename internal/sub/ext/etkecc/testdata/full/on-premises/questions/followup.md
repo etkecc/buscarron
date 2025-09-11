@@ -27,43 +27,43 @@ Please, ensure [all mandatory ports are open](https://etke.cc/order/status/#port
 
 Please, add the following DNS entries:
 
-* @    A record    server IP
-* matrix    A record    server IP
-* buscarron    CNAME record    matrix.example.com.
-* cinny    CNAME record    matrix.example.com.
-* call    CNAME record    matrix.example.com.
-* element    CNAME record    matrix.example.com.
-* etherpad    CNAME record    matrix.example.com.
-* firezone    CNAME record    matrix.example.com.
-* fluffychat    CNAME record    matrix.example.com.
-* funkwhale    CNAME record    matrix.example.com.
-* social    CNAME record    matrix.example.com.
-* hydrogen    CNAME record    matrix.example.com.
-* jitsi    CNAME record    matrix.example.com.
-* languagetool    CNAME record    matrix.example.com.
-* linkding    CNAME record    matrix.example.com.
-* miniflux    CNAME record    matrix.example.com.
-* ntfy    CNAME record    matrix.example.com.
-* peertube    CNAME record    matrix.example.com.
-* radicale    CNAME record    matrix.example.com.
-* schildichat    CNAME record    matrix.example.com.
-* stats    CNAME record    matrix.example.com.
-* sygnal    CNAME record    matrix.example.com.
-* kuma    CNAME record    matrix.example.com.
-* vault    CNAME record    matrix.example.com.
-* matrix    TXT record    v=spf1 ip4:server IP -all
-* _dmarc.matrix    TXT record    v=DMARC1; p=quarantine;
-* default._domainkey.matrix    TXT record    v=DKIM1; k=rsa; p=TODO
-* matrix    MX record    0 matrix.example.com.
-* @    MX record    10 aspmx1.migadu.com.
-* @    MX record    20 aspmx2.migadu.com.
-* @    TXT record    v=spf1 include:spf.migadu.com -all
-* autoconfig    CNAME record    autoconfig.migadu.com.
-* key1._domainkey    CNAME record    key1.example.com._domainkey.migadu.com.
-* key2._domainkey    CNAME record    key2.example.com._domainkey.migadu.com.
-* key3._domainkey    CNAME record    key3.example.com._domainkey.migadu.com.
-* _dmarc    TXT record    v=DMARC1; p=quarantine;
-* _autodiscover._tcp    SRV record    0 1 443 autodiscover.migadu.com
+* @ A record server IP
+* matrix A record server IP
+* buscarron CNAME record matrix.example.com.
+* cinny CNAME record matrix.example.com.
+* call CNAME record matrix.example.com.
+* element CNAME record matrix.example.com.
+* etherpad CNAME record matrix.example.com.
+* firezone CNAME record matrix.example.com.
+* fluffychat CNAME record matrix.example.com.
+* funkwhale CNAME record matrix.example.com.
+* social CNAME record matrix.example.com.
+* hydrogen CNAME record matrix.example.com.
+* jitsi CNAME record matrix.example.com.
+* languagetool CNAME record matrix.example.com.
+* linkding CNAME record matrix.example.com.
+* miniflux CNAME record matrix.example.com.
+* ntfy CNAME record matrix.example.com.
+* peertube CNAME record matrix.example.com.
+* radicale CNAME record matrix.example.com.
+* schildichat CNAME record matrix.example.com.
+* stats CNAME record matrix.example.com.
+* sygnal CNAME record matrix.example.com.
+* kuma CNAME record matrix.example.com.
+* vault CNAME record matrix.example.com.
+* matrix TXT record v=spf1 ip4:server IP -all
+* _dmarc.matrix TXT record v=DMARC1; p=quarantine;
+* default._domainkey.matrix TXT record v=DKIM1; k=rsa; p=TODO
+* matrix MX record 0 matrix.example.com.
+* @ MX record 10 aspmx1.migadu.com.
+* @ MX record 20 aspmx2.migadu.com.
+* @ TXT record v=spf1 include:spf.migadu.com -all
+* autoconfig CNAME record autoconfig.migadu.com.
+* key1._domainkey CNAME record key1.example.com._domainkey.migadu.com.
+* key2._domainkey CNAME record key2.example.com._domainkey.migadu.com.
+* key3._domainkey CNAME record key3.example.com._domainkey.migadu.com.
+* _dmarc TXT record v=DMARC1; p=quarantine;
+* _autodiscover._tcp SRV record 0 1 443 autodiscover.migadu.com
 
 To check the status of your order and stay updated, please keep an eye on your [Order Status Page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947).
 

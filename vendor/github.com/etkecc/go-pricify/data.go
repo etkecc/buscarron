@@ -32,6 +32,13 @@ type Item struct {
 	SectionDescription string
 	SectionHelp        string
 	SectionPrice       int
+	RegionPrice        map[string]int
+}
+
+// Clone creates a copy of the item
+func (i *Item) Clone() *Item {
+	dup := *i
+	return &dup
 }
 
 // fromSourceItem converts source items into the []*Item and adds them to the Data
@@ -70,6 +77,7 @@ func (d *Data) fromSourceSection(ssItem *sourceSectionItem, sectionID string, se
 			Help:         ssItem.Help,
 			SectionID:    sectionID,
 			SectionPrice: sectionPrice,
+			RegionPrice:  sItem.RegionPrice,
 		}
 		d.items = append(d.items, item)
 		d.idmap[item.ID+item.Value] = item
@@ -106,6 +114,7 @@ func (d *Data) Calculate(input map[string]string) int {
 //nolint:gocognit // needs refactoring
 func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map[string]*Item) {
 	verbose = map[string]*Item{}
+	region := input["etke_service_server_location"]
 
 	// default value for etke_base_matrix
 	_, iidMatrix := input["etke_base_matrix"]
@@ -168,10 +177,19 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 			continue
 		}
 
+		if regionPrice := item.RegionPrice[region]; regionPrice > 0 {
+			total += regionPrice
+
+			dup := item.Clone()
+			dup.Price = regionPrice
+			verbose[item.InventoryID] = dup
+			continue
+		}
+
 		total += item.Price
-		dup := *item
+		dup := item.Clone()
 		dup.Value = value
-		verbose[item.InventoryID] = &dup
+		verbose[item.InventoryID] = dup
 	}
 
 	return total, verbose

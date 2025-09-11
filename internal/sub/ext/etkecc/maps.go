@@ -373,6 +373,6 @@ var domains = map[string]string{
 	".onmatrix.chat": "zVNMf3dur7oHP8dcGETZs",
 }
 
-var locations = []string{"ash", "fsn1", "hel1", "hil", "nbg1"}
+var locations = []string{"ash", "fsn1", "hel1", "hil", "nbg1", "sin"}
 
 var defaultFirewall = "124003"
