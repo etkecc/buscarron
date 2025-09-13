@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"net/url"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -34,6 +35,7 @@ type order struct {
 	followup  *event.MessageEventContent
 	response  string
 	hosting   string
+	location  string
 	smtp      map[string]string
 	dkim      map[string]string
 	price     int
@@ -149,6 +151,7 @@ func (o *order) preprocess(ctx context.Context) {
 	log := o.logger(ctx)
 	log.Info().Msg("preprocessing order")
 	for _, key := range preprocessFields {
+		o.data[key] = strings.ReplaceAll(o.data[key], " ", "")
 		o.data[key] = strings.TrimSpace(strings.ToLower(o.data[key]))
 	}
 	o.data["homeserver"] = "synapse"
@@ -169,6 +172,13 @@ func (o *order) preprocess(ctx context.Context) {
 		delete(o.data, "ssh-user")
 		delete(o.data, "ssh-password")
 		delete(o.data, "ssh-port")
+		location := strings.TrimSpace(strings.ToLower(o.get("turnkey-location")))
+		if !slices.Contains(locations, location) {
+			log.Error().Str("location", location).Msg("invalid location")
+			location = "fsn1"
+		}
+		o.location = location
+		o.data["etke_service_server_location"] = o.location
 	}
 
 	o.data["serve_base_domain"] = "no"

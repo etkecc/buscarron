@@ -53,7 +53,7 @@ func (s *EtkeccSuite) setupSubs() {
 	s.subs = map[string]map[string]string{
 		"minimal/questions": {
 			"domain":   "https://matrix.ExAmPlE.com ",
-			"username": " tEsT ",
+			"username": " t E s T ",
 			"email":    "tEsT@TEST.cOm",
 			"issue_id": "123",
 		},
@@ -380,7 +380,7 @@ func (s *EtkeccSuite) setupCases() {
 				s.v.On("CNAME", "higenjitsuteki.onmatrix.chat").Return(false).Once()
 				s.v.On("GetBase", "https://higenjitsuteki.onmatrix.chat").Return("higenjitsuteki.onmatrix.chat").Once()
 			},
-			submission: s.merge(s.subs["full/no-questions"], map[string]string{"turnkey": "cpx11", "domain": "https://higenjitsuteki.onmatrix.chat"}),
+			submission: s.merge(s.subs["full/no-questions"], map[string]string{"turnkey": "cpx11", "turnkey-location": "sin", "domain": "https://higenjitsuteki.onmatrix.chat"}),
 		},
 	}
 }

@@ -3,7 +3,7 @@ module github.com/etkecc/buscarron
 go 1.24.0
 
 require (
-	github.com/VictoriaMetrics/metrics v1.40.0
+	github.com/VictoriaMetrics/metrics v1.40.1
 	github.com/archdx/zerolog-sentry v1.8.5
 	github.com/charmbracelet/keygen v0.5.3
 	github.com/etkecc/go-echo-basic-auth v1.3.1
