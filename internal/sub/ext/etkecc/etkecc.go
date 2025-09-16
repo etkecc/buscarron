@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/etkecc/go-kit"
 	"github.com/etkecc/go-pricify"
 	"github.com/etkecc/go-psd"
 	"github.com/mattevans/postmark-go"
@@ -92,8 +93,12 @@ func (e *Etkecc) Validate(ctx context.Context, v common.Validator, _ *config.For
 		return fmt.Errorf("domain already exists")
 	}
 
-	if _, ok := data["ssh-host"]; ok {
-		targets, _ := psdc.GetWithContext(ctx, data["ssh-host"]) //nolint:errcheck // that's ok
+	if ip, ok := data["ssh-host"]; ok {
+		if !kit.IsValidIP(ip) {
+			return fmt.Errorf("invalid IP address")
+		}
+
+		targets, _ := psdc.GetWithContext(ctx, ip) //nolint:errcheck // that's ok
 		if len(targets) > 0 {
 			return fmt.Errorf("domain already exists")
 		}

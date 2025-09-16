@@ -754,7 +754,7 @@ func (req *ReqSync) BuildQuery() map[string]string {
 		query["full_state"] = "true"
 	}
 	if req.UseStateAfter {
-		query["org.matrix.msc4222.use_state_after"] = "true"
+		query["use_state_after"] = "true"
 	}
 	if req.BeeperStreaming {
 		query["com.beeper.streaming"] = "true"
@@ -1088,8 +1088,7 @@ func (cli *Client) GetRoomSummary(ctx context.Context, roomIDOrAlias string, via
 
 // GetDisplayName returns the display name of the user with the specified MXID. See https://spec.matrix.org/v1.2/client-server-api/#get_matrixclientv3profileuseriddisplayname
 func (cli *Client) GetDisplayName(ctx context.Context, mxid id.UserID) (resp *RespUserDisplayName, err error) {
-	urlPath := cli.BuildClientURL("v3", "profile", mxid, "displayname")
-	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, &resp)
+	err = cli.GetProfileField(ctx, mxid, "displayname", &resp)
 	return
 }
 
@@ -1100,41 +1099,38 @@ func (cli *Client) GetOwnDisplayName(ctx context.Context) (resp *RespUserDisplay
 
 // SetDisplayName sets the user's profile display name. See https://spec.matrix.org/v1.2/client-server-api/#put_matrixclientv3profileuseriddisplayname
 func (cli *Client) SetDisplayName(ctx context.Context, displayName string) (err error) {
-	urlPath := cli.BuildClientURL("v3", "profile", cli.UserID, "displayname")
-	s := struct {
-		DisplayName string `json:"displayname"`
-	}{displayName}
-	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, &s, nil)
-	return
+	return cli.SetProfileField(ctx, "displayname", displayName)
 }
 
-// UnstableSetProfileField sets an arbitrary MSC4133 profile field. See https://github.com/matrix-org/matrix-spec-proposals/pull/4133
-func (cli *Client) UnstableSetProfileField(ctx context.Context, key string, value any) (err error) {
-	urlPath := cli.BuildClientURL("unstable", "uk.tcpip.msc4133", "profile", cli.UserID, key)
+// SetProfileField sets an arbitrary profile field. See https://spec.matrix.org/v1.16/client-server-api/#put_matrixclientv3profileuseridkeyname
+func (cli *Client) SetProfileField(ctx context.Context, key string, value any) (err error) {
+	urlPath := cli.BuildClientURL("v3", "profile", cli.UserID, key)
 	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, map[string]any{
 		key: value,
 	}, nil)
 	return
 }
 
-// UnstableDeleteProfileField deletes an arbitrary MSC4133 profile field. See https://github.com/matrix-org/matrix-spec-proposals/pull/4133
-func (cli *Client) UnstableDeleteProfileField(ctx context.Context, key string) (err error) {
-	urlPath := cli.BuildClientURL("unstable", "uk.tcpip.msc4133", "profile", cli.UserID, key)
+// DeleteProfileField deletes an arbitrary profile field. See https://spec.matrix.org/v1.16/client-server-api/#put_matrixclientv3profileuseridkeyname
+func (cli *Client) DeleteProfileField(ctx context.Context, key string) (err error) {
+	urlPath := cli.BuildClientURL("v3", "profile", cli.UserID, key)
 	_, err = cli.MakeRequest(ctx, http.MethodDelete, urlPath, nil, nil)
+	return
+}
+
+// GetProfileField gets an arbitrary profile field and parses the response into the given struct. See https://spec.matrix.org/unstable/client-server-api/#get_matrixclientv3profileuseridkeyname
+func (cli *Client) GetProfileField(ctx context.Context, userID id.UserID, key string, into any) (err error) {
+	urlPath := cli.BuildClientURL("v3", "profile", userID, key)
+	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, into)
 	return
 }
 
 // GetAvatarURL gets the avatar URL of the user with the specified MXID. See https://spec.matrix.org/v1.2/client-server-api/#get_matrixclientv3profileuseridavatar_url
 func (cli *Client) GetAvatarURL(ctx context.Context, mxid id.UserID) (url id.ContentURI, err error) {
-	urlPath := cli.BuildClientURL("v3", "profile", mxid, "avatar_url")
 	s := struct {
 		AvatarURL id.ContentURI `json:"avatar_url"`
 	}{}
-
-	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, &s)
-	if err != nil {
-		return
-	}
+	err = cli.GetProfileField(ctx, mxid, "avatar_url", &s)
 	url = s.AvatarURL
 	return
 }
@@ -1704,6 +1700,38 @@ func (cli *Client) Download(ctx context.Context, mxcURL id.ContentURI) (*http.Re
 	return resp, err
 }
 
+type DownloadThumbnailExtra struct {
+	Method   string
+	Animated bool
+}
+
+func (cli *Client) DownloadThumbnail(ctx context.Context, mxcURL id.ContentURI, height, width int, extras ...DownloadThumbnailExtra) (*http.Response, error) {
+	if len(extras) > 1 {
+		panic(fmt.Errorf("invalid number of arguments to DownloadThumbnail: %d", len(extras)))
+	}
+	var extra DownloadThumbnailExtra
+	if len(extras) == 1 {
+		extra = extras[0]
+	}
+	path := ClientURLPath{"v1", "media", "thumbnail", mxcURL.Homeserver, mxcURL.FileID}
+	query := map[string]string{
+		"height": strconv.Itoa(height),
+		"width":  strconv.Itoa(width),
+	}
+	if extra.Method != "" {
+		query["method"] = extra.Method
+	}
+	if extra.Animated {
+		query["animated"] = "true"
+	}
+	_, resp, err := cli.MakeFullRequestWithResp(ctx, FullRequest{
+		Method:           http.MethodGet,
+		URL:              cli.BuildURLWithQuery(path, query),
+		DontReadResponse: true,
+	})
+	return resp, err
+}
+
 func (cli *Client) DownloadBytes(ctx context.Context, mxcURL id.ContentURI) ([]byte, error) {
 	resp, err := cli.Download(ctx, mxcURL)
 	if err != nil {
@@ -1753,7 +1781,7 @@ func (cli *Client) UploadAsync(ctx context.Context, req ReqUploadMedia) (*RespCr
 	go func() {
 		_, err = cli.UploadMedia(ctx, req)
 		if err != nil {
-			cli.Log.Error().Str("mxc", req.MXC.String()).Err(err).Msg("Async upload of media failed")
+			cli.Log.Error().Stringer("mxc", req.MXC).Err(err).Msg("Async upload of media failed")
 		}
 	}()
 	return resp, nil
@@ -2439,7 +2467,7 @@ func (cli *Client) DeleteDevice(ctx context.Context, deviceID id.DeviceID, req *
 
 func (cli *Client) DeleteDevices(ctx context.Context, req *ReqDeleteDevices) error {
 	urlPath := cli.BuildClientURL("v3", "delete_devices")
-	_, err := cli.MakeRequest(ctx, http.MethodDelete, urlPath, req, nil)
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, req, nil)
 	return err
 }
 
@@ -2530,24 +2558,31 @@ func (cli *Client) ReportRoom(ctx context.Context, roomID id.RoomID, reason stri
 	return err
 }
 
-// BatchSend sends a batch of historical events into a room. This is only available for appservices.
-//
-// Deprecated: MSC2716 has been abandoned, so this is now Beeper-specific. BeeperBatchSend should be used instead.
-func (cli *Client) BatchSend(ctx context.Context, roomID id.RoomID, req *ReqBatchSend) (resp *RespBatchSend, err error) {
-	path := ClientURLPath{"unstable", "org.matrix.msc2716", "rooms", roomID, "batch_send"}
-	query := map[string]string{
-		"prev_event_id": req.PrevEventID.String(),
-	}
-	if req.BeeperNewMessages {
-		query["com.beeper.new_messages"] = "true"
-	}
-	if req.BeeperMarkReadBy != "" {
-		query["com.beeper.mark_read_by"] = req.BeeperMarkReadBy.String()
-	}
-	if len(req.BatchID) > 0 {
-		query["batch_id"] = req.BatchID.String()
-	}
-	_, err = cli.MakeRequest(ctx, http.MethodPost, cli.BuildURLWithQuery(path, query), req, &resp)
+// UnstableGetSuspendedStatus uses MSC4323 to check if a user is suspended.
+func (cli *Client) UnstableGetSuspendedStatus(ctx context.Context, userID id.UserID) (res *RespSuspended, err error) {
+	urlPath := cli.BuildClientURL("unstable", "uk.timedout.msc4323", "admin", "suspend", userID)
+	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, res)
+	return
+}
+
+// UnstableGetLockStatus uses MSC4323 to check if a user is locked.
+func (cli *Client) UnstableGetLockStatus(ctx context.Context, userID id.UserID) (res *RespLocked, err error) {
+	urlPath := cli.BuildClientURL("unstable", "uk.timedout.msc4323", "admin", "lock", userID)
+	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, res)
+	return
+}
+
+// UnstableSetSuspendedStatus uses MSC4323 to set whether a user account is suspended.
+func (cli *Client) UnstableSetSuspendedStatus(ctx context.Context, userID id.UserID, suspended bool) (res *RespSuspended, err error) {
+	urlPath := cli.BuildClientURL("unstable", "uk.timedout.msc4323", "admin", "suspend", userID)
+	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, &ReqSuspend{Suspended: suspended}, res)
+	return
+}
+
+// UnstableSetLockStatus uses MSC4323 to set whether a user account is locked.
+func (cli *Client) UnstableSetLockStatus(ctx context.Context, userID id.UserID, locked bool) (res *RespLocked, err error) {
+	urlPath := cli.BuildClientURL("unstable", "uk.timedout.msc4323", "admin", "lock", userID)
+	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, &ReqLocked{Locked: locked}, res)
 	return
 }
 

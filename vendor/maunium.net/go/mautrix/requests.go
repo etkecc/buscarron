@@ -401,18 +401,6 @@ type ReqPutPushRule struct {
 	Pattern    string                     `json:"pattern"`
 }
 
-// Deprecated: MSC2716 was abandoned
-type ReqBatchSend struct {
-	PrevEventID id.EventID `json:"-"`
-	BatchID     id.BatchID `json:"-"`
-
-	BeeperNewMessages bool      `json:"-"`
-	BeeperMarkReadBy  id.UserID `json:"-"`
-
-	StateEventsAtStart []*event.Event `json:"state_events_at_start"`
-	Events             []*event.Event `json:"events"`
-}
-
 type ReqBeeperBatchSend struct {
 	// ForwardIfNoMessages should be set to true if the batch should be forward
 	// backfilled if there are no messages currently in the room.
@@ -607,4 +595,14 @@ func (rgr *ReqGetRelations) Query() map[string]string {
 		query["recurse"] = "true"
 	}
 	return query
+}
+
+// ReqSuspend is the request body for https://github.com/matrix-org/matrix-spec-proposals/pull/4323
+type ReqSuspend struct {
+	Suspended bool `json:"suspended"`
+}
+
+// ReqLocked is the request body for https://github.com/matrix-org/matrix-spec-proposals/pull/4323
+type ReqLocked struct {
+	Locked bool `json:"locked"`
 }

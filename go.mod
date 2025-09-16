@@ -9,30 +9,30 @@ require (
 	github.com/etkecc/go-echo-basic-auth v1.3.1
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
-	github.com/etkecc/go-kit v1.7.3
-	github.com/etkecc/go-kit/format v0.0.0-20250902132657-87557e1efa95
+	github.com/etkecc/go-kit v1.7.4
+	github.com/etkecc/go-kit/format v0.0.0-20250916115846-36181341554f
 	github.com/etkecc/go-linkpearl v0.0.0-20250816144001-c71a67370b64
 	github.com/etkecc/go-pricify v0.0.0-20250911134812-0d22a7473e33
 	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.4
-	github.com/getsentry/sentry-go v0.35.2
-	github.com/getsentry/sentry-go/echo v0.35.2
+	github.com/getsentry/sentry-go v0.35.3
+	github.com/getsentry/sentry-go/echo v0.35.3
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lib/pq v1.10.9
 	github.com/mattevans/postmark-go v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/rs/zerolog v1.34.0
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
 	github.com/ziflex/lecho/v3 v3.8.1
 	golang.org/x/net v0.44.0
 	golang.org/x/text v0.29.0
 	golang.org/x/time v0.13.0
-	maunium.net/go/mautrix v0.25.0
-	modernc.org/sqlite v1.38.2
+	maunium.net/go/mautrix v0.25.1
+	modernc.org/sqlite v1.39.0
 )
 
 require (
@@ -77,7 +77,7 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.13 // indirect
-	go.mau.fi/util v0.9.0 // indirect
+	go.mau.fi/util v0.9.1 // indirect
 	golang.org/x/crypto v0.42.0 // indirect
 	golang.org/x/exp v0.0.0-20250911091902-df9299821621 // indirect
 	golang.org/x/sys v0.36.0 // indirect
