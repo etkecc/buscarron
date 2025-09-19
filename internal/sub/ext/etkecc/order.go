@@ -152,7 +152,7 @@ func (o *order) preprocess(ctx context.Context) {
 	log.Info().Msg("preprocessing order")
 	for _, key := range preprocessFields {
 		o.data[key] = strings.ReplaceAll(o.data[key], " ", "")
-		o.data[key] = strings.TrimSpace(strings.ToLower(o.data[key]))
+		o.data[key] = utils.Sanitize(strings.TrimSpace(strings.ToLower(o.data[key])))
 	}
 	o.data["homeserver"] = "synapse"
 	o.data["matrix"] = "yes"

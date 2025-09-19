@@ -79,7 +79,6 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsInstagram())
 	txt.WriteString(o.varsLinkedin())
 	txt.WriteString(o.varsSignal())
-	txt.WriteString(o.varsSkype())
 	txt.WriteString(o.varsSlack())
 	txt.WriteString(o.varsTelegram())
 	txt.WriteString(o.varsTwitter())
@@ -241,7 +240,7 @@ func (o *order) varsSSHFirewall() string {
 
 		txt.WriteString(fmt.Sprintf("  - name: customer-ssh-%d\n", idx+1))
 		txt.WriteString("    rule: allow\n")
-		txt.WriteString("    from: " + ip + "\n")
+		txt.WriteString("    from: \"" + ip + "\"\n")
 		txt.WriteString("    port: \"{{ system_security_ssh_port }}\"\n")
 		txt.WriteString("    proto: tcp\n")
 	}
@@ -254,9 +253,9 @@ func (o *order) varsSSH() string {
 	txt.WriteString("ansible_ssh_private_key_file: \"{{ playbook_dir }}/../../inventory/host_vars/{{ inventory_hostname }}/sshkey.priv\"\n")
 
 	if o.has("ssh-port") && o.get("ssh-port") != "22" {
-		txt.WriteString("system_security_ssh_port: ")
+		txt.WriteString("system_security_ssh_port: \"")
 		txt.WriteString(o.get("ssh-port"))
-		txt.WriteString("\n")
+		txt.WriteString("\"\n")
 	}
 
 	if o.has("ssh-client-ips") {
@@ -267,9 +266,9 @@ func (o *order) varsSSH() string {
 		keys := strings.Split(o.get("ssh-client-key"), "\n")
 		txt.WriteString("system_security_ssh_authorizedkeys_host:\n")
 		for _, key := range keys {
-			txt.WriteString("  - ")
+			txt.WriteString("  - \"")
 			txt.WriteString(key)
-			txt.WriteString("\n")
+			txt.WriteString("\"\n")
 		}
 	}
 
@@ -294,8 +293,8 @@ func (o *order) varsPostgres() string {
 func (o *order) varsHomeserver() string {
 	var txt strings.Builder
 
-	txt.WriteString("\n# homeserver https://matrix." + o.domain + "\n")
-	txt.WriteString("matrix_domain: " + o.domain + "\n")
+	txt.WriteString("\n# homeserver\n")
+	txt.WriteString("matrix_domain: \"" + o.domain + "\"\n")
 	txt.WriteString("matrix_admin: \"@" + o.get("username") + ":" + o.domain + "\"\n")
 	if !o.has("element-web") {
 		txt.WriteString("matrix_client_element_enabled: no\n")
@@ -314,7 +313,7 @@ func (o *order) varsMSC1929() string {
 	txt.WriteString("matrix_static_files_file_matrix_support_enabled: yes\n")
 	txt.WriteString("matrix_static_files_file_matrix_support_property_m_contacts:\n")
 	txt.WriteString("  - matrix_id: \"@" + o.get("username") + ":" + o.domain + "\"\n")
-	txt.WriteString("    email_address: " + o.get("email") + "\n")
+	txt.WriteString("    email_address: \"" + o.get("email") + "\"\n")
 	txt.WriteString("    role: m.role.admin\n")
 
 	return txt.String()
@@ -326,15 +325,15 @@ func (o *order) varsUsers() string {
 	o.login("matrix", o.get("username"))
 	txt.WriteString("\n# initial users\n")
 	txt.WriteString("matrix_user_creator_users_additional:\n")
-	txt.WriteString(" - username: " + o.get("username") + "\n")
+	txt.WriteString(" - username: \"" + o.get("username") + "\"\n")
 	txt.WriteString("   initial_password: " + o.password("matrix") + "\n")
 	txt.WriteString("   initial_type: admin\n")
 
 	if o.has("gotosocial") {
 		login := o.login("gotosocial", strings.ReplaceAll(o.get("username"), ".", "_"))
 		txt.WriteString("gotosocial_users_additional:\n")
-		txt.WriteString(" - username: " + login + "\n")
-		txt.WriteString("   initial_email: " + o.get("email") + "\n")
+		txt.WriteString(" - username: \"" + login + "\"\n")
+		txt.WriteString("   initial_email: \"" + o.get("email") + "\"\n")
 		txt.WriteString("   initial_password: " + o.password("gotosocial") + "\n")
 		txt.WriteString("   initial_type: admin\n")
 	}
@@ -342,8 +341,8 @@ func (o *order) varsUsers() string {
 	if o.has("funkwhale") {
 		login := o.login("funkwhale", strings.ReplaceAll(o.get("username"), ".", "_"))
 		txt.WriteString("funkwhale_users_additional:\n")
-		txt.WriteString(" - username: " + login + "\n")
-		txt.WriteString("   initial_email: " + o.get("email") + "\n")
+		txt.WriteString(" - username: \"" + login + "\"\n")
+		txt.WriteString("   initial_email: \"" + o.get("email") + "\"\n")
 		txt.WriteString("   initial_password: " + o.password("funkwhale") + "\n")
 		txt.WriteString("   initial_type: admin\n")
 	}
@@ -357,7 +356,7 @@ func (o *order) varsSygnal() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# sygnal https://sygnal." + o.domain + "\n")
+	txt.WriteString("\n# sygnal\n")
 	txt.WriteString("matrix_sygnal_enabled: yes\n")
 	txt.WriteString("matrix_sygnal_apps:\n")
 	txt.WriteString("  " + o.get("sygnal-app-id") + ":\n")
@@ -383,7 +382,7 @@ func (o *order) varsNtfy() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# ntfy https://ntfy." + o.domain + "\n")
+	txt.WriteString("\n# ntfy\n")
 	txt.WriteString("ntfy_enabled: yes\n")
 
 	return txt.String()
@@ -416,7 +415,7 @@ func (o *order) varsBorgBackup() string {
 	txt.WriteString("\n# borg\n")
 	txt.WriteString("backup_borg_enabled: yes\n")
 	txt.WriteString("backup_borg_location_repositories:\n")
-	txt.WriteString("- " + o.get("borg-repository") + "\n")
+	txt.WriteString("- \"" + o.get("borg-repository") + "\"\n")
 	txt.WriteString("backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
 	txt.WriteString("backup_borg_ssh_key_private: |\n")
 	for _, line := range strings.Split(priv, "\n") {
@@ -443,10 +442,10 @@ func (o *order) varsEximRelay() string {
 	}
 	txt.WriteString("exim_relay_relay_use: yes\n")
 	txt.WriteString("exim_relay_relay_auth: yes\n")
-	txt.WriteString("exim_relay_relay_host_name: " + o.smtp["host"] + "\n")
-	txt.WriteString("exim_relay_relay_host_port: " + o.smtp["port"] + "\n")
+	txt.WriteString("exim_relay_relay_host_name: \"" + o.smtp["host"] + "\"\n")
+	txt.WriteString("exim_relay_relay_host_port: \"" + o.smtp["port"] + "\"\n")
 	txt.WriteString("exim_relay_relay_auth_username: " + o.smtp["login"] + "\n")
-	txt.WriteString("exim_relay_relay_auth_password: " + o.smtp["password"] + "\n")
+	txt.WriteString("exim_relay_relay_auth_password: \"" + o.smtp["password"] + "\"\n")
 	txt.WriteString("exim_relay_sender_address: " + o.smtp["email"] + "\n")
 
 	return txt.String()
@@ -483,11 +482,11 @@ func (o *order) varsSynapse() string {
 		txt.WriteString("\n# synapse::extensions::s3_storage_provider\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_enabled: yes\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_prefix: synapse\n")
-		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: " + o.get("synapse-s3-bucket") + "\n")
-		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: " + o.get("synapse-s3-region") + "\n")
-		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: " + o.get("synapse-s3-endpoint") + "\n")
-		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_access_key_id: " + o.get("synapse-s3-access-key") + "\n")
-		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_secret_access_key: " + o.get("synapse-s3-secret-key") + "\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_bucket: \"" + o.get("synapse-s3-bucket") + "\"\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_region_name: \"" + o.get("synapse-s3-region") + "\"\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_endpoint_url: \"" + o.get("synapse-s3-endpoint") + "\"\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_access_key_id: \"" + o.get("synapse-s3-access-key") + "\"\n")
+		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_secret_access_key: \"" + o.get("synapse-s3-secret-key") + "\"\n")
 		txt.WriteString("matrix_synapse_ext_synapse_s3_storage_provider_config_storage_class: STANDARD\n")
 	}
 
@@ -514,7 +513,7 @@ func (o *order) varsSynapseCredentials() string {
 
 func (o *order) varsSynapseAdmin() string {
 	var txt strings.Builder
-	txt.WriteString("\n# synapse-admin https://matrix." + o.domain + "/admin\n")
+	txt.WriteString("\n# synapse-admin\n")
 	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
 	txt.WriteString("matrix_synapse_admin_path_prefix: \"/admin\"\n")
 
@@ -527,9 +526,9 @@ func (o *order) varsUptimeKuma() string {
 	}
 
 	var txt strings.Builder
-	txt.WriteString("\n# uptime kuma https://kuma." + o.domain + "\n")
+	txt.WriteString("\n# uptime kuma\n")
 	txt.WriteString("uptime_kuma_enabled: yes\n")
-	txt.WriteString("uptime_kuma_hostname: kuma." + o.domain + "\n")
+	txt.WriteString("uptime_kuma_hostname: \"kuma." + o.domain + "\"\n")
 
 	return txt.String()
 }
@@ -551,9 +550,9 @@ func (o *order) varsRadicale() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# radicale https://radicale." + o.domain + "\n")
+	txt.WriteString("\n# radicale\n")
 	txt.WriteString("radicale_enabled: yes\n")
-	txt.WriteString("radicale_hostname: radicale." + o.domain + "\n")
+	txt.WriteString("radicale_hostname: \"radicale." + o.domain + "\"\n")
 
 	return txt.String()
 }
@@ -564,7 +563,7 @@ func (o *order) varsCinny() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# cinny https://cinny." + o.domain + "\n")
+	txt.WriteString("\n# cinny\n")
 	txt.WriteString("matrix_client_cinny_enabled: yes\n")
 
 	return txt.String()
@@ -579,8 +578,8 @@ func (o *order) varsEtherpad() string {
 	o.login("etherpad admin", o.get("username"))
 	txt.WriteString("\n# etherpad\n")
 	txt.WriteString("etherpad_enabled: yes\n")
-	txt.WriteString("etherpad_hostname: etherpad." + o.domain + "\n")
-	txt.WriteString("etherpad_admin_username: " + o.get("username") + "\n")
+	txt.WriteString("etherpad_hostname: \"etherpad." + o.domain + "\"\n")
+	txt.WriteString("etherpad_admin_username: \"" + o.get("username") + "\"\n")
 	txt.WriteString("etherpad_admin_password: " + o.password("etherpad admin") + "\n")
 
 	return txt.String()
@@ -595,8 +594,8 @@ func (o *order) varsFirezone() string {
 	o.login("firezone", o.get("email"))
 	txt.WriteString("\n# firezone\n")
 	txt.WriteString("firezone_enabled: yes\n")
-	txt.WriteString("firezone_hostname: firezone." + o.domain + "\n")
-	txt.WriteString("firezone_default_admin_email: " + o.get("email") + "\n")
+	txt.WriteString("firezone_hostname: \"firezone." + o.domain + "\"\n")
+	txt.WriteString("firezone_default_admin_email: \"" + o.get("email") + "\"\n")
 	txt.WriteString("firezone_default_admin_password: " + o.password("firezone") + "\n")
 	txt.WriteString("firezone_database_encryption_key: \"" + o.base64bytesgen(32) + "\"\n")
 
@@ -609,7 +608,7 @@ func (o *order) varsFluffyChat() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# fluffychat https://fluffychat." + o.domain + "\n")
+	txt.WriteString("\n# fluffychat\n")
 	txt.WriteString("matrix_client_fluffychat_enabled: yes\n")
 
 	return txt.String()
@@ -623,14 +622,14 @@ func (o *order) varsFunkwhale() string {
 
 	txt.WriteString("\n# funkwhale\n")
 	txt.WriteString("funkwhale_enabled: yes\n")
-	txt.WriteString("funkwhale_hostname: funkwhale." + o.domain + "\n")
+	txt.WriteString("funkwhale_hostname: \"funkwhale." + o.domain + "\"\n")
 
 	if o.has("funkwhale-s3-bucket") && o.has("funkwhale-s3-region") && o.has("funkwhale-s3-endpoint") && o.has("funkwhale-s3-access-key") && o.has("funkwhale-s3-secret-key") {
-		txt.WriteString("funkwhale_aws_s3_region_name: " + o.get("funkwhale-s3-region") + "\n")
-		txt.WriteString("funkwhale_aws_s3_endpoint_url: " + o.get("funkwhale-s3-endpoint") + "\n")
-		txt.WriteString("funkwhale_aws_access_key_id: " + o.get("funkwhale-s3-access-key") + "\n")
-		txt.WriteString("funkwhale_aws_secret_access_key: " + o.get("funkwhale-s3-secret-key") + "\n")
-		txt.WriteString("funkwhale_aws_storage_bucket_name: " + o.get("funkwhale-s3-bucket") + "\n")
+		txt.WriteString("funkwhale_aws_s3_region_name: \"" + o.get("funkwhale-s3-region") + "\"\n")
+		txt.WriteString("funkwhale_aws_s3_endpoint_url: \"" + o.get("funkwhale-s3-endpoint") + "\"\n")
+		txt.WriteString("funkwhale_aws_access_key_id: \"" + o.get("funkwhale-s3-access-key") + "\"\n")
+		txt.WriteString("funkwhale_aws_secret_access_key: \"" + o.get("funkwhale-s3-secret-key") + "\"\n")
+		txt.WriteString("funkwhale_aws_storage_bucket_name: \"" + o.get("funkwhale-s3-bucket") + "\"\n")
 		txt.WriteString("funkwhale_aws_location: music\n")
 	}
 
@@ -642,9 +641,9 @@ func (o *order) varsGoToSocial() string {
 		return ""
 	}
 	var txt strings.Builder
-	txt.WriteString("\n# gotosocial https://social." + o.domain + "\n")
+	txt.WriteString("\n# gotosocial\n")
 	txt.WriteString("gotosocial_enabled: yes\n")
-	txt.WriteString("gotosocial_hostname: social." + o.domain + "\n")
+	txt.WriteString("gotosocial_hostname: \"social." + o.domain + "\"\n")
 	if o.has("gotosocial-s3-bucket") && o.has("gotosocial-s3-endpoint") && o.has("gotosocial-s3-access-key") && o.has("gotosocial-s3-secret-key") {
 		txt.WriteString("gotosocial_environment_variables_extension: |\n")
 		txt.WriteString("  GTS_STORAGE_BACKEND=s3\n")
@@ -663,7 +662,7 @@ func (o *order) varsElement() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# element https://element." + o.domain + "\n")
+	txt.WriteString("\n# element\n")
 	txt.WriteString("matrix_client_element_enabled: yes\n")
 
 	return txt.String()
@@ -675,7 +674,7 @@ func (o *order) varsElementCall() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# element call https://call.element." + o.domain + "\n")
+	txt.WriteString("\n# element call\n")
 	txt.WriteString("matrix_element_call_enabled: yes\n")
 
 	return txt.String()
@@ -687,7 +686,7 @@ func (o *order) varsHydrogen() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# hydrogen https://hydrogen." + o.domain + "\n")
+	txt.WriteString("\n# hydrogen\n")
 	txt.WriteString("matrix_client_hydrogen_enabled: yes\n")
 
 	return txt.String()
@@ -699,7 +698,7 @@ func (o *order) varsJitsi() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# jitsi https://jitsi." + o.domain + "\n")
+	txt.WriteString("\n# jitsi\n")
 	txt.WriteString("jitsi_enabled: yes\n")
 	txt.WriteString("# jitsi_enable_auth: yes\n")
 	txt.WriteString("# jitsi_enable_guests: yes\n")
@@ -708,7 +707,7 @@ func (o *order) varsJitsi() string {
 	txt.WriteString("jitsi_jibri_recorder_password: " + o.pwgen() + "\n")
 	txt.WriteString("jitsi_jicofo_auth_password: " + o.pwgen() + "\n")
 	txt.WriteString("# jitsi_prosody_auth_internal_accounts:\n")
-	txt.WriteString("#  - username: " + o.get("username") + "\n")
+	txt.WriteString("#  - username: \"" + o.get("username") + "\"\n")
 	txt.WriteString("#    password: " + o.pwgen() + "\n")
 
 	return txt.String()
@@ -720,9 +719,9 @@ func (o *order) varsLanguagetool() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# languagetool https://languagetool." + o.domain + "\n")
+	txt.WriteString("\n# languagetool\n")
 	txt.WriteString("languagetool_enabled: yes\n")
-	txt.WriteString("languagetool_hostname: languagetool." + o.domain + "\n")
+	txt.WriteString("languagetool_hostname: \"languagetool." + o.domain + "\"\n")
 
 	if o.has("languagetool-ngrams") {
 		txt.WriteString("languagetool_ngrams_enabled: yes\n")
@@ -738,10 +737,10 @@ func (o *order) varsLinkding() string {
 	var txt strings.Builder
 
 	o.login("linkding", o.get("username"))
-	txt.WriteString("\n# linkding https://linkding." + o.domain + "\n")
+	txt.WriteString("\n# linkding\n")
 	txt.WriteString("linkding_enabled: yes\n")
-	txt.WriteString("linkding_hostname: linkding." + o.domain + "\n")
-	txt.WriteString("linkding_superuser_username: " + o.get("username") + "\n")
+	txt.WriteString("linkding_hostname: \"linkding." + o.domain + "\"\n")
+	txt.WriteString("linkding_superuser_username: \"" + o.get("username") + "\"\n")
 	txt.WriteString("linkding_superuser_password: " + o.password("linkding") + "\n")
 
 	return txt.String()
@@ -754,10 +753,10 @@ func (o *order) varsMiniflux() string {
 	var txt strings.Builder
 
 	o.login("miniflux", o.get("username"))
-	txt.WriteString("\n# miniflux https://miniflux." + o.domain + "\n")
+	txt.WriteString("\n# miniflux\n")
 	txt.WriteString("miniflux_enabled: yes\n")
-	txt.WriteString("miniflux_hostname: miniflux." + o.domain + "\n")
-	txt.WriteString("miniflux_admin_login: " + o.get("username") + "\n")
+	txt.WriteString("miniflux_hostname: \"miniflux." + o.domain + "\"\n")
+	txt.WriteString("miniflux_admin_login: \"" + o.get("username") + "\"\n")
 	txt.WriteString("miniflux_admin_password: " + o.password("miniflux") + "\n")
 
 	return txt.String()
@@ -772,20 +771,20 @@ func (o *order) varsPeertube() string {
 	o.login("peertube", "root")
 	txt.WriteString("\n# peertube\n")
 	txt.WriteString("peertube_enabled: yes\n")
-	txt.WriteString("peertube_hostname: peertube." + o.domain + "\n")
+	txt.WriteString("peertube_hostname: \"peertube." + o.domain + "\"\n")
 	txt.WriteString("peertube_config_secret: " + o.pwgen(64) + "\n")
-	txt.WriteString("peertube_config_admin_email: " + o.get("email") + "\n")
+	txt.WriteString("peertube_config_admin_email: \"" + o.get("email") + "\"\n")
 	txt.WriteString("peertube_config_root_user_initial_password: " + o.password("peertube") + "\n")
 
 	if o.has("peertube-s3-bucket") && o.has("peertube-s3-region") && o.has("peertube-s3-endpoint") && o.has("peertube-s3-access-key") && o.has("peertube-s3-secret-key") {
 		txt.WriteString("peertube_config_object_storage_enabled: yes\n")
-		txt.WriteString("peertube_config_object_storage_region: " + o.get("peertube-s3-region") + "\n")
-		txt.WriteString("peertube_config_object_storage_endpoint: " + o.get("peertube-s3-endpoint") + "\n")
-		txt.WriteString("peertube_config_object_storage_credentials_access_key_id: " + o.get("peertube-s3-access-key") + "\n")
-		txt.WriteString("peertube_config_object_storage_credentials_secret_access_key: " + o.get("peertube-s3-secret-key") + "\n")
-		txt.WriteString("peertube_config_object_storage_streaming_playlists_bucket_name: " + o.get("peertube-s3-bucket") + "\n")
+		txt.WriteString("peertube_config_object_storage_region: \"" + o.get("peertube-s3-region") + "\"\n")
+		txt.WriteString("peertube_config_object_storage_endpoint: \"" + o.get("peertube-s3-endpoint") + "\"\n")
+		txt.WriteString("peertube_config_object_storage_credentials_access_key_id: \"" + o.get("peertube-s3-access-key") + "\"\n")
+		txt.WriteString("peertube_config_object_storage_credentials_secret_access_key: \"" + o.get("peertube-s3-secret-key") + "\"\n")
+		txt.WriteString("peertube_config_object_storage_streaming_playlists_bucket_name: \"" + o.get("peertube-s3-bucket") + "\"\n")
 		txt.WriteString("peertube_config_object_storage_streaming_playlists_prefix: playlists/\n")
-		txt.WriteString("peertube_config_object_storage_web_videos_bucket_name: " + o.get("peertube-s3-bucket") + "\n")
+		txt.WriteString("peertube_config_object_storage_web_videos_bucket_name: \"" + o.get("peertube-s3-bucket") + "\"\n")
 		txt.WriteString("peertube_config_object_storage_web_videos_prefix: videos/\n")
 	}
 
@@ -798,7 +797,7 @@ func (o *order) varsSchildiChat() string {
 	}
 	var txt strings.Builder
 
-	txt.WriteString("\n# schildichat https://schildichat." + o.domain + "\n")
+	txt.WriteString("\n# schildichat\n")
 	txt.WriteString("matrix_client_schildichat_enabled: yes\n")
 
 	return txt.String()
@@ -811,14 +810,14 @@ func (o *order) varsStats() string {
 	var txt strings.Builder
 
 	o.login("grafana", o.get("username"))
-	txt.WriteString("\n# stats https://stats." + o.domain + "\n")
+	txt.WriteString("\n# stats\n")
 	txt.WriteString("grafana_enabled: yes\n")
 	txt.WriteString("prometheus_enabled: yes\n")
 	txt.WriteString("grafana_anonymous_access: no\n")
 	txt.WriteString("prometheus_node_exporter_enabled: yes\n")
 	txt.WriteString("prometheus_node_exporter_process_extra_arguments:\n")
 	txt.WriteString("  - \"--collector.systemd\"\n")
-	txt.WriteString("grafana_default_admin_user: " + o.get("username") + "\n")
+	txt.WriteString("grafana_default_admin_user: \"" + o.get("username") + "\"\n")
 	txt.WriteString("grafana_default_admin_password: " + o.password("grafana") + "\n")
 
 	return txt.String()
@@ -830,9 +829,9 @@ func (o *order) varsVaultwarden() string {
 	}
 	var txt strings.Builder
 	o.login("vaultwarden admin", "_create yourself_")
-	txt.WriteString("\n# vaultwarden https://vault." + o.domain + "\n")
+	txt.WriteString("\n# vaultwarden\n")
 	txt.WriteString("vaultwarden_enabled: yes\n")
-	txt.WriteString("vaultwarden_hostname: vault." + o.domain + "\n")
+	txt.WriteString("vaultwarden_hostname: \"vault." + o.domain + "\"\n")
 	txt.WriteString("vaultwarden_config_admin_token: " + o.password("vaultwarden admin") + "\n")
 
 	return txt.String()
@@ -902,13 +901,12 @@ func (o *order) varsMaubot() string {
 	}
 	var txt strings.Builder
 
-	login := "@" + o.get("username") + ":" + o.domain
-	o.login("maubot admin", login)
+	o.login("maubot admin", o.get("username"))
 	txt.WriteString("\n# bots::maubot\n")
 	txt.WriteString("matrix_bot_maubot_enabled: yes\n")
-	txt.WriteString("matrix_bot_maubot_initial_password: " + o.pwgen() + "\n")
+	txt.WriteString("matrix_bot_maubot_initial_password: " + o.password("@maubot:"+o.domain) + "\n")
 	txt.WriteString("matrix_bot_maubot_admins:\n")
-	txt.WriteString("  - \"" + login + "\": " + o.password("maubot admin") + "\n")
+	txt.WriteString("  - \"" + o.get("username") + "\": " + o.password("maubot admin") + "\n")
 
 	return txt.String()
 }
@@ -921,7 +919,7 @@ func (o *order) varsReminder() string {
 
 	txt.WriteString("\n# bots::reminder\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_enabled: yes\n")
-	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: " + o.get("reminder-bot-tz") + "\n")
+	txt.WriteString("matrix_bot_matrix_reminder_bot_reminders_timezone: \"" + o.get("reminder-bot-tz") + "\"\n")
 	txt.WriteString("matrix_bot_matrix_reminder_bot_matrix_user_password: " + o.pwgen() + "\n")
 
 	return txt.String()
@@ -1054,17 +1052,6 @@ func (o *order) varsSignal() string {
 	return txt.String()
 }
 
-func (o *order) varsSkype() string {
-	if !o.has("skype") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::skype\n")
-	txt.WriteString("matrix_go_skype_bridge_enabled: yes\n")
-
-	return txt.String()
-}
-
 func (o *order) varsTelegram() string {
 	if !o.has("telegram") {
 		return ""
@@ -1072,8 +1059,8 @@ func (o *order) varsTelegram() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::telegram\n")
 	txt.WriteString("matrix_mautrix_telegram_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_telegram_api_id: " + o.get("telegram-api-id") + "\n")
-	txt.WriteString("matrix_mautrix_telegram_api_hash: " + o.get("telegram-api-hash") + "\n")
+	txt.WriteString("matrix_mautrix_telegram_api_id: \"" + o.get("telegram-api-id") + "\"\n")
+	txt.WriteString("matrix_mautrix_telegram_api_hash: \"" + o.get("telegram-api-hash") + "\"\n")
 
 	if o.has("telegram-bot-token") {
 		txt.WriteString(`matrix_mautrix_telegram_bot_token: "` + o.get("telegram-bot-token") + `"` + "\n")

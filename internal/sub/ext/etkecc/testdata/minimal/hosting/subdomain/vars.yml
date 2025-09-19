@@ -25,8 +25,8 @@ ansible_ssh_private_key_file: "{{ playbook_dir }}/../../inventory/host_vars/{{ i
 # postgres
 postgres_connection_password: TODO64
 
-# homeserver https://matrix.higenjitsuteki.onmatrix.chat
-matrix_domain: higenjitsuteki.onmatrix.chat
+# homeserver
+matrix_domain: "higenjitsuteki.onmatrix.chat"
 matrix_admin: "@test:higenjitsuteki.onmatrix.chat"
 matrix_client_element_enabled: no
 
@@ -34,12 +34,12 @@ matrix_client_element_enabled: no
 matrix_static_files_file_matrix_support_enabled: yes
 matrix_static_files_file_matrix_support_property_m_contacts:
   - matrix_id: "@test:higenjitsuteki.onmatrix.chat"
-    email_address: test@test.com
+    email_address: "test@test.com"
     role: m.role.admin
 
 # initial users
 matrix_user_creator_users_additional:
- - username: test
+ - username: "test"
    initial_password: TODO64
    initial_type: admin
 
@@ -62,6 +62,6 @@ exim_relay_dkim_privkey_contents: |
   TODO
   -----END PRIVATE KEY-----
 
-# synapse-admin https://matrix.higenjitsuteki.onmatrix.chat/admin
+# synapse-admin
 matrix_synapse_admin_enabled: yes
 matrix_synapse_admin_path_prefix: "/admin"

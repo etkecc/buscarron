@@ -111,7 +111,7 @@ Here's all the essential information you need for a smooth onboarding experience
 
 **Maubot Admin Credentials**
 
-* Username: @test:example.com
+* Username: test
 * Password: TODO64
 
 **Miniflux Credentials**
@@ -127,6 +127,11 @@ Here's all the essential information you need for a smooth onboarding experience
 **Vaultwarden Admin Credentials**
 
 * Username: _create yourself_
+* Password: TODO64
+
+**@Maubot:example.com Credentials**
+
+* Username: test
 * Password: TODO64
 
 Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.

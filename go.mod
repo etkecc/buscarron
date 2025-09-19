@@ -11,12 +11,12 @@ require (
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.7.4
 	github.com/etkecc/go-kit/format v0.0.0-20250916115846-36181341554f
-	github.com/etkecc/go-linkpearl v0.0.0-20250816144001-c71a67370b64
+	github.com/etkecc/go-linkpearl v0.0.0-20250916123206-78ebb36aa071
 	github.com/etkecc/go-pricify v0.0.0-20250911134812-0d22a7473e33
 	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
-	github.com/etkecc/go-validator/v2 v2.2.4
+	github.com/etkecc/go-validator/v2 v2.2.5
 	github.com/getsentry/sentry-go v0.35.3
 	github.com/getsentry/sentry-go/echo v0.35.3
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -84,7 +84,7 @@ require (
 	golang.org/x/tools v0.37.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.66.8 // indirect
+	modernc.org/libc v1.66.9 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )

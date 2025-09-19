@@ -58,7 +58,7 @@ func (v *validator) Handler() echo.HandlerFunc {
 // domainHander is a handler for domain validation (GET requests, JSON response)
 func (v *validator) domainHander(c echo.Context) error {
 	resp := map[string]any{"base": "", "taken": false}
-	domain := c.Request().URL.Query().Get("domain")
+	domain := utils.Sanitize(c.Request().URL.Query().Get("domain"))
 	if domain == "" {
 		resp["error_code"] = errDomainRequired
 		return c.JSON(http.StatusNotFound, resp)
@@ -103,7 +103,7 @@ func (v *validator) domainHander(c echo.Context) error {
 
 // emailHandler is a handler for email validation (GET requests, no body response)
 func (v *validator) emailHandler(c echo.Context) error {
-	email := strings.ToLower(strings.TrimSpace(c.QueryParam("email")))
+	email := utils.Sanitize(strings.ToLower(strings.TrimSpace(c.QueryParam("email"))))
 	if email == "" {
 		return c.NoContent(http.StatusNoContent)
 	}
