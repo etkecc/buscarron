@@ -49,8 +49,8 @@ github.com/etkecc/go-secgen v1.4.0 h1:PapLpen3aIqG2LDu+U6KWDb4SMW2UGuvetpJjd86yU
 github.com/etkecc/go-secgen v1.4.0/go.mod h1:6dkfdOtmtVxkj1hIJM6U6yA7frSNpr1H5brz5t18Y3I=
 github.com/etkecc/go-trysmtp v1.1.5 h1:MQ4l4bE9nWUqRKoJOalGHGLkb/hRmzbcBMlClufEOng=
 github.com/etkecc/go-trysmtp v1.1.5/go.mod h1:J4zQu+kgM37xQY148wUz0Dm6y+YhtzMghAv/AaXt0sQ=
-github.com/etkecc/go-validator/v2 v2.2.5 h1:ctZrhZNXUCkEO4d+DAMLD4lF1NzHc1UMZMgmhwmCXdU=
-github.com/etkecc/go-validator/v2 v2.2.5/go.mod h1:1jerRLtl69ugBSoGZJJreyzIIYUoHtp3Xj/fmK+12Rc=
+github.com/etkecc/go-validator/v2 v2.2.6 h1:ybP+zBcXiVf9bvx4BR5OAyjFNYPedYFIN+oGglek/1k=
+github.com/etkecc/go-validator/v2 v2.2.6/go.mod h1:1jerRLtl69ugBSoGZJJreyzIIYUoHtp3Xj/fmK+12Rc=
 github.com/getsentry/sentry-go v0.35.3 h1:u5IJaEqZyPdWqe/hKlBKBBnMTSxB/HenCqF3QLabeds=
 github.com/getsentry/sentry-go v0.35.3/go.mod h1:mdL49ixwT2yi57k5eh7mpnDyPybixPzlzEJFu0Z76QA=
 github.com/getsentry/sentry-go/echo v0.35.3 h1:aJ0e4kGuH7T1ggAd3LOYwAyQV0bq37AX36vNPr6JYnM=
@@ -167,8 +167,8 @@ github.com/valyala/histogram v1.2.0 h1:wyYGAZZt3CpwUiIb9AU/Zbllg1llXyrtApRS815OL
 github.com/valyala/histogram v1.2.0/go.mod h1:Hb4kBwb4UxsaNbbbh+RRz8ZR6pdodR57tzWUS3BUzXY=
 github.com/yuin/goldmark v1.7.13 h1:GPddIs617DnBLFFVJFgpo1aBfe/4xcvMc3SB5t/D0pA=
 github.com/yuin/goldmark v1.7.13/go.mod h1:ip/1k0VRfGynBgxOz0yCqHrbZXhcjxyuS66Brc7iBKg=
-github.com/ziflex/lecho/v3 v3.8.1 h1:VGfo5Sux4BaIpF39I4c8ExcK+V/6xTqCRFCt6PIgRkk=
-github.com/ziflex/lecho/v3 v3.8.1/go.mod h1:BSgjDOLVrElybEmJ8gA47xmN0gYk4Cx+u2DHMvcWtR4=
+github.com/ziflex/lecho/v3 v3.9.0 h1:R3BSPgCh11leN+VnGTvGie7Ktn4XGffNM3EAxXTCZVk=
+github.com/ziflex/lecho/v3 v3.9.0/go.mod h1:BSgjDOLVrElybEmJ8gA47xmN0gYk4Cx+u2DHMvcWtR4=
 go.mau.fi/util v0.9.1 h1:A+XKHRsjKkFi2qOm4RriR1HqY2hoOXNS3WFHaC89r2Y=
 go.mau.fi/util v0.9.1/go.mod h1:M0bM9SyaOWJniaHs9hxEzz91r5ql6gYq6o1q5O1SsjQ=
 go.uber.org/goleak v1.3.0 h1:2K3zAYmnTNqV73imy9J1T3WC+gmCePx2hEGkimedGto=

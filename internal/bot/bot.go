@@ -32,7 +32,7 @@ func (b *Bot) Enabled() bool {
 	if b.lp == nil {
 		return false
 	}
-	if reflect.ValueOf(b.lp).Kind() == reflect.Ptr && reflect.ValueOf(b.lp).IsNil() {
+	if reflect.ValueOf(b.lp).Kind() == reflect.Pointer && reflect.ValueOf(b.lp).IsNil() {
 		return false
 	}
 	return true

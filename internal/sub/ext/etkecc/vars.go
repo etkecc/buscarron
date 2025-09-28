@@ -80,6 +80,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsLinkedin())
 	txt.WriteString(o.varsSignal())
 	txt.WriteString(o.varsSlack())
+	txt.WriteString(o.varsSteam())
 	txt.WriteString(o.varsTelegram())
 	txt.WriteString(o.varsTwitter())
 	txt.WriteString(o.varsWebhooks())
@@ -418,7 +419,7 @@ func (o *order) varsBorgBackup() string {
 	txt.WriteString("- \"" + o.get("borg-repository") + "\"\n")
 	txt.WriteString("backup_borg_storage_encryption_passphrase: " + o.pwgen() + "\n")
 	txt.WriteString("backup_borg_ssh_key_private: |\n")
-	for _, line := range strings.Split(priv, "\n") {
+	for line := range strings.SplitSeq(priv, "\n") {
 		txt.WriteString("  " + line + "\n")
 	}
 	txt.WriteString("# " + pub + "\n")
@@ -432,7 +433,7 @@ func (o *order) varsEximRelay() string {
 	txt.WriteString("\n# exim-relay\n")
 	if o.dkim["private"] != "" {
 		txt.WriteString("exim_relay_dkim_privkey_contents: |\n")
-		for _, line := range strings.Split(o.dkim["private"], "\n") {
+		for line := range strings.SplitSeq(o.dkim["private"], "\n") {
 			txt.WriteString("  " + line + "\n")
 		}
 	}
@@ -968,6 +969,17 @@ func (o *order) varsSlack() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::slack\n")
 	txt.WriteString("matrix_mautrix_slack_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsSteam() string {
+	if !o.has("steam") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::steam\n")
+	txt.WriteString("matrix_steam_bridge_enabled: yes\n")
 
 	return txt.String()
 }

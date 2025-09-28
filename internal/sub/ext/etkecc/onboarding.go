@@ -3,6 +3,7 @@ package etkecc
 import (
 	"context"
 	"fmt"
+	"maps"
 	"sort"
 	"strings"
 
@@ -167,9 +168,7 @@ func (o *order) generateOnboardingCredentials() string {
 
 	// hacky way to print friendly names
 	passwords := make(map[string]string)
-	for service, password := range o.pass {
-		passwords[service] = password
-	}
+	maps.Copy(passwords, o.pass)
 	mxpass := passwords["matrix"]
 	delete(o.logins, "matrix")
 	delete(passwords, "matrix")

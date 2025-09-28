@@ -115,7 +115,7 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 
 func (o *order) sendFollowup(ctx context.Context) {
 	ctx = context.WithoutCancel(ctx)
-	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Ptr && reflect.ValueOf(o.pm).IsNil()) {
+	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Pointer && reflect.ValueOf(o.pm).IsNil()) {
 		return
 	}
 

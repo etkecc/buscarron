@@ -3,6 +3,7 @@ package etkecc
 import (
 	"context"
 	"io"
+	"maps"
 	"os"
 	"strings"
 	"testing"
@@ -120,7 +121,9 @@ func (s *EtkeccSuite) setupSubs() {
 			"slack":               "on",
 			"sliding-sync":        "on",
 			"smtp-relay":          "on",
+			"ssh-client-ips":      "N/A",
 			"stats":               "on",
+			"steam":               "on",
 			"sygnal":              "on",
 			"synapse-admin":       "on",
 			"synapse-s3-storage":  "on",
@@ -133,7 +136,6 @@ func (s *EtkeccSuite) setupSubs() {
 			"webhooks":            "on",
 			"wechat":              "on",
 			"whatsapp":            "on",
-			"ssh-client-ips":      "N/A",
 		},
 		"full/no-questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",
@@ -185,6 +187,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"smtp-relay":          "on",
 			"sso":                 "on",
 			"stats":               "on",
+			"steam":               "on",
 			"sygnal":              "on",
 			"synapse-admin":       "on",
 			"synapse-s3":          "on",
@@ -399,12 +402,8 @@ func (s *EtkeccSuite) expected(name string) (questions, followup, onboarding, va
 func (s *EtkeccSuite) merge(base, custom map[string]string) map[string]string {
 	s.T().Helper()
 	merged := map[string]string{}
-	for k, v := range base {
-		merged[k] = v
-	}
-	for k, v := range custom {
-		merged[k] = v
-	}
+	maps.Copy(merged, base)
+	maps.Copy(merged, custom)
 
 	return merged
 }

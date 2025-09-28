@@ -59,6 +59,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Signal: [@signalbot:example.com](https://matrix.to/#/@signalbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-signal/))
 * Skype: [@skypebridgebot:example.com](https://matrix.to/#/@skypebridgebot:example.com) ([help](https://etke.cc/help/bridges/go-skype-bridge/))
 * Slack: [@slackbot:example.com](https://matrix.to/#/@slackbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-slack/))
+* Steam: [@steambot:example.com](https://matrix.to/#/@steambot:example.com) ([help](https://etke.cc/help/bridges/matrix-steam/))
 * Telegram: [@telegrambot:example.com](https://matrix.to/#/@telegrambot:example.com) ([help](https://etke.cc/help/bridges/mautrix-telegram/))
 * Twitter: [@twitterbot:example.com](https://matrix.to/#/@twitterbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-twitter/))
 * Webhooks: [@hookshot:example.com](https://matrix.to/#/@hookshot:example.com) ([help](https://etke.cc/help/bridges/hookshot/))

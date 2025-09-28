@@ -348,6 +348,9 @@ matrix_mautrix_signal_enabled: yes
 # bridges::slack
 matrix_mautrix_slack_enabled: yes
 
+# bridges::steam
+matrix_steam_bridge_enabled: yes
+
 # bridges::telegram
 matrix_mautrix_telegram_enabled: yes
 matrix_mautrix_telegram_api_id: "TODO"

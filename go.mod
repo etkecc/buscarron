@@ -16,7 +16,7 @@ require (
 	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
-	github.com/etkecc/go-validator/v2 v2.2.5
+	github.com/etkecc/go-validator/v2 v2.2.6
 	github.com/getsentry/sentry-go v0.35.3
 	github.com/getsentry/sentry-go/echo v0.35.3
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -27,7 +27,7 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
-	github.com/ziflex/lecho/v3 v3.8.1
+	github.com/ziflex/lecho/v3 v3.9.0
 	golang.org/x/net v0.44.0
 	golang.org/x/text v0.29.0
 	golang.org/x/time v0.13.0

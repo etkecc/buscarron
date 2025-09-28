@@ -53,7 +53,7 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 	}
 
 	// special case with nil interface
-	if e.s == nil || (reflect.ValueOf(e.s).Kind() == reflect.Ptr && reflect.ValueOf(e.s).IsNil()) {
+	if e.s == nil || (reflect.ValueOf(e.s).Kind() == reflect.Pointer && reflect.ValueOf(e.s).IsNil()) {
 		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 

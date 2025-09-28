@@ -59,6 +59,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Signal: [@signalbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@signalbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-signal/))
 * Skype: [@skypebridgebot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@skypebridgebot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/go-skype-bridge/))
 * Slack: [@slackbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@slackbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-slack/))
+* Steam: [@steambot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@steambot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/matrix-steam/))
 * Telegram: [@telegrambot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@telegrambot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-telegram/))
 * Twitter: [@twitterbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@twitterbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-twitter/))
 * Webhooks: [@hookshot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@hookshot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/hookshot/))
