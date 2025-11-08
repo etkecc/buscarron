@@ -65,6 +65,7 @@ Here's all the essential information you need for a smooth onboarding experience
 * Webhooks: [@hookshot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@hookshot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/hookshot/))
 * Wechat: [@wechatbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@wechatbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/wechat/))
 * Whatsapp: [@whatsappbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@whatsappbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-whatsapp/))
+* Zulip: [@zulipbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@zulipbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/matrix-zulip/))
 
 
 **Matrix Credentials**

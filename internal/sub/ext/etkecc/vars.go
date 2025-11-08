@@ -86,6 +86,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsWebhooks())
 	txt.WriteString(o.varsWechat())
 	txt.WriteString(o.varsWhatsapp())
+	txt.WriteString(o.varsZulip())
 
 	text := txt.String()
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
@@ -1121,6 +1122,18 @@ func (o *order) varsWhatsapp() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::whatsapp\n")
 	txt.WriteString("matrix_mautrix_whatsapp_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsZulip() string {
+	if !o.has("zulip") {
+		return ""
+	}
+
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::zulip\n")
+	txt.WriteString("matrix_zulip_bridge_enabled: yes\n")
 
 	return txt.String()
 }

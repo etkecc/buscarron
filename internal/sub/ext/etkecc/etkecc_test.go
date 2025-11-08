@@ -136,6 +136,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"webhooks":            "on",
 			"wechat":              "on",
 			"whatsapp":            "on",
+			"zulip":               "on",
 		},
 		"full/no-questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",
@@ -199,6 +200,7 @@ func (s *EtkeccSuite) setupSubs() {
 			"webhooks":            "on",
 			"wechat":              "on",
 			"whatsapp":            "on",
+			"zulip":               "on",
 			// components
 			"borg-repository":             "borg-repo",
 			"funkwhale-s3-access-key":     "some-key",

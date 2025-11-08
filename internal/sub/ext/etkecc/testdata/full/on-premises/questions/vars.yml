@@ -323,3 +323,6 @@ matrix_wechat_enabled: yes
 
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes
+
+# bridges::zulip
+matrix_zulip_bridge_enabled: yes

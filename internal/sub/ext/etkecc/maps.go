@@ -59,6 +59,7 @@ var bridgemap = map[string]string{
 	"webhooks":   "@hookshot",
 	"wechat":     "@wechatbot",
 	"whatsapp":   "@whatsappbot",
+	"zulip":      "@zulipbot",
 }
 
 var helpmap = map[string]string{
@@ -108,6 +109,7 @@ var helpmap = map[string]string{
 	"webhooks":     "etke.cc/help/bridges/hookshot/",
 	"wechat":       "etke.cc/help/bridges/wechat/",
 	"whatsapp":     "etke.cc/help/bridges/mautrix-whatsapp/",
+	"zulip":        "etke.cc/help/bridges/matrix-zulip/",
 }
 
 // excluded by purpose: apple, dex, keycloak

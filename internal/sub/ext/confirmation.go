@@ -2,8 +2,8 @@ package ext
 
 import (
 	"context"
-	"reflect"
 
+	"github.com/etkecc/go-kit"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 
@@ -53,7 +53,7 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 	}
 
 	// special case with nil interface
-	if e.s == nil || (reflect.ValueOf(e.s).Kind() == reflect.Pointer && reflect.ValueOf(e.s).IsNil()) {
+	if kit.IsNil(e.s) {
 		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 

@@ -5,14 +5,15 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"reflect"
 	"strings"
 
-	"github.com/etkecc/buscarron/internal/utils"
+	"github.com/etkecc/go-kit"
 	formatCustom "github.com/etkecc/go-kit/format"
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
+
+	"github.com/etkecc/buscarron/internal/utils"
 )
 
 const (
@@ -115,7 +116,7 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 
 func (o *order) sendFollowup(ctx context.Context) {
 	ctx = context.WithoutCancel(ctx)
-	if o.pm == nil || (reflect.ValueOf(o.pm).Kind() == reflect.Pointer && reflect.ValueOf(o.pm).IsNil()) {
+	if kit.IsNil(o.pm) {
 		return
 	}
 

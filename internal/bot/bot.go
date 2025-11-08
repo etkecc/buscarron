@@ -3,15 +3,16 @@ package bot
 import (
 	"context"
 	"fmt"
-	"reflect"
 	"sync"
 
-	"github.com/etkecc/buscarron/internal/utils"
+	"github.com/etkecc/go-kit"
 	"github.com/rs/zerolog"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/event"
 	"maunium.net/go/mautrix/format"
 	"maunium.net/go/mautrix/id"
+
+	"github.com/etkecc/buscarron/internal/utils"
 )
 
 // Bot represents matrix bot
@@ -29,13 +30,7 @@ func New(lp Linkpearl) *Bot {
 
 // Enabled returns true if the bot is enabled
 func (b *Bot) Enabled() bool {
-	if b.lp == nil {
-		return false
-	}
-	if reflect.ValueOf(b.lp).Kind() == reflect.Pointer && reflect.ValueOf(b.lp).IsNil() {
-		return false
-	}
-	return true
+	return !kit.IsNil(b.lp)
 }
 
 // Error message to the log and matrix room
