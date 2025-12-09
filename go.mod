@@ -11,14 +11,14 @@ require (
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.7.6
 	github.com/etkecc/go-kit/format v0.0.0-20251105163318-01b0981158f1
-	github.com/etkecc/go-linkpearl v0.0.0-20251016112544-0d85fb3bccdc
+	github.com/etkecc/go-linkpearl v0.0.0-20251209104933-55b9c56572bb
 	github.com/etkecc/go-pricify v0.0.0-20250911134812-0d22a7473e33
 	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
-	github.com/getsentry/sentry-go v0.36.2
-	github.com/getsentry/sentry-go/echo v0.36.2
+	github.com/getsentry/sentry-go v0.40.0
+	github.com/getsentry/sentry-go/echo v0.40.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/lib/pq v1.10.9
@@ -28,11 +28,11 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
 	github.com/ziflex/lecho/v3 v3.9.0
-	golang.org/x/net v0.46.0
-	golang.org/x/text v0.30.0
+	golang.org/x/net v0.48.0
+	golang.org/x/text v0.32.0
 	golang.org/x/time v0.14.0
-	maunium.net/go/mautrix v0.25.2
-	modernc.org/sqlite v1.40.0
+	maunium.net/go/mautrix v0.26.0
+	modernc.org/sqlite v1.40.1
 )
 
 require (
@@ -63,7 +63,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/nixys/nxs-go-redmine/v5 v5.1.1 // indirect
-	github.com/petermattis/goid v0.0.0-20250904145737-900bdf8bb490 // indirect
+	github.com/petermattis/goid v0.0.0-20251121121749-a11dd1a45f9a // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rogpeppe/go-internal v1.10.0 // indirect
@@ -77,14 +77,14 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.13 // indirect
-	go.mau.fi/util v0.9.2 // indirect
-	golang.org/x/crypto v0.43.0 // indirect
-	golang.org/x/exp v0.0.0-20251023183803-a4bb9ffd2546 // indirect
-	golang.org/x/sys v0.38.0 // indirect
-	golang.org/x/tools v0.38.0 // indirect
+	go.mau.fi/util v0.9.3 // indirect
+	golang.org/x/crypto v0.46.0 // indirect
+	golang.org/x/exp v0.0.0-20251125195548-87e1e737ad39 // indirect
+	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/tools v0.39.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.66.10 // indirect
+	modernc.org/libc v1.67.1 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )
