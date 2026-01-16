@@ -1,0 +1,380 @@
+<div align="center">
+
+# 🗺️&nbsp;&nbsp;go-countries
+
+**Go package providing comprehensive country data in all standard ISO formats.**
+
+<br/>
+
+<a href="https://github.com/mrz1836/go-countries/releases"><img src="https://img.shields.io/github/release-pre/mrz1836/go-countries?include_prereleases&style=flat-square&logo=github&color=black" alt="Release"></a>
+<a href="https://golang.org/"><img src="https://img.shields.io/github/go-mod/go-version/mrz1836/go-countries?style=flat-square&logo=go&color=00ADD8" alt="Go Version"></a>
+<a href="https://github.com/mrz1836/go-countries/blob/master/LICENSE"><img src="https://img.shields.io/github/license/mrz1836/go-countries?style=flat-square&color=blue" alt="License"></a>
+
+<br/>
+
+<table align="center" border="0">
+  <tr>
+    <td align="right">
+       <code>CI / CD</code> &nbsp;&nbsp;
+    </td>
+    <td align="left">
+       <a href="https://github.com/mrz1836/go-countries/actions"><img src="https://img.shields.io/github/actions/workflow/status/mrz1836/go-countries/fortress.yml?branch=master&label=build&logo=github&style=flat-square" alt="Build"></a>
+       <a href="https://github.com/mrz1836/go-countries/actions"><img src="https://img.shields.io/github/last-commit/mrz1836/go-countries?style=flat-square&logo=git&logoColor=white&label=last%20update" alt="Last Commit"></a>
+    </td>
+    <td align="right">
+       &nbsp;&nbsp;&nbsp;&nbsp; <code>Quality</code> &nbsp;&nbsp;
+    </td>
+    <td align="left">
+       <a href="https://goreportcard.com/report/github.com/mrz1836/go-countries"><img src="https://goreportcard.com/badge/github.com/mrz1836/go-countries?style=flat-square" alt="Go Report"></a>
+       <a href="https://codecov.io/gh/mrz1836/go-countries"><img src="https://codecov.io/gh/mrz1836/go-countries/branch/master/graph/badge.svg?style=flat-square" alt="Coverage"></a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right">
+       <code>Security</code> &nbsp;&nbsp;
+    </td>
+    <td align="left">
+       <a href="https://scorecard.dev/viewer/?uri=github.com/mrz1836/go-countries"><img src="https://api.scorecard.dev/projects/github.com/mrz1836/go-countries/badge?style=flat-square" alt="Scorecard"></a>
+       <a href=".github/SECURITY.md"><img src="https://img.shields.io/badge/policy-active-success?style=flat-square&logo=security&logoColor=white" alt="Security"></a>
+    </td>
+    <td align="right">
+       &nbsp;&nbsp;&nbsp;&nbsp; <code>Community</code> &nbsp;&nbsp;
+    </td>
+    <td align="left">
+       <a href="https://github.com/mrz1836/go-countries/graphs/contributors"><img src="https://img.shields.io/github/contributors/mrz1836/go-countries?style=flat-square&color=orange" alt="Contributors"></a>
+       <a href="https://mrz1818.com/"><img src="https://img.shields.io/badge/donate-bitcoin-ff9900?style=flat-square&logo=bitcoin" alt="Bitcoin"></a>
+    </td>
+  </tr>
+</table>
+
+</div>
+
+<br/>
+<br/>
+
+<div align="center">
+
+### <code>Project Navigation</code>
+
+</div>
+
+<table align="center">
+  <tr>
+    <td align="center" width="33%">
+       🚀&nbsp;<a href="#-installation"><code>Installation</code></a>
+    </td>
+    <td align="center" width="33%">
+       🧪&nbsp;<a href="#-examples--tests"><code>Examples&nbsp;&&nbsp;Tests</code></a>
+    </td>
+    <td align="center" width="33%">
+       📚&nbsp;<a href="#-documentation"><code>Documentation</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+       🤝&nbsp;<a href="#-contributing"><code>Contributing</code></a>
+    </td>
+    <td align="center">
+      🛠️&nbsp;<a href="#-code-standards"><code>Code&nbsp;Standards</code></a>
+    </td>
+    <td align="center">
+      ⚡&nbsp;<a href="#-benchmarks"><code>Benchmarks</code></a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      🤖&nbsp;<a href="#-ai-usage--assistant-guidelines"><code>AI&nbsp;Usage</code></a>
+    </td>
+    <td align="center">
+       ⚖️&nbsp;<a href="#-license"><code>License</code></a>
+    </td>
+    <td align="center">
+       👥&nbsp;<a href="#-maintainers"><code>Maintainers</code></a>
+    </td>
+  </tr>
+</table>
+<br/>
+
+## 📦 Installation
+
+**go-countries** requires a [supported release of Go](https://golang.org/doc/devel/release.html#policy).
+
+```bash script
+go get -u github.com/mrz1836/go-countries
+```
+<br/>
+
+## 💡 Usage
+
+Here is a basic example of how to use go-countries in your Go project:
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/mrz1836/go-countries"
+)
+
+func main() {
+    country := countries.GetByAlpha2(countries.Alpha2US)
+    if country != nil {
+        fmt.Printf("Country: %s, Capital: %s\n", country.Name, country.Capital)
+    } else {
+        fmt.Println("Country not found")
+    }
+}
+```
+
+- Explore additional [usage examples](examples) for practical integration patterns
+- Review [benchmark results](countries_test.go) to assess performance characteristics
+- Examine the comprehensive [test suite](countries_test.go) for validation and coverage
+- Inspect the [code generator](generate) for details on data sources and the build process
+
+<br/>
+
+## 📚 Documentation
+
+View the generated [documentation](https://pkg.go.dev/github.com/mrz1836/go-countries?tab=doc)
+
+> **Heads up!** `go-countries` is intentionally light on dependencies. The only
+external package it uses is the excellent `testify` suite—and that's just for
+our tests. You can drop this library into your projects without dragging along
+extra baggage.
+
+<br/>
+
+### Features
+
+- Comprehensive list of all recognized countries, provided as a Go slice of structs for easy access and manipulation
+- Direct access to raw country and currency JSON data in the [data package](data) for custom processing or validation
+- Zero `init()` overhead—just import and use the `countries` package without side effects
+- Fast, allocation-free lookups for all retrieval functions, ensuring optimal performance in production environments
+- Includes region, subregion, capital, and currency information for each country
+- Designed for extensibility—add or update country data via code generation from JSON sources
+- Well-documented, tested, and benchmarked for reliability and speed
+
+<br/>
+
+### Functions
+- [`GetAll()`](countries.go): Retrieve the entire slice of all known countries, including metadata such as names, codes, regions, capitals, and currencies
+- [`GetByAlpha2(countries.Alpha2US)`](countries.go): Find a country by its [ISO 3166-1 alpha-2 code](https://en.wikipedia.org/wiki/ISO_3166-2)
+- [`GetByAlpha3(countries.Alpha3USA)`](countries.go): Retrieve a country by its [ISO 3166-1 alpha-3 code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3)
+- [`GetByCapital("Washington")`](countries.go): Find a country by its capital city in a case-insensitive search
+- [`GetByCountryCode("840")`](countries.go): Lookup by [ISO 3166 numeric country code](https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes), supporting string or integer input
+- [`GetByISO31662("ISO 3166-2:US")`](countries.go): Retrieve a country by its [ISO 3166-2 subdivision code](https://en.wikipedia.org/wiki/ISO_3166-2)
+- [`GetByName("United States of America")`](countries.go): Lookup a country by its [official name](https://en.wikipedia.org/wiki/ISO_3166), supporting case-insensitive queries
+
+<br/>
+
+### Code Generation
+
+If you need to update the country data or regenerate the Go code, you can use the `go generate` command.
+This will read the JSON data files and generate a Go file containing all the country data in a structured format.
+
+To generate the Go code for the country data, follow these steps:
+
+1. **Navigate to the project root directory**:
+
+   ```bash
+   cd /path/to/your/project
+   ```
+
+2. **Run the `go generate` command**:
+
+   ```bash
+   go generate -x ./generate/...
+   ```
+
+This command executes the code generation logic defined in the `generate.go` file located in the `/generate/` directory.
+The generated code is written to `countries_data.go` in the project directory.
+
+<br/>
+
+### Additional Documentation & Repository Management
+
+<details>
+<summary><strong><code>Development Setup (Getting Started)</code></strong></summary>
+<br/>
+
+Install [MAGE-X](https://github.com/mrz1836/mage-x) build tool for development:
+
+```bash
+# Install MAGE-X for development and building
+go install github.com/mrz1836/mage-x/cmd/magex@latest
+magex update:install
+```
+</details>
+
+<details>
+<summary><strong><code>Library Deployment</code></strong></summary>
+<br/>
+
+This project uses [goreleaser](https://github.com/goreleaser/goreleaser) for streamlined binary and library deployment to GitHub. To get started, install it via:
+
+```bash
+brew install goreleaser
+```
+
+The release process is defined in the [.goreleaser.yml](.goreleaser.yml) configuration file.
+
+Then create and push a new Git tag using:
+
+```bash
+magex version:bump bump=patch push=true branch=master
+```
+
+This process ensures consistent, repeatable releases with properly versioned artifacts and citation metadata.
+
+</details>
+
+<details>
+<summary><strong><code>Build Commands</code></strong></summary>
+<br/>
+
+View all build commands
+
+```bash script
+magex help
+```
+
+</details>
+
+<details>
+<summary><strong><code>GitHub Workflows</code></strong></summary>
+<br/>
+
+
+### 🎛️ The Workflow Control Center
+
+All GitHub Actions workflows in this repository are powered by configuration files: [**.env.base**](.github/.env.base) (default configuration) and optionally **.env.custom** (project-specific overrides) – your one-stop shop for tweaking CI/CD behavior without touching a single YAML file! 🎯
+
+**Configuration Files:**
+- **[.env.base](.github/.env.base)** – Default configuration that works for most Go projects
+- **[.env.custom](.github/.env.custom)** – Optional project-specific overrides
+
+This magical file controls everything from:
+- **🚀 Go version matrix** (test on multiple versions or just one)
+- **🏃 Runner selection** (Ubuntu or macOS, your wallet decides)
+- **🔬 Feature toggles** (coverage, fuzzing, linting, race detection, benchmarks)
+- **🛡️ Security tool versions** (gitleaks, nancy, govulncheck)
+- **🤖 Auto-merge behaviors** (how aggressive should the bots be?)
+- **🏷️ PR management rules** (size labels, auto-assignment, welcome messages)
+
+> **Pro tip:** Want to disable code coverage? Just add `ENABLE_CODE_COVERAGE=false` to your .env.custom to override the default in .env.base and push. No YAML archaeology required!
+
+<br/>
+
+| Workflow Name                                                                      | Description                                                                                                            |
+|------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| [auto-merge-on-approval.yml](.github/workflows/auto-merge-on-approval.yml)         | Automatically merges PRs after approval and all required checks, following strict rules.                               |
+| [codeql-analysis.yml](.github/workflows/codeql-analysis.yml)                       | Analyzes code for security vulnerabilities using [GitHub CodeQL](https://codeql.github.com/).                          |
+| [dependabot-auto-merge.yml](.github/workflows/dependabot-auto-merge.yml)           | Automatically merges [Dependabot](https://github.com/dependabot) PRs that meet all requirements.                       |
+| [fortress.yml](.github/workflows/fortress.yml)                                     | Runs the GoFortress security and testing workflow, including linting, testing, releasing, and vulnerability checks.    |
+| [pull-request-management.yml](.github/workflows/pull-request-management.yml)       | Labels PRs by branch prefix, assigns a default user if none is assigned, and welcomes new contributors with a comment. |
+| [scorecard.yml](.github/workflows/scorecard.yml)                                   | Runs [OpenSSF](https://openssf.org/) Scorecard to assess supply chain security.                                        |
+| [stale.yml](.github/workflows/stale-check.yml)                                     | Warns about (and optionally closes) inactive issues and PRs on a schedule or manual trigger.                           |
+| [sync-labels.yml](.github/workflows/sync-labels.yml)                               | Keeps GitHub labels in sync with the declarative manifest at [`.github/labels.yml`](./.github/labels.yml).             |
+
+</details>
+
+<details>
+<summary><strong><code>Updating Dependencies</code></strong></summary>
+<br/>
+
+To update all dependencies (Go modules, linters, and related tools), run:
+
+```bash
+magex deps:update
+```
+
+This command ensures all dependencies are brought up to date in a single step, including Go modules and any managed tools. It is the recommended way to keep your development environment and CI in sync with the latest versions.
+
+</details>
+
+<br/>
+
+## 🧪 Examples & Tests
+
+All unit tests and [examples](examples) run via [GitHub Actions](https://github.com/mrz1836/go-template/actions) and use [Go version 1.22.x](https://go.dev/doc/go1.22). View the [configuration file](.github/workflows/fortress.yml).
+
+Run all tests (fast):
+
+```bash script
+magex test
+```
+
+Run all tests with race detector (slower):
+```bash script
+magex test:race
+```
+
+<br/>
+
+## ⚡ Benchmarks
+
+Run the Go [benchmarks](countries_test.go):
+
+```bash script
+magex bench
+```
+
+<br/>
+
+Performance benchmarks for the core functions in this library, executed on an Apple M1 Max (ARM64):
+
+| Function                           | Ops/sec (approx) | Time per op | Allocations | Bytes Allocated |
+|------------------------------------|------------------|-------------|-------------|-----------------|
+| [`GetAll`](countries.go)           | 5,263,413        | 225.4 ns    | 1           | 2,048 B         |
+| [`GetByAlpha2`](countries.go)      | 100,000,000      | 10.36 ns    | 0           | 0 B             |
+| [`GetByAlpha3`](countries.go)      | 100,000,000      | 10.97 ns    | 0           | 0 B             |
+| [`GetByCapital`](countries.go)     | 33,426,183       | 35.19 ns    | 1           | 16 B            |
+| [`GetByCountryCode`](countries.go) | 100,467,049      | 11.10 ns    | 0           | 0 B             |
+| [`GetByISO31662`](countries.go)    | 59,682,316       | 20.16 ns    | 0           | 0 B             |
+| [`GetByName`](countries.go)        | 46,466,527       | 25.66 ns    | 0           | 0 B             |
+
+> These benchmarks reflect fast, allocation-free lookups for most retrieval functions, ensuring optimal performance in production environments.
+
+<br/>
+
+## 🛠️ Code Standards
+Read more about this Go project's [code standards](.github/CODE_STANDARDS.md).
+
+<br/>
+
+## 🤖 AI Usage & Assistant Guidelines
+Read the [AI Usage & Assistant Guidelines](.github/tech-conventions/ai-compliance.md) for details on how AI is used in this project and how to interact with AI assistants.
+
+<br/>
+
+## 🙏 Credits
+Used: [ISO-3166-Countries-with-Regional-Codes](https://github.com/lukes/ISO-3166-Countries-with-Regional-Codes)
+Used: [List of Countries & Currencies](https://gist.github.com/tiagodealmeida/0b97ccf117252d742dddf098bc6cc58a)
+
+<br/>
+
+## 👥 Maintainers
+| [<img src="https://github.com/mrz1836.png" height="50" alt="MrZ" />](https://github.com/mrz1836) |
+|:------------------------------------------------------------------------------------------------:|
+|                                [MrZ](https://github.com/mrz1836)                                 |
+
+<br/>
+
+## 🤝 Contributing
+View the [contributing guidelines](.github/CONTRIBUTING.md) and please follow the [code of conduct](.github/CODE_OF_CONDUCT.md).
+
+### How can I help?
+All kinds of contributions are welcome :raised_hands:!
+The most basic way to show your support is to star :star2: the project, or to raise issues :speech_balloon:.
+You can also support this project by [becoming a sponsor on GitHub](https://github.com/sponsors/mrz1836) :clap:
+or by making a [**bitcoin donation**](https://mrz1818.com/?tab=tips&utm_source=github&utm_medium=sponsor-link&utm_campaign=go-countries&utm_term=go-countries&utm_content=go-countries) to ensure this journey continues indefinitely! :rocket:
+
+
+[![Stars](https://img.shields.io/github/stars/mrz1836/go-countries?label=Please%20like%20us&style=social)](https://github.com/mrz1836/go-countries/stargazers)
+
+<br/>
+
+## 📝 License
+
+[![License](https://img.shields.io/github/license/mrz1836/go-countries.svg?style=flat)](LICENSE)

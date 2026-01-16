@@ -14,7 +14,7 @@ type banner struct {
 	store *lru.Cache[string, struct{}]
 }
 
-var donotban = []string{"/favicon.ico", "/robots.txt", "/metrics", "/_domain", "/_health"}
+var donotban = []string{"/favicon.ico", "/robots.txt", "/metrics", "/_domain", "/_countries", "/_health"}
 
 // NewBanner creates banner
 func NewBanner(size int, banlist []string) *banner {

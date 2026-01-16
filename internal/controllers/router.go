@@ -18,6 +18,7 @@ import (
 	"github.com/etkecc/buscarron/internal/metrics"
 	"github.com/etkecc/buscarron/internal/sub"
 	"github.com/etkecc/buscarron/internal/sub/ext/common"
+	"github.com/etkecc/buscarron/internal/utils"
 )
 
 // FormHandler for web server
@@ -79,6 +80,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	})
 	e.GET("/_validate", validator.Handler())
 	e.GET("/_domain", validator.Handler()) // backward compatibility
+	e.GET("/_countries", func(c echo.Context) error { return c.JSON(http.StatusOK, utils.GetCountries()) })
 	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
 		body, err := formHandler.GET(c.Request().Context(), c.Param("name"), c.Request())

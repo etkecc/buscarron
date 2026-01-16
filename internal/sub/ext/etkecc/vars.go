@@ -102,6 +102,10 @@ func (o *order) vars(ctx context.Context) {
 func (o *order) varsEtke() string {
 	enabledServices := map[string]any{}
 	enabledServices["etke_order_email"] = o.get("email")
+	if utils.CountryExists(o.get("country")) {
+		enabledServices["etke_order_country"] = o.get("country")
+	}
+
 	if o.has("issue_id") && o.get("issue_id") != "0" {
 		enabledServices["etke_order_issue_id"] = o.get("issue_id")
 	}
