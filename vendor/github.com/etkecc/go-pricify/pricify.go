@@ -13,21 +13,35 @@ func New(uriOverride ...string) (*Data, error) {
 	if len(uriOverride) > 0 {
 		uri = uriOverride[0]
 	}
-
-	resp, err := http.Get(uri)
+	source, err := load(uri)
 	if err != nil {
 		return getCache(), err
+	}
+	if source.ArchiveURL != "" {
+		archiveSource, err := load(source.ArchiveURL)
+		if err == nil {
+			source.append(archiveSource)
+		}
+	}
+
+	return convertToData(source), nil
+}
+
+func load(uri string) (*sourceModel, error) {
+	resp, err := http.Get(uri) //nolint:gosec // intended
+	if err != nil {
+		return nil, err
 	}
 
 	sourceb, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return getCache(), err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	source, err := parseSource(sourceb)
 	if err != nil {
-		return getCache(), err
+		return nil, err
 	}
-	return convertToData(source), nil
+	return source, nil
 }

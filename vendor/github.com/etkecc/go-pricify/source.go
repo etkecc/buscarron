@@ -14,6 +14,34 @@ type sourceModel struct {
 	MatrixAdditional   []*sourceItem `json:"additionalMatrixServices"`
 
 	AdditionalServices []*sourceItem `json:"additionalServices"`
+	ArchiveURL         string        `json:"archived"`
+}
+
+func (s *sourceModel) init() {
+	if s.Instances == nil {
+		s.Instances = &sourceSectionItem{}
+	}
+	if s.Support == nil {
+		s.Support = &sourceSectionItem{}
+	}
+}
+
+func (s *sourceModel) append(other *sourceModel) {
+	if s == nil || other == nil {
+		return
+	}
+
+	s.init()
+	other.init()
+
+	s.Bases = append(s.Bases, other.Bases...)
+	s.Instances.Options = append(s.Instances.Options, other.Instances.Options...)
+	s.Support.Options = append(s.Support.Options, other.Support.Options...)
+	s.MatrixApps = append(s.MatrixApps, other.MatrixApps...)
+	s.MatrixBots = append(s.MatrixBots, other.MatrixBots...)
+	s.MatrixBridges = append(s.MatrixBridges, other.MatrixBridges...)
+	s.MatrixAdditional = append(s.MatrixAdditional, other.MatrixAdditional...)
+	s.AdditionalServices = append(s.AdditionalServices, other.AdditionalServices...)
 }
 
 type sourceSectionItem struct {

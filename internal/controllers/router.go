@@ -47,6 +47,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	banner := NewBanner(cfg.BanlistSize, cfg.BanlistStatic)
 	validator := NewValidator(cfg.Validator, cfg.PSD)
 	rl := NewRateLimiter(cfg.FormRLsShared, cfg.FormRLs)
+	//nolint:staticcheck // new logger is less convenient
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
 		Skipper: func(c echo.Context) bool {
 			return slices.Contains(donotban, c.Request().URL.Path)

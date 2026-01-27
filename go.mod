@@ -9,16 +9,16 @@ require (
 	github.com/etkecc/go-echo-basic-auth v1.3.1
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
-	github.com/etkecc/go-kit v1.7.6
-	github.com/etkecc/go-kit/format v0.0.0-20251105163318-01b0981158f1
+	github.com/etkecc/go-kit v1.7.7
+	github.com/etkecc/go-kit/format v0.0.0-20260118204309-811567bf450c
 	github.com/etkecc/go-linkpearl v0.0.0-20260116175718-42634dbab7ad
-	github.com/etkecc/go-pricify v0.0.0-20250911134812-0d22a7473e33
-	github.com/etkecc/go-psd v0.0.0-20250617113022-a25a3aab49cf
+	github.com/etkecc/go-pricify v0.0.0-20260127135606-5037c57cb9be
+	github.com/etkecc/go-psd v0.0.0-20260121225758-0fef03c04f8b
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
-	github.com/getsentry/sentry-go v0.41.0
-	github.com/getsentry/sentry-go/echo v0.41.0
+	github.com/getsentry/sentry-go v0.42.0
+	github.com/getsentry/sentry-go/echo v0.42.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.15.0
 	github.com/lib/pq v1.10.9
@@ -33,7 +33,7 @@ require (
 	golang.org/x/text v0.33.0
 	golang.org/x/time v0.14.0
 	maunium.net/go/mautrix v0.26.2
-	modernc.org/sqlite v1.44.1
+	modernc.org/sqlite v1.44.3
 )
 
 require (
@@ -85,7 +85,7 @@ require (
 	golang.org/x/tools v0.41.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.67.6 // indirect
+	modernc.org/libc v1.67.7 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )
