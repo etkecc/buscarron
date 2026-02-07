@@ -194,7 +194,7 @@ matrix_sygnal_configuration_extension_yaml:
           level: WARNING
 
 # cinny
-matrix_client_cinny_enabled: yes
+cinny_enabled: yes
 
 # element
 matrix_client_element_enabled: yes

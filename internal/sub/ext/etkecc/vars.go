@@ -570,7 +570,7 @@ func (o *order) varsCinny() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# cinny\n")
-	txt.WriteString("matrix_client_cinny_enabled: yes\n")
+	txt.WriteString("cinny_enabled: yes\n")
 
 	return txt.String()
 }

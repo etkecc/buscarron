@@ -21,10 +21,10 @@ require (
 	github.com/getsentry/sentry-go/echo v0.42.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
 	github.com/labstack/echo/v4 v4.15.0
-	github.com/lib/pq v1.10.9
+	github.com/lib/pq v1.11.1
 	github.com/mattevans/postmark-go v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.27
-	github.com/mrz1836/go-countries v1.0.7
+	github.com/mrz1836/go-countries v1.0.8
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
