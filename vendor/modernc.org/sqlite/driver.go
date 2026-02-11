@@ -52,8 +52,8 @@ func newDriver() *Driver { return d }
 // information on supported PRAGMAs see: https://www.sqlite.org/pragma.html
 //
 // _time_format: The name of a format to use when writing time values to the
-// database. Currently the only supported value is "sqlite", which corresponds
-// to format 7 from https://www.sqlite.org/lang_datefunc.html#time_values,
+// database. Currently the only supported value is "sqlite" for YYYY-MM-DD HH:MM:SS[+-]HH:MM,
+// which corresponds to format 4 from https://www.sqlite.org/lang_datefunc.html#time_values,
 // including the timezone specifier. If this parameter is not specified, then
 // the default String() format will be used.
 //
