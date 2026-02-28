@@ -63,7 +63,7 @@ func (o *order) execute(ctx context.Context) (htmlResponse, matrixMessage string
 	o.vars(ctx)
 	o.generateOnboarding(ctx)
 
-	o.txt.WriteString("\n\nprice: $" + strconv.Itoa(o.price) + "\n\n")
+	o.txt.WriteString("\n\nprice: €" + strconv.Itoa(o.price) + "\n\n")
 
 	h := sha256.New()
 	h.Write([]byte(o.domain))

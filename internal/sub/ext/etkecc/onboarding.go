@@ -47,8 +47,8 @@ func (o *order) generateOnboarding(ctx context.Context) {
 func (o *order) generateOnboardingIntro() string {
 	var txt strings.Builder
 	txt.WriteString("Hello!\n\n")
-	txt.WriteString("We're happy to announce that your Matrix server on " + o.domain + " is now fully operational and ready for you to use! 🎉\n")
-	txt.WriteString("Here's all the essential information you need for a smooth onboarding experience:\n\n")
+	txt.WriteString("Great news — your Matrix server on " + o.domain + " is up and running and ready to use! 🎉\n")
+	txt.WriteString("Below is everything you need to get started:\n\n")
 
 	return txt.String()
 }
@@ -200,7 +200,7 @@ func (o *order) generateOnboardingCredentials() string {
 		delete(passwords, service)
 	}
 
-	passwordsLeft := []string{}
+	passwordsLeft := make([]string, 0, len(passwords))
 	for item := range passwords {
 		passwordsLeft = append(passwordsLeft, item)
 	}
@@ -211,8 +211,8 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("* Password: " + passwords[name] + "\n\n")
 	}
 
-	txt.WriteString("Should you encounter any issues or require assistance, please don't hesitate to check out " + link("etke.cc/help") + ".")
-	txt.WriteString("We're committed to providing you with the support you need.\n\n")
+	txt.WriteString("If you run into any issues or have questions, please visit " + link("etke.cc/help") + ". ")
+	txt.WriteString("We're here to help.\n\n")
 	return txt.String()
 }
 
@@ -230,7 +230,7 @@ func (o *order) generateOnboardingAfter() string {
 		return ""
 	}
 
-	return "**Post-Setup Steps for Specific Components:**\n\n" + text
+	return "**Post-Setup Steps for Specific Components**\n\n" + text
 }
 
 func (o *order) generateOnboardingAfterBorgBackup() string {
@@ -240,7 +240,7 @@ func (o *order) generateOnboardingAfterBorgBackup() string {
 	var txt strings.Builder
 
 	txt.WriteString("**borg backup**\n\n")
-	txt.WriteString("Add the following public ssh key to the repository configuration on the borg provider side:\n\n")
+	txt.WriteString("Please add the following public SSH key to the repository configuration in your Borg provider:\n\n")
 	txt.WriteString("```\n")
 	txt.WriteString(o.password("borg") + "\n")
 	txt.WriteString("```\n\n")
@@ -255,8 +255,8 @@ func (o *order) generateOnboardingAfterBuscarron() string {
 	var txt strings.Builder
 
 	txt.WriteString("**buscarron**\n\n")
-	txt.WriteString("1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them\n")
-	txt.WriteString("2. Send the list of (form name, Matrix room id, redirect URL after submission) [to us](https://etke.cc/contacts/)\n\n")
+	txt.WriteString("1. Create encrypted Matrix rooms for the forms you want, and invite the buscarron user to each room\n")
+	txt.WriteString("2. Send us the list of form name, Matrix room ID, and redirect URL after submission [here](https://etke.cc/contacts/)\n\n")
 
 	return txt.String()
 }
@@ -268,9 +268,9 @@ func (o *order) generateOnboardingAfterDraupnir() string {
 	var txt strings.Builder
 
 	txt.WriteString("**Draupnir** (moderation bot)\n\n")
-	txt.WriteString("1. Create an **un**encrypted private matrix room to use as the management room\n")
-	txt.WriteString("2. Send the room id [to us](https://etke.cc/contacts/)\n")
-	txt.WriteString("3. Once you receive the confirmation that the bot is ready, follow [the step-by-step guide](https://etke.cc/help/bots/draupnir/#getting-started) to finish the bot setup\n\n")
+	txt.WriteString("1. Create an unencrypted private Matrix room to use as the management room\n")
+	txt.WriteString("2. Send the room ID [to us](https://etke.cc/contacts/)\n")
+	txt.WriteString("3. Once you receive confirmation that the bot is ready, follow [the step-by-step guide](https://etke.cc/help/bots/draupnir/#getting-started) to finish the setup\n\n")
 
 	return txt.String()
 }
@@ -282,8 +282,8 @@ func (o *order) generateOnboardingAfterHonoroit() string {
 	var txt strings.Builder
 
 	txt.WriteString("**honoroit**\n\n")
-	txt.WriteString("1. Create a matrix room (encryption supported) and invite the honoroit user into it\n")
-	txt.WriteString("2. Send the room id [to us](https://etke.cc/contacts/)\n\n")
+	txt.WriteString("1. Create a Matrix room (encryption supported) and invite the honoroit user\n")
+	txt.WriteString("2. Send the room ID [to us](https://etke.cc/contacts/)\n\n")
 
 	return txt.String()
 }
@@ -304,12 +304,12 @@ func (o *order) generateOnboardingAfterMigadu() string {
 	if orderEmailHost == o.domain {
 		txt.WriteString("\n\n> **WARNING!**: You have ordered [etke.cc email service](https://etke.cc/help/extras/email-hosting/) for your Matrix server's domain, **BUT you already have an email service** configured on that domain! Configuring the new email service **will break your existing email service!**. Please, ensure you are ready for that!\n\n")
 	}
-	txt.WriteString("1. Soon, you will receive an invitation to [Migadu](https://migadu.com/)'s admin panel. Check your mailbox\n")
+	txt.WriteString("1. You'll receive an invitation to [Migadu](https://migadu.com/)'s admin panel soon. Please check your inbox\n")
 	txt.WriteString("2. Accept the invitation and prepare your account (set a password, etc.)\n")
 	txt.WriteString("3. Go to the " + link("admin.migadu.com/domains") + " page and select your email domain\n")
-	txt.WriteString("4. Click on **DNS Configuration** and then on **Setup Instructions**\n")
-	txt.WriteString("5. Follow the instructions and configure the DNS records for your domain\n")
-	txt.WriteString("6. Once that's done, click on **Diagnostics** and check if everything is configured correctly\n\n")
+	txt.WriteString("4. Click **DNS Configuration**, then **Setup Instructions**\n")
+	txt.WriteString("5. Follow the instructions to configure the DNS records for your domain\n")
+	txt.WriteString("6. When you're done, click **Diagnostics** and confirm everything is configured correctly\n\n")
 
 	return txt.String()
 }
@@ -317,13 +317,13 @@ func (o *order) generateOnboardingAfterMigadu() string {
 func (o *order) generateOnboardingOutro() string {
 	var txt strings.Builder
 
-	txt.WriteString("You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we regularly post updates and modifications **pertaining to your server** every week. Please, remain in this room and stay vigilant - each weekly message will include crucial information that we highly recommend you stay informed about. Alternatively, you can also access updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).\n\n")
+	txt.WriteString("You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we post weekly updates and changes **about your server**. Please stay in the room so you don't miss important announcements. You can also read updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).\n\n")
 
 	txt.WriteString("Happy Matrixing!\n\n")
 
-	txt.WriteString("PS: To enrich your Matrix experience and discover vibrant communities, we recommend using ")
+	txt.WriteString("PS: Looking for active Matrix communities? Try ")
 	txt.WriteString("[MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), ")
-	txt.WriteString("our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.\n\n")
+	txt.WriteString("our Matrix room search engine. It's an easy way to discover and join new rooms.\n\n")
 
 	txt.WriteString("Warm regards,\n\n")
 	txt.WriteString("the [etke.cc](https://etke.cc) team\n")

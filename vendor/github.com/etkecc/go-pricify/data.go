@@ -21,6 +21,7 @@ type Data struct {
 // Item is specific item parsed from the source
 type Item struct {
 	ID                 string
+	VID                int64
 	InventoryID        string
 	Name               string
 	Description        string
@@ -28,6 +29,7 @@ type Item struct {
 	Value              string
 	Price              int
 	SectionID          string
+	SectionVID         int64
 	SectionName        string
 	SectionDescription string
 	SectionHelp        string
@@ -38,14 +40,21 @@ type Item struct {
 // Clone creates a copy of the item
 func (i *Item) Clone() *Item {
 	dup := *i
+	if i.RegionPrice != nil {
+		dup.RegionPrice = make(map[string]int, len(i.RegionPrice))
+		for key, value := range i.RegionPrice {
+			dup.RegionPrice[key] = value
+		}
+	}
 	return &dup
 }
 
 // fromSourceItem converts source items into the []*Item and adds them to the Data
-func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sectionDescription, sectionHelp string, sectionPrice int) {
+func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sectionDescription, sectionHelp string, sectionVID int64, sectionPrice int) {
 	for _, sItem := range sItems {
 		item := &Item{
 			ID:                 sItem.ID,
+			VID:                sItem.VID,
 			InventoryID:        sItem.InventoryID,
 			Name:               sItem.Name,
 			Description:        sItem.Description,
@@ -53,6 +62,7 @@ func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sect
 			Value:              "yes",
 			Price:              sItem.Price,
 			SectionID:          sectionID,
+			SectionVID:         sectionVID,
 			SectionName:        sectionName,
 			SectionDescription: sectionDescription,
 			SectionHelp:        sectionHelp,
@@ -66,9 +76,13 @@ func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sect
 
 // fromSourceSection coverts source sections into the []*Item and adds them to the Data
 func (d *Data) fromSourceSection(ssItem *sourceSectionItem, sectionID string, sectionPrice int) {
+	if ssItem == nil {
+		return
+	}
 	for _, sItem := range ssItem.Options {
 		item := &Item{
 			ID:           ssItem.ID,
+			VID:          sItem.VID,
 			InventoryID:  ssItem.InventoryID,
 			Value:        sItem.ID,
 			Price:        sItem.Price,
@@ -114,19 +128,28 @@ func (d *Data) Calculate(input map[string]string) int {
 //nolint:gocognit // needs refactoring
 func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map[string]*Item) {
 	verbose = map[string]*Item{}
-	region := input["etke_service_server_location"]
+	normalized := map[string]string{}
+	for entry, value := range input {
+		key := strings.TrimSpace(strings.ToLower(entry))
+		val := strings.TrimSpace(strings.ToLower(value))
+		if key == "" {
+			continue
+		}
+		normalized[key] = val
+	}
+
+	region := normalized["etke_service_server_location"]
 
 	// default value for etke_base_matrix
-	_, iidMatrix := input["etke_base_matrix"]
-	_, idMatrix := input["matrix"]
+	_, iidMatrix := normalized["etke_base_matrix"]
+	_, idMatrix := normalized["matrix"]
 	if !iidMatrix && !idMatrix {
 		input["etke_base_matrix"] = "yes"
+		normalized["etke_base_matrix"] = "yes"
 	}
 
 	var withEmail bool
-	for entry, value := range input {
-		entry = strings.TrimSpace(strings.ToLower(entry))
-		value = strings.TrimSpace(strings.ToLower(value))
+	for entry, value := range normalized {
 		if _, ok := forbiddenValues[value]; ok {
 			continue
 		}
@@ -140,9 +163,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 	}
 
 	sectionPriceAdded := map[string]bool{}
-	for entry, value := range input {
-		entry = strings.TrimSpace(strings.ToLower(entry))
-		value = strings.TrimSpace(strings.ToLower(value))
+	for entry, value := range normalized {
 		if _, ok := forbiddenValues[value]; ok {
 			continue
 		}
@@ -168,6 +189,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 			sectionPriceAdded[item.SectionID] = true
 			verbose[item.SectionID] = &Item{
 				ID:          "section-" + item.SectionID,
+				VID:         item.SectionVID,
 				InventoryID: "section_" + item.SectionID,
 				Name:        item.SectionName,
 				Description: item.SectionDescription,

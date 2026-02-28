@@ -10,6 +10,7 @@ type sourceModel struct {
 	MatrixApps         []*sourceItem `json:"matrixApps"`
 	MatrixBots         []*sourceItem `json:"matrixBots"`
 	MatrixBridges      []*sourceItem `json:"matrixBridges"`
+	MatrixBridgesVID   int64         `json:"matrixBridgesVID"`
 	MatrixBridgesPrice int           `json:"matrixBridgesPrice"`
 	MatrixAdditional   []*sourceItem `json:"additionalMatrixServices"`
 
@@ -40,12 +41,19 @@ func (s *sourceModel) append(other *sourceModel) {
 	s.MatrixApps = append(s.MatrixApps, other.MatrixApps...)
 	s.MatrixBots = append(s.MatrixBots, other.MatrixBots...)
 	s.MatrixBridges = append(s.MatrixBridges, other.MatrixBridges...)
+	if s.MatrixBridgesVID == 0 {
+		s.MatrixBridgesVID = other.MatrixBridgesVID
+	}
+	if s.MatrixBridgesPrice == 0 {
+		s.MatrixBridgesPrice = other.MatrixBridgesPrice
+	}
 	s.MatrixAdditional = append(s.MatrixAdditional, other.MatrixAdditional...)
 	s.AdditionalServices = append(s.AdditionalServices, other.AdditionalServices...)
 }
 
 type sourceSectionItem struct {
 	ID          string       `json:"id"`
+	VID         int64        `json:"vid"`
 	InventoryID string       `json:"iid"`
 	Name        string       `json:"name"`
 	Description string       `json:"description"`
@@ -55,6 +63,7 @@ type sourceSectionItem struct {
 
 type sourceItem struct {
 	ID          string         `json:"id"`                     // Order form item ID
+	VID         int64          `json:"vid"`                    // V. ID
 	InventoryID string         `json:"iid"`                    // Inventory ID
 	Name        string         `json:"name"`                   // Human-readable name
 	Description string         `json:"description"`            // Human-readable description
@@ -76,16 +85,16 @@ func convertToData(source *sourceModel) *Data {
 		iidmap: map[string]*Item{},
 	}
 
-	data.fromSourceItem(source.Bases, "bases", "", "", "", 0)
+	data.fromSourceItem(source.Bases, "bases", "", "", "", 0, 0)
 	data.fromSourceSection(source.Instances, "instances", 0)
 	data.fromSourceSection(source.Support, "support", 0)
 
-	data.fromSourceItem(source.MatrixApps, "matrix_apps", "", "", "", 0)
-	data.fromSourceItem(source.MatrixBots, "matrix_bots", "", "", "", 0)
-	data.fromSourceItem(source.MatrixBridges, "matrix_bridges", "Bridges", "With the help of bridges, you can access different networks right from your own Matrix server", "/help/bridges/", source.MatrixBridgesPrice)
-	data.fromSourceItem(source.MatrixAdditional, "matrix_additional", "", "", "", 0)
+	data.fromSourceItem(source.MatrixApps, "matrix_apps", "", "", "", 0, 0)
+	data.fromSourceItem(source.MatrixBots, "matrix_bots", "", "", "", 0, 0)
+	data.fromSourceItem(source.MatrixBridges, "matrix_bridges", "Bridges", "With the help of bridges, you can access different networks right from your own Matrix server", "/help/bridges/", source.MatrixBridgesVID, source.MatrixBridgesPrice)
+	data.fromSourceItem(source.MatrixAdditional, "matrix_additional", "", "", "", 0, 0)
 
-	data.fromSourceItem(source.AdditionalServices, "additional", "", "", "", 0)
+	data.fromSourceItem(source.AdditionalServices, "additional", "", "", "", 0, 0)
 
 	setCache(data)
 	return data

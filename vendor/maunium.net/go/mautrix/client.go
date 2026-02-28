@@ -1324,6 +1324,9 @@ func (cli *Client) SendMessageEvent(ctx context.Context, roomID id.RoomID, event
 	if req.UnstableDelay > 0 {
 		queryParams["org.matrix.msc4140.delay"] = strconv.FormatInt(req.UnstableDelay.Milliseconds(), 10)
 	}
+	if req.UnstableStickyDuration > 0 {
+		queryParams["org.matrix.msc4354.sticky_duration_ms"] = strconv.FormatInt(req.UnstableStickyDuration.Milliseconds(), 10)
+	}
 
 	if !req.DontEncrypt && cli != nil && cli.Crypto != nil && eventType != event.EventReaction && eventType != event.EventEncrypted {
 		var isEncrypted bool
@@ -1364,6 +1367,9 @@ func (cli *Client) SendStateEvent(ctx context.Context, roomID id.RoomID, eventTy
 	}
 	if req.UnstableDelay > 0 {
 		queryParams["org.matrix.msc4140.delay"] = strconv.FormatInt(req.UnstableDelay.Milliseconds(), 10)
+	}
+	if req.UnstableStickyDuration > 0 {
+		queryParams["org.matrix.msc4354.sticky_duration_ms"] = strconv.FormatInt(req.UnstableStickyDuration.Milliseconds(), 10)
 	}
 	if req.Timestamp > 0 {
 		queryParams["ts"] = strconv.FormatInt(req.Timestamp, 10)
@@ -1927,10 +1933,15 @@ func (cli *Client) UploadAsync(ctx context.Context, req ReqUploadMedia) (*RespCr
 	}
 	req.MXC = resp.ContentURI
 	req.UnstableUploadURL = resp.UnstableUploadURL
+	if req.AsyncContext == nil {
+		req.AsyncContext = cli.cliOrContextLog(ctx).WithContext(context.Background())
+	}
 	go func() {
-		_, err = cli.UploadMedia(ctx, req)
+		_, err = cli.UploadMedia(req.AsyncContext, req)
 		if err != nil {
-			cli.Log.Error().Stringer("mxc", req.MXC).Err(err).Msg("Async upload of media failed")
+			zerolog.Ctx(req.AsyncContext).Err(err).
+				Stringer("mxc", req.MXC).
+				Msg("Async upload of media failed")
 		}
 	}()
 	return resp, nil
@@ -1966,6 +1977,7 @@ type ReqUploadMedia struct {
 	ContentType   string
 	FileName      string
 
+	AsyncContext context.Context
 	DoneCallback func()
 
 	// MXC specifies an existing MXC URI which doesn't have content yet to upload into.

@@ -1,9 +1,9 @@
 module github.com/etkecc/buscarron
 
-go 1.24.0
+go 1.25.0
 
 require (
-	github.com/VictoriaMetrics/metrics v1.40.2
+	github.com/VictoriaMetrics/metrics v1.41.2
 	github.com/archdx/zerolog-sentry v1.8.5
 	github.com/charmbracelet/keygen v0.5.4
 	github.com/etkecc/go-echo-basic-auth v1.3.1
@@ -11,16 +11,16 @@ require (
 	github.com/etkecc/go-healthchecks/v2 v2.2.2
 	github.com/etkecc/go-kit v1.7.7
 	github.com/etkecc/go-kit/format v0.0.0-20260118204309-811567bf450c
-	github.com/etkecc/go-linkpearl v0.0.0-20260116175718-42634dbab7ad
-	github.com/etkecc/go-pricify v0.0.0-20260127135606-5037c57cb9be
-	github.com/etkecc/go-psd v0.0.0-20260121225758-0fef03c04f8b
+	github.com/etkecc/go-linkpearl v0.0.0-20260225074715-a449ce58a664
+	github.com/etkecc/go-pricify v0.0.0-20260223165335-2807186989e1
+	github.com/etkecc/go-psd v0.0.0-20260224151059-37e74edefb9f
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
-	github.com/getsentry/sentry-go v0.42.0
-	github.com/getsentry/sentry-go/echo v0.42.0
+	github.com/getsentry/sentry-go v0.43.0
+	github.com/getsentry/sentry-go/echo v0.43.0
 	github.com/hashicorp/golang-lru/v2 v2.0.7
-	github.com/labstack/echo/v4 v4.15.0
+	github.com/labstack/echo/v4 v4.15.1
 	github.com/lib/pq v1.11.2
 	github.com/mattevans/postmark-go v1.0.0
 	github.com/microcosm-cc/bluemonday v1.0.27
@@ -28,17 +28,17 @@ require (
 	github.com/rs/zerolog v1.34.0
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
-	github.com/ziflex/lecho/v3 v3.9.0
+	github.com/ziflex/lecho/v3 v3.10.0
 	golang.org/x/net v0.50.0
 	golang.org/x/text v0.34.0
 	golang.org/x/time v0.14.0
-	maunium.net/go/mautrix v0.26.2
-	modernc.org/sqlite v1.45.0
+	maunium.net/go/mautrix v0.26.3
+	modernc.org/sqlite v1.46.1
 )
 
 require (
 	blitiri.com.ar/go/spf v1.5.1 // indirect
-	filippo.io/edwards25519 v1.1.0 // indirect
+	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
@@ -51,6 +51,7 @@ require (
 	github.com/go-openapi/jsonreference v0.19.6 // indirect
 	github.com/go-openapi/spec v0.20.4 // indirect
 	github.com/go-openapi/swag v0.19.15 // indirect
+	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gorilla/css v1.0.1 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
@@ -78,14 +79,14 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.7.16 // indirect
-	go.mau.fi/util v0.9.5 // indirect
+	go.mau.fi/util v0.9.6 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
-	golang.org/x/exp v0.0.0-20260209203927-2842357ff358 // indirect
+	golang.org/x/exp v0.0.0-20260218203240-3dfff04db8fa // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/tools v0.42.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	modernc.org/libc v1.67.7 // indirect
+	modernc.org/libc v1.68.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )

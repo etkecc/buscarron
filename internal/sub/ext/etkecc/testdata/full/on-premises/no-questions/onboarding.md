@@ -1,7 +1,7 @@
 Hello!
 
-We're happy to announce that your Matrix server on example.com is now fully operational and ready for you to use! 🎉
-Here's all the essential information you need for a smooth onboarding experience:
+Great news — your Matrix server on example.com is up and running and ready to use! 🎉
+Below is everything you need to get started:
 
 **Server Links**
 
@@ -135,13 +135,13 @@ Here's all the essential information you need for a smooth onboarding experience
 * Username: test.admin
 * Password: TODO64
 
-Should you encounter any issues or require assistance, please don't hesitate to check out [etke.cc/help](https://etke.cc/help).We're committed to providing you with the support you need.
+If you run into any issues or have questions, please visit [etke.cc/help](https://etke.cc/help). We're here to help.
 
-**Post-Setup Steps for Specific Components:**
+**Post-Setup Steps for Specific Components**
 
 **borg backup**
 
-Add the following public ssh key to the repository configuration on the borg provider side:
+Please add the following public SSH key to the repository configuration in your Borg provider:
 
 ```
 ssh-todo TODO
@@ -149,25 +149,25 @@ ssh-todo TODO
 
 **buscarron**
 
-1. Create (encrypted) Matrix room(-s) for the forms you want to have and invite the buscarron user to all of them
-2. Send the list of (form name, Matrix room id, redirect URL after submission) [to us](https://etke.cc/contacts/)
+1. Create encrypted Matrix rooms for the forms you want, and invite the buscarron user to each room
+2. Send us the list of form name, Matrix room ID, and redirect URL after submission [here](https://etke.cc/contacts/)
 
 **Draupnir** (moderation bot)
 
-1. Create an **un**encrypted private matrix room to use as the management room
-2. Send the room id [to us](https://etke.cc/contacts/)
-3. Once you receive the confirmation that the bot is ready, follow [the step-by-step guide](https://etke.cc/help/bots/draupnir/#getting-started) to finish the bot setup
+1. Create an unencrypted private Matrix room to use as the management room
+2. Send the room ID [to us](https://etke.cc/contacts/)
+3. Once you receive confirmation that the bot is ready, follow [the step-by-step guide](https://etke.cc/help/bots/draupnir/#getting-started) to finish the setup
 
 **honoroit**
 
-1. Create a matrix room (encryption supported) and invite the honoroit user into it
-2. Send the room id [to us](https://etke.cc/contacts/)
+1. Create a Matrix room (encryption supported) and invite the honoroit user
+2. Send the room ID [to us](https://etke.cc/contacts/)
 
-You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we regularly post updates and modifications **pertaining to your server** every week. Please, remain in this room and stay vigilant - each weekly message will include crucial information that we highly recommend you stay informed about. Alternatively, you can also access updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).
+You're invited to join the [#news:etke.cc](https://matrix.to/#/#news:etke.cc) room, where we post weekly updates and changes **about your server**. Please stay in the room so you don't miss important announcements. You can also read updates via [Web](https://etke.cc/news/), [RSS](https://etke.cc/news/index.xml), or [Fediverse](https://mastodon.matrix.org/@etkecc).
 
 Happy Matrixing!
 
-PS: To enrich your Matrix experience and discover vibrant communities, we recommend using [MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), our own Matrix rooms search engine. It's a fantastic resource for finding and joining interesting Matrix communities.
+PS: Looking for active Matrix communities? Try [MatrixRooms.info](https://matrixrooms.info?utm_source=etke.cc&utm_medium=email&utm_campaign=onboarding), our Matrix room search engine. It's an easy way to discover and join new rooms.
 
 Warm regards,
 

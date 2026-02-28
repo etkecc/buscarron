@@ -1,4 +1,4 @@
-package metrics
+package metrics //nolint:revive // Package metrics provides metrics for Buscarron
 
 import (
 	"fmt"

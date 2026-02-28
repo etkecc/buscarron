@@ -244,7 +244,7 @@ func (o *order) varsSSHFirewall() string {
 			ip += "/32"
 		}
 
-		txt.WriteString(fmt.Sprintf("  - name: customer-ssh-%d\n", idx+1))
+		fmt.Fprintf(&txt, "  - name: customer-ssh-%d\n", idx+1)
 		txt.WriteString("    rule: allow\n")
 		txt.WriteString("    from: \"" + ip + "\"\n")
 		txt.WriteString("    port: \"{{ system_security_ssh_port }}\"\n")

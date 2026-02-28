@@ -1,6 +1,7 @@
 package pricify
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -32,12 +33,16 @@ func load(uri string) (*sourceModel, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
 
 	sourceb, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
-	defer resp.Body.Close()
 
 	source, err := parseSource(sourceb)
 	if err != nil {

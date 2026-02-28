@@ -1,4 +1,4 @@
-package mail
+package mail //nolint:var-naming // Package mail provides a client to send mail using Postmark
 
 import (
 	"context"

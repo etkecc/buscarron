@@ -73,7 +73,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 	}
 	r.SetBasicAuth(gpUser, gpPass)
 	r.Header.Set("Content-Type", "application/json")
-	resp, err := http.DefaultClient.Do(r)
+	resp, err := http.DefaultClient.Do(r) //nolint:gosec // intended
 	if err != nil {
 		log.Error().Err(err).Msg("failed to send request")
 		return err

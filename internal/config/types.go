@@ -12,7 +12,7 @@ type Config struct {
 	// Login is a MXID localpart (buscarron - OK, @buscarron:example.com - wrong)
 	Login string
 	// Password for login/password auth only
-	Password string
+	Password string //nolint:gosec // Password for login/password auth only
 	// LogLevel for logger
 	LogLevel string
 	// NoEncryption disables encryption
@@ -77,7 +77,7 @@ type Postmark struct {
 
 type Redmine struct {
 	Host      string
-	APIKey    string
+	APIKey    string //nolint:gosec // intended
 	ProjectID string
 	TrackerID int
 	StatusID  int
@@ -93,7 +93,7 @@ type SMTP struct {
 type PSD struct {
 	URL      string
 	Login    string
-	Password string
+	Password string //nolint:gosec // intended
 }
 
 // Form config
