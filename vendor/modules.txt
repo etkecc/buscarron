@@ -57,7 +57,7 @@ github.com/etkecc/go-kit/format
 # github.com/etkecc/go-linkpearl v0.0.0-20260225074715-a449ce58a664
 ## explicit; go 1.25.0
 github.com/etkecc/go-linkpearl
-# github.com/etkecc/go-pricify v0.0.0-20260223165335-2807186989e1
+# github.com/etkecc/go-pricify v0.0.0-20260304161243-2640f785bd88
 ## explicit; go 1.22
 github.com/etkecc/go-pricify
 # github.com/etkecc/go-psd v0.0.0-20260224151059-37e74edefb9f

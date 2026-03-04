@@ -12,7 +12,7 @@ require (
 	github.com/etkecc/go-kit v1.7.7
 	github.com/etkecc/go-kit/format v0.0.0-20260118204309-811567bf450c
 	github.com/etkecc/go-linkpearl v0.0.0-20260225074715-a449ce58a664
-	github.com/etkecc/go-pricify v0.0.0-20260223165335-2807186989e1
+	github.com/etkecc/go-pricify v0.0.0-20260304161243-2640f785bd88
 	github.com/etkecc/go-psd v0.0.0-20260224151059-37e74edefb9f
 	github.com/etkecc/go-redmine v0.0.0-20241212083151-0940e5cd0812
 	github.com/etkecc/go-secgen v1.4.0

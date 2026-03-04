@@ -2,6 +2,7 @@ package pricify
 
 import (
 	"fmt"
+	"slices"
 	"strings"
 )
 
@@ -34,18 +35,13 @@ type Item struct {
 	SectionDescription string
 	SectionHelp        string
 	SectionPrice       int
-	RegionPrice        map[string]int
+	Regions            []string
 }
 
 // Clone creates a copy of the item
 func (i *Item) Clone() *Item {
 	dup := *i
-	if i.RegionPrice != nil {
-		dup.RegionPrice = make(map[string]int, len(i.RegionPrice))
-		for key, value := range i.RegionPrice {
-			dup.RegionPrice[key] = value
-		}
-	}
+	dup.Regions = append([]string(nil), i.Regions...)
 	return &dup
 }
 
@@ -61,6 +57,7 @@ func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sect
 			Help:               sItem.Help,
 			Value:              "yes",
 			Price:              sItem.Price,
+			Regions:            sItem.Regions,
 			SectionID:          sectionID,
 			SectionVID:         sectionVID,
 			SectionName:        sectionName,
@@ -87,11 +84,11 @@ func (d *Data) fromSourceSection(ssItem *sourceSectionItem, sectionID string, se
 			Value:        sItem.ID,
 			Price:        sItem.Price,
 			Name:         fmt.Sprintf("%s (%s)", ssItem.Name, sItem.Name),
+			Regions:      sItem.Regions,
 			Description:  ssItem.Description,
 			Help:         ssItem.Help,
 			SectionID:    sectionID,
 			SectionPrice: sectionPrice,
-			RegionPrice:  sItem.RegionPrice,
 		}
 		d.items = append(d.items, item)
 		d.idmap[item.ID+item.Value] = item
@@ -117,6 +114,36 @@ func (d *Data) find(key, value string) *Item {
 	return nil
 }
 
+func (d *Data) findRegionItem(item *Item, value, region string) *Item {
+	if item == nil {
+		return nil
+	}
+	var fallback *Item
+	for _, dItem := range d.items {
+		if dItem == nil {
+			continue
+		}
+		if dItem.InventoryID != item.InventoryID {
+			continue
+		}
+		if dItem.Value != value {
+			continue
+		}
+		if fallback == nil {
+			fallback = dItem
+		}
+		if region != "" && slices.Contains(dItem.Regions, region) {
+			dup := *dItem
+			return &dup
+		}
+	}
+	if fallback != nil {
+		dup := *fallback
+		return &dup
+	}
+	return item
+}
+
 // Calculate total price based on the input
 func (d *Data) Calculate(input map[string]string) int {
 	total, _ := d.CalculateVerbose(input)
@@ -137,8 +164,6 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 		}
 		normalized[key] = val
 	}
-
-	region := normalized["etke_service_server_location"]
 
 	// default value for etke_base_matrix
 	_, iidMatrix := normalized["etke_base_matrix"]
@@ -163,6 +188,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 	}
 
 	sectionPriceAdded := map[string]bool{}
+	region := normalized["etke_service_server_location"]
 	for entry, value := range normalized {
 		if _, ok := forbiddenValues[value]; ok {
 			continue
@@ -184,6 +210,10 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 			value = "with email service"
 		}
 
+		if item.InventoryID == "etke_service_server" {
+			item = d.findRegionItem(item, value, region)
+		}
+
 		if item.SectionPrice > 0 && !sectionPriceAdded[item.SectionID] {
 			total += item.SectionPrice
 			sectionPriceAdded[item.SectionID] = true
@@ -195,16 +225,8 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 				Description: item.SectionDescription,
 				Help:        item.SectionHelp,
 				Price:       item.SectionPrice,
+				Regions:     item.Regions,
 			}
-			continue
-		}
-
-		if regionPrice := item.RegionPrice[region]; regionPrice > 0 {
-			total += regionPrice
-
-			dup := item.Clone()
-			dup.Price = regionPrice
-			verbose[item.InventoryID] = dup
 			continue
 		}
 

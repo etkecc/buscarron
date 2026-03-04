@@ -62,14 +62,14 @@ type sourceSectionItem struct {
 }
 
 type sourceItem struct {
-	ID          string         `json:"id"`                     // Order form item ID
-	VID         int64          `json:"vid"`                    // V. ID
-	InventoryID string         `json:"iid"`                    // Inventory ID
-	Name        string         `json:"name"`                   // Human-readable name
-	Description string         `json:"description"`            // Human-readable description
-	Help        string         `json:"help"`                   // Help link (may not contain the full URL, just path)
-	Price       int            `json:"price"`                  // Price
-	RegionPrice map[string]int `json:"price_region,omitempty"` // Price per region (optional)
+	ID          string   `json:"id"`          // Order form item ID
+	VID         int64    `json:"vid"`         // V. ID
+	InventoryID string   `json:"iid"`         // Inventory ID
+	Name        string   `json:"name"`        // Human-readable name
+	Description string   `json:"description"` // Human-readable description
+	Help        string   `json:"help"`        // Help link (may not contain the full URL, just path)
+	Price       int      `json:"price"`       // Price
+	Regions     []string `json:"regions"`     // Regions list
 }
 
 func parseSource(data []byte) (*sourceModel, error) {
