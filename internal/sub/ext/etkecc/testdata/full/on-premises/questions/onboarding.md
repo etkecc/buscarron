@@ -33,6 +33,7 @@ Below is everything you need to get started:
 * Sygnal: [sygnal.example.com](https://sygnal.example.com) ([help](https://etke.cc/help/extras/sygnal/))
 * Uptime-Kuma: [kuma.example.com](https://kuma.example.com) ([help](https://etke.cc/help/extras/uptime-kuma/))
 * Vaultwarden: [vault.example.com](https://vault.example.com) ([help](https://etke.cc/help/extras/vaultwarden/))
+* Wg-Easy: [vpn.example.com](https://vpn.example.com) ([help](https://etke.cc/help/extras/wg-easy/))
 
 
 **Matrix Bots**
@@ -63,9 +64,7 @@ Below is everything you need to get started:
 * Telegram: [@telegrambot:example.com](https://matrix.to/#/@telegrambot:example.com) ([help](https://etke.cc/help/bridges/mautrix-telegram/))
 * Twitter: [@twitterbot:example.com](https://matrix.to/#/@twitterbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-twitter/))
 * Webhooks: [@hookshot:example.com](https://matrix.to/#/@hookshot:example.com) ([help](https://etke.cc/help/bridges/hookshot/))
-* Wechat: [@wechatbot:example.com](https://matrix.to/#/@wechatbot:example.com) ([help](https://etke.cc/help/bridges/wechat/))
 * Whatsapp: [@whatsappbot:example.com](https://matrix.to/#/@whatsappbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-whatsapp/))
-* Zulip: [@zulipbot:example.com](https://matrix.to/#/@zulipbot:example.com) ([help](https://etke.cc/help/bridges/matrix-zulip/))
 
 
 **Matrix Credentials**
@@ -129,6 +128,11 @@ Below is everything you need to get started:
 **Vaultwarden Admin Credentials**
 
 * Username: _create yourself_
+* Password: TODO64
+
+**Wg-Easy Credentials**
+
+* Username: test@example.com
 * Password: TODO64
 
 **@Maubot:example.com Credentials**

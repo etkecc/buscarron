@@ -29,6 +29,7 @@ var dnsmap = map[string]string{
 	"sygnal":       "sygnal",
 	"uptime-kuma":  "kuma",
 	"vaultwarden":  "vault",
+	"wg-easy":      "vpn",
 }
 
 var botmap = map[string]string{
@@ -107,9 +108,8 @@ var helpmap = map[string]string{
 	"uptime-kuma":  "etke.cc/help/extras/uptime-kuma/",
 	"vaultwarden":  "etke.cc/help/extras/vaultwarden/",
 	"webhooks":     "etke.cc/help/bridges/hookshot/",
-	"wechat":       "etke.cc/help/bridges/wechat/",
+	"wg-easy":      "etke.cc/help/extras/wg-easy/",
 	"whatsapp":     "etke.cc/help/bridges/mautrix-whatsapp/",
-	"zulip":        "etke.cc/help/bridges/matrix-zulip/",
 }
 
 // excluded by purpose: apple, dex, keycloak

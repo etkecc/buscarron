@@ -30,6 +30,7 @@ etke_service_dns_records:
   - "sygnal.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "kuma.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "vault.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
+  - "vpn.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "matrix.higenjitsuteki,TXT,v=spf1 ip4:SERVER_IP4 ip6:SERVER_IP6 -all"
   - "_dmarc.matrix.higenjitsuteki,TXT,v=DMARC1; p=quarantine;"
   - "default._domainkey.matrix.higenjitsuteki,TXT,v=DKIM1; k=rsa; p=TODO"
@@ -279,6 +280,12 @@ vaultwarden_enabled: yes
 vaultwarden_hostname: "vault.higenjitsuteki.onmatrix.chat"
 vaultwarden_config_admin_token: TODO64
 
+# wg-easy
+wg_easy_enabled: yes
+wg_easy_hostname: "vpn.higenjitsuteki.onmatrix.chat"
+wg_easy_environment_variables_additional_variable_init_username: "test@example.com"
+wg_easy_environment_variables_additional_variable_init_password: TODO64
+
 # bots::baibot
 matrix_bot_baibot_enabled: yes
 matrix_bot_baibot_config_user_password: TODO64
@@ -363,11 +370,5 @@ matrix_mautrix_twitter_enabled: yes
 # bridges::hookshot
 matrix_hookshot_enabled: yes
 
-# bridges::wechat
-matrix_wechat_enabled: yes
-
 # bridges::whatsapp
 matrix_mautrix_whatsapp_enabled: yes
-
-# bridges::zulip
-matrix_zulip_bridge_enabled: yes

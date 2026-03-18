@@ -7,7 +7,7 @@ We don't need any additional details right now — here are the next steps:
 
 1. Visit our [membership page](https://etke.cc/membership).
 2. Select the "By Complexity" tier.
-3. Set the custom price to **€111**.
+3. Set the custom price to **€110**.
 4. Subscribe on Ko-fi with the same email address you used for this order (test@test.com).
 
 Once your payment is confirmed, we'll start setting up your Matrix server right away. You'll receive a separate onboarding email with all the details you need.

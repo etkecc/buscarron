@@ -59,6 +59,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsSynapseAdmin())
 	txt.WriteString(o.varsUptimeKuma())
 	txt.WriteString(o.varsVaultwarden())
+	txt.WriteString(o.varsWGEasy())
 
 	// bots
 	txt.WriteString(o.varsBaibot())
@@ -84,9 +85,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsTelegram())
 	txt.WriteString(o.varsTwitter())
 	txt.WriteString(o.varsWebhooks())
-	txt.WriteString(o.varsWechat())
 	txt.WriteString(o.varsWhatsapp())
-	txt.WriteString(o.varsZulip())
 
 	text := txt.String()
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
@@ -1108,17 +1107,6 @@ func (o *order) varsWebhooks() string {
 	return txt.String()
 }
 
-func (o *order) varsWechat() string {
-	if !o.has("wechat") {
-		return ""
-	}
-	var txt strings.Builder
-	txt.WriteString("\n# bridges::wechat\n")
-	txt.WriteString("matrix_wechat_enabled: yes\n")
-
-	return txt.String()
-}
-
 func (o *order) varsWhatsapp() string {
 	if !o.has("whatsapp") {
 		return ""
@@ -1130,14 +1118,18 @@ func (o *order) varsWhatsapp() string {
 	return txt.String()
 }
 
-func (o *order) varsZulip() string {
-	if !o.has("zulip") {
+func (o *order) varsWGEasy() string {
+	if !o.has("wg-easy") {
 		return ""
 	}
-
 	var txt strings.Builder
-	txt.WriteString("\n# bridges::zulip\n")
-	txt.WriteString("matrix_zulip_bridge_enabled: yes\n")
+
+	o.login("wg-easy", o.get("email"))
+	txt.WriteString("\n# wg-easy\n")
+	txt.WriteString("wg_easy_enabled: yes\n")
+	txt.WriteString("wg_easy_hostname: \"vpn." + o.domain + "\"\n")
+	txt.WriteString("wg_easy_environment_variables_additional_variable_init_username: \"" + o.get("email") + "\"\n")
+	txt.WriteString("wg_easy_environment_variables_additional_variable_init_password: " + o.password("wg-easy") + "\n")
 
 	return txt.String()
 }

@@ -137,9 +137,8 @@ func (s *EtkeccSuite) setupSubs() {
 			"uptime-kuma":         "on",
 			"vaultwarden":         "on",
 			"webhooks":            "on",
-			"wechat":              "on",
+			"wg-easy":             "on",
 			"whatsapp":            "on",
-			"zulip":               "on",
 		},
 		"full/no-questions": {
 			"domain":              "https://matrix.ExAmPlE.com ",
@@ -202,9 +201,8 @@ func (s *EtkeccSuite) setupSubs() {
 			"uptime-kuma":         "on",
 			"vaultwarden":         "on",
 			"webhooks":            "on",
-			"wechat":              "on",
+			"wg-easy":             "on",
 			"whatsapp":            "on",
-			"zulip":               "on",
 			// components
 			"borg-repository":             "borg-repo",
 			"funkwhale-s3-access-key":     "some-key",

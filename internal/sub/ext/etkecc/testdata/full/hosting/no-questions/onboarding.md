@@ -33,6 +33,7 @@ Below is everything you need to get started:
 * Sygnal: [sygnal.higenjitsuteki.onmatrix.chat](https://sygnal.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/sygnal/))
 * Uptime-Kuma: [kuma.higenjitsuteki.onmatrix.chat](https://kuma.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/uptime-kuma/))
 * Vaultwarden: [vault.higenjitsuteki.onmatrix.chat](https://vault.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/vaultwarden/))
+* Wg-Easy: [vpn.higenjitsuteki.onmatrix.chat](https://vpn.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/wg-easy/))
 
 
 **Matrix Bots**
@@ -63,9 +64,7 @@ Below is everything you need to get started:
 * Telegram: [@telegrambot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@telegrambot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-telegram/))
 * Twitter: [@twitterbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@twitterbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-twitter/))
 * Webhooks: [@hookshot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@hookshot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/hookshot/))
-* Wechat: [@wechatbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@wechatbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/wechat/))
 * Whatsapp: [@whatsappbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@whatsappbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-whatsapp/))
-* Zulip: [@zulipbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@zulipbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/matrix-zulip/))
 
 
 **Matrix Credentials**
@@ -129,6 +128,11 @@ Below is everything you need to get started:
 **Vaultwarden Admin Credentials**
 
 * Username: _create yourself_
+* Password: TODO64
+
+**Wg-Easy Credentials**
+
+* Username: test@test.com
 * Password: TODO64
 
 **@Maubot:higenjitsuteki.onmatrix.chat Credentials**

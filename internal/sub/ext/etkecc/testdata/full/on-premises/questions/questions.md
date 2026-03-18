@@ -1,6 +1,6 @@
 
 
-price: €67
+price: €66
 
 [status page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947)
 
@@ -53,6 +53,7 @@ Please, add the following DNS entries:
 - sygnal	CNAME record	matrix.example.com.
 - kuma	CNAME record	matrix.example.com.
 - vault	CNAME record	matrix.example.com.
+- vpn	CNAME record	matrix.example.com.
 - matrix	TXT record	v=spf1 ip4:server IP -all
 - _dmarc.matrix	TXT record	v=DMARC1; p=quarantine;
 - default._domainkey.matrix	TXT record	v=DKIM1; k=rsa; p=TODO

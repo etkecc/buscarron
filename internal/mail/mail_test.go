@@ -1,4 +1,4 @@
-package mail //nolint:revive // Package mail provides a client to send mail using Postmark
+package mail
 
 import (
 	"testing"
