@@ -52,13 +52,14 @@ func (s *sourceModel) append(other *sourceModel) {
 }
 
 type sourceSectionItem struct {
-	ID          string       `json:"id"`
-	VID         int64        `json:"vid"`
-	InventoryID string       `json:"iid"`
-	Name        string       `json:"name"`
-	Description string       `json:"description"`
-	Help        string       `json:"help"`
-	Options     []sourceItem `json:"options"`
+	ID          string        `json:"id"`
+	VID         int64         `json:"vid"`
+	InventoryID string        `json:"iid"`
+	Name        string        `json:"name"`
+	Description string        `json:"description"`
+	Help        string        `json:"help"`
+	Options     []*sourceItem `json:"options"`
+	Archived    bool          `json:"archived"`
 }
 
 type sourceItem struct {
@@ -70,6 +71,7 @@ type sourceItem struct {
 	Help        string   `json:"help"`        // Help link (may not contain the full URL, just path)
 	Price       int      `json:"price"`       // Price
 	Regions     []string `json:"regions"`     // Regions list
+	Archived    bool     `json:"archived"`    // Whether the item is archived
 }
 
 func parseSource(data []byte) (*sourceModel, error) {
@@ -89,12 +91,12 @@ func convertToData(source *sourceModel) *Data {
 	data.fromSourceSection(source.Instances, "instances", 0)
 	data.fromSourceSection(source.Support, "support", 0)
 
-	data.fromSourceItem(source.MatrixApps, "matrix_apps", "", "", "", 0, 0)
-	data.fromSourceItem(source.MatrixBots, "matrix_bots", "", "", "", 0, 0)
+	data.fromSourceItem(source.MatrixApps, "matrix_apps", "Matrix Apps", "", "", 0, 0)
+	data.fromSourceItem(source.MatrixBots, "matrix_bots", "Matrix Bots", "", "", 0, 0)
 	data.fromSourceItem(source.MatrixBridges, "matrix_bridges", "Bridges", "With the help of bridges, you can access different networks right from your own Matrix server", "/help/bridges/", source.MatrixBridgesVID, source.MatrixBridgesPrice)
-	data.fromSourceItem(source.MatrixAdditional, "matrix_additional", "", "", "", 0, 0)
+	data.fromSourceItem(source.MatrixAdditional, "matrix_additional", "Matrix Extras", "", "", 0, 0)
 
-	data.fromSourceItem(source.AdditionalServices, "additional", "", "", "", 0, 0)
+	data.fromSourceItem(source.AdditionalServices, "additional", "Extras", "", "", 0, 0)
 
 	setCache(data)
 	return data

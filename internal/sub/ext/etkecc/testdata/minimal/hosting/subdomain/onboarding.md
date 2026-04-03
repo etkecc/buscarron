@@ -7,7 +7,7 @@ Below is everything you need to get started:
 
 * Web app: [app.etke.cc](https://app.etke.cc)
 * Homeserver: [matrix.higenjitsuteki.onmatrix.chat](https://matrix.higenjitsuteki.onmatrix.chat)
-* Admin Panel: [matrix.higenjitsuteki.onmatrix.chat/admin](https://matrix.higenjitsuteki.onmatrix.chat/admin/?username=test&server=matrix.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/synapse-admin))
+* Admin Panel: [matrix.higenjitsuteki.onmatrix.chat/admin](https://matrix.higenjitsuteki.onmatrix.chat/admin/?username=test) ([help](https://etke.cc/help/extras/ketesa))
 
 
 **Matrix Credentials**

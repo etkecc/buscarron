@@ -36,6 +36,7 @@ type Item struct {
 	SectionHelp        string
 	SectionPrice       int
 	Regions            []string
+	Archived           bool
 }
 
 // Clone creates a copy of the item
@@ -64,6 +65,7 @@ func (d *Data) fromSourceItem(sItems []*sourceItem, sectionID, sectionName, sect
 			SectionDescription: sectionDescription,
 			SectionHelp:        sectionHelp,
 			SectionPrice:       sectionPrice,
+			Archived:           sItem.Archived,
 		}
 		d.items = append(d.items, item)
 		d.idmap[item.ID] = item
@@ -89,6 +91,7 @@ func (d *Data) fromSourceSection(ssItem *sourceSectionItem, sectionID string, se
 			Help:         ssItem.Help,
 			SectionID:    sectionID,
 			SectionPrice: sectionPrice,
+			Archived:     sItem.Archived || ssItem.Archived,
 		}
 		d.items = append(d.items, item)
 		d.idmap[item.ID+item.Value] = item
@@ -142,6 +145,15 @@ func (d *Data) findRegionItem(item *Item, value, region string) *Item {
 		return &dup
 	}
 	return item
+}
+
+// Items returns clone of all items in the Data
+func (d *Data) Items() []*Item {
+	clones := make([]*Item, len(d.items))
+	for i, item := range d.items {
+		clones[i] = item.Clone()
+	}
+	return clones
 }
 
 // Calculate total price based on the input

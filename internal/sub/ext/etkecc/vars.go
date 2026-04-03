@@ -56,7 +56,6 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsRadicale())
 	txt.WriteString(o.varsSchildiChat())
 	txt.WriteString(o.varsStats())
-	txt.WriteString(o.varsSynapseAdmin())
 	txt.WriteString(o.varsUptimeKuma())
 	txt.WriteString(o.varsVaultwarden())
 	txt.WriteString(o.varsWGEasy())
@@ -512,15 +511,6 @@ func (o *order) varsSynapseCredentials() string {
 	txt.WriteString("matrix_synapse_password_config_pepper: " + o.pwgen() + "\n")
 	txt.WriteString("coturn_turn_static_auth_secret: " + o.pwgen() + "\n")
 	txt.WriteString("matrix_homeserver_generic_secret_key: \"{{ matrix_synapse_macaroon_secret_key }}\"\n")
-
-	return txt.String()
-}
-
-func (o *order) varsSynapseAdmin() string {
-	var txt strings.Builder
-	txt.WriteString("\n# synapse-admin\n")
-	txt.WriteString("matrix_synapse_admin_enabled: yes\n")
-	txt.WriteString("matrix_synapse_admin_path_prefix: \"/admin\"\n")
 
 	return txt.String()
 }

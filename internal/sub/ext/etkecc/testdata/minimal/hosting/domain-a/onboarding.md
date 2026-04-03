@@ -7,7 +7,7 @@ Below is everything you need to get started:
 
 * Web app: [app.etke.cc](https://app.etke.cc)
 * Homeserver: [matrix.example.com](https://matrix.example.com)
-* Admin Panel: [matrix.example.com/admin](https://matrix.example.com/admin/?username=test&server=matrix.example.com) ([help](https://etke.cc/help/extras/synapse-admin))
+* Admin Panel: [matrix.example.com/admin](https://matrix.example.com/admin/?username=test) ([help](https://etke.cc/help/extras/ketesa))
 
 
 **Matrix Credentials**
