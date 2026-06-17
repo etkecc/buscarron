@@ -16,7 +16,6 @@ func New() *Config {
 		Homeserver: env.String("homeserver"),
 		Login:      env.String("login"),
 		Password:   env.String("password"),
-		Sentry:     env.String("sentry"),
 		Healthchecks: Healthchecks{
 			URL:  env.String("hc.url", defaultConfig.Healthchecks.URL),
 			UUID: env.String("hc.uuid"),
@@ -30,7 +29,7 @@ func New() *Config {
 		},
 		LogLevel: env.String("loglevel", defaultConfig.LogLevel),
 		Port:     env.String("port", defaultConfig.Port),
-		Metrics: echobasicauth.Auth{
+		Metrics: &echobasicauth.Auth{
 			Login:    env.String("metrics.login"),
 			Password: env.String("metrics.password"),
 			IPs:      env.Slice("metrics.ips"),

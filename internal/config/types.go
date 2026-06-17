@@ -20,7 +20,7 @@ type Config struct {
 	// Port of the web server
 	Port string
 	// Metrics config
-	Metrics echobasicauth.Auth
+	Metrics *echobasicauth.Auth
 	// Redmine config
 	Redmine Redmine
 	// Forms map
@@ -36,8 +36,6 @@ type Config struct {
 	// DB config
 	DB DB
 
-	// Sentry DSN
-	Sentry string
 	// Healthchecks.io config
 	Healthchecks Healthchecks
 

@@ -145,7 +145,7 @@ func (p *Client) do(ctx context.Context, uri string, cached *cacheValue, current
 	}
 	req.Header = headers
 
-	resp, err := p.client.Do(req) //nolint:gosec // The URL is built from a trusted source
+	resp, err := p.client.Do(req)
 	if err != nil {
 		cancel()
 		return nil, nil, err

@@ -9,11 +9,28 @@ import (
 	"testing"
 	"time"
 
+	"github.com/etkecc/go-kit/crypter"
 	"github.com/stretchr/testify/suite"
+	"gopkg.in/yaml.v3"
 
 	"github.com/etkecc/buscarron/internal/config"
 	"github.com/etkecc/buscarron/mocks"
 )
+
+var secretKeyOracle = []string{
+	"email", "password", "secret", "phrase", "_key", "token", "pepper", "privkey", "api_hash", "auth_user",
+	"additional_variable_init_username",
+}
+
+func isSecretOracleKey(key string) bool {
+	lower := strings.ToLower(key)
+	for _, pat := range secretKeyOracle {
+		if strings.Contains(lower, pat) {
+			return true
+		}
+	}
+	return false
+}
 
 type testCase struct {
 	name       string
@@ -42,8 +59,13 @@ func (s *EtkeccSuite) SetupSuite() {
 	s.setupCases()
 }
 
+func (s *EtkeccSuite) SetupTest() {
+	s.ext.crypter = nil // golden suite tests the plaintext path; the encrypted path sets it explicitly
+}
+
 func (s *EtkeccSuite) TearDownTest() {
 	s.T().Helper()
+	s.ext.crypter = nil
 	s.v.AssertExpectations(s.T())
 }
 
@@ -505,6 +527,112 @@ func (s *EtkeccSuite) TestExecute() {
 			s.Equal(expectedV, actualV)
 		})
 	}
+}
+
+func (s *EtkeccSuite) TestEncryptedInventory() {
+	orig := s.ext.crypter
+	c, err := crypter.New(strings.Repeat("k", 32))
+	s.Require().NoError(err)
+	s.ext.crypter = c
+	defer func() { s.ext.crypter = orig }()
+
+	for _, test := range s.cases {
+		s.Run(test.name, func() {
+			test.before()
+
+			var vars string
+			_, _, files := s.ext.Execute(context.TODO(), s.v, &config.Form{Name: test.name}, test.submission)
+			for _, file := range files {
+				switch file.FileName {
+				case "vars.yml":
+					vars = string(file.ContentBytes)
+				case "onboarding.md", "followup.md":
+					if body := string(file.ContentBytes); body != "" {
+						s.True(strings.HasPrefix(body, crypter.StartTag), "%s must be whole-file encrypted", file.FileName)
+					}
+				}
+			}
+
+			for i, line := range strings.Split(vars, "\n") {
+				trimmed := strings.TrimSpace(line)
+				if strings.HasPrefix(trimmed, "#") {
+					continue
+				}
+				if !strings.Contains(trimmed, ": ") {
+					if ek, ev, ok := strings.Cut(trimmed, "="); ok && ev != "" && isSecretOracleKey(ek) && !strings.HasPrefix(ek, "GTS_") {
+						s.Contains(ev, crypter.StartTag, "plaintext secret in env-block at vars.yml line %d: %q", i+1, line)
+					}
+					continue
+				}
+				key, val, found := strings.Cut(trimmed, ": ")
+				if !found || val == "" || !isSecretOracleKey(key) {
+					continue
+				}
+				val = strings.Trim(val, `"`)
+				switch strings.ToLower(val) {
+				case "yes", "no", "on", "off", "true", "false":
+					continue
+				}
+				if strings.Contains(val, "{{") || strings.HasPrefix(val, "http") {
+					continue
+				}
+				s.Contains(val, crypter.StartTag, "plaintext secret at vars.yml line %d: %q", i+1, line)
+			}
+		})
+	}
+}
+
+func (s *EtkeccSuite) TestEncryptedArtifactsRoundTrip() {
+	c, err := crypter.New(strings.Repeat("k", 32))
+	s.Require().NoError(err)
+	s.ext.crypter = c
+	defer func() { s.ext.crypter = nil }()
+
+	for _, test := range s.cases {
+		s.Run(test.name, func() {
+			test.before()
+			_, _, files := s.ext.Execute(context.TODO(), s.v, &config.Form{Name: test.name}, test.submission)
+
+			for _, file := range files {
+				body := string(file.ContentBytes)
+				switch file.FileName {
+				case "vars.yml":
+					var node yaml.Node
+					s.Require().NoError(yaml.Unmarshal(file.ContentBytes, &node), "encrypted vars.yml must be valid YAML")
+					decrypted := strings.ReplaceAll(s.decryptYAMLValues(file.ContentBytes, c), "sshenc.priv", "sshkey.priv")
+					s.YAMLEq(s.read(test.name, "vars.yml"), decrypted)
+				case "onboarding.md", "followup.md":
+					plain, derr := c.Decrypt(body)
+					s.Require().NoError(derr)
+					s.Equal(s.read(test.name, file.FileName), plain)
+				case "sshenc.priv":
+					plain, derr := c.Decrypt(body)
+					s.Require().NoError(derr)
+					s.Contains(plain, "PRIVATE KEY")
+				}
+			}
+		})
+	}
+}
+
+func (s *EtkeccSuite) decryptYAMLValues(b []byte, c *crypter.Crypter) string {
+	var n yaml.Node
+	s.Require().NoError(yaml.Unmarshal(b, &n))
+	var walk func(*yaml.Node)
+	walk = func(nd *yaml.Node) {
+		if nd.Kind == yaml.ScalarNode && c.IsEncrypted(nd.Value) {
+			dec, err := c.Decrypt(nd.Value)
+			s.Require().NoError(err)
+			nd.Value = dec
+		}
+		for _, child := range nd.Content {
+			walk(child)
+		}
+	}
+	walk(&n)
+	out, err := yaml.Marshal(&n)
+	s.Require().NoError(err)
+	return string(out)
 }
 
 func TestEtkeccSuite(t *testing.T) {

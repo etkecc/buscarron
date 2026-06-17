@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/etkecc/buscarron/internal/utils"
 	"github.com/mattevans/postmark-go"
 	"github.com/rs/zerolog"
 )
@@ -37,8 +36,6 @@ func New(token, from, replyto string) *Client {
 
 func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 	log := zerolog.Ctx(ctx)
-	span := utils.StartSpan(ctx, "mail.Send")
-	defer span.Finish()
 
 	req.From = c.from
 	req.ReplyTo = c.replyto

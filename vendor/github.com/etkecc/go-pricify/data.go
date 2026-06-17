@@ -12,6 +12,16 @@ var forbiddenValues = map[string]struct{}{
 	"false": {},
 }
 
+// boolAliases normalizes YAML bool-string representations to the canonical
+// yes/no form used by source item Values. Without this, inputs stringified
+// from YAML bools (e.g. `key: true` → "true") would not match the source
+// Item.Value "yes" set in fromSourceItem, causing equality checks against
+// the canonical Value to fail for boolean-enabled single-variant items.
+var boolAliases = map[string]string{
+	"true":  "yes",
+	"false": "no",
+}
+
 // Data parsed from the source
 type Data struct {
 	items  []*Item
@@ -174,6 +184,9 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 		if key == "" {
 			continue
 		}
+		if canon, ok := boolAliases[val]; ok {
+			val = canon
+		}
 		normalized[key] = val
 	}
 
@@ -239,6 +252,9 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 				Price:       item.SectionPrice,
 				Regions:     item.Regions,
 			}
+			dup := item.Clone()
+			dup.Value = value
+			verbose[item.InventoryID] = dup
 			continue
 		}
 

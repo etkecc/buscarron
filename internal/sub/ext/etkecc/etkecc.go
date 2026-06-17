@@ -3,13 +3,16 @@ package etkecc
 import (
 	"context"
 	"fmt"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/etkecc/go-kit"
+	"github.com/etkecc/go-kit/crypter"
 	"github.com/etkecc/go-pricify"
 	"github.com/etkecc/go-psd"
 	"github.com/mattevans/postmark-go"
+	"github.com/rs/zerolog"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"maunium.net/go/mautrix"
@@ -25,6 +28,7 @@ var psdc *psd.Client
 type Etkecc struct {
 	pm      EmailSender
 	pricify *pricify.Data
+	crypter *crypter.Crypter
 	now     func() time.Time
 	test    bool
 }
@@ -46,14 +50,23 @@ func New(pm EmailSender) *Etkecc {
 		now: time.Now,
 	}
 	ext.pricify, _ = pricify.New() //nolint:errcheck // proof-of-concept
+
+	log := zerolog.Ctx(utils.NewContext())
+	if secret := os.Getenv("ETKE_INV_SECRET"); secret != "" {
+		c, err := crypter.New(secret)
+		if err != nil {
+			log.Warn().Err(err).Msg("encryption secret is invalid, encryption is disabled")
+		} else {
+			ext.crypter = c
+		}
+	} else {
+		log.Warn().Msg("encryption secret is not set, encryption is disabled")
+	}
 	return ext
 }
 
 // Execute extension
 func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.Execute")
-	defer span.Finish()
-
 	var p *pricify.Data
 	var err error
 	p, err = pricify.New()
@@ -70,12 +83,13 @@ func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.F
 		c:         cases.Title(language.English),
 		pd:        p,
 		pm:        e.pm,
+		crypter:   e.crypter,
 		pass:      map[string]string{},
 		logins:    map[string]string{},
 		files:     make([]*mautrix.ReqUploadMedia, 0, 3),
 	}
 
-	return o.execute(span.Context())
+	return o.execute(ctx)
 }
 
 // Validate submission
@@ -109,9 +123,5 @@ func (e *Etkecc) Validate(ctx context.Context, v common.Validator, _ *config.For
 
 // PrivateSuffixes returns private suffixes
 func PrivateSuffixes() []string {
-	keys := make([]string, 0, len(domains))
-	for k := range domains {
-		keys = append(keys, k)
-	}
-	return keys
+	return kit.MapKeys(domains)
 }

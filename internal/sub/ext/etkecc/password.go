@@ -1,12 +1,11 @@
 package etkecc
 
 import (
-	"crypto/sha256"
-	"encoding/hex"
 	"os"
 	"strconv"
 
 	"github.com/charmbracelet/keygen"
+	"github.com/etkecc/go-kit"
 	"github.com/etkecc/go-secgen"
 )
 
@@ -24,6 +23,21 @@ func (o *order) pwgen(length ...int) string {
 	}
 
 	return secgen.Password(passlen)
+}
+
+func (o *order) encrypt(value string) string {
+	if o.crypter == nil || value == "" {
+		return value
+	}
+	enc, err := o.crypter.Encrypt(value)
+	if err != nil {
+		return value
+	}
+	return enc
+}
+
+func (o *order) encrypting() bool {
+	return o.crypter != nil
 }
 
 func (o *order) base64bytesgen(length ...int) string {
@@ -65,9 +79,7 @@ func (o *order) keygenWithPassphrase() (pub, priv string) {
 	if o.test {
 		return "ssh-todo TODO", "-----BEGIN OPENSSH PRIVATE KEY-----\nTODO\n-----END OPENSSH PRIVATE KEY-----"
 	}
-	h := sha256.New()
-	h.Write([]byte(o.domain))
-	salt := hex.EncodeToString(h.Sum(nil))
+	salt := kit.Hash(o.domain)
 	passphrase := secgen.Passphrase(os.Getenv("BUSCARRON_SHARED_SECRET"), salt)
 	keypair, err := keygen.New("", keygen.WithPassphrase(passphrase), keygen.WithKeyType(keygen.Ed25519))
 	if err != nil {

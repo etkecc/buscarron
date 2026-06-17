@@ -83,12 +83,9 @@ func (h *Handler) SetSender(sender common.Sender) {
 
 // GET request handler
 func (h *Handler) GET(ctx context.Context, name string, _ *http.Request) (string, error) {
-	span := utils.StartSpan(ctx, "sub.GET")
-	defer span.Finish()
-
 	form := h.forms[name]
 	if form != nil {
-		return h.redirect(span.Context(), form.Redirect, nil), nil
+		return h.redirect(ctx, form.Redirect, nil), nil
 	}
 
 	return "", ErrNotFound
@@ -173,8 +170,6 @@ func (h *Handler) isSpam(ctx context.Context, v common.Validator, form *config.F
 // POST request handler
 func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (string, error) {
 	log := zerolog.Ctx(ctx).With().Str("form", name).Logger()
-	span := utils.StartSpan(ctx, "sub.POST")
-	defer span.Finish()
 
 	form, ok := h.forms[name]
 	if !ok {
@@ -196,10 +191,10 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 
 	data, err := parser(r)
 	if err != nil {
-		return h.redirect(span.Context(), form.RejectRedirect, data), err
+		return h.redirect(ctx, form.RejectRedirect, data), err
 	}
-	if h.isSpam(span.Context(), v, form, data) {
-		return h.redirect(span.Context(), form.RejectRedirect, data), ErrSpam
+	if h.isSpam(ctx, v, form, data) {
+		return h.redirect(ctx, form.RejectRedirect, data), ErrSpam
 	}
 
 	metrics.Submission(form.Name)
@@ -219,7 +214,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 	}
 
 	log.Info().Msg("generating submission text and files")
-	htmlResponse, text, files := h.generate(span.Context(), form, data)
+	htmlResponse, text, files := h.generate(ctx, form, data)
 	log.Info().Msg("submission text and files have been generated")
 	if data["email"] != "" {
 		attrs["email"] = data["email"]
@@ -229,7 +224,7 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 		attrs["domain"] = data["domain"]
 	}
 
-	go h.updateIssue(span.Context(), issueID, form.Name, text, files)
+	go h.updateIssue(ctx, issueID, form.Name, text, files)
 
 	go func(ctx context.Context, form *config.Form, text string, attrs map[string]any) {
 		ctx = context.WithoutCancel(ctx)
@@ -244,13 +239,13 @@ func (h *Handler) POST(ctx context.Context, name string, r *http.Request) (strin
 			h.sender.SendFile(ctx, form.RoomID, file, relates)
 		}
 		log.Info().Msg("files have been sent")
-	}(span.Context(), form, text, attrs)
+	}(ctx, form, text, attrs)
 
 	if htmlResponse != "" {
 		return htmlResponse, nil
 	}
 
-	return h.redirect(span.Context(), form.Redirect, data), nil
+	return h.redirect(ctx, form.Redirect, data), nil
 }
 
 func (h *Handler) getIssueSubject(name string, data map[string]string) string {
@@ -288,8 +283,6 @@ func (h *Handler) updateIssue(ctx context.Context, issueID int64, formName, text
 
 func (h *Handler) redirect(ctx context.Context, target string, vars map[string]string) string {
 	log := zerolog.Ctx(ctx)
-	span := utils.StartSpan(ctx, "sub.redirect")
-	defer span.Finish()
 
 	var html bytes.Buffer
 	var targetBytes bytes.Buffer
@@ -321,12 +314,9 @@ func (h *Handler) redirect(ctx context.Context, target string, vars map[string]s
 
 // generate text and files
 func (h *Handler) generate(ctx context.Context, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
-	span := utils.StartSpan(ctx, "sub.generate")
-	defer span.Finish()
-
 	v := h.vs[form.Name]
 	medias := []*mautrix.ReqUploadMedia{}
-	htmlResponse, text, rmedias := h.ext["root"].Execute(span.Context(), v, form, data)
+	htmlResponse, text, rmedias := h.ext["root"].Execute(ctx, v, form, data)
 
 	for _, extension := range form.Extensions {
 		if extension == "" {
@@ -337,7 +327,7 @@ func (h *Handler) generate(ctx context.Context, form *config.Form, data map[stri
 			continue
 		}
 
-		ehtmlResponse, etext, emedias := e.Execute(span.Context(), v, form, data)
+		ehtmlResponse, etext, emedias := e.Execute(ctx, v, form, data)
 		htmlResponse += ehtmlResponse
 		text += etext
 		medias = append(medias, emedias...)
@@ -349,9 +339,6 @@ func (h *Handler) generate(ctx context.Context, form *config.Form, data map[stri
 
 // extValidate validates submission with extensions
 func (h *Handler) extValidate(ctx context.Context, form *config.Form, data map[string]string) error {
-	span := utils.StartSpan(ctx, "sub.generate")
-	defer span.Finish()
-
 	v := h.vs[form.Name]
 	for _, extension := range form.Extensions {
 		if extension == "" {
@@ -362,7 +349,7 @@ func (h *Handler) extValidate(ctx context.Context, form *config.Form, data map[s
 			continue
 		}
 
-		if err := e.Validate(span.Context(), v, form, data); err != nil {
+		if err := e.Validate(ctx, v, form, data); err != nil {
 			return fmt.Errorf("%s: %w", extension, err)
 		}
 	}

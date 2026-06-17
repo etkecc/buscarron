@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-
-	"github.com/etkecc/buscarron/internal/utils"
 )
 
 var (
@@ -40,8 +38,6 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 
 	log.Info().Msg("sending to GP")
 	defer log.Info().Msg("sent to GP")
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.toGP")
-	defer span.Finish()
 
 	req := &gpreq{
 		Message: o.domain + " - init",
@@ -66,7 +62,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 		log.Error().Err(err).Msg("failed to marshal request")
 		return err
 	}
-	r, err := http.NewRequestWithContext(span.Context(), http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
+	r, err := http.NewRequestWithContext(ctx, http.MethodPost, gpURL+"/post", bytes.NewReader(reqb))
 	if err != nil {
 		log.Error().Err(err).Msg("failed to create request")
 		return err

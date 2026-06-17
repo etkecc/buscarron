@@ -2,8 +2,6 @@ package etkecc
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"fmt"
 	"strings"
 
@@ -12,8 +10,6 @@ import (
 	"github.com/mattevans/postmark-go"
 	"maunium.net/go/mautrix"
 	"maunium.net/go/mautrix/format"
-
-	"github.com/etkecc/buscarron/internal/utils"
 )
 
 const (
@@ -43,9 +39,6 @@ the [etke.cc](https://etke.cc) team`
 )
 
 func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns string, countQ int) {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateFollowup")
-	defer span.Finish()
-
 	log := o.logger(ctx)
 	log.Info().Msg("generating followup")
 
@@ -93,22 +86,21 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 		txt.WriteString(delegation)
 	}
 
-	h := sha256.New()
-	h.Write([]byte(o.domain))
-	id := hex.EncodeToString(h.Sum(nil))
+	id := kit.Hash(o.domain)
 	fmt.Fprintf(&txt, followupFooter, "https://etke.cc/order/status/#"+id)
 
 	text := txt.String()
 	o.response = formatCustom.Render(text)
 	content := format.RenderMarkdown(text, true, true)
 	o.followup = &content
+	fileBody := o.encrypt(content.Body)
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
-			Content:       strings.NewReader(content.Body),
-			ContentBytes:  []byte(content.Body),
+			Content:       strings.NewReader(fileBody),
+			ContentBytes:  []byte(fileBody),
 			FileName:      "followup.md",
 			ContentType:   "text/markdown",
-			ContentLength: int64(len(content.Body)),
+			ContentLength: int64(len(fileBody)),
 		},
 	)
 	log.Info().Msg("followup has been generated")

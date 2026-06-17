@@ -4,18 +4,14 @@ import (
 	"context"
 	"fmt"
 	"maps"
-	"sort"
 	"strings"
 
-	"github.com/etkecc/buscarron/internal/utils"
+	"github.com/etkecc/go-kit"
 	"maunium.net/go/mautrix"
 )
 
 func (o *order) generateOnboarding(ctx context.Context) {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateOnboarding")
-	defer span.Finish()
-
-	log := o.logger(span.Context())
+	log := o.logger(ctx)
 	log.Info().Msg("generating onboarding")
 
 	var txt strings.Builder
@@ -31,7 +27,7 @@ func (o *order) generateOnboarding(ctx context.Context) {
 
 	txt.WriteString(o.generateOnboardingOutro())
 
-	text := txt.String()
+	text := o.encrypt(txt.String())
 	o.files = append(o.files,
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(text),
@@ -76,14 +72,10 @@ func (o *order) generateOnboardingLinks() string {
 		txt.WriteString("* Maubot (admin): " + link("matrix."+o.domain+"/_matrix/maubot") + "\n")
 	}
 
-	items := []string{}
-	for item := range dnsmap {
-		if o.has(item) {
-			items = append(items, item)
+	for _, item := range kit.MapKeys(dnsmap) {
+		if !o.has(item) {
+			continue
 		}
-	}
-	sort.Strings(items)
-	for _, item := range items {
 		txt.WriteString("* " + o.c.String(item) + ": " + link(dnsmap[item]+"."+o.domain))
 		if helpURL := helpmap[item]; helpURL != "" {
 			txt.WriteString(" " + helpLink(helpURL))
@@ -109,21 +101,15 @@ func (o *order) generateOnboardingBots() string {
 
 	var txt strings.Builder
 	txt.WriteString("**Matrix Bots**\n\n")
-	items := []string{}
-	for item := range botmap {
-		if o.has(item) {
-			items = append(items, item)
+	for _, bot := range kit.MapKeys(botmap) {
+		if !o.has(bot) {
+			continue
 		}
-	}
-	sort.Strings(items)
-	for _, bot := range items {
-		if o.has(bot) {
-			txt.WriteString("* " + o.c.String(bot) + ": " + matrixLink(botmap[bot]+":"+o.domain))
-			if helpURL := helpmap[bot]; helpURL != "" {
-				txt.WriteString(" " + helpLink(helpURL))
-			}
-			txt.WriteString("\n")
+		txt.WriteString("* " + o.c.String(bot) + ": " + matrixLink(botmap[bot]+":"+o.domain))
+		if helpURL := helpmap[bot]; helpURL != "" {
+			txt.WriteString(" " + helpLink(helpURL))
 		}
+		txt.WriteString("\n")
 	}
 	txt.WriteString("\n\n")
 
@@ -144,14 +130,10 @@ func (o *order) generateOnboardingBridges() string {
 
 	var txt strings.Builder
 	txt.WriteString("**Matrix Bridges**\n\n")
-	items := []string{}
-	for item := range bridgemap {
-		if o.has(item) {
-			items = append(items, item)
+	for _, bridge := range kit.MapKeys(bridgemap) {
+		if !o.has(bridge) {
+			continue
 		}
-	}
-	sort.Strings(items)
-	for _, bridge := range items {
 		txt.WriteString("* " + o.c.String(bridge) + ": " + matrixLink(bridgemap[bridge]+":"+o.domain))
 		if helpURL := helpmap[bridge]; helpURL != "" {
 			txt.WriteString(" " + helpLink(helpURL))
@@ -187,12 +169,7 @@ func (o *order) generateOnboardingCredentials() string {
 		txt.WriteString("> Radicale can be used by any user of your Matrix server with their Matrix credentials, thanks to [radicale-auth-matrix](https://github.com/etkecc/radicale-auth-matrix).\n\n")
 	}
 
-	serviceCreds := make([]string, 0, len(o.logins))
-	for service := range o.logins {
-		serviceCreds = append(serviceCreds, service)
-	}
-	sort.Strings(serviceCreds)
-
+	serviceCreds := kit.MapKeys(o.logins)
 	for _, service := range serviceCreds {
 		txt.WriteString("**" + o.c.String(service) + " Credentials**\n\n")
 		txt.WriteString("* Username: " + o.login(service) + "\n")
@@ -200,12 +177,7 @@ func (o *order) generateOnboardingCredentials() string {
 		delete(passwords, service)
 	}
 
-	passwordsLeft := make([]string, 0, len(passwords))
-	for item := range passwords {
-		passwordsLeft = append(passwordsLeft, item)
-	}
-	sort.Strings(passwordsLeft)
-	for _, name := range passwordsLeft {
+	for _, name := range kit.MapKeys(passwords) {
 		txt.WriteString("**" + o.c.String(name) + " Credentials**\n\n")
 		txt.WriteString("* Username: " + o.get("username") + "\n")
 		txt.WriteString("* Password: " + passwords[name] + "\n\n")

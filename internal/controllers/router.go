@@ -10,7 +10,6 @@ import (
 	echobasicauth "github.com/etkecc/go-echo-basic-auth"
 	"github.com/etkecc/go-kit"
 	"github.com/etkecc/go-psd"
-	sentryecho "github.com/getsentry/sentry-go/echo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/rs/zerolog"
@@ -34,7 +33,7 @@ type Config struct {
 	BanlistSize   int
 	FormRLsShared map[string]string
 	FormRLs       map[string]string
-	MetricsAuth   echobasicauth.Auth
+	MetricsAuth   *echobasicauth.Auth
 	Validator     domainValidator
 	PSD           *psd.Client
 }
@@ -59,8 +58,6 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 		},
 	}))
 	e.Use(middleware.Recover())
-	e.Use(sentryecho.New(sentryecho.Options{}))
-	e.Use(SentryTransaction())
 	e.Use(middleware.Secure())
 	e.Use(corsMiddleware())
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -82,7 +79,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	e.GET("/_validate", validator.Handler())
 	e.GET("/_domain", validator.Handler()) // backward compatibility
 	e.GET("/_countries", func(c echo.Context) error { return c.JSON(http.StatusOK, utils.GetCountries()) })
-	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(&cfg.MetricsAuth))
+	e.GET("/metrics", echo.WrapHandler(&metrics.Handler{}), echobasicauth.NewMiddleware(cfg.MetricsAuth))
 	e.GET("/:name", func(c echo.Context) error {
 		body, err := formHandler.GET(c.Request().Context(), c.Param("name"), c.Request())
 		if errors.Is(err, sub.ErrNotFound) {

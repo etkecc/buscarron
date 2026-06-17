@@ -9,7 +9,6 @@ import (
 
 	"github.com/etkecc/buscarron/internal/config"
 	"github.com/etkecc/buscarron/internal/sub/ext/common"
-	"github.com/etkecc/buscarron/internal/utils"
 )
 
 type confirmation struct {
@@ -23,9 +22,6 @@ func NewConfirmation(sender EmailSender) *confirmation {
 
 // Execute extension
 func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
-	span := utils.StartSpan(ctx, "sub.ext.confirmation.Execute")
-	defer span.Finish()
-
 	if e.s == nil {
 		return "", "", []*mautrix.ReqUploadMedia{}
 	}
@@ -57,7 +53,7 @@ func (e *confirmation) Execute(ctx context.Context, _ common.Validator, form *co
 		return "", "", []*mautrix.ReqUploadMedia{}
 	}
 
-	e.s.Send(span.Context(), req) //nolint // not ready to handle errors
+	e.s.Send(ctx, req) //nolint // not ready to handle errors
 	return "", "", []*mautrix.ReqUploadMedia{}
 }
 

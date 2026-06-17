@@ -2,14 +2,14 @@ package etkecc
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"net/url"
 	"slices"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/etkecc/go-kit"
+	"github.com/etkecc/go-kit/crypter"
 	"github.com/etkecc/go-pricify"
 	"github.com/rs/zerolog"
 	"golang.org/x/text/cases"
@@ -27,6 +27,7 @@ type order struct {
 	data      map[string]string
 	pd        *pricify.Data
 	pm        EmailSender
+	crypter   *crypter.Crypter
 	v         common.Validator
 	c         cases.Caser
 
@@ -65,9 +66,7 @@ func (o *order) execute(ctx context.Context) (htmlResponse, matrixMessage string
 
 	o.txt.WriteString("\n\nprice: €" + strconv.Itoa(o.price) + "\n\n")
 
-	h := sha256.New()
-	h.Write([]byte(o.domain))
-	id := hex.EncodeToString(h.Sum(nil))
+	id := kit.Hash(o.domain)
 	o.txt.WriteString("[status page](https://etke.cc/order/status/#" + id + ")\n\n")
 
 	questions, countQ := o.generateQuestions(ctx)
@@ -146,8 +145,6 @@ func (o *order) getHostingSize() string {
 
 // preprocess data
 func (o *order) preprocess(ctx context.Context) {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.preprocess")
-	defer span.Finish()
 	log := o.logger(ctx)
 	log.Info().Msg("preprocessing order")
 	for _, key := range preprocessFields {
@@ -189,10 +186,10 @@ func (o *order) preprocess(ctx context.Context) {
 	if o.has("smtp-relay-password") {
 		o.pass["smtp"] = o.get("smtp-relay-password")
 	}
-	o.preprocessSMTP(span.Context())
-	o.preprocessPrice(span.Context())
-	o.preprocessS3(span.Context())
-	o.preprocessSSH(span.Context())
+	o.preprocessSMTP(ctx)
+	o.preprocessPrice(ctx)
+	o.preprocessS3(ctx)
+	o.preprocessSSH(ctx)
 
 	o.password("matrix")
 }
@@ -272,6 +269,11 @@ func (o *order) preprocessSSH(ctx context.Context) {
 	log.Info().Msg("preprocessing ssh")
 	pub, priv := o.keygenWithPassphrase()
 	pub = strings.TrimSpace(pub) + " etke.cc"
+	privName := "sshkey.priv"
+	if o.encrypting() {
+		priv = o.encrypt(priv)
+		privName = "sshenc.priv"
+	}
 	o.files = append(o.files, &mautrix.ReqUploadMedia{
 		Content:       strings.NewReader(pub),
 		ContentBytes:  []byte(pub),
@@ -282,7 +284,7 @@ func (o *order) preprocessSSH(ctx context.Context) {
 		&mautrix.ReqUploadMedia{
 			Content:       strings.NewReader(priv),
 			ContentBytes:  []byte(priv),
-			FileName:      "sshkey.priv",
+			FileName:      privName,
 			ContentType:   "text/plain",
 			ContentLength: int64(len(priv)),
 		})

@@ -65,9 +65,6 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 		return ""
 	}
 
-	span := utils.StartSpan(ctx, "bot.Send")
-	defer span.Finish()
-
 	parsed := format.RenderMarkdown(message, true, true)
 	parsed.MsgType = event.MsgNotice
 	content := event.Content{
@@ -77,7 +74,7 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	eventID, err := b.lp.Send(span.Context(), roomID, &content)
+	eventID, err := b.lp.Send(ctx, roomID, &content)
 	if err != nil {
 		log.Error().Err(err).Str("roomID", roomID.String()).Msg("cannot send message")
 	}
@@ -92,14 +89,11 @@ func (b *Bot) SendFile(ctx context.Context, roomID id.RoomID, file *mautrix.ReqU
 		return
 	}
 
-	span := utils.StartSpan(ctx, "linkpearl.SendFile")
-	defer span.Finish()
-
 	b.mu.Lock()
 	defer b.mu.Unlock()
-	err := b.lp.SendFile(span.Context(), roomID, file, event.MsgFile, relations...)
+	err := b.lp.SendFile(ctx, roomID, file, event.MsgFile, relations...)
 	if err != nil {
-		b.Error(span.Context(), roomID, "cannot upload file: %v", err)
+		b.Error(ctx, roomID, "cannot upload file: %v", err)
 		return
 	}
 }

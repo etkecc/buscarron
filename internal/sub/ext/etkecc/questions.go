@@ -3,13 +3,9 @@ package etkecc
 import (
 	"context"
 	"strings"
-
-	"github.com/etkecc/buscarron/internal/utils"
 )
 
 func (o *order) generateDelegationInstructions(ctx context.Context) string {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDelegationInstructions")
-	defer span.Finish()
 	log := o.logger(ctx)
 	log.Info().Msg("generating delegation instructions")
 
@@ -31,8 +27,6 @@ func (o *order) generateDelegationInstructions(ctx context.Context) string {
 }
 
 func (o *order) generateQuestions(ctx context.Context) (text string, count int) {
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateQuestions")
-	defer span.Finish()
 	log := o.logger(ctx)
 	log.Info().Msg("generating questions")
 

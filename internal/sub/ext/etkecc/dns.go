@@ -2,10 +2,9 @@ package etkecc
 
 import (
 	"context"
-	"sort"
 	"strings"
 
-	"github.com/etkecc/buscarron/internal/utils"
+	"github.com/etkecc/go-kit"
 )
 
 func (o *order) generateDNSInstructions(ctx context.Context) string {
@@ -16,29 +15,27 @@ func (o *order) generateDNSInstructions(ctx context.Context) string {
 		return ""
 	}
 
-	span := utils.StartSpan(ctx, "sub.ext.etkecc.generateDNSInstructions")
-	defer span.Finish()
-
 	serverIP := "server IP"
 	if o.has("ssh-host") {
 		serverIP = o.get("ssh-host")
 	}
 
-	dns := "\nPlease, add the following DNS entries"
+	var txt strings.Builder
+	txt.WriteString("\nPlease, add the following DNS entries")
 	if o.v.NS(o.domain, "cloudflare.com") {
-		dns += " (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation)"
+		txt.WriteString(" (ensure that the CloudFlare proxy is disabled, as it's known to cause issues with Matrix Federation)")
 	}
-	dns += ":\n\n"
+	txt.WriteString(":\n\n")
 
 	for _, record := range o.generateDNSRecords("@", "", serverIP, "") {
 		record = strings.Trim(record, `"`)
 		parts := strings.Split(record, ",")
 		parts[1] += " record"
-		dns += "- " + strings.Join(parts, "\t") + "\n"
+		txt.WriteString("- " + strings.Join(parts, "\t") + "\n")
 	}
 
 	log.Info().Msg("DNS instructions have been generated")
-	return dns
+	return txt.String()
 }
 
 func (o *order) generateDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 string) []string {
@@ -54,14 +51,10 @@ func (o *order) generateDNSRecords(domainRecord, suffix, serverIPv4, serverIPv6 
 		records = append(records, "matrix"+suffix+",AAAA,"+serverIPv6)
 	}
 
-	items := []string{}
-	for key := range dnsmap {
-		if o.has(key) {
-			items = append(items, key)
+	for _, key := range kit.MapKeys(dnsmap) {
+		if !o.has(key) {
+			continue
 		}
-	}
-	sort.Strings(items)
-	for _, key := range items {
 		records = append(records, dnsmap[key]+suffix+",CNAME,matrix."+o.domain+".")
 	}
 

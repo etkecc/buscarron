@@ -9,7 +9,6 @@ import (
 
 	"github.com/etkecc/buscarron/internal/config"
 	"github.com/etkecc/buscarron/internal/sub/ext/common"
-	"github.com/etkecc/buscarron/internal/utils"
 )
 
 type root struct{}
@@ -20,10 +19,7 @@ func NewRoot() *root {
 }
 
 // Execute extension
-func (e *root) Execute(ctx context.Context, _ common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
-	span := utils.StartSpan(ctx, "sub.ext.root.Execute")
-	defer span.Finish()
-
+func (e *root) Execute(_ context.Context, _ common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	defaultText := e.defaultText(form.Name, data)
 	var out string
 	if form.Text == "" {

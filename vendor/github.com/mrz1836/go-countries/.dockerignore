@@ -21,6 +21,7 @@ vendor/
 
 # Binaries for programs and plugins
 dist/
+!dist/linux/
 gin-bin
 *.exe
 *.exe~
@@ -67,7 +68,6 @@ tmp
 .golangci.yml
 .goreleaser.yml
 .vscode
-docs
 LICENSE
 README.md
 codecov.yml

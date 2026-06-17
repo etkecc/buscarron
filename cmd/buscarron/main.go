@@ -17,7 +17,6 @@ import (
 	"github.com/etkecc/go-psd"
 	"github.com/etkecc/go-redmine"
 	"github.com/etkecc/go-validator/v2"
-	"github.com/getsentry/sentry-go"
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 	"github.com/rs/zerolog"
@@ -47,8 +46,6 @@ var (
 func main() {
 	quit := make(chan struct{})
 	cfg := config.New()
-	utils.SetName("buscarron")
-	utils.SetSentryDSN(cfg.Sentry)
 	utils.SetLogLevel(cfg.LogLevel)
 	log = zerolog.Ctx(utils.NewContext())
 
@@ -230,7 +227,6 @@ func initShutdown(quit chan struct{}) {
 
 		e.Shutdown(context.Background()) //nolint:errcheck // we don't care about the error here
 		mxb.Stop()
-		sentry.Flush(5 * time.Second)
 		if hc != nil {
 			hc.Shutdown()
 			hc.ExitStatus(0, strings.NewReader("buscarron is shutting down"))
@@ -241,7 +237,6 @@ func initShutdown(quit chan struct{}) {
 }
 
 func recovery() {
-	defer sentry.Flush(2 * time.Second)
 	err := recover()
 	// no problem just shutdown
 	if err == nil {
@@ -251,6 +246,4 @@ func recovery() {
 	if hc != nil {
 		hc.ExitStatus(1, strings.NewReader(fmt.Sprintf("panic: %+v", err)))
 	}
-	sentry.CurrentHub().Recover(err)
-	sentry.Flush(5 * time.Second)
 }

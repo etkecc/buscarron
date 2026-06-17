@@ -17,10 +17,12 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"time"
 
 	"github.com/rs/zerolog"
+	"go.mau.fi/util/exsync"
 	"go.mau.fi/util/ptr"
 	"go.mau.fi/util/random"
 	"go.mau.fi/util/retryafter"
@@ -96,7 +98,7 @@ type Client struct {
 	RequestHook  func(req *http.Request)
 	ResponseHook func(req *http.Request, resp *http.Response, err error, duration time.Duration)
 
-	UpdateRequestOnRetry func(req *http.Request, cause error) *http.Request
+	RequestRetryTrigger *exsync.Event
 
 	SyncPresence event.Presence
 	SyncTraceLog bool
@@ -108,6 +110,9 @@ type Client struct {
 	DefaultHTTPRetries int
 	// Amount of time to wait between HTTP retries, defaults to 4 seconds
 	DefaultHTTPBackoff time.Duration
+	// Maximum time to wait between HTTP retries, defaults to 10 minutes.
+	// This applies to both the exponential backoff from gateway/network errors and to 429 errors.
+	MaxHTTPBackoff time.Duration
 	// Set to true to disable automatically sleeping on 429 errors.
 	IgnoreRateLimit bool
 
@@ -615,20 +620,25 @@ func (cli *Client) doRetry(
 			return nil, nil, cause
 		}
 	}
+	maxBackoff := cli.MaxHTTPBackoff
+	if maxBackoff <= 0 {
+		maxBackoff = 10 * time.Minute
+	}
+	backoff = min(backoff, maxBackoff)
 	log.Warn().Err(cause).
 		Str("method", req.Method).
 		Str("url", req.URL.String()).
 		Int("retry_in_seconds", int(backoff.Seconds())).
 		Msg("Request failed, retrying")
-	select {
-	case <-time.After(backoff):
-	case <-req.Context().Done():
-		if !errors.Is(context.Cause(req.Context()), ErrContextCancelRetry) {
+
+	// if this was due to our RequestRetryTrigger then just retry immediately
+	// the req.Context() will still be live, otherwise do a normal backoff
+	if !errors.Is(cause, ErrContextCancelRetry) {
+		select {
+		case <-time.After(backoff):
+		case <-req.Context().Done():
 			return nil, nil, req.Context().Err()
 		}
-	}
-	if cli.UpdateRequestOnRetry != nil {
-		req = cli.UpdateRequestOnRetry(req, cause)
 	}
 	return cli.executeCompiledRequest(req, retries-1, backoff*2, responseJSON, handler, dontReadResponse, sizeLimit, client)
 }
@@ -738,6 +748,77 @@ func ParseErrorResponse(req *http.Request, res *http.Response) ([]byte, error) {
 	}
 }
 
+func (cli *Client) prepareRequestAttempt(req *http.Request) (*http.Request, func()) {
+	// if there's no retry trigger, nothing to do
+	if cli.RequestRetryTrigger == nil {
+		return req, nil
+	}
+
+	attemptCtx, cancel := context.WithCancelCause(req.Context())
+
+	// Register as a waiter synchronously so we're waiting by the time this method returns, avoid
+	// race on trigger notify and the goroutine below.
+	resetCh := cli.RequestRetryTrigger.GetChan()
+
+	go func() {
+		select {
+		case <-resetCh:
+			cancel(ErrContextCancelRetry)
+		case <-attemptCtx.Done():
+		}
+	}()
+
+	return req.WithContext(attemptCtx), sync.OnceFunc(func() {
+		cancel(context.Canceled)
+	})
+}
+
+type cleanupReadCloser struct {
+	io.ReadCloser
+	cleanup func()
+}
+
+type cleanupReadCloserWriterTo struct {
+	io.ReadCloser
+	cleanup func()
+}
+
+func (crc cleanupReadCloser) Close() error {
+	err := crc.ReadCloser.Close()
+	if crc.cleanup != nil {
+		crc.cleanup()
+	}
+	return err
+}
+
+func (crc cleanupReadCloserWriterTo) Close() error {
+	err := crc.ReadCloser.Close()
+	if crc.cleanup != nil {
+		crc.cleanup()
+	}
+	return err
+}
+
+func (crc cleanupReadCloserWriterTo) WriteTo(w io.Writer) (int64, error) {
+	return crc.ReadCloser.(io.WriterTo).WriteTo(w)
+}
+
+func maybeWrapRespBody(rc io.ReadCloser, cleanup func()) io.ReadCloser {
+	if cleanup == nil {
+		return rc
+	}
+	if _, ok := rc.(io.WriterTo); ok {
+		return cleanupReadCloserWriterTo{
+			ReadCloser: rc,
+			cleanup:    cleanup,
+		}
+	}
+	return cleanupReadCloser{
+		ReadCloser: rc,
+		cleanup:    cleanup,
+	}
+}
+
 func (cli *Client) executeCompiledRequest(
 	req *http.Request,
 	retries int,
@@ -748,30 +829,45 @@ func (cli *Client) executeCompiledRequest(
 	sizeLimit int64,
 	client *http.Client,
 ) ([]byte, *http.Response, error) {
-	cli.RequestStart(req)
+	attemptReq, cleanup := cli.prepareRequestAttempt(req)
+	cli.RequestStart(attemptReq)
 	startTime := time.Now()
-	res, err := client.Do(req)
+	res, err := client.Do(attemptReq)
 	duration := time.Since(startTime)
-	if res != nil && !dontReadResponse {
-		defer res.Body.Close()
+	if res != nil {
+		// Cleanup the child attempt context once the body is closed
+		res.Body = maybeWrapRespBody(res.Body, cleanup)
+		if !dontReadResponse {
+			defer res.Body.Close()
+		}
 	}
 	if err != nil {
-		// Either error is *not* canceled or the underlying cause of cancelation explicitly asks to retry
+		// cleanup child attempt context on error
+		if cleanup != nil {
+			cleanup()
+		}
+
+		// Either error is *not* canceled or the underlying cause of cancellation explicitly asks to retry
+		attemptCause := context.Cause(attemptReq.Context())
+		retryCause := err
+		if errors.Is(attemptCause, ErrContextCancelRetry) {
+			retryCause = attemptCause
+		}
 		canRetry := !errors.Is(err, context.Canceled) ||
-			errors.Is(context.Cause(req.Context()), ErrContextCancelRetry)
+			errors.Is(attemptCause, ErrContextCancelRetry)
 		if retries > 0 && canRetry {
 			return cli.doRetry(
-				req, err, retries, backoff, responseJSON, handler, dontReadResponse, sizeLimit, client,
+				req, retryCause, retries, backoff, responseJSON, handler, dontReadResponse, sizeLimit, client,
 			)
 		}
 		err = HTTPError{
-			Request:  req,
+			Request:  attemptReq,
 			Response: res,
 
 			Message:      "request error",
 			WrappedError: err,
 		}
-		cli.LogRequestDone(req, res, err, nil, 0, duration)
+		cli.LogRequestDone(attemptReq, res, err, nil, 0, duration)
 		return nil, res, err
 	}
 
@@ -784,11 +880,11 @@ func (cli *Client) executeCompiledRequest(
 
 	var body []byte
 	if res.StatusCode < 200 || res.StatusCode >= 300 {
-		body, err = ParseErrorResponse(req, res)
-		cli.LogRequestDone(req, res, nil, nil, len(body), duration)
+		body, err = ParseErrorResponse(attemptReq, res)
+		cli.LogRequestDone(attemptReq, res, nil, nil, len(body), duration)
 	} else {
-		body, err = handler(req, res, responseJSON, sizeLimit)
-		cli.LogRequestDone(req, res, nil, err, len(body), duration)
+		body, err = handler(attemptReq, res, responseJSON, sizeLimit)
+		cli.LogRequestDone(attemptReq, res, nil, err, len(body), duration)
 	}
 	return body, res, err
 }
@@ -1277,6 +1373,16 @@ func (cli *Client) BeeperUpdateProfile(ctx context.Context, data any) (err error
 	return
 }
 
+// UnstableOverwriteProfile replaces the user's entire profile
+func (cli *Client) UnstableOverwriteProfile(ctx context.Context, data any) (err error) {
+	urlPath := cli.BuildClientURL("v3", "profile", cli.UserID)
+	if cli.SpecVersions.Supports(FeatureUnstableReplaceProfile) && !cli.SpecVersions.Supports(FeatureStableReplaceProfile) {
+		urlPath = cli.BuildClientURL("unstable", "com.beeper.msc4437", "profile", cli.UserID)
+	}
+	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, data, nil)
+	return
+}
+
 // GetAccountData gets the user's account data of this type. See https://spec.matrix.org/v1.2/client-server-api/#get_matrixclientv3useruseridaccount_datatype
 func (cli *Client) GetAccountData(ctx context.Context, name string, output interface{}) (err error) {
 	urlPath := cli.BuildClientURL("v3", "user", cli.UserID, "account_data", name)
@@ -1359,48 +1465,6 @@ func (cli *Client) SendMessageEvent(ctx context.Context, roomID id.RoomID, event
 	}
 
 	urlData := ClientURLPath{"v3", "rooms", roomID, "send", eventType.String(), txnID}
-	urlPath := cli.BuildURLWithQuery(urlData, queryParams)
-	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, contentJSON, &resp)
-	return
-}
-
-// BeeperSendEphemeralEvent sends an ephemeral event into a room using Beeper's unstable endpoint.
-// contentJSON should be a value that can be encoded as JSON using json.Marshal.
-func (cli *Client) BeeperSendEphemeralEvent(ctx context.Context, roomID id.RoomID, eventType event.Type, contentJSON any, extra ...ReqSendEvent) (resp *RespSendEvent, err error) {
-	var req ReqSendEvent
-	if len(extra) > 0 {
-		req = extra[0]
-	}
-
-	var txnID string
-	if len(req.TransactionID) > 0 {
-		txnID = req.TransactionID
-	} else {
-		txnID = cli.TxnID()
-	}
-
-	queryParams := map[string]string{}
-	if req.Timestamp > 0 {
-		queryParams["ts"] = strconv.FormatInt(req.Timestamp, 10)
-	}
-
-	if !req.DontEncrypt && cli != nil && cli.Crypto != nil && eventType != event.EventEncrypted {
-		var isEncrypted bool
-		isEncrypted, err = cli.StateStore.IsEncrypted(ctx, roomID)
-		if err != nil {
-			err = fmt.Errorf("failed to check if room is encrypted: %w", err)
-			return
-		}
-		if isEncrypted {
-			if contentJSON, err = cli.Crypto.Encrypt(ctx, roomID, eventType, contentJSON); err != nil {
-				err = fmt.Errorf("failed to encrypt event: %w", err)
-				return
-			}
-			eventType = event.EventEncrypted
-		}
-	}
-
-	urlData := ClientURLPath{"unstable", "com.beeper.ephemeral", "rooms", roomID, "ephemeral", eventType.String(), txnID}
 	urlPath := cli.BuildURLWithQuery(urlData, queryParams)
 	_, err = cli.MakeRequest(ctx, http.MethodPut, urlPath, contentJSON, &resp)
 	return
@@ -2098,6 +2162,7 @@ func (cli *Client) uploadMediaToURL(ctx context.Context, data ReqUploadMedia) (*
 				Msg("Error uploading media to external URL, not retrying")
 			return nil, err
 		}
+		// TODO change to exponential like normal retries?
 		backoff := time.Second * time.Duration(cli.DefaultHTTPRetries-retries)
 		cli.Log.Warn().Err(err).
 			Str("url", data.UnstableUploadURL).
@@ -2361,6 +2426,14 @@ func (cli *Client) Context(ctx context.Context, roomID id.RoomID, eventID id.Eve
 	urlPath := cli.BuildURLWithQuery(ClientURLPath{"v3", "rooms", roomID, "context", eventID}, query)
 	_, err = cli.MakeRequest(ctx, http.MethodGet, urlPath, nil, &resp)
 	return
+}
+
+func (cli *Client) Search(ctx context.Context, req *ReqSearch) (*RespSearch, error) {
+	urlPath := cli.BuildURLWithQuery(ClientURLPath{"v3", "search"}, req.Query())
+	wrappedReq := &ReqSearchWrapper{SearchCategories: ReqSearchCategoryWrapper{RoomEvents: req}}
+	var wrappedResp RespSearchWrapper
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, wrappedReq, &wrappedResp)
+	return wrappedResp.SearchCategories.RoomEvents, err
 }
 
 func (cli *Client) GetEvent(ctx context.Context, roomID id.RoomID, eventID id.EventID) (resp *event.Event, err error) {
@@ -2761,6 +2834,14 @@ func (cli *Client) DeletePushRule(ctx context.Context, scope string, kind pushru
 	return err
 }
 
+func (cli *Client) SetPushRuleEnabled(ctx context.Context, scope string, kind pushrules.PushRuleType, ruleID string, enabled bool) error {
+	urlPath := cli.BuildClientURL("v3", "pushrules", scope, kind, ruleID, "enabled")
+	_, err := cli.MakeRequest(ctx, http.MethodPut, urlPath, map[string]any{
+		"enabled": enabled,
+	}, nil)
+	return err
+}
+
 func (cli *Client) PutPushRule(ctx context.Context, scope string, kind pushrules.PushRuleType, ruleID string, req *ReqPutPushRule) error {
 	query := make(map[string]string)
 	if len(req.After) > 0 {
@@ -2771,6 +2852,14 @@ func (cli *Client) PutPushRule(ctx context.Context, scope string, kind pushrules
 	}
 	urlPath := cli.BuildURLWithQuery(ClientURLPath{"v3", "pushrules", scope, kind, ruleID}, query)
 	_, err := cli.MakeRequest(ctx, http.MethodPut, urlPath, req, nil)
+	return err
+}
+
+func (cli *Client) PutPushRuleActions(ctx context.Context, scope string, kind pushrules.PushRuleType, ruleID string, actions []*pushrules.PushAction) error {
+	urlPath := cli.BuildClientURL("v3", "pushrules", scope, kind, ruleID, "actions")
+	_, err := cli.MakeRequest(ctx, http.MethodPut, urlPath, &ReqPutPushRule{
+		Actions: actions,
+	}, nil)
 	return err
 }
 
