@@ -220,6 +220,17 @@ func (c *Crypter) IsEncrypted(s string) bool {
 	return len(s) > startLen && s[:startLen] == StartTag
 }
 
+// StartTag returns the StartTag constant: the prefix that marks a value as
+// encrypted by this package.
+//
+// It lets callers obtain the tag through an interface method instead of importing
+// the constant. The crypter/yaml module relies on this: it defines its own
+// Crypter interface and imports nothing from this package, so *Crypter exposes the
+// tag as a method to satisfy that interface and drive its decrypt fast-path.
+func (c *Crypter) StartTag() string {
+	return StartTag
+}
+
 // Encrypt encrypts data using AES-GCM and returns the result wrapped in ENCv1[...].
 //
 // If data is already tagged (IsEncrypted returns true), it is returned unchanged —

@@ -3,13 +3,13 @@ module github.com/etkecc/buscarron
 go 1.25.0
 
 require (
-	github.com/VictoriaMetrics/metrics v1.43.2
+	github.com/VictoriaMetrics/metrics v1.44.0
 	github.com/charmbracelet/keygen v0.5.4
 	github.com/etkecc/go-echo-basic-auth v1.4.0
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.3.0
-	github.com/etkecc/go-kit v1.9.4
-	github.com/etkecc/go-kit/format v0.0.0-20260523181134-a26282481fce
+	github.com/etkecc/go-kit v1.10.0
+	github.com/etkecc/go-kit/format v0.0.0-20260621211508-d465d459dc42
 	github.com/etkecc/go-linkpearl v0.0.0-20260616173449-66c119b8f160
 	github.com/etkecc/go-pricify v0.0.0-20260524174029-d96c793849c1
 	github.com/etkecc/go-psd v0.0.0-20260524174057-c14293867815
@@ -31,7 +31,7 @@ require (
 	golang.org/x/time v0.15.0
 	gopkg.in/yaml.v3 v3.0.1
 	maunium.net/go/mautrix v0.28.1
-	modernc.org/sqlite v1.52.0
+	modernc.org/sqlite v1.53.0
 )
 
 require (
@@ -57,12 +57,12 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.22 // indirect
-	github.com/mattn/go-sqlite3 v1.14.45 // indirect
+	github.com/mattn/go-sqlite3 v1.14.47 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/nixys/nxs-go-redmine/v5 v5.1.1 // indirect
-	github.com/petermattis/goid v0.0.0-20260617145643-92f3c7bf09b5 // indirect
+	github.com/petermattis/goid v0.0.0-20260701081913-4f67fd55d3b4 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
@@ -83,7 +83,7 @@ require (
 	golang.org/x/tools v0.46.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	modernc.org/libc v1.73.4 // indirect
+	modernc.org/libc v1.73.5 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )

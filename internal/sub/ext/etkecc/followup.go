@@ -14,10 +14,10 @@ import (
 
 const (
 	followupHeader = `Hello,
-Great news — your Matrix server order is confirmed! 🎉
+Great news, your Matrix server order is confirmed! 🎉
 
 `
-	followupNoQuestions = `We don't need any additional details right now — here are the next steps:
+	followupNoQuestions = `We don't need any additional details right now. Here are the next steps:
 
 **Payment Instructions**:
 
@@ -30,7 +30,7 @@ Once your payment is confirmed, we'll start setting up your Matrix server right 
 	followupFooter = `
 You can track your order status here: [Order Status Page](%s).
 
-Questions? Feel free to [contact us](https://etke.cc/contacts/) — we're here to help.
+Questions? Feel free to [contact us](https://etke.cc/contacts/), we're here to help.
 
 We're excited to work with you and provide a top-notch Matrix server experience.
 
@@ -56,7 +56,7 @@ func (o *order) generateFollowup(ctx context.Context, questions, delegation, dns
 			authorizedkeys = "/root/.ssh/authorized_keys"
 		}
 
-		pubkey := "technical issue; the key will be provided later, we apologize for the inconvenience"
+		pubkey := "technical issue; we'll send the key as soon as it's ready"
 		for _, file := range o.files {
 			if file.FileName == "sshkey.pub" {
 				pubkey = string(file.ContentBytes)

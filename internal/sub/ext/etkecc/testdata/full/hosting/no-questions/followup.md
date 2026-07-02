@@ -1,7 +1,7 @@
 Hello,
-Great news — your Matrix server order is confirmed! 🎉
+Great news, your Matrix server order is confirmed! 🎉
 
-We don't need any additional details right now — here are the next steps:
+We don't need any additional details right now. Here are the next steps:
 
 **Payment Instructions**:
 
@@ -13,7 +13,7 @@ We don't need any additional details right now — here are the next steps:
 Once your payment is confirmed, we'll start setting up your Matrix server right away. You'll receive a separate onboarding email with all the details you need.
 You can track your order status here: [Order Status Page](https://etke.cc/order/status/#749f066f31d6e795088f154897aba00b72bdbf951e4d5721caa37ee9d6eb31d9).
 
-Questions? Feel free to [contact us](https://etke.cc/contacts/) — we're here to help.
+Questions? Feel free to [contact us](https://etke.cc/contacts/), we're here to help.
 
 We're excited to work with you and provide a top-notch Matrix server experience.
 

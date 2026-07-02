@@ -1,6 +1,6 @@
 Hello!
 
-Great news — your Matrix server on example.com is up and running and ready to use! 🎉
+Great news, your Matrix server on example.com is up and running and ready to use! 🎉
 Below is everything you need to get started:
 
 **Server Links**

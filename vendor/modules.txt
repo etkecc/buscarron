@@ -15,7 +15,7 @@ github.com/PuerkitoBio/purell
 # github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578
 ## explicit
 github.com/PuerkitoBio/urlesc
-# github.com/VictoriaMetrics/metrics v1.43.2
+# github.com/VictoriaMetrics/metrics v1.44.0
 ## explicit; go 1.24.0
 github.com/VictoriaMetrics/metrics
 # github.com/aymerick/douceur v0.2.0
@@ -41,12 +41,12 @@ github.com/etkecc/go-env/dotenv
 # github.com/etkecc/go-healthchecks/v2 v2.3.0
 ## explicit; go 1.22
 github.com/etkecc/go-healthchecks/v2
-# github.com/etkecc/go-kit v1.9.4
+# github.com/etkecc/go-kit v1.10.0
 ## explicit; go 1.25.0
 github.com/etkecc/go-kit
 github.com/etkecc/go-kit/crypter
 github.com/etkecc/go-kit/workpool
-# github.com/etkecc/go-kit/format v0.0.0-20260523181134-a26282481fce
+# github.com/etkecc/go-kit/format v0.0.0-20260621211508-d465d459dc42
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
 # github.com/etkecc/go-linkpearl v0.0.0-20260616173449-66c119b8f160
@@ -145,7 +145,7 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.22
 ## explicit; go 1.21
 github.com/mattn/go-isatty
-# github.com/mattn/go-sqlite3 v1.14.45
+# github.com/mattn/go-sqlite3 v1.14.47
 ## explicit; go 1.21
 github.com/mattn/go-sqlite3
 # github.com/microcosm-cc/bluemonday v1.0.27
@@ -168,7 +168,7 @@ github.com/ncruces/go-strftime
 ## explicit; go 1.21
 github.com/nixys/nxs-go-redmine/v5
 github.com/nixys/nxs-go-redmine/v5/mimereader
-# github.com/petermattis/goid v0.0.0-20260617145643-92f3c7bf09b5
+# github.com/petermattis/goid v0.0.0-20260701081913-4f67fd55d3b4
 ## explicit; go 1.17
 github.com/petermattis/goid
 # github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
@@ -360,7 +360,7 @@ maunium.net/go/mautrix/format/mdext
 maunium.net/go/mautrix/id
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/sqlstatestore
-# modernc.org/libc v1.73.4
+# modernc.org/libc v1.73.5
 ## explicit; go 1.25.0
 modernc.org/libc
 modernc.org/libc/errno
@@ -394,7 +394,7 @@ modernc.org/mathutil
 # modernc.org/memory v1.11.0
 ## explicit; go 1.23.0
 modernc.org/memory
-# modernc.org/sqlite v1.52.0
+# modernc.org/sqlite v1.53.0
 ## explicit; go 1.25.0
 modernc.org/sqlite
 modernc.org/sqlite/lib

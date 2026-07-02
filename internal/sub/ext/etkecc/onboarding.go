@@ -43,7 +43,7 @@ func (o *order) generateOnboarding(ctx context.Context) {
 func (o *order) generateOnboardingIntro() string {
 	var txt strings.Builder
 	txt.WriteString("Hello!\n\n")
-	txt.WriteString("Great news — your Matrix server on " + o.domain + " is up and running and ready to use! 🎉\n")
+	txt.WriteString("Great news, your Matrix server on " + o.domain + " is up and running and ready to use! 🎉\n")
 	txt.WriteString("Below is everything you need to get started:\n\n")
 
 	return txt.String()
