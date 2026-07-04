@@ -80,7 +80,7 @@ func (o *order) keygenWithPassphrase() (pub, priv string) {
 		return "ssh-todo TODO", "-----BEGIN OPENSSH PRIVATE KEY-----\nTODO\n-----END OPENSSH PRIVATE KEY-----"
 	}
 	salt := kit.Hash(o.domain)
-	passphrase := secgen.Passphrase(os.Getenv("BUSCARRON_SHARED_SECRET"), salt)
+	passphrase := secgen.Passphrase(os.Getenv("ETKE_SHARED_SECRET"), salt)
 	keypair, err := keygen.New("", keygen.WithPassphrase(passphrase), keygen.WithKeyType(keygen.Ed25519))
 	if err != nil {
 		return "", ""
