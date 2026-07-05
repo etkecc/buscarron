@@ -38,27 +38,29 @@ github.com/etkecc/go-echo-basic-auth
 ## explicit; go 1.18
 github.com/etkecc/go-env
 github.com/etkecc/go-env/dotenv
-# github.com/etkecc/go-healthchecks/v2 v2.3.0
-## explicit; go 1.22
+# github.com/etkecc/go-healthchecks/v2 v2.4.0
+## explicit; go 1.26
 github.com/etkecc/go-healthchecks/v2
-# github.com/etkecc/go-kit v1.10.0
-## explicit; go 1.25.0
+# github.com/etkecc/go-kit v1.12.1
+## explicit; go 1.26
 github.com/etkecc/go-kit
 github.com/etkecc/go-kit/crypter
+github.com/etkecc/go-kit/httpclient
+github.com/etkecc/go-kit/retry
 github.com/etkecc/go-kit/workpool
-# github.com/etkecc/go-kit/format v0.0.0-20260621211508-d465d459dc42
+# github.com/etkecc/go-kit/format v0.0.0-20260705103708-e8b18618b74c
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
-# github.com/etkecc/go-linkpearl v0.0.0-20260616173449-66c119b8f160
+# github.com/etkecc/go-linkpearl v0.0.0-20260704193912-2d3c3586a77c
 ## explicit; go 1.25.0
 github.com/etkecc/go-linkpearl
-# github.com/etkecc/go-pricify v0.0.0-20260524174029-d96c793849c1
-## explicit; go 1.22
+# github.com/etkecc/go-pricify v1.0.0
+## explicit; go 1.26
 github.com/etkecc/go-pricify
-# github.com/etkecc/go-psd v0.0.0-20260524174057-c14293867815
-## explicit; go 1.22.0
+# github.com/etkecc/go-psd v0.0.0-20260705105759-97d6cc68fb4e
+## explicit; go 1.26
 github.com/etkecc/go-psd
-# github.com/etkecc/go-redmine v0.0.0-20260524174218-95c9b97b4256
+# github.com/etkecc/go-redmine v0.0.0-20260704194633-27171949b22a
 ## explicit; go 1.22
 github.com/etkecc/go-redmine
 # github.com/etkecc/go-secgen v1.4.0

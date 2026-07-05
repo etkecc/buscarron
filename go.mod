@@ -1,19 +1,19 @@
 module github.com/etkecc/buscarron
 
-go 1.25.0
+go 1.26
 
 require (
 	github.com/VictoriaMetrics/metrics v1.44.0
 	github.com/charmbracelet/keygen v0.5.4
 	github.com/etkecc/go-echo-basic-auth v1.4.0
 	github.com/etkecc/go-env v1.2.1
-	github.com/etkecc/go-healthchecks/v2 v2.3.0
-	github.com/etkecc/go-kit v1.10.0
-	github.com/etkecc/go-kit/format v0.0.0-20260621211508-d465d459dc42
-	github.com/etkecc/go-linkpearl v0.0.0-20260616173449-66c119b8f160
-	github.com/etkecc/go-pricify v0.0.0-20260524174029-d96c793849c1
-	github.com/etkecc/go-psd v0.0.0-20260524174057-c14293867815
-	github.com/etkecc/go-redmine v0.0.0-20260524174218-95c9b97b4256
+	github.com/etkecc/go-healthchecks/v2 v2.4.0
+	github.com/etkecc/go-kit v1.12.1
+	github.com/etkecc/go-kit/format v0.0.0-20260705103708-e8b18618b74c
+	github.com/etkecc/go-linkpearl v0.0.0-20260704193912-2d3c3586a77c
+	github.com/etkecc/go-pricify v1.0.0
+	github.com/etkecc/go-psd v0.0.0-20260705105759-97d6cc68fb4e
+	github.com/etkecc/go-redmine v0.0.0-20260704194633-27171949b22a
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
 	github.com/hashicorp/golang-lru/v2 v2.0.7

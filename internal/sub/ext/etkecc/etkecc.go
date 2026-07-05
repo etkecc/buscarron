@@ -49,7 +49,7 @@ func New(pm EmailSender) *Etkecc {
 		pm:  pm,
 		now: time.Now,
 	}
-	ext.pricify, _ = pricify.New() //nolint:errcheck // proof-of-concept
+	ext.pricify, _ = pricify.New(context.Background()) //nolint:errcheck // proof-of-concept
 
 	log := zerolog.Ctx(utils.NewContext())
 	if secret := os.Getenv("ETKE_INV_SECRET"); secret != "" {
@@ -69,7 +69,7 @@ func New(pm EmailSender) *Etkecc {
 func (e *Etkecc) Execute(ctx context.Context, v common.Validator, form *config.Form, data map[string]string) (htmlResponse, matrixMessage string, files []*mautrix.ReqUploadMedia) {
 	var p *pricify.Data
 	var err error
-	p, err = pricify.New()
+	p, err = pricify.New(ctx)
 	if err != nil && p == nil {
 		p = e.pricify
 	}

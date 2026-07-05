@@ -7,13 +7,6 @@ var (
 	cachemu sync.Mutex
 )
 
-func init() {
-	data, err := New()
-	if err == nil {
-		cached = data
-	}
-}
-
 func getCache() *Data {
 	cachemu.Lock()
 	defer cachemu.Unlock()

@@ -11,25 +11,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/etkecc/go-kit/httpclient"
 	"github.com/goccy/go-json"
 
 	"github.com/hashicorp/golang-lru/v2/expirable"
 )
 
-const (
-	// DefaultUserAgent is the default user agent used by the client
-	DefaultUserAgent = "Go-PSD-client/v0.0.0"
-	// DefaultMaxRetries is the default number of retries for failed requests
-	DefaultMaxRetries = 3
-	// DefaultMaxIdleConns is the maximum number of idle connections across all hosts.
-	DefaultMaxIdleConns = 256
-	// DefaultMaxIdleConnsPerHost is the maximum idle connections per host.
-	DefaultMaxIdleConnsPerHost = 256
-	// DefaultMaxConnsPerHost is the maximum total connections per host.
-	DefaultMaxConnsPerHost = 256
-	// DefaultIdleConnTimeout controls how long idle keep-alive connections stay around.
-	DefaultIdleConnTimeout = 90 * time.Second
-)
+// DefaultUserAgent is the default user agent used by the client
+const DefaultUserAgent = "Go-PSD-client/v0.0.0"
 
 // Client is the client to interact with the Prometheus Service Discovery HTTP API
 type Client struct {
@@ -43,7 +32,6 @@ type Client struct {
 	login      string
 	password   string
 	userAgent  string
-	maxRetries int
 }
 
 type cacheValue struct {
@@ -58,20 +46,6 @@ func NewClient(baseURL, login, password string, userAgentOverride ...string) *Cl
 	if err != nil || login == "" || password == "" {
 		return &Client{client: http.DefaultClient}
 	}
-
-	defaultTransport, ok := http.DefaultTransport.(*http.Transport)
-	if !ok {
-		return &Client{client: http.DefaultClient}
-	}
-	transport := defaultTransport.Clone()
-	transport.MaxIdleConns = DefaultMaxIdleConns
-	transport.MaxIdleConnsPerHost = DefaultMaxIdleConnsPerHost
-	transport.MaxConnsPerHost = DefaultMaxConnsPerHost
-	transport.IdleConnTimeout = DefaultIdleConnTimeout
-	transport.ForceAttemptHTTP2 = true
-	transport.TLSHandshakeTimeout = 10 * time.Second
-	transport.ResponseHeaderTimeout = 10 * time.Second
-	transport.ExpectContinueTimeout = 1 * time.Second
 
 	cache := expirable.NewLRU[string, cacheValue](1000, nil, 5*time.Minute)
 	userAgent := DefaultUserAgent
@@ -93,11 +67,11 @@ func NewClient(baseURL, login, password string, userAgentOverride ...string) *Cl
 		baseHeader: baseHeader,
 		basicAuth:  basicAuth,
 		cache:      cache,
-		client:     &http.Client{Transport: transport},
-		login:      login,
-		password:   password,
-		userAgent:  userAgent,
-		maxRetries: DefaultMaxRetries,
+		// 1s step, not the 200ms fleet default: a reloading SD backend gets room to breathe.
+		client:    httpclient.NewSingleHost(httpclient.WithRetryDelayStep(1 * time.Second)),
+		login:     login,
+		password:  password,
+		userAgent: userAgent,
 	}
 }
 
@@ -118,64 +92,45 @@ func (p *Client) buildURL(identifier string, jobOverride ...string) string {
 	return b.String()
 }
 
-// do executes an HTTP request with per-attempt timeout and retry handling.
-// It returns a cancel func that must be called after the response body is fully consumed.
-func (p *Client) do(ctx context.Context, uri string, cached *cacheValue, currentAttempt ...int) (*http.Response, func(), error) {
-	attempt := 0
-	if len(currentAttempt) > 0 {
-		attempt = currentAttempt[0]
-	}
-
+// do issues one GET; httpclient owns retry and per-attempt timeout. A 200/304 is returned
+// live for the caller to read and Close; a 410 (not-found) and any other non-2xx are
+// terminal here, their bodies drained so the connection returns to the pool.
+func (p *Client) do(ctx context.Context, uri string, cached *cacheValue) (*http.Response, error) {
 	headers := p.baseHeader.Clone()
 	if cached != nil {
 		headers.Set("If-Modified-Since", cached.cachedAt)
 		headers.Set("If-None-Match", cached.etag)
 	}
-	childCtx, cancel := context.WithTimeout(ctx, 10*time.Second)
-	if _, ok := ctx.Deadline(); ok {
-		cancel()
-		childCtx = ctx
-		cancel = func() {}
-	}
 
-	req, err := http.NewRequestWithContext(childCtx, http.MethodGet, uri, http.NoBody)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, uri, http.NoBody)
 	if err != nil {
-		cancel()
-		return nil, nil, err
+		return nil, err
 	}
 	req.Header = headers
 
 	resp, err := p.client.Do(req)
 	if err != nil {
-		cancel()
-		return nil, nil, err
+		return nil, err
 	}
 
-	if resp.StatusCode == http.StatusGone { // not found, to distinguish from reverse proxy 404 error
-		defer resp.Body.Close()
-		cancel()
-		return nil, nil, nil
+	if resp.StatusCode == http.StatusGone { // not found, distinct from a reverse-proxy 404
+		p.drain(resp)
+		return nil, nil
 	}
 
 	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNotModified {
-		defer resp.Body.Close()
-		if attempt < p.maxRetries {
-			wait := 1 * time.Second * time.Duration(attempt+1)
-			cancel()
-			select {
-			case <-time.After(wait): // Exponential backoff
-			case <-ctx.Done():
-				return nil, nil, ctx.Err()
-			}
-			return p.do(ctx, uri, cached, attempt+1)
-		}
-
-		err = fmt.Errorf("HTTP error: %s", resp.Status)
-		cancel()
-		return nil, nil, err
+		p.drain(resp)
+		return nil, fmt.Errorf("HTTP error: %s", resp.Status)
 	}
 
-	return resp, cancel, nil
+	return resp, nil
+}
+
+// drain empties and closes a body psd won't hand back, so httpclient's cancelOnClose fires
+// and the connection returns to the pool instead of being torn down under a 5xx storm.
+func (p *Client) drain(resp *http.Response) {
+	_, _ = io.Copy(io.Discard, resp.Body) //nolint:errcheck // best-effort drain; a failure just costs the connection
+	_ = resp.Body.Close()
 }
 
 // GetWithContext returns the list of targets for the given identifier using the given context
@@ -190,7 +145,7 @@ func (p *Client) GetWithContext(ctx context.Context, identifier string, jobOverr
 		cachedPtr = &cachedData
 	}
 
-	resp, cancel, err := p.do(ctx, urlTarget, cachedPtr)
+	resp, err := p.do(ctx, urlTarget, cachedPtr)
 	if err != nil {
 		return nil, err
 	}
@@ -200,7 +155,6 @@ func (p *Client) GetWithContext(ctx context.Context, identifier string, jobOverr
 	}
 
 	defer resp.Body.Close()
-	defer cancel()
 	datab, err := p.responseData(resp, cached, cachedData, urlTarget)
 	if err != nil {
 		return nil, err
@@ -263,7 +217,7 @@ func (p *Client) GetRaw(ctx context.Context, identifier string, jobOverride ...s
 		return nil, nil
 	}
 	urlTarget := p.buildURL(identifier, jobOverride...)
-	resp, cancel, err := p.do(ctx, urlTarget, nil)
+	resp, err := p.do(ctx, urlTarget, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -272,7 +226,6 @@ func (p *Client) GetRaw(ctx context.Context, identifier string, jobOverride ...s
 		return nil, nil
 	}
 	defer resp.Body.Close()
-	defer cancel()
 
 	return readBody(resp.Body, resp.ContentLength)
 }

@@ -1,6 +1,6 @@
 package pricify
 
-import "encoding/json"
+import "github.com/goccy/go-json"
 
 type sourceModel struct {
 	Bases     []*sourceItem      `json:"bases"`
