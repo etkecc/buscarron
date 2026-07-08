@@ -8,12 +8,16 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/etkecc/go-kit/httpclient"
 )
 
 var (
 	gpURL  = os.Getenv("BUSCARRON_GP_URL")
 	gpUser = os.Getenv("BUSCARRON_GP_USER")
 	gpPass = os.Getenv("BUSCARRON_GP_PASS")
+
+	gpClient = httpclient.NewSingleHost()
 )
 
 type gpreq struct {
@@ -69,7 +73,7 @@ func (o *order) toGP(ctx context.Context, hosts string) error {
 	}
 	r.SetBasicAuth(gpUser, gpPass)
 	r.Header.Set("Content-Type", "application/json")
-	resp, err := http.DefaultClient.Do(r)
+	resp, err := gpClient.Do(r)
 	if err != nil {
 		log.Error().Err(err).Msg("failed to send request")
 		return err

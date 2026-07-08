@@ -10,9 +10,12 @@
 package httpclient
 
 import (
+	"context"
 	"crypto/tls"
 	"errors"
+	"net"
 	"net/http"
+	"syscall"
 	"time"
 
 	"github.com/etkecc/go-kit/retry"
@@ -76,6 +79,8 @@ type config struct {
 	protocols     *http.Protocols
 	http2         *http.HTTP2Config
 	tlsMinVersion uint16
+	dialContext   func(context.Context, string, string) (net.Conn, error)
+	dialControl   func(string, string, syscall.RawConn) error
 
 	retrier            *retry.Retry
 	retryIf            func(error) bool
@@ -99,6 +104,25 @@ func New(opts ...Option) *http.Client {
 // keepalive pings to notice a dead persistent connection.
 func NewSingleHost(opts ...Option) *http.Client {
 	return defaultConfig().apply(append([]Option{singleHostPreset()}, opts...)).build()
+}
+
+// NewMultiHost presets the pool for a wide, shallow crawl: thousands of hosts each seen once and
+// never called back, so per-host idle drops low while per-host concurrency stays unbounded.
+func NewMultiHost(opts ...Option) *http.Client {
+	return defaultConfig().apply(append([]Option{multiHostPreset()}, opts...)).build()
+}
+
+// NewTransport returns the tuned base transport (safe pool defaults, no retry layer) for a caller
+// building their own client. Read-only by intent: rebuild it into an H2-coalescing transport and
+// you hand back the cross-host cert confusion the pool defaults exist to dodge. Your problem then.
+func NewTransport(opts ...TransportOption) *http.Transport {
+	c := defaultConfig()
+	for _, opt := range opts {
+		if opt != nil {
+			opt.apply(c)
+		}
+	}
+	return c.newTransport()
 }
 
 // Wrap adds the retry layer to a caller-supplied client, leaving its transport tuning
@@ -178,7 +202,7 @@ func (c *config) buildRetrier() *retry.Retry {
 // client Timeout stays 0: retryTransport owns per-attempt deadlines, and a client Timeout
 // would cap the whole retry sequence instead, killing a legitimate second try.
 func (c *config) newTransport() *http.Transport {
-	return &http.Transport{
+	t := &http.Transport{
 		Proxy:                 http.ProxyFromEnvironment,
 		MaxIdleConns:          c.maxIdleConns,
 		MaxIdleConnsPerHost:   c.maxIdleConnsPerHost,
@@ -191,4 +215,27 @@ func (c *config) newTransport() *http.Transport {
 		HTTP2:                 c.http2,
 		TLSClientConfig:       &tls.Config{MinVersion: c.tlsMinVersion},
 	}
+	if c.dialContext != nil {
+		// caller owns the dial and its own Control; WithDialGuard does not reach here.
+		t.DialContext = c.dialContext
+	} else {
+		// built-in dialer: a 30s dial timeout + keepalive, carrying the guard (nil unless WithDialGuard)
+		// and honoring a WithDialIP pin by rewriting addr so Control fires on the pinned IP, not the name.
+		dialer := &net.Dialer{Timeout: defaultDialTimeout, KeepAlive: defaultDialKeepAlive, Control: c.dialControl}
+		t.DialContext = func(ctx context.Context, network, addr string) (net.Conn, error) {
+			if pinned := dialIPFromContext(ctx); pinned != "" {
+				_, port, err := net.SplitHostPort(addr)
+				if err != nil {
+					return nil, err
+				}
+				addr = net.JoinHostPort(pinned, port)
+			}
+			return dialer.DialContext(ctx, network, addr)
+		}
+	}
+	if c.dialControl != nil {
+		// a guard and an egress proxy are mutually exclusive: Control would only see the proxy's IP.
+		t.Proxy = nil
+	}
+	return t
 }
