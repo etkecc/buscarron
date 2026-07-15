@@ -73,6 +73,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsFacebook())
 	txt.WriteString(o.varsGmessages())
 	txt.WriteString(o.varsGooglechat())
+	txt.WriteString(o.varsGvoice())
 	txt.WriteString(o.varsHeisenbridge())
 	txt.WriteString(o.varsInstagram())
 	txt.WriteString(o.varsLinkedin())
@@ -1015,6 +1016,17 @@ func (o *order) varsGooglechat() string {
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::googlechat\n")
 	txt.WriteString("matrix_mautrix_googlechat_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsGvoice() string {
+	if !o.has("gvoice") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::gvoice\n")
+	txt.WriteString("matrix_mautrix_gvoice_enabled: yes\n")
 
 	return txt.String()
 }

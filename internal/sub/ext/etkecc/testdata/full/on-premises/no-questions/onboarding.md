@@ -52,6 +52,7 @@ Below is everything you need to get started:
 * Facebook: [@messengerbot:example.com](https://matrix.to/#/@messengerbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-meta-messenger/))
 * Gmessages: [@gmessagesbot:example.com](https://matrix.to/#/@gmessagesbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-gmessages/))
 * Googlechat: [@googlechatbot:example.com](https://matrix.to/#/@googlechatbot:example.com) ([help](https://etke.cc/help/bridges/mautrix-googlechat/))
+* Gvoice: [@gvoicebot:example.com](https://matrix.to/#/@gvoicebot:example.com) ([help](https://etke.cc/help/bridges/mautrix-gvoice/))
 * Instagram: [@instagrambot:example.com](https://matrix.to/#/@instagrambot:example.com) ([help](https://etke.cc/help/bridges/mautrix-meta-instagram/))
 * Irc: [@heisenbridge:example.com](https://matrix.to/#/@heisenbridge:example.com) ([help](https://etke.cc/help/bridges/heisenbridge/))
 * Linkedin: [@linkedinbot:example.com](https://matrix.to/#/@linkedinbot:example.com) ([help](https://etke.cc/help/bridges/beeper-linkedin/))

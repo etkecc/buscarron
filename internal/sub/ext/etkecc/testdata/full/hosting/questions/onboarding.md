@@ -53,6 +53,7 @@ Below is everything you need to get started:
 * Facebook: [@messengerbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@messengerbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-meta-messenger/))
 * Gmessages: [@gmessagesbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@gmessagesbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-gmessages/))
 * Googlechat: [@googlechatbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@googlechatbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-googlechat/))
+* Gvoice: [@gvoicebot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@gvoicebot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-gvoice/))
 * Instagram: [@instagrambot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@instagrambot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/mautrix-meta-instagram/))
 * Irc: [@heisenbridge:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@heisenbridge:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/heisenbridge/))
 * Linkedin: [@linkedinbot:higenjitsuteki.onmatrix.chat](https://matrix.to/#/@linkedinbot:higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/bridges/beeper-linkedin/))

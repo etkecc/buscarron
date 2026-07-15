@@ -327,6 +327,9 @@ matrix_mautrix_gmessages_enabled: yes
 # bridges::googlechat
 matrix_mautrix_googlechat_enabled: yes
 
+# bridges::gvoice
+matrix_mautrix_gvoice_enabled: yes
+
 # bridges::irc (heisenbridge)
 matrix_heisenbridge_enabled: yes
 matrix_heisenbridge_identd_enabled: yes
