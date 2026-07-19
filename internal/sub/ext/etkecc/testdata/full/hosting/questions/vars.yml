@@ -316,58 +316,58 @@ matrix_bot_matrix_reminder_bot_reminders_timezone: "TODO"
 matrix_bot_matrix_reminder_bot_matrix_user_password: TODO64
 
 # bridges::bluesky
-matrix_mautrix_bluesky_enabled: yes
+matrix_bridge_mautrix_bluesky_enabled: yes
 
 # bridges::discord
-matrix_mautrix_discord_enabled: yes
+matrix_bridge_mautrix_discord_enabled: yes
 
 # bridges::email
-matrix_postmoogle_enabled: yes
-matrix_postmoogle_password: TODO64
-matrix_postmoogle_data_secret: TODO32
+matrix_bridge_postmoogle_enabled: yes
+matrix_bridge_postmoogle_password: TODO64
+matrix_bridge_postmoogle_data_secret: TODO32
 
 # bridges::facebook
-matrix_mautrix_meta_messenger_enabled: yes
+matrix_bridge_mautrix_meta_messenger_enabled: yes
 
 # bridges::gmessages
-matrix_mautrix_gmessages_enabled: yes
+matrix_bridge_mautrix_gmessages_enabled: yes
 
 # bridges::googlechat
-matrix_mautrix_googlechat_enabled: yes
+matrix_bridge_mautrix_googlechat_enabled: yes
 
 # bridges::gvoice
-matrix_mautrix_gvoice_enabled: yes
+matrix_bridge_mautrix_gvoice_enabled: yes
 
 # bridges::irc (heisenbridge)
-matrix_heisenbridge_enabled: yes
-matrix_heisenbridge_identd_enabled: yes
-matrix_heisenbridge_owner: "{{ matrix_admin }}"
+matrix_bridge_heisenbridge_enabled: yes
+matrix_bridge_heisenbridge_identd_enabled: yes
+matrix_bridge_heisenbridge_owner: "{{ matrix_admin }}"
 
 # bridges::instagram
-matrix_mautrix_meta_instagram_enabled: yes
+matrix_bridge_mautrix_meta_instagram_enabled: yes
 
 # bridges::linkedin
-matrix_beeper_linkedin_enabled: yes
+matrix_bridge_beeper_linkedin_enabled: yes
 
 # bridges::signal
-matrix_mautrix_signal_enabled: yes
+matrix_bridge_mautrix_signal_enabled: yes
 
 # bridges::slack
-matrix_mautrix_slack_enabled: yes
+matrix_bridge_mautrix_slack_enabled: yes
 
 # bridges::steam
-matrix_steam_bridge_enabled: yes
+matrix_bridge_steam_enabled: yes
 
 # bridges::telegram
-matrix_mautrix_telegram_enabled: yes
-matrix_mautrix_telegram_api_id: "TODO"
-matrix_mautrix_telegram_api_hash: "TODO"
+matrix_bridge_mautrix_telegram_enabled: yes
+matrix_bridge_mautrix_telegram_api_id: "TODO"
+matrix_bridge_mautrix_telegram_api_hash: "TODO"
 
 # bridges::twitter
-matrix_mautrix_twitter_enabled: yes
+matrix_bridge_mautrix_twitter_enabled: yes
 
 # bridges::hookshot
-matrix_hookshot_enabled: yes
+matrix_bridge_hookshot_enabled: yes
 
 # bridges::whatsapp
-matrix_mautrix_whatsapp_enabled: yes
+matrix_bridge_mautrix_whatsapp_enabled: yes

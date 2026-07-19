@@ -144,8 +144,8 @@ github.com/mattevans/postmark-go
 # github.com/mattn/go-colorable v0.1.15
 ## explicit; go 1.18
 github.com/mattn/go-colorable
-# github.com/mattn/go-isatty v0.0.22
-## explicit; go 1.21
+# github.com/mattn/go-isatty v0.0.23
+## explicit; go 1.20
 github.com/mattn/go-isatty
 # github.com/mattn/go-sqlite3 v1.14.48
 ## explicit; go 1.21
@@ -170,7 +170,7 @@ github.com/ncruces/go-strftime
 ## explicit; go 1.21
 github.com/nixys/nxs-go-redmine/v5
 github.com/nixys/nxs-go-redmine/v5/mimereader
-# github.com/petermattis/goid v0.0.0-20260713124913-97594f28f5ca
+# github.com/petermattis/goid v0.0.0-20260716134002-a9b348f0a2b9
 ## explicit; go 1.17
 github.com/petermattis/goid
 # github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
@@ -238,7 +238,7 @@ github.com/yuin/goldmark/util
 # github.com/ziflex/lecho/v3 v3.11.1
 ## explicit; go 1.25.0
 github.com/ziflex/lecho/v3
-# go.mau.fi/util v0.9.10
+# go.mau.fi/util v0.9.11
 ## explicit; go 1.25.0
 go.mau.fi/util/base58
 go.mau.fi/util/confusable
@@ -276,7 +276,7 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20260709172345-9ea1abe57597
+# golang.org/x/exp v0.0.0-20260718201538-764159d718ef
 ## explicit; go 1.25.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
@@ -329,7 +329,7 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/mautrix v0.28.1
+# maunium.net/go/mautrix v0.29.0
 ## explicit; go 1.25.0
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
@@ -360,9 +360,10 @@ maunium.net/go/mautrix/event
 maunium.net/go/mautrix/format
 maunium.net/go/mautrix/format/mdext
 maunium.net/go/mautrix/id
+maunium.net/go/mautrix/oauth
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/sqlstatestore
-# modernc.org/libc v1.74.1
+# modernc.org/libc v1.74.3
 ## explicit; go 1.25.0
 modernc.org/libc
 modernc.org/libc/errno
@@ -396,7 +397,7 @@ modernc.org/mathutil
 # modernc.org/memory v1.11.0
 ## explicit; go 1.23.0
 modernc.org/memory
-# modernc.org/sqlite v1.53.0
+# modernc.org/sqlite v1.54.0
 ## explicit; go 1.25.0
 modernc.org/sqlite
 modernc.org/sqlite/lib

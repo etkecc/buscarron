@@ -935,7 +935,7 @@ func (o *order) varsBluesky() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::bluesky\n")
-	txt.WriteString("matrix_mautrix_bluesky_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_bluesky_enabled: yes\n")
 
 	return txt.String()
 }
@@ -946,7 +946,7 @@ func (o *order) varsDiscord() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::discord\n")
-	txt.WriteString("matrix_mautrix_discord_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_discord_enabled: yes\n")
 
 	return txt.String()
 }
@@ -958,9 +958,9 @@ func (o *order) varsEmail() string {
 	var txt strings.Builder
 
 	txt.WriteString("\n# bridges::email\n")
-	txt.WriteString("matrix_postmoogle_enabled: yes\n")
-	txt.WriteString("matrix_postmoogle_password: " + o.encrypt(o.pwgen()) + "\n")
-	txt.WriteString("matrix_postmoogle_data_secret: " + o.encrypt(o.pwgen(32)) + "\n")
+	txt.WriteString("matrix_bridge_postmoogle_enabled: yes\n")
+	txt.WriteString("matrix_bridge_postmoogle_password: " + o.encrypt(o.pwgen()) + "\n")
+	txt.WriteString("matrix_bridge_postmoogle_data_secret: " + o.encrypt(o.pwgen(32)) + "\n")
 
 	return txt.String()
 }
@@ -971,7 +971,7 @@ func (o *order) varsSlack() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::slack\n")
-	txt.WriteString("matrix_mautrix_slack_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_slack_enabled: yes\n")
 
 	return txt.String()
 }
@@ -982,7 +982,7 @@ func (o *order) varsSteam() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::steam\n")
-	txt.WriteString("matrix_steam_bridge_enabled: yes\n")
+	txt.WriteString("matrix_bridge_steam_enabled: yes\n")
 
 	return txt.String()
 }
@@ -993,7 +993,7 @@ func (o *order) varsFacebook() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::facebook\n")
-	txt.WriteString("matrix_mautrix_meta_messenger_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_meta_messenger_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1004,7 +1004,7 @@ func (o *order) varsGmessages() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::gmessages\n")
-	txt.WriteString("matrix_mautrix_gmessages_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_gmessages_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1015,7 +1015,7 @@ func (o *order) varsGooglechat() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::googlechat\n")
-	txt.WriteString("matrix_mautrix_googlechat_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_googlechat_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1026,7 +1026,7 @@ func (o *order) varsGvoice() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::gvoice\n")
-	txt.WriteString("matrix_mautrix_gvoice_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_gvoice_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1038,9 +1038,9 @@ func (o *order) varsHeisenbridge() string {
 
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::irc (heisenbridge)\n")
-	txt.WriteString("matrix_heisenbridge_enabled: yes\n")
-	txt.WriteString("matrix_heisenbridge_identd_enabled: yes\n")
-	txt.WriteString("matrix_heisenbridge_owner: \"{{ matrix_admin }}\"\n")
+	txt.WriteString("matrix_bridge_heisenbridge_enabled: yes\n")
+	txt.WriteString("matrix_bridge_heisenbridge_identd_enabled: yes\n")
+	txt.WriteString("matrix_bridge_heisenbridge_owner: \"{{ matrix_admin }}\"\n")
 
 	return txt.String()
 }
@@ -1051,7 +1051,7 @@ func (o *order) varsInstagram() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::instagram\n")
-	txt.WriteString("matrix_mautrix_meta_instagram_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_meta_instagram_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1062,7 +1062,7 @@ func (o *order) varsLinkedin() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::linkedin\n")
-	txt.WriteString("matrix_beeper_linkedin_enabled: yes\n")
+	txt.WriteString("matrix_bridge_beeper_linkedin_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1073,7 +1073,7 @@ func (o *order) varsSignal() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::signal\n")
-	txt.WriteString("matrix_mautrix_signal_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_signal_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1084,12 +1084,12 @@ func (o *order) varsTelegram() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::telegram\n")
-	txt.WriteString("matrix_mautrix_telegram_enabled: yes\n")
-	txt.WriteString("matrix_mautrix_telegram_api_id: \"" + o.get("telegram-api-id") + "\"\n")
-	txt.WriteString("matrix_mautrix_telegram_api_hash: \"" + o.encrypt(o.get("telegram-api-hash")) + "\"\n")
+	txt.WriteString("matrix_bridge_mautrix_telegram_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_telegram_api_id: \"" + o.get("telegram-api-id") + "\"\n")
+	txt.WriteString("matrix_bridge_mautrix_telegram_api_hash: \"" + o.encrypt(o.get("telegram-api-hash")) + "\"\n")
 
 	if o.has("telegram-bot-token") {
-		txt.WriteString(`matrix_mautrix_telegram_bot_token: "` + o.encrypt(o.get("telegram-bot-token")) + `"` + "\n")
+		txt.WriteString(`matrix_bridge_mautrix_telegram_bot_token: "` + o.encrypt(o.get("telegram-bot-token")) + `"` + "\n")
 	}
 
 	return txt.String()
@@ -1101,7 +1101,7 @@ func (o *order) varsTwitter() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::twitter\n")
-	txt.WriteString("matrix_mautrix_twitter_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_twitter_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1112,7 +1112,7 @@ func (o *order) varsWebhooks() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::hookshot\n")
-	txt.WriteString("matrix_hookshot_enabled: yes\n")
+	txt.WriteString("matrix_bridge_hookshot_enabled: yes\n")
 
 	return txt.String()
 }
@@ -1123,7 +1123,7 @@ func (o *order) varsWhatsapp() string {
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::whatsapp\n")
-	txt.WriteString("matrix_mautrix_whatsapp_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_whatsapp_enabled: yes\n")
 
 	return txt.String()
 }

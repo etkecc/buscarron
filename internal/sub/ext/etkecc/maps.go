@@ -59,9 +59,7 @@ var bridgemap = map[string]string{
 	"telegram":   "@telegrambot",
 	"twitter":    "@twitterbot",
 	"webhooks":   "@hookshot",
-	"wechat":     "@wechatbot",
 	"whatsapp":   "@whatsappbot",
-	"zulip":      "@zulipbot",
 }
 
 var helpmap = map[string]string{
