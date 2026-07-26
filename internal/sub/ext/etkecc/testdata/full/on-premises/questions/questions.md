@@ -1,6 +1,6 @@
 
 
-price: €67
+price: €68
 
 [status page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947)
 
@@ -48,6 +48,7 @@ Please, add the following DNS entries:
 - ntfy	CNAME record	matrix.example.com.
 - peertube	CNAME record	matrix.example.com.
 - radicale	CNAME record	matrix.example.com.
+- sable	CNAME record	matrix.example.com.
 - schildichat	CNAME record	matrix.example.com.
 - stats	CNAME record	matrix.example.com.
 - sygnal	CNAME record	matrix.example.com.

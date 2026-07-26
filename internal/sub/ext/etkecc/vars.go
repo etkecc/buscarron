@@ -52,6 +52,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsMiniflux())
 	txt.WriteString(o.varsPeertube())
 	txt.WriteString(o.varsRadicale())
+	txt.WriteString(o.varsSable())
 	txt.WriteString(o.varsSchildiChat())
 	txt.WriteString(o.varsStats())
 	txt.WriteString(o.varsUptimeKuma())
@@ -569,6 +570,18 @@ func (o *order) varsCinny() string {
 
 	txt.WriteString("\n# cinny\n")
 	txt.WriteString("cinny_enabled: yes\n")
+
+	return txt.String()
+}
+
+func (o *order) varsSable() string {
+	if !o.has("sable") {
+		return ""
+	}
+	var txt strings.Builder
+
+	txt.WriteString("\n# sable\n")
+	txt.WriteString("sable_enabled: yes\n")
 
 	return txt.String()
 }

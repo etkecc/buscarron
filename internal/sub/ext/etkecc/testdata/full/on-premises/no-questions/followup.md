@@ -7,7 +7,7 @@ We don't need any additional details right now. Here are the next steps:
 
 1. Visit our [membership page](https://etke.cc/membership).
 2. Select the "By Complexity" tier.
-3. Set the custom price to **€112**.
+3. Set the custom price to **€113**.
 4. Subscribe on Ko-fi with the same email address you used for this order (test@test.com).
 
 Once your payment is confirmed, we'll start setting up your Matrix server right away. You'll receive a separate onboarding email with all the details you need.
@@ -42,6 +42,7 @@ Please, add the following DNS entries:
 * ntfy CNAME record matrix.example.com.
 * peertube CNAME record matrix.example.com.
 * radicale CNAME record matrix.example.com.
+* sable CNAME record matrix.example.com.
 * schildichat CNAME record matrix.example.com.
 * stats CNAME record matrix.example.com.
 * sygnal CNAME record matrix.example.com.

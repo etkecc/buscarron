@@ -28,6 +28,7 @@ Below is everything you need to get started:
 * Ntfy: [ntfy.higenjitsuteki.onmatrix.chat](https://ntfy.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/ntfy/))
 * Peertube: [peertube.higenjitsuteki.onmatrix.chat](https://peertube.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/peertube/))
 * Radicale: [radicale.higenjitsuteki.onmatrix.chat](https://radicale.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/radicale/))
+* Sable: [sable.higenjitsuteki.onmatrix.chat](https://sable.higenjitsuteki.onmatrix.chat)
 * Schildichat: [schildichat.higenjitsuteki.onmatrix.chat](https://schildichat.higenjitsuteki.onmatrix.chat)
 * Stats: [stats.higenjitsuteki.onmatrix.chat](https://stats.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/prometheus-grafana/))
 * Sygnal: [sygnal.higenjitsuteki.onmatrix.chat](https://sygnal.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/sygnal/))

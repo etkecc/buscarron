@@ -28,6 +28,7 @@ Below is everything you need to get started:
 * Ntfy: [ntfy.example.com](https://ntfy.example.com) ([help](https://etke.cc/help/extras/ntfy/))
 * Peertube: [peertube.example.com](https://peertube.example.com) ([help](https://etke.cc/help/extras/peertube/))
 * Radicale: [radicale.example.com](https://radicale.example.com) ([help](https://etke.cc/help/extras/radicale/))
+* Sable: [sable.example.com](https://sable.example.com)
 * Schildichat: [schildichat.example.com](https://schildichat.example.com)
 * Stats: [stats.example.com](https://stats.example.com) ([help](https://etke.cc/help/extras/prometheus-grafana/))
 * Sygnal: [sygnal.example.com](https://sygnal.example.com) ([help](https://etke.cc/help/extras/sygnal/))

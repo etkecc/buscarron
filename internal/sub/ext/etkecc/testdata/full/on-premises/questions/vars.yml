@@ -209,6 +209,9 @@ peertube_config_root_user_initial_password: TODO64
 radicale_enabled: yes
 radicale_hostname: "radicale.example.com"
 
+# sable
+sable_enabled: yes
+
 # schildichat
 matrix_client_schildichat_enabled: yes
 

@@ -46,6 +46,7 @@ Please, add the following DNS entries:
 * ntfy CNAME record matrix.example.com.
 * peertube CNAME record matrix.example.com.
 * radicale CNAME record matrix.example.com.
+* sable CNAME record matrix.example.com.
 * schildichat CNAME record matrix.example.com.
 * stats CNAME record matrix.example.com.
 * sygnal CNAME record matrix.example.com.

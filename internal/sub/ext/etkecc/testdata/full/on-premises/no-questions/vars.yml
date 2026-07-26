@@ -246,6 +246,9 @@ peertube_config_object_storage_web_videos_prefix: videos/
 radicale_enabled: yes
 radicale_hostname: "radicale.example.com"
 
+# sable
+sable_enabled: yes
+
 # schildichat
 matrix_client_schildichat_enabled: yes
 
