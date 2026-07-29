@@ -77,6 +77,7 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsGvoice())
 	txt.WriteString(o.varsHeisenbridge())
 	txt.WriteString(o.varsInstagram())
+	txt.WriteString(o.varsLine())
 	txt.WriteString(o.varsLinkedin())
 	txt.WriteString(o.varsSignal())
 	txt.WriteString(o.varsSlack())
@@ -1069,13 +1070,24 @@ func (o *order) varsInstagram() string {
 	return txt.String()
 }
 
+func (o *order) varsLine() string {
+	if !o.has("line") {
+		return ""
+	}
+	var txt strings.Builder
+	txt.WriteString("\n# bridges::line\n")
+	txt.WriteString("matrix_bridge_beeper_line_enabled: yes\n")
+
+	return txt.String()
+}
+
 func (o *order) varsLinkedin() string {
 	if !o.has("linkedin") {
 		return ""
 	}
 	var txt strings.Builder
 	txt.WriteString("\n# bridges::linkedin\n")
-	txt.WriteString("matrix_bridge_beeper_linkedin_enabled: yes\n")
+	txt.WriteString("matrix_bridge_mautrix_linkedin_enabled: yes\n")
 
 	return txt.String()
 }

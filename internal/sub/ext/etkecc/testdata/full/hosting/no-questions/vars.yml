@@ -387,8 +387,11 @@ matrix_bridge_heisenbridge_owner: "{{ matrix_admin }}"
 # bridges::instagram
 matrix_bridge_mautrix_meta_instagram_enabled: yes
 
+# bridges::line
+matrix_bridge_beeper_line_enabled: yes
+
 # bridges::linkedin
-matrix_bridge_beeper_linkedin_enabled: yes
+matrix_bridge_mautrix_linkedin_enabled: yes
 
 # bridges::signal
 matrix_bridge_mautrix_signal_enabled: yes

@@ -505,51 +505,109 @@ func Xabort(tls *TLS) {
 	panic(todo("unrechable"))
 }
 
-type lock struct {
-	sync.Mutex
-	refs int // holders + waiters currently inside ___lock/___unlock for this address
-}
-
-var (
-	locksMu sync.Mutex
-	locks   = map[uintptr]*lock{}
+// States of the C lock word *p, as in musl's __lock/__unlock.
+const (
+	lockFree      = 0 // Nobody holds the lock.
+	lockHeld      = 1 // Held, no waiter has parked.
+	lockContended = 2 // Held, a waiter may be parked.
 )
 
 // ___lock/___unlock emulate musl's __lock/__unlock, a mutual-exclusion lock over
-// an opaque C lock word *p, by keying a Go sync.Mutex on the lock word's address.
-// The per-address lock is created lazily and reference-counted (refs) so its map
-// entry can be reclaimed once no goroutine holds or waits on it. The C lock word
-// *p is intentionally left untouched: it is opaque to every caller (nothing reads
-// it outside these two functions), and routing all mutual exclusion through the
-// per-address sync.Mutex is what makes the hand-off race-free.
+// the opaque C lock word *p.
 //
-// A previous implementation kept an atomic fast path on *p plus a throwaway
-// hand-off object. It lost wakeups when an unlocker reached locksMu before a
-// contending locker had registered in locks: the unlock created and immediately
-// discarded a hand-off, then the locker blocked on a fresh, never-unlocked mutex
-// forever, wedging the process at zero CPU (cznic/libc#51).
+// All lock state lives in *p, exactly as it does in musl. That is a correctness
+// requirement, not just fidelity to upstream: a caller may free the memory
+// holding the word while the lock is held and never unlock it. musl's
+// freeaddrinfo does precisely that, dropping the last aibuf reference under
+// LOCK(b->lock) and calling free(b) instead of UNLOCK(b->lock). In C the state
+// dies with the block, so a recycled, zero-initialized block starts out
+// unlocked. Every lock word reachable here is either a zeroed package-level var
+// or lives in Xcalloc'd memory, so that holds here too.
+//
+// Blocking uses a parking lot keyed by the word's address, standing in for the
+// futex musl waits on. lockWait re-checks *p under lockParkMu, and ___unlock
+// stores to *p before lockWake takes lockParkMu, so a release landing before the
+// waiter parks is observed as a value change instead of being lost. Parking lot
+// entries exist only while a goroutine is actually parked, so a lock abandoned
+// with no waiter leaves nothing behind.
+//
+// Two earlier implementations each satisfied one half of that. The first kept an
+// atomic fast path on *p plus a throwaway hand-off object in a map and lost
+// wakeups when an unlocker reached the map before a contending locker had
+// registered there (cznic/libc#51). The second moved all state into a
+// process-global map keyed on the address, which made freeaddrinfo's abandoned
+// lock permanent: the entry outlived the free, still locked, and the next caller
+// handed that address wedged at zero CPU.
 
 func ___lock(tls *TLS, p uintptr) {
-	locksMu.Lock()
-	l := locks[p]
-	if l == nil {
-		l = &lock{}
-		locks[p] = l
+	w := (*int32)(unsafe.Pointer(p))
+	if atomic.CompareAndSwapInt32(w, lockFree, lockHeld) {
+		return // Uncontended.
 	}
-	l.refs++
-	locksMu.Unlock()
-	l.Lock() // Block until the current holder of p releases it.
+
+	// Some other C thread holds p. The swap claims the lock if it turns out to be
+	// free and otherwise records that its holder owes us a wake.
+	for atomic.SwapInt32(w, lockContended) != lockFree {
+		lockWait(p, lockContended)
+	}
 }
 
 func ___unlock(tls *TLS, p uintptr) {
-	locksMu.Lock()
-	l := locks[p]
-	l.refs--
-	if l.refs == 0 {
-		delete(locks, p)
+	if atomic.SwapInt32((*int32)(unsafe.Pointer(p)), lockFree) == lockContended {
+		lockWake(p)
 	}
-	locksMu.Unlock()
-	l.Unlock() // Hand p to the next waiter, if any.
+}
+
+// lockPark collects the goroutines parked on one lock word address.
+type lockPark struct {
+	cond    sync.Cond
+	waiters int
+}
+
+var (
+	lockParkMu sync.Mutex
+	lockParked = map[uintptr]*lockPark{}
+)
+
+// lockWait parks the calling goroutine while *p is still val, standing in for
+// musl's __futexwait.
+func lockWait(p uintptr, val int32) {
+	lockParkMu.Lock()
+
+	defer lockParkMu.Unlock()
+
+	// Re-check under lockParkMu: ___unlock stores to *p before lockWake takes
+	// lockParkMu, so a wake that would otherwise be delivered before we park shows
+	// up here as a changed value.
+	if atomic.LoadInt32((*int32)(unsafe.Pointer(p))) != val {
+		return
+	}
+
+	q := lockParked[p]
+	if q == nil {
+		q = &lockPark{}
+		q.cond.L = &lockParkMu
+		lockParked[p] = q
+	}
+	q.waiters++
+	q.cond.Wait()
+	q.waiters--
+	if q.waiters == 0 {
+		delete(lockParked, p)
+	}
+}
+
+// lockWake releases one goroutine parked on p, if any, standing in for musl's
+// __wake. Waking one suffices: whoever wakes either acquires p, and then owes
+// the next wake when it unlocks, or re-marks p contended before parking again.
+func lockWake(p uintptr) {
+	lockParkMu.Lock()
+
+	defer lockParkMu.Unlock()
+
+	if q := lockParked[p]; q != nil {
+		q.cond.Signal()
+	}
 }
 
 type lockedFile struct {
