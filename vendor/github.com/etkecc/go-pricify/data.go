@@ -214,6 +214,7 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 
 	sectionPriceAdded := map[string]bool{}
 	region := normalized["etke_service_server_location"]
+	serverPriceOverrides := parseServerPriceOverrides(normalized["etke_service_server_price"])
 	for entry, value := range normalized {
 		if _, ok := forbiddenValues[value]; ok {
 			continue
@@ -237,6 +238,11 @@ func (d *Data) CalculateVerbose(input map[string]string) (total int, verbose map
 
 		if item.InventoryID == "etke_service_server" {
 			item = d.findRegionItem(item, value, region)
+			if custom, ok := serverPriceOverrides[value+"-"+region]; ok {
+				dup := *item
+				dup.Price = custom
+				item = &dup
+			}
 		}
 
 		if item.SectionPrice > 0 && !sectionPriceAdded[item.SectionID] {

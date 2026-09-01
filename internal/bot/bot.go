@@ -44,7 +44,6 @@ func (b *Bot) Error(ctx context.Context, roomID id.RoomID, message string, args 
 	}
 
 	parsed := format.RenderMarkdown("ERROR: "+fmt.Sprintf(message, args...), true, true)
-	parsed.MsgType = event.MsgNotice
 	content := event.Content{
 		Parsed: &parsed,
 	}
@@ -66,7 +65,6 @@ func (b *Bot) Send(ctx context.Context, roomID id.RoomID, message string, attrib
 	}
 
 	parsed := format.RenderMarkdown(message, true, true)
-	parsed.MsgType = event.MsgNotice
 	content := event.Content{
 		Raw:    attributes,
 		Parsed: &parsed,

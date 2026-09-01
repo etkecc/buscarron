@@ -48,7 +48,7 @@ func (s *BotSuite) TestError() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType:  event.MsgNotice,
+			MsgType:  event.MsgText,
 			Body:     "ERROR: msg arg",
 			Mentions: &event.Mentions{},
 		},
@@ -61,7 +61,7 @@ func (s *BotSuite) TestSend() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType:  event.MsgNotice,
+			MsgType:  event.MsgText,
 			Body:     "msg",
 			Mentions: &event.Mentions{},
 		},
@@ -74,7 +74,7 @@ func (s *BotSuite) TestSend_Error() {
 	roomID := id.RoomID("!doesnt:matt.er")
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType:  event.MsgNotice,
+			MsgType:  event.MsgText,
 			Body:     "msg",
 			Mentions: &event.Mentions{},
 		},
@@ -107,7 +107,7 @@ func (s *BotSuite) TestSendFile_Error() {
 	s.lp.On("SendFile", ctxMatcher, roomID, req, event.MsgFile).Return(errors.New("test")).Once()
 	s.lp.On("Send", ctxMatcher, roomID, &event.Content{
 		Parsed: &event.MessageEventContent{
-			MsgType:  "m.notice",
+			MsgType:  "m.text",
 			Body:     "ERROR: cannot upload file: test",
 			Mentions: &event.Mentions{},
 		},

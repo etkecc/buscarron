@@ -1,19 +1,19 @@
 module github.com/etkecc/buscarron
 
-go 1.26
+go 1.26.0
 
 require (
 	github.com/VictoriaMetrics/metrics v1.44.0
 	github.com/charmbracelet/keygen v0.5.4
-	github.com/etkecc/go-echo-basic-auth v1.4.0
+	github.com/etkecc/go-echo-basic-auth v1.4.1
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.4.1
 	github.com/etkecc/go-kit v1.12.5
-	github.com/etkecc/go-kit/format v0.0.0-20260709185401-2a6643e3c927
-	github.com/etkecc/go-linkpearl v0.0.0-20260707212514-851f210634dd
-	github.com/etkecc/go-pricify v1.0.0
-	github.com/etkecc/go-psd v0.0.0-20260705105759-97d6cc68fb4e
-	github.com/etkecc/go-redmine v0.0.0-20260704194633-27171949b22a
+	github.com/etkecc/go-kit/format v0.0.0-20260816130723-03dbf31cb222
+	github.com/etkecc/go-linkpearl v0.0.0-20260816130937-bf4651da9c2e
+	github.com/etkecc/go-pricify v1.1.0
+	github.com/etkecc/go-psd v0.0.0-20260816131046-374759265930
+	github.com/etkecc/go-redmine v0.0.0-20260816131104-c53bd0aa7fe4
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -26,16 +26,16 @@ require (
 	github.com/stretchr/testify v1.11.1
 	github.com/swaggo/swag v1.16.3
 	github.com/ziflex/lecho/v3 v3.11.1
-	golang.org/x/net v0.57.0
-	golang.org/x/text v0.40.0
+	golang.org/x/net v0.58.0
+	golang.org/x/text v0.41.0
 	golang.org/x/time v0.15.0
 	gopkg.in/yaml.v3 v3.0.1
-	maunium.net/go/mautrix v0.29.0
-	modernc.org/sqlite v1.55.0
+	maunium.net/go/mautrix v0.30.0
+	modernc.org/sqlite v1.57.0
 )
 
 require (
-	blitiri.com.ar/go/spf v1.5.1 // indirect
+	blitiri.com.ar/go/spf v1.6.0 // indirect
 	filippo.io/edwards25519 v1.2.0 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
@@ -57,12 +57,12 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
-	github.com/mattn/go-sqlite3 v1.14.49 // indirect
+	github.com/mattn/go-sqlite3 v1.14.50 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
 	github.com/nixys/nxs-go-redmine/v5 v5.1.1 // indirect
-	github.com/petermattis/goid v0.0.0-20260725062400-500c67a39b75 // indirect
+	github.com/petermattis/goid v0.0.0-20260820044319-269ab09b5261 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec // indirect
 	github.com/rogpeppe/go-internal v1.14.1 // indirect
@@ -76,14 +76,14 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
 	github.com/yuin/goldmark v1.8.5 // indirect
-	go.mau.fi/util v0.9.11 // indirect
-	golang.org/x/crypto v0.54.0 // indirect
-	golang.org/x/exp v0.0.0-20260727155853-b88d891fe743 // indirect
+	go.mau.fi/util v0.10.0 // indirect
+	golang.org/x/crypto v0.55.0 // indirect
+	golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa // indirect
 	golang.org/x/sys v0.47.0 // indirect
-	golang.org/x/tools v0.48.0 // indirect
+	golang.org/x/tools v0.49.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	modernc.org/libc v1.74.4 // indirect
+	modernc.org/libc v1.75.6 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
-	modernc.org/memory v1.11.0 // indirect
+	modernc.org/memory v1.12.1 // indirect
 )

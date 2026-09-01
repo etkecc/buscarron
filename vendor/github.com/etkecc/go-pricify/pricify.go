@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"runtime/debug"
 	"sync"
 
+	"github.com/etkecc/go-kit"
 	"github.com/etkecc/go-kit/httpclient"
 )
 
@@ -19,19 +19,7 @@ var (
 
 	// userAgent resolves go-pricify's own imported version once from build info; v0.0.0 in dev.
 	userAgent = sync.OnceValue(func() string {
-		v := "v0.0.0"
-		if info, ok := debug.ReadBuildInfo(); ok {
-			for _, dep := range info.Deps {
-				if dep.Path == "github.com/etkecc/go-pricify" {
-					v = dep.Version
-					break
-				}
-			}
-		}
-		if v == "" || v == "(devel)" { // local replace / unstamped build
-			v = "v0.0.0"
-		}
-		return "Go-Pricify-client/" + v
+		return kit.UserAgent("Go-Pricify-client", "github.com/etkecc/go-pricify")
 	})
 )
 
