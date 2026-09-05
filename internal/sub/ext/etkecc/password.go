@@ -97,7 +97,7 @@ func (o *order) dkimgen() (record, priv string) {
 	return record, priv
 }
 
-// password calls pwgen and saves result to internal map to export that password in multiple places (eg vars and onboarding)
+// password calls pwgen and caches the result so the same value is reused across vars and onboarding output.
 func (o *order) password(name string) string {
 	pass, ok := o.pass[name]
 	if ok && pass != "" {

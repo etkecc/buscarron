@@ -11,8 +11,7 @@ func init() {
 	}
 }
 
-// GetCountries returns a map of country codes to country names
-// it returns original map, and it is not intended to be modified
+// GetCountries returns the original country codes to names map; callers must not modify it.
 func GetCountries() map[string]string {
 	return countriesMap
 }

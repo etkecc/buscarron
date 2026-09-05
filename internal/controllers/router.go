@@ -108,8 +108,7 @@ func ConfigureRouter(e *echo.Echo, cfg *Config) {
 	}, banner.Middleware(), rl.Middleware())
 }
 
-// SetFormHandlerSender sets sender for form handler
-// it's a hack to avoid circular dependencies and allow setting matrix bot once it configured, while having HTTP server up & running, even if matrix part is down
+// SetFormHandlerSender sets the sender; a hack letting matrix bot config lag behind HTTP server startup.
 func SetFormHandlerSender(sender common.Sender) {
 	formHandler.SetSender(sender)
 }
