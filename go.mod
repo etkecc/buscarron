@@ -9,11 +9,11 @@ require (
 	github.com/etkecc/go-env v1.2.1
 	github.com/etkecc/go-healthchecks/v2 v2.4.1
 	github.com/etkecc/go-kit v1.12.5
-	github.com/etkecc/go-kit/format v0.0.0-20260816130723-03dbf31cb222
-	github.com/etkecc/go-linkpearl v0.0.0-20260816130937-bf4651da9c2e
+	github.com/etkecc/go-kit/format v0.0.0-20260905185635-2c50f0b29d24
+	github.com/etkecc/go-linkpearl v0.0.0-20260905184311-183067684359
 	github.com/etkecc/go-pricify v1.1.0
-	github.com/etkecc/go-psd v0.0.0-20260816131046-374759265930
-	github.com/etkecc/go-redmine v0.0.0-20260816131104-c53bd0aa7fe4
+	github.com/etkecc/go-psd v0.0.0-20260905184442-528a2412f8ff
+	github.com/etkecc/go-redmine v0.0.0-20260905184509-ce41ec0f9093
 	github.com/etkecc/go-secgen v1.4.0
 	github.com/etkecc/go-validator/v2 v2.2.6
 	github.com/hashicorp/golang-lru/v2 v2.0.7
@@ -28,10 +28,10 @@ require (
 	github.com/ziflex/lecho/v3 v3.11.1
 	golang.org/x/net v0.58.0
 	golang.org/x/text v0.41.0
-	golang.org/x/time v0.15.0
+	golang.org/x/time v0.16.0
 	gopkg.in/yaml.v3 v3.0.1
 	maunium.net/go/mautrix v0.30.0
-	modernc.org/sqlite v1.57.0
+	modernc.org/sqlite v1.58.0
 )
 
 require (
@@ -57,7 +57,7 @@ require (
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-colorable v0.1.15 // indirect
 	github.com/mattn/go-isatty v0.0.24 // indirect
-	github.com/mattn/go-sqlite3 v1.14.50 // indirect
+	github.com/mattn/go-sqlite3 v1.14.52 // indirect
 	github.com/mikesmitty/edkey v0.0.0-20170222072505-3356ea4e686a // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/ncruces/go-strftime v1.0.0 // indirect
@@ -75,15 +75,15 @@ require (
 	github.com/valyala/fastrand v1.1.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/valyala/histogram v1.2.0 // indirect
-	github.com/yuin/goldmark v1.8.5 // indirect
+	github.com/yuin/goldmark v1.8.6 // indirect
 	go.mau.fi/util v0.10.0 // indirect
-	golang.org/x/crypto v0.55.0 // indirect
+	golang.org/x/crypto v0.56.0 // indirect
 	golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa // indirect
-	golang.org/x/sys v0.47.0 // indirect
+	golang.org/x/sys v0.48.0 // indirect
 	golang.org/x/tools v0.49.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	modernc.org/libc v1.75.6 // indirect
+	modernc.org/libc v1.75.7 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.12.1 // indirect
 )

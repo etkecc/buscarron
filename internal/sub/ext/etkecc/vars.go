@@ -663,7 +663,7 @@ func (o *order) varsGoToSocial() string {
 	txt.WriteString("gotosocial_enabled: yes\n")
 	txt.WriteString("gotosocial_hostname: \"social." + o.domain + "\"\n")
 	if o.has("gotosocial-s3-bucket") && o.has("gotosocial-s3-endpoint") && o.has("gotosocial-s3-access-key") && o.has("gotosocial-s3-secret-key") {
-		txt.WriteString("gotosocial_environment_variables_extension: |\n")
+		txt.WriteString("gotosocial_environment_variables_additional_variables: |\n")
 		txt.WriteString("  GTS_STORAGE_BACKEND=s3\n")
 		txt.WriteString("  GTS_STORAGE_S3_ENDPOINT=" + o.get("gotosocial-s3-endpoint") + "\n")
 		txt.WriteString("  GTS_STORAGE_S3_BUCKET=" + o.get("gotosocial-s3-bucket") + "\n")

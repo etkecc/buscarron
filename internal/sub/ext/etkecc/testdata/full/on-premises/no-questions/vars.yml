@@ -187,7 +187,7 @@ funkwhale_aws_location: music
 # gotosocial
 gotosocial_enabled: yes
 gotosocial_hostname: "social.example.com"
-gotosocial_environment_variables_extension: |
+gotosocial_environment_variables_additional_variables: |
   GTS_STORAGE_BACKEND=s3
   GTS_STORAGE_S3_ENDPOINT=s3.example.com
   GTS_STORAGE_S3_BUCKET=mybucket

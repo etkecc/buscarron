@@ -92,9 +92,7 @@ func (p *Client) buildURL(identifier string, jobOverride ...string) string {
 	return b.String()
 }
 
-// do issues one GET; httpclient owns retry and per-attempt timeout. A 200/304 is returned
-// live for the caller to read and Close; a 410 (not-found) and any other non-2xx are
-// terminal here, their bodies drained so the connection returns to the pool.
+// do issues one GET (httpclient owns retry/timeout); 200/304 return live to the caller, other statuses drain here.
 func (p *Client) do(ctx context.Context, uri string, cached *cacheValue) (*http.Response, error) {
 	headers := p.baseHeader.Clone()
 	if cached != nil {
@@ -126,8 +124,7 @@ func (p *Client) do(ctx context.Context, uri string, cached *cacheValue) (*http.
 	return resp, nil
 }
 
-// drain empties and closes a body psd won't hand back, so httpclient's cancelOnClose fires
-// and the connection returns to the pool instead of being torn down under a 5xx storm.
+// drain empties and closes a body psd won't return, so the connection recycles instead of being torn down.
 func (p *Client) drain(resp *http.Response) {
 	_, _ = io.Copy(io.Discard, resp.Body) //nolint:errcheck // best-effort drain; a failure just costs the connection
 	_ = resp.Body.Close()
@@ -210,8 +207,7 @@ func (p *Client) Get(identifier string) (Items, error) {
 	return p.GetWithContext(context.Background(), identifier)
 }
 
-// GetRaw returns the raw data for the given identifier, without using the cache or parsing the response.
-// Do not use this method unless you need the raw data, as it does not parse the response
+// GetRaw returns unparsed, uncached raw data for the given identifier; use only when raw data is actually needed.
 func (p *Client) GetRaw(ctx context.Context, identifier string, jobOverride ...string) ([]byte, error) {
 	if p.url == nil {
 		return nil, nil

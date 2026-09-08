@@ -47,19 +47,19 @@ github.com/etkecc/go-kit/crypter
 github.com/etkecc/go-kit/httpclient
 github.com/etkecc/go-kit/retry
 github.com/etkecc/go-kit/workpool
-# github.com/etkecc/go-kit/format v0.0.0-20260816130723-03dbf31cb222
+# github.com/etkecc/go-kit/format v0.0.0-20260905185635-2c50f0b29d24
 ## explicit; go 1.22
 github.com/etkecc/go-kit/format
-# github.com/etkecc/go-linkpearl v0.0.0-20260816130937-bf4651da9c2e
+# github.com/etkecc/go-linkpearl v0.0.0-20260905184311-183067684359
 ## explicit; go 1.26
 github.com/etkecc/go-linkpearl
 # github.com/etkecc/go-pricify v1.1.0
 ## explicit; go 1.26
 github.com/etkecc/go-pricify
-# github.com/etkecc/go-psd v0.0.0-20260816131046-374759265930
+# github.com/etkecc/go-psd v0.0.0-20260905184442-528a2412f8ff
 ## explicit; go 1.26
 github.com/etkecc/go-psd
-# github.com/etkecc/go-redmine v0.0.0-20260816131104-c53bd0aa7fe4
+# github.com/etkecc/go-redmine v0.0.0-20260905184509-ce41ec0f9093
 ## explicit; go 1.22
 github.com/etkecc/go-redmine
 # github.com/etkecc/go-secgen v1.4.0
@@ -146,7 +146,7 @@ github.com/mattn/go-colorable
 # github.com/mattn/go-isatty v0.0.24
 ## explicit; go 1.20
 github.com/mattn/go-isatty
-# github.com/mattn/go-sqlite3 v1.14.50
+# github.com/mattn/go-sqlite3 v1.14.52
 ## explicit; go 1.21
 github.com/mattn/go-sqlite3
 # github.com/microcosm-cc/bluemonday v1.0.27
@@ -223,7 +223,7 @@ github.com/valyala/fasttemplate
 # github.com/valyala/histogram v1.2.0
 ## explicit; go 1.12
 github.com/valyala/histogram
-# github.com/yuin/goldmark v1.8.5
+# github.com/yuin/goldmark v1.8.6
 ## explicit; go 1.22
 github.com/yuin/goldmark
 github.com/yuin/goldmark/ast
@@ -259,8 +259,8 @@ go.mau.fi/util/pkcs7
 go.mau.fi/util/ptr
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
-# golang.org/x/crypto v0.55.0
-## explicit; go 1.25.0
+# golang.org/x/crypto v0.56.0
+## explicit; go 1.26.0
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
 golang.org/x/crypto/blowfish
@@ -293,8 +293,8 @@ golang.org/x/net/internal/httpsfv
 golang.org/x/net/internal/socks
 golang.org/x/net/proxy
 golang.org/x/net/publicsuffix
-# golang.org/x/sys v0.47.0
-## explicit; go 1.25.0
+# golang.org/x/sys v0.48.0
+## explicit; go 1.26.0
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
 golang.org/x/sys/windows
@@ -311,8 +311,8 @@ golang.org/x/text/transform
 golang.org/x/text/unicode/bidi
 golang.org/x/text/unicode/norm
 golang.org/x/text/width
-# golang.org/x/time v0.15.0
-## explicit; go 1.25.0
+# golang.org/x/time v0.16.0
+## explicit; go 1.26.0
 golang.org/x/time/rate
 # golang.org/x/tools v0.49.0
 ## explicit; go 1.25.0
@@ -362,7 +362,7 @@ maunium.net/go/mautrix/id
 maunium.net/go/mautrix/oauth
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/sqlstatestore
-# modernc.org/libc v1.75.6
+# modernc.org/libc v1.75.7
 ## explicit; go 1.25.0
 modernc.org/libc
 modernc.org/libc/errno
@@ -396,7 +396,7 @@ modernc.org/mathutil
 # modernc.org/memory v1.12.1
 ## explicit; go 1.23.0
 modernc.org/memory
-# modernc.org/sqlite v1.57.0
+# modernc.org/sqlite v1.58.0
 ## explicit; go 1.25.0
 modernc.org/sqlite
 modernc.org/sqlite/lib
