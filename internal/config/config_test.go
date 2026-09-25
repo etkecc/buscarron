@@ -38,6 +38,12 @@ var values = map[string]string{
 	"BUSCARRON_TEST2_REDIRECT":  "https://example.com",
 	"BUSCARRON_TEST2_RATELIMIT": "1r/m",
 	"BUSCARRON_TEST2_ROOM":      "!test2@example.com",
+
+	"BUSCARRON_SMTP_HOST":     "smtp.example.com",
+	"BUSCARRON_SMTP_PORT":     "2525",
+	"BUSCARRON_SMTP_LOGIN":    "login",
+	"BUSCARRON_SMTP_PASSWORD": "password",
+	"BUSCARRON_SMTP_REPLYTO":  "reply@example.com",
 }
 
 func (s *ConfigSuite) SetupTest() {
@@ -75,6 +81,11 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal(id.RoomID("!test2@example.com"), form2.RoomID)
 	s.Equal("https://example.com", form2.Redirect)
 	s.Equal("1r/m", form2.Ratelimit)
+	s.Equal("smtp.example.com", config.SMTP.Host)
+	s.Equal("2525", config.SMTP.Port)
+	s.Equal("login", config.SMTP.Login)
+	s.Equal("password", config.SMTP.Password)
+	s.Equal("reply@example.com", config.SMTP.ReplyTo)
 }
 
 func TestConfigSuite(t *testing.T) {

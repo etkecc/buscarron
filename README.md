@@ -30,8 +30,8 @@ env vars
 * **BUSCARRON_NAME_HASDOMAIN** - if the form has a `domain` field and you want to enforce domain validation
 * **BUSCARRON_NAME_EXTENSIONS** - space-separated list of the form extensions, allowed values: `confirmation`
 * **BUSCARRON_NAME_TEXT** - custom form text, supports [go template](https://pkg.go.dev/text/template) vars from submission data (e.g., `email` field can be displayed as `{{ .email }}`)
-* **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
-* **BUSCARRON_NAME_CONFIRMATION_BODY** - confrimation email body, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to body as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark configuration
+* **BUSCARRON_NAME_CONFIRMATION_SUBJECT** - confrimation email subject, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to subject as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark (or SMTP) configuration
+* **BUSCARRON_NAME_CONFIRMATION_BODY** - confrimation email body, supports [go template](https://pkg.go.dev/text/template) vars from submission data (eg `email` field can be added to body as `{{ .email }}`). Requires `confirmation` extension in the `BUSCARRON_NAME_EXTENSIONS` list and postmark (or SMTP) configuration
 
 
 1. Add form name to **BUSCARRON_LIST**, eg: `export BUSCARRON_LIST="form1 form2"`)
@@ -52,8 +52,13 @@ env vars
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
 * **BUSCARRON_PM_FROM** - [Postmark](https://postmarkapp.com) sender signature
 * **BUSCARRON_PM_REPLYTO** - reply-to email header
-* **BUSCARRON_SMTP_FROM** - email address (from) for SMTP validation. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
+* **BUSCARRON_SMTP_FROM** - email address (from) for SMTP validation and the From address of sent mail when SMTP sending is enabled. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
 * **BUSCARRON_SMTP_VALIDATION** - enforce SMTP validation
+* **BUSCARRON_SMTP_HOST** - SMTP server host for sending mail; when set, mail is sent via SMTP instead of Postmark
+* **BUSCARRON_SMTP_PORT** - SMTP server port, default: `587`
+* **BUSCARRON_SMTP_LOGIN** - SMTP login
+* **BUSCARRON_SMTP_PASSWORD** - SMTP password
+* **BUSCARRON_SMTP_REPLYTO** - reply-to email header for SMTP-sent mail
 * **BUSCARRON_METRICS_LOGIN** - /metrics login
 * **BUSCARRON_METRICS_PASSWORD** - /metrics password
 * **BUSCARRON_METRICS_IPS** - /metrics allowed ips

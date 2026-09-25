@@ -54,7 +54,12 @@ func New() *Config {
 			ReplyTo: env.String("pm.replyto"),
 		},
 		SMTP: &SMTP{
+			Host:              env.String("smtp.host"),
+			Port:              env.String("smtp.port", defaultConfig.SMTP.Port),
+			Login:             env.String("smtp.login"),
+			Password:          env.String("smtp.password"),
 			From:              env.String("smtp.from"),
+			ReplyTo:           env.String("smtp.replyto"),
 			EnforceValidation: env.Bool("smtp.validation"),
 		},
 	}

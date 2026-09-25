@@ -83,7 +83,12 @@ type Redmine struct {
 
 // SMTP config
 type SMTP struct {
+	Host              string
+	Port              string
+	Login             string
+	Password          string
 	From              string
+	ReplyTo           string
 	EnforceValidation bool
 }
 

@@ -1,36 +1,33 @@
-package mail //nolint:var-naming // Package mail provides a client to send mail using Postmark
+package mail //nolint:var-naming // Package mail provides a client to send mail
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/mattevans/postmark-go"
 	"github.com/rs/zerolog"
 )
 
+// Sender sends mail
+type Sender interface {
+	Send(ctx context.Context, req *postmark.Email) error
+}
+
 // Client to send mail
 type Client struct {
 	from    string
 	replyto string
-	sender  *postmark.Client
+	sender  Sender
 }
 
-func New(token, from, replyto string) *Client {
-	if token == "" {
+func New(from, replyto string, sender Sender) *Client {
+	if sender == nil {
 		return nil
 	}
-	pm := postmark.NewClient(
-		postmark.WithClient(&http.Client{
-			Transport: &postmark.AuthTransport{
-				Token: token,
-			},
-		}),
-	)
 
 	return &Client{
 		from:    from,
 		replyto: replyto,
-		sender:  pm,
+		sender:  sender,
 	}
 }
 
@@ -40,9 +37,9 @@ func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 	req.From = c.from
 	req.ReplyTo = c.replyto
 
-	_, resp, err := c.sender.Email.Send(req)
+	err := c.sender.Send(ctx, req)
 	if err != nil {
-		log.Error().Err(err).Any("response", resp).Msg("cannot send email")
+		log.Error().Err(err).Msg("cannot send email")
 		return err
 	}
 

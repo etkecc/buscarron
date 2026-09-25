@@ -187,7 +187,20 @@ func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
 		v := validator.New(vcfg)
 		vs[name] = v
 	}
-	pm := mail.New(cfg.Postmark.Token, cfg.Postmark.From, cfg.Postmark.ReplyTo)
+	var (
+		sender  mail.Sender
+		from    string
+		replyto string
+	)
+	switch {
+	case cfg.SMTP.Host != "":
+		sender = mail.NewSMTP(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Login, cfg.SMTP.Password)
+		from, replyto = cfg.SMTP.From, cfg.SMTP.ReplyTo
+	case cfg.Postmark.Token != "":
+		sender = mail.NewPostmark(cfg.Postmark.Token)
+		from, replyto = cfg.Postmark.From, cfg.Postmark.ReplyTo
+	}
+	pm := mail.New(from, replyto, sender)
 	fh := sub.NewHandler(cfg.Forms, vs, pm, mxb, rdm)
 	psdc := psd.NewClient(cfg.PSD.URL, cfg.PSD.Login, cfg.PSD.Password)
 	etkecc.SetPSD(psdc)
