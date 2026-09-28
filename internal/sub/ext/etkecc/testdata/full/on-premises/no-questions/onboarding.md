@@ -17,7 +17,6 @@ Below is everything you need to get started:
 * Etherpad: [etherpad.example.com](https://etherpad.example.com) ([help](https://etke.cc/help/extras/etherpad/))
 * Firezone: [firezone.example.com](https://firezone.example.com) ([help](https://etke.cc/help/extras/firezone/))
 * Fluffychat: [fluffychat.example.com](https://fluffychat.example.com)
-* Funkwhale: [funkwhale.example.com](https://funkwhale.example.com) ([help](https://etke.cc/help/extras/funkwhale/))
 * Gotosocial: [social.example.com](https://social.example.com) ([help](https://etke.cc/help/extras/gotosocial/))
 * Hydrogen: [hydrogen.example.com](https://hydrogen.example.com)
 * Jitsi: [jitsi.example.com](https://jitsi.example.com) ([help](https://etke.cc/help/extras/jitsi/))
@@ -90,11 +89,6 @@ Below is everything you need to get started:
 **Firezone Credentials**
 
 * Username: test@test.com
-* Password: TODO64
-
-**Funkwhale Credentials**
-
-* Username: test_admin
 * Password: TODO64
 
 **Gotosocial Credentials**

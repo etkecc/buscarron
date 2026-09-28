@@ -50,11 +50,6 @@ gotosocial_users_additional:
    initial_email: "test@test.com"
    initial_password: TODO64
    initial_type: admin
-funkwhale_users_additional:
- - username: "test_admin"
-   initial_email: "test@test.com"
-   initial_password: TODO64
-   initial_type: admin
 
 # synapse::sso
 matrix_synapse_oidc_enabled: yes
@@ -173,16 +168,6 @@ firezone_database_encryption_key: "TODO32"
 
 # fluffychat
 matrix_client_fluffychat_enabled: yes
-
-# funkwhale
-funkwhale_enabled: yes
-funkwhale_hostname: "funkwhale.example.com"
-funkwhale_aws_s3_region_name: "us-east-1"
-funkwhale_aws_s3_endpoint_url: "https://s3.example.com"
-funkwhale_aws_access_key_id: "some-key"
-funkwhale_aws_secret_access_key: "some-secret"
-funkwhale_aws_storage_bucket_name: "mybucket"
-funkwhale_aws_location: music
 
 # gotosocial
 gotosocial_enabled: yes

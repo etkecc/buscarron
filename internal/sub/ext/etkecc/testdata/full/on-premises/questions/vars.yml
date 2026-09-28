@@ -38,11 +38,6 @@ gotosocial_users_additional:
    initial_email: "test@example.com"
    initial_password: TODO64
    initial_type: admin
-funkwhale_users_additional:
- - username: "test"
-   initial_email: "test@example.com"
-   initial_password: TODO64
-   initial_type: admin
 
 # synapse::sso
 matrix_synapse_oidc_enabled: yes
@@ -158,10 +153,6 @@ firezone_database_encryption_key: "TODO32"
 
 # fluffychat
 matrix_client_fluffychat_enabled: yes
-
-# funkwhale
-funkwhale_enabled: yes
-funkwhale_hostname: "funkwhale.example.com"
 
 # gotosocial
 gotosocial_enabled: yes

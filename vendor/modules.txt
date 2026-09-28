@@ -24,19 +24,16 @@ github.com/aymerick/douceur/parser
 # github.com/charmbracelet/keygen v0.5.4
 ## explicit; go 1.24.0
 github.com/charmbracelet/keygen
-# github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
-## explicit
-github.com/davecgh/go-spew/spew
-# github.com/dustin/go-humanize v1.0.1
-## explicit; go 1.16
+# github.com/dustin/go-humanize v1.1.0
+## explicit; go 1.21
 github.com/dustin/go-humanize
-# github.com/etkecc/go-echo-basic-auth v1.4.1
-## explicit; go 1.25.0
+# github.com/etkecc/go-echo-basic-auth v1.5.0
+## explicit; go 1.26.0
 github.com/etkecc/go-echo-basic-auth
-# github.com/etkecc/go-env v1.2.1
-## explicit; go 1.18
+# github.com/etkecc/go-env v1.3.1
+## explicit; go 1.26
 github.com/etkecc/go-env
-github.com/etkecc/go-env/dotenv
+github.com/etkecc/go-env/envfile
 # github.com/etkecc/go-healthchecks/v2 v2.4.1
 ## explicit; go 1.26
 github.com/etkecc/go-healthchecks/v2
@@ -83,8 +80,8 @@ github.com/go-openapi/spec
 # github.com/go-openapi/swag v0.19.15
 ## explicit; go 1.11
 github.com/go-openapi/swag
-# github.com/goccy/go-json v0.10.6
-## explicit; go 1.19
+# github.com/goccy/go-json v0.11.1
+## explicit; go 1.21
 github.com/goccy/go-json
 github.com/goccy/go-json/internal/decoder
 github.com/goccy/go-json/internal/encoder
@@ -111,7 +108,7 @@ github.com/hashicorp/golang-lru/v2/simplelru
 github.com/josharian/intern
 # github.com/kr/pretty v0.3.1
 ## explicit; go 1.12
-# github.com/labstack/echo/v4 v4.15.4
+# github.com/labstack/echo/v4 v4.16.0
 ## explicit; go 1.25.0
 github.com/labstack/echo/v4
 github.com/labstack/echo/v4/middleware
@@ -169,12 +166,9 @@ github.com/ncruces/go-strftime
 ## explicit; go 1.21
 github.com/nixys/nxs-go-redmine/v5
 github.com/nixys/nxs-go-redmine/v5/mimereader
-# github.com/petermattis/goid v0.0.0-20260820044319-269ab09b5261
+# github.com/petermattis/goid v0.0.0-20260918085751-abfca077860b
 ## explicit; go 1.17
 github.com/petermattis/goid
-# github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2
-## explicit
-github.com/pmezard/go-difflib/difflib
 # github.com/remyoudompheng/bigfft v0.0.0-20230129092748-24d4a6f8daec
 ## explicit; go 1.12
 github.com/remyoudompheng/bigfft
@@ -186,13 +180,15 @@ github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
 github.com/rs/zerolog/internal/json
 github.com/rs/zerolog/log
-# github.com/stretchr/objx v0.5.2
+# github.com/stretchr/objx v0.5.3
 ## explicit; go 1.20
 github.com/stretchr/objx
-# github.com/stretchr/testify v1.11.1
+# github.com/stretchr/testify v1.12.0
 ## explicit; go 1.17
 github.com/stretchr/testify/assert
 github.com/stretchr/testify/assert/yaml
+github.com/stretchr/testify/internal/difflib
+github.com/stretchr/testify/internal/spew
 github.com/stretchr/testify/mock
 github.com/stretchr/testify/require
 github.com/stretchr/testify/suite
@@ -205,7 +201,7 @@ github.com/tidwall/gjson
 # github.com/tidwall/match v1.2.0
 ## explicit; go 1.15
 github.com/tidwall/match
-# github.com/tidwall/pretty v1.2.1
+# github.com/tidwall/pretty v1.2.2
 ## explicit; go 1.16
 github.com/tidwall/pretty
 # github.com/tidwall/sjson v1.2.5
@@ -237,8 +233,8 @@ github.com/yuin/goldmark/util
 # github.com/ziflex/lecho/v3 v3.11.1
 ## explicit; go 1.25.0
 github.com/ziflex/lecho/v3
-# go.mau.fi/util v0.10.0
-## explicit; go 1.25.0
+# go.mau.fi/util v0.10.1
+## explicit; go 1.26.0
 go.mau.fi/util/base58
 go.mau.fi/util/confusable
 go.mau.fi/util/dbutil
@@ -259,10 +255,11 @@ go.mau.fi/util/pkcs7
 go.mau.fi/util/ptr
 go.mau.fi/util/random
 go.mau.fi/util/retryafter
-# golang.org/x/crypto v0.56.0
+# golang.org/x/crypto v0.57.0
 ## explicit; go 1.26.0
 golang.org/x/crypto/acme
 golang.org/x/crypto/acme/autocert
+golang.org/x/crypto/bcrypt
 golang.org/x/crypto/blowfish
 golang.org/x/crypto/chacha20
 golang.org/x/crypto/cryptobyte
@@ -275,12 +272,12 @@ golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/pbkdf2
 golang.org/x/crypto/ssh
 golang.org/x/crypto/ssh/internal/bcrypt_pbkdf
-# golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa
+# golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
 ## explicit; go 1.26.0
 golang.org/x/exp/constraints
 golang.org/x/exp/maps
-# golang.org/x/net v0.58.0
-## explicit; go 1.25.0
+# golang.org/x/net v0.59.0
+## explicit; go 1.26.0
 golang.org/x/net/html
 golang.org/x/net/html/atom
 golang.org/x/net/http/httpguts
@@ -298,8 +295,8 @@ golang.org/x/net/publicsuffix
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
 golang.org/x/sys/windows
-# golang.org/x/text v0.41.0
-## explicit; go 1.25.0
+# golang.org/x/text v0.42.0
+## explicit; go 1.26.0
 golang.org/x/text/cases
 golang.org/x/text/internal
 golang.org/x/text/internal/language
@@ -314,8 +311,8 @@ golang.org/x/text/width
 # golang.org/x/time v0.16.0
 ## explicit; go 1.26.0
 golang.org/x/time/rate
-# golang.org/x/tools v0.49.0
-## explicit; go 1.25.0
+# golang.org/x/tools v0.50.0
+## explicit; go 1.26.0
 golang.org/x/tools/go/ast/astutil
 golang.org/x/tools/go/buildutil
 golang.org/x/tools/go/internal/cgo
@@ -328,8 +325,8 @@ gopkg.in/yaml.v2
 # gopkg.in/yaml.v3 v3.0.1
 ## explicit
 gopkg.in/yaml.v3
-# maunium.net/go/mautrix v0.30.0
-## explicit; go 1.25.0
+# maunium.net/go/mautrix v0.31.0
+## explicit; go 1.26.0
 maunium.net/go/mautrix
 maunium.net/go/mautrix/crypto
 maunium.net/go/mautrix/crypto/aescbc
@@ -362,8 +359,8 @@ maunium.net/go/mautrix/id
 maunium.net/go/mautrix/oauth
 maunium.net/go/mautrix/pushrules
 maunium.net/go/mautrix/sqlstatestore
-# modernc.org/libc v1.75.7
-## explicit; go 1.25.0
+# modernc.org/libc v1.77.1
+## explicit; go 1.26.0
 modernc.org/libc
 modernc.org/libc/errno
 modernc.org/libc/fcntl
@@ -396,7 +393,7 @@ modernc.org/mathutil
 # modernc.org/memory v1.12.1
 ## explicit; go 1.23.0
 modernc.org/memory
-# modernc.org/sqlite v1.58.0
+# modernc.org/sqlite v1.59.0
 ## explicit; go 1.25.0
 modernc.org/sqlite
 modernc.org/sqlite/lib

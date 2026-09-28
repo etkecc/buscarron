@@ -18,7 +18,6 @@ Below is everything you need to get started:
 * Etherpad: [etherpad.higenjitsuteki.onmatrix.chat](https://etherpad.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/etherpad/))
 * Firezone: [firezone.higenjitsuteki.onmatrix.chat](https://firezone.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/firezone/))
 * Fluffychat: [fluffychat.higenjitsuteki.onmatrix.chat](https://fluffychat.higenjitsuteki.onmatrix.chat)
-* Funkwhale: [funkwhale.higenjitsuteki.onmatrix.chat](https://funkwhale.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/funkwhale/))
 * Gotosocial: [social.higenjitsuteki.onmatrix.chat](https://social.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/gotosocial/))
 * Hydrogen: [hydrogen.higenjitsuteki.onmatrix.chat](https://hydrogen.higenjitsuteki.onmatrix.chat)
 * Jitsi: [jitsi.higenjitsuteki.onmatrix.chat](https://jitsi.higenjitsuteki.onmatrix.chat) ([help](https://etke.cc/help/extras/jitsi/))
@@ -91,11 +90,6 @@ Below is everything you need to get started:
 **Firezone Credentials**
 
 * Username: test@example.com
-* Password: TODO64
-
-**Funkwhale Credentials**
-
-* Username: test
 * Password: TODO64
 
 **Gotosocial Credentials**

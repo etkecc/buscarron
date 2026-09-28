@@ -15,7 +15,6 @@ etke_service_dns_records:
   - "etherpad.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "firezone.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "fluffychat.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
-  - "funkwhale.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "social.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "hydrogen.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
   - "jitsi.higenjitsuteki,CNAME,matrix.higenjitsuteki.onmatrix.chat."
@@ -92,11 +91,6 @@ matrix_user_creator_users_additional:
    initial_password: TODO64
    initial_type: admin
 gotosocial_users_additional:
- - username: "test_admin"
-   initial_email: "test@test.com"
-   initial_password: TODO64
-   initial_type: admin
-funkwhale_users_additional:
  - username: "test_admin"
    initial_email: "test@test.com"
    initial_password: TODO64
@@ -219,16 +213,6 @@ firezone_database_encryption_key: "TODO32"
 
 # fluffychat
 matrix_client_fluffychat_enabled: yes
-
-# funkwhale
-funkwhale_enabled: yes
-funkwhale_hostname: "funkwhale.higenjitsuteki.onmatrix.chat"
-funkwhale_aws_s3_region_name: "us-east-1"
-funkwhale_aws_s3_endpoint_url: "https://s3.example.com"
-funkwhale_aws_access_key_id: "some-key"
-funkwhale_aws_secret_access_key: "some-secret"
-funkwhale_aws_storage_bucket_name: "mybucket"
-funkwhale_aws_location: music
 
 # gotosocial
 gotosocial_enabled: yes

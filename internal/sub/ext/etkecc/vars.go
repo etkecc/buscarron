@@ -43,7 +43,6 @@ func (o *order) vars(ctx context.Context) {
 	txt.WriteString(o.varsEtherpad())
 	txt.WriteString(o.varsFirezone())
 	txt.WriteString(o.varsFluffyChat())
-	txt.WriteString(o.varsFunkwhale())
 	txt.WriteString(o.varsGoToSocial())
 	txt.WriteString(o.varsHydrogen())
 	txt.WriteString(o.varsJitsi())
@@ -341,15 +340,6 @@ func (o *order) varsUsers() string {
 		txt.WriteString("   initial_type: admin\n")
 	}
 
-	if o.has("funkwhale") {
-		login := o.login("funkwhale", strings.ReplaceAll(o.get("username"), ".", "_"))
-		txt.WriteString("funkwhale_users_additional:\n")
-		txt.WriteString(" - username: \"" + login + "\"\n")
-		txt.WriteString("   initial_email: \"" + o.encrypt(o.get("email")) + "\"\n")
-		txt.WriteString("   initial_password: " + o.encrypt(o.password("funkwhale")) + "\n")
-		txt.WriteString("   initial_type: admin\n")
-	}
-
 	return txt.String()
 }
 
@@ -628,28 +618,6 @@ func (o *order) varsFluffyChat() string {
 
 	txt.WriteString("\n# fluffychat\n")
 	txt.WriteString("matrix_client_fluffychat_enabled: yes\n")
-
-	return txt.String()
-}
-
-func (o *order) varsFunkwhale() string {
-	if !o.has("funkwhale") {
-		return ""
-	}
-	var txt strings.Builder
-
-	txt.WriteString("\n# funkwhale\n")
-	txt.WriteString("funkwhale_enabled: yes\n")
-	txt.WriteString("funkwhale_hostname: \"funkwhale." + o.domain + "\"\n")
-
-	if o.has("funkwhale-s3-bucket") && o.has("funkwhale-s3-region") && o.has("funkwhale-s3-endpoint") && o.has("funkwhale-s3-access-key") && o.has("funkwhale-s3-secret-key") {
-		txt.WriteString("funkwhale_aws_s3_region_name: \"" + o.get("funkwhale-s3-region") + "\"\n")
-		txt.WriteString("funkwhale_aws_s3_endpoint_url: \"" + o.get("funkwhale-s3-endpoint") + "\"\n")
-		txt.WriteString("funkwhale_aws_access_key_id: \"" + o.encrypt(o.get("funkwhale-s3-access-key")) + "\"\n")
-		txt.WriteString("funkwhale_aws_secret_access_key: \"" + o.encrypt(o.get("funkwhale-s3-secret-key")) + "\"\n")
-		txt.WriteString("funkwhale_aws_storage_bucket_name: \"" + o.get("funkwhale-s3-bucket") + "\"\n")
-		txt.WriteString("funkwhale_aws_location: music\n")
-	}
 
 	return txt.String()
 }

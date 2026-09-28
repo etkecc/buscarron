@@ -36,7 +36,6 @@ Please, add the following DNS entries:
 * etherpad CNAME record matrix.example.com.
 * firezone CNAME record matrix.example.com.
 * fluffychat CNAME record matrix.example.com.
-* funkwhale CNAME record matrix.example.com.
 * social CNAME record matrix.example.com.
 * hydrogen CNAME record matrix.example.com.
 * jitsi CNAME record matrix.example.com.

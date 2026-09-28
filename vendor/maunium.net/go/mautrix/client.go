@@ -2938,13 +2938,31 @@ func (cli *Client) PutPushRuleActions(ctx context.Context, scope string, kind pu
 
 func (cli *Client) ReportEvent(ctx context.Context, roomID id.RoomID, eventID id.EventID, reason string) error {
 	urlPath := cli.BuildClientURL("v3", "rooms", roomID, "report", eventID)
-	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, &ReqReport{Reason: reason, Score: -100}, nil)
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, &ReqReport{Reason: reason}, nil)
 	return err
 }
 
 func (cli *Client) ReportRoom(ctx context.Context, roomID id.RoomID, reason string) error {
 	urlPath := cli.BuildClientURL("v3", "rooms", roomID, "report")
-	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, &ReqReport{Reason: reason, Score: -100}, nil)
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, &ReqReport{Reason: reason}, nil)
+	return err
+}
+
+func (cli *Client) SetPusher(ctx context.Context, req *Pusher) error {
+	urlPath := cli.BuildClientURL("v3", "pushers", "set")
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, req, nil)
+	return err
+}
+
+func (cli *Client) GetPushers(ctx context.Context) (resp *RespPushers, err error) {
+	urlPath := cli.BuildClientURL("v3", "pushers")
+	_, err = cli.MakeRequest(ctx, http.MethodPost, urlPath, nil, &resp)
+	return
+}
+
+func (cli *Client) AckWebPusher(ctx context.Context, req *ReqAckWebPusher) error {
+	urlPath := cli.BuildClientURL("unstable", "org.matrix.msc4174", "pushers", "ack")
+	_, err := cli.MakeRequest(ctx, http.MethodPost, urlPath, req, nil)
 	return err
 }
 

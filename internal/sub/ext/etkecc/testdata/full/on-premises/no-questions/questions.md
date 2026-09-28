@@ -1,6 +1,6 @@
 
 
-price: €114
+price: €108
 
 [status page](https://etke.cc/order/status/#a379a6f6eeafb9a55e378c118034e2751e682fab9f2d30ab13d2125586ce1947)
 
@@ -17,7 +17,6 @@ Please, add the following DNS entries:
 - etherpad	CNAME record	matrix.example.com.
 - firezone	CNAME record	matrix.example.com.
 - fluffychat	CNAME record	matrix.example.com.
-- funkwhale	CNAME record	matrix.example.com.
 - social	CNAME record	matrix.example.com.
 - hydrogen	CNAME record	matrix.example.com.
 - jitsi	CNAME record	matrix.example.com.

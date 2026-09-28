@@ -102,11 +102,17 @@ func (store *SQLCryptoStore) LoadFilterID(ctx context.Context, _ id.UserID) (str
 }
 
 func (store *SQLCryptoStore) SaveNextBatch(ctx context.Context, _ id.UserID, nextBatchToken string) error {
-	err := store.PutNextBatch(ctx, nextBatchToken)
-	if err != nil {
-		return fmt.Errorf("unable to store batch: %w", err)
+	for {
+		err := store.PutNextBatch(ctx, nextBatchToken)
+		if err != nil {
+			if strings.Contains(err.Error(), "database is locked") {
+				zerolog.Ctx(ctx).Err(err).Msg("Failed to save next batch, retrying")
+				continue
+			}
+			return fmt.Errorf("unable to store batch: %w", err)
+		}
+		return nil
 	}
-	return nil
 }
 
 func (store *SQLCryptoStore) LoadNextBatch(ctx context.Context, _ id.UserID) (string, error) {
@@ -687,7 +693,7 @@ func (store *SQLCryptoStore) RemoveOutboundGroupSession(ctx context.Context, roo
 }
 
 func (store *SQLCryptoStore) MarkOutboundGroupSessionShared(ctx context.Context, userID id.UserID, identityKey id.IdentityKey, sessionID id.SessionID) error {
-	_, err := store.DB.Exec(ctx, "INSERT INTO crypto_megolm_outbound_session_shared (user_id, identity_key, session_id) VALUES ($1, $2, $3)", userID, identityKey, sessionID)
+	_, err := store.DB.Exec(ctx, "INSERT INTO crypto_megolm_outbound_session_shared (user_id, identity_key, session_id) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING", userID, identityKey, sessionID)
 	return err
 }
 
