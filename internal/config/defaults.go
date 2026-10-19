@@ -15,6 +15,5 @@ var defaultConfig = &Config{
 	},
 	SMTP: &SMTP{
 		Port: "587",
-		From: "test@ilydeen.org", // From address for SMTP-sent mail, also used for SMTP validation
 	},
 }

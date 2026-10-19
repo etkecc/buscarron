@@ -52,13 +52,13 @@ env vars
 * **BUSCARRON_PM_TOKEN** - [Postmark](https://postmarkapp.com) server token
 * **BUSCARRON_PM_FROM** - [Postmark](https://postmarkapp.com) sender signature
 * **BUSCARRON_PM_REPLYTO** - reply-to email header
-* **BUSCARRON_SMTP_FROM** - email address (from) for SMTP validation and the From address of sent mail when SMTP sending is enabled. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
-* **BUSCARRON_SMTP_VALIDATION** - enforce SMTP validation
-* **BUSCARRON_SMTP_HOST** - SMTP server host for sending mail; when set, mail is sent via SMTP instead of Postmark
-* **BUSCARRON_SMTP_PORT** - SMTP server port, default: `587`
-* **BUSCARRON_SMTP_LOGIN** - SMTP login
+* **BUSCARRON_SMTP_HOST** - SMTP server host for sending mail; when set, mail is sent via SMTP instead of Postmark; requires `BUSCARRON_SMTP_FROM`
+* **BUSCARRON_SMTP_PORT** - SMTP server port, default: `587`; port `465` uses implicit TLS, other ports use STARTTLS when advertised
+* **BUSCARRON_SMTP_LOGIN** - SMTP login; empty means no auth
 * **BUSCARRON_SMTP_PASSWORD** - SMTP password
 * **BUSCARRON_SMTP_REPLYTO** - reply-to email header for SMTP-sent mail
+* **BUSCARRON_SMTP_FROM** - email address (from) for SMTP-sent mail (required when `BUSCARRON_SMTP_HOST` is set) and for SMTP validation. Must be valid email on valid SMTP server, otherwise it will be rejected by other servers
+* **BUSCARRON_SMTP_VALIDATION** - enforce SMTP validation
 * **BUSCARRON_METRICS_LOGIN** - /metrics login
 * **BUSCARRON_METRICS_PASSWORD** - /metrics password
 * **BUSCARRON_METRICS_IPS** - /metrics allowed ips

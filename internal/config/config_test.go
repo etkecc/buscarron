@@ -20,6 +20,12 @@ var values = map[string]string{
 	"BUSCARRON_LOGIN":      "@test:example.com",
 	"BUSCARRON_PASSWORD":   "password",
 
+	"BUSCARRON_SMTP_HOST":     "smtp.example.com",
+	"BUSCARRON_SMTP_PORT":     "2525",
+	"BUSCARRON_SMTP_LOGIN":    "login",
+	"BUSCARRON_SMTP_PASSWORD": "password",
+	"BUSCARRON_SMTP_REPLYTO":  "reply@example.com",
+
 	"BUSCARRON_SPAM_EMAILS":     "ima@spammer.com definetelynotspam@gmail.com",
 	"BUSCARRON_SPAM_HOSTS":      "spamer.com unitedspammers.org",
 	"BUSCARRON_SPAM_LOCALPARTS": "",
@@ -38,12 +44,6 @@ var values = map[string]string{
 	"BUSCARRON_TEST2_REDIRECT":  "https://example.com",
 	"BUSCARRON_TEST2_RATELIMIT": "1r/m",
 	"BUSCARRON_TEST2_ROOM":      "!test2@example.com",
-
-	"BUSCARRON_SMTP_HOST":     "smtp.example.com",
-	"BUSCARRON_SMTP_PORT":     "2525",
-	"BUSCARRON_SMTP_LOGIN":    "login",
-	"BUSCARRON_SMTP_PASSWORD": "password",
-	"BUSCARRON_SMTP_REPLYTO":  "reply@example.com",
 }
 
 func (s *ConfigSuite) SetupTest() {
@@ -70,6 +70,11 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal("https://example.com", config.Homeserver)
 	s.Equal("@test:example.com", config.Login)
 	s.Equal("password", config.Password)
+	s.Equal("smtp.example.com", config.SMTP.Host)
+	s.Equal("2525", config.SMTP.Port)
+	s.Equal("login", config.SMTP.Login)
+	s.Equal("password", config.SMTP.Password)
+	s.Equal("reply@example.com", config.SMTP.ReplyTo)
 	s.ElementsMatch([]string{"ima@spammer.com", "definetelynotspam@gmail.com", "*@spamer.com", "*@unitedspammers.org", "spam@*"}, config.Spamlist)
 	s.Equal(1000000, config.Ban.Size)
 	s.Equal("test1", form1.Name)
@@ -81,11 +86,13 @@ func (s *ConfigSuite) TestNew() {
 	s.Equal(id.RoomID("!test2@example.com"), form2.RoomID)
 	s.Equal("https://example.com", form2.Redirect)
 	s.Equal("1r/m", form2.Ratelimit)
-	s.Equal("smtp.example.com", config.SMTP.Host)
-	s.Equal("2525", config.SMTP.Port)
-	s.Equal("login", config.SMTP.Login)
-	s.Equal("password", config.SMTP.Password)
-	s.Equal("reply@example.com", config.SMTP.ReplyTo)
+}
+
+func (s *ConfigSuite) TestNew_SMTPDefaults() {
+	os.Unsetenv("BUSCARRON_SMTP_PORT")
+	config := New()
+
+	s.Equal("587", config.SMTP.Port)
 }
 
 func TestConfigSuite(t *testing.T) {

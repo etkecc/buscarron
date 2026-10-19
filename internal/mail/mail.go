@@ -1,4 +1,4 @@
-package mail //nolint:var-naming // Package mail provides a client to send mail
+package mail //nolint:var-naming // Package mail provides a client to send mail via a configured sender
 
 import (
 	"context"
@@ -7,18 +7,19 @@ import (
 	"github.com/rs/zerolog"
 )
 
-// Sender sends mail
+// Sender is a mail transport
 type Sender interface {
 	Send(ctx context.Context, req *postmark.Email) error
 }
 
-// Client to send mail
+// Client stamps the email with sender fields and delegates to the transport
 type Client struct {
 	from    string
 	replyto string
 	sender  Sender
 }
 
+// New creates the mail client, nil sender yields nil client
 func New(from, replyto string, sender Sender) *Client {
 	if sender == nil {
 		return nil
@@ -31,14 +32,14 @@ func New(from, replyto string, sender Sender) *Client {
 	}
 }
 
+// Send sends the email
 func (c *Client) Send(ctx context.Context, req *postmark.Email) error {
 	log := zerolog.Ctx(ctx)
 
 	req.From = c.from
 	req.ReplyTo = c.replyto
 
-	err := c.sender.Send(ctx, req)
-	if err != nil {
+	if err := c.sender.Send(ctx, req); err != nil {
 		log.Error().Err(err).Msg("cannot send email")
 		return err
 	}

@@ -1,94 +1,109 @@
 package mail
 
 import (
-	"bytes"
 	"context"
 	"crypto/tls"
-	"encoding/base64"
+	"errors"
 	"fmt"
 	"net"
+	"net/mail"
 	"net/smtp"
 	"strings"
 	"time"
-	"unicode/utf8"
 
 	"github.com/mattevans/postmark-go"
 )
 
-// boundary of the multipart message, fixed to keep message construction deterministic
-const boundary = "buscarron-alternative"
+const (
+	// smtpImplicitTLSPort is the port using implicit TLS
+	smtpImplicitTLSPort = "465"
+	// smtpDialTimeout is the timeout of the TCP dial
+	smtpDialTimeout = 10 * time.Second
+	// smtpSessionTimeout bounds the whole SMTP session
+	smtpSessionTimeout = 30 * time.Second
+)
 
-// SMTPSender sends mail via smtp
+// SMTPSender sends mail via SMTP
 type SMTPSender struct {
-	host     string
-	port     string
-	login    string
-	password string
+	host        string
+	port        string
+	login       string
+	password    string
+	implicitTLS bool
+	tlsCfg      *tls.Config
 }
 
-// NewSMTP sender
+// NewSMTP creates the SMTP transport
 func NewSMTP(host, port, login, password string) Sender {
-	return &SMTPSender{host: host, port: port, login: login, password: password}
+	return &SMTPSender{
+		host:        host,
+		port:        port,
+		login:       login,
+		password:    password,
+		implicitTLS: port == smtpImplicitTLSPort,
+		tlsCfg:      &tls.Config{ServerName: host},
+	}
 }
 
-// Send email via smtp
+// Send sends the email via SMTP
 func (s *SMTPSender) Send(ctx context.Context, req *postmark.Email) error {
-	msg, err := buildSMTPMessage(req)
+	recipients, err := parseRecipients(req)
 	if err != nil {
 		return err
 	}
-
-	recipients := []string{req.To}
-	if req.Cc != "" {
-		recipients = append(recipients, req.Cc)
-	}
-	if req.Bcc != "" {
-		recipients = append(recipients, req.Bcc)
+	msg, err := buildMessage(req)
+	if err != nil {
+		return err
 	}
 
 	return s.deliver(ctx, req.From, recipients, msg)
 }
 
-// authenticate performs plain auth when login is set
-func (s *SMTPSender) authenticate(c *smtp.Client) error {
-	if s.login == "" {
-		return nil
+// parseRecipients lists the envelope recipients from To, Cc and Bcc
+func parseRecipients(req *postmark.Email) ([]string, error) {
+	list := make([]string, 0, 3)
+	for _, value := range []string{req.To, req.Cc, req.Bcc} {
+		if value != "" {
+			list = append(list, value)
+		}
 	}
-	if ok, _ := c.Extension("AUTH"); !ok {
-		return fmt.Errorf("mail: smtp server does not advertise AUTH")
+	if len(list) == 0 {
+		return nil, errors.New("mail: no recipients")
 	}
-	return c.Auth(smtp.PlainAuth("", s.host, s.login, s.password))
+	addrs, err := mail.ParseAddressList(strings.Join(list, ", "))
+	if err != nil {
+		return nil, fmt.Errorf("mail: cannot parse recipients: %w", err)
+	}
+	if len(addrs) == 0 {
+		return nil, errors.New("mail: no recipients")
+	}
+	recipients := make([]string, 0, len(addrs))
+	for _, addr := range addrs {
+		recipients = append(recipients, addr.Address)
+	}
+
+	return recipients, nil
 }
 
+// deliver runs one SMTP session: dial, upgrade, auth, envelope, data
 func (s *SMTPSender) deliver(ctx context.Context, from string, recipients []string, msg []byte) error {
-	addr := net.JoinHostPort(s.host, s.port)
-	d := net.Dialer{Timeout: 10 * time.Second}
-	conn, err := d.DialContext(ctx, "tcp", addr)
+	addr, err := mail.ParseAddress(from)
 	if err != nil {
-		return err
+		return fmt.Errorf("mail: cannot parse sender: %w", err)
 	}
-	if err = conn.SetDeadline(time.Now().Add(30 * time.Second)); err != nil {
-		conn.Close()
-		return err
-	}
-	c, err := smtp.NewClient(conn, s.host)
+	c, err := s.dial(ctx)
 	if err != nil {
-		conn.Close()
 		return err
 	}
 	defer c.Close()
 
-	if ok, _ := c.Extension("STARTTLS"); ok {
-		if err := c.StartTLS(&tls.Config{ServerName: s.host}); err != nil {
-			return err
-		}
-	}
-
-	if err := s.authenticate(c); err != nil {
+	if err := s.startTLS(c); err != nil {
 		return err
 	}
-
-	if err := c.Mail(from); err != nil {
+	if err := s.auth(c); err != nil {
+		return err
+	}
+	if err := c.Mail(addr.Address); err != nil {
 		return err
 	}
 	for _, rcpt := range recipients {
@@ -96,75 +111,78 @@ func (s *SMTPSender) deliver(ctx context.Context, from string, recipients []stri
 			return err
 		}
 	}
+
+	return s.sendData(c, msg)
+}
+
+// dial opens and greets the SMTP server
+func (s *SMTPSender) dial(ctx context.Context) (*smtp.Client, error) {
+	conn, err := s.dialConn(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if err := conn.SetDeadline(time.Now().Add(smtpSessionTimeout)); err != nil {
+		conn.Close()
+		return nil, err
+	}
+	c, err := smtp.NewClient(conn, s.host)
+	if err != nil {
+		conn.Close()
+		return nil, err
+	}
+
+	return c, nil
+}
+
+// dialConn opens a TCP connection, TLS-wrapped on the implicit TLS port
+func (s *SMTPSender) dialConn(ctx context.Context) (net.Conn, error) {
+	addr := net.JoinHostPort(s.host, s.port)
+	dialer := &net.Dialer{Timeout: smtpDialTimeout}
+	if s.implicitTLS {
+		tlsDialer := tls.Dialer{NetDialer: dialer, Config: s.tlsCfg}
+		return tlsDialer.DialContext(ctx, "tcp", addr)
+	}
+
+	return dialer.DialContext(ctx, "tcp", addr)
+}
+
+// startTLS upgrades the connection when the server advertises STARTTLS
+func (s *SMTPSender) startTLS(c *smtp.Client) error {
+	if s.implicitTLS {
+		return nil
+	}
+	if ok, _ := c.Extension("STARTTLS"); !ok {
+		return nil
+	}
+
+	return c.StartTLS(s.tlsCfg)
+}
+
+// auth authenticates the session when a login is configured
+func (s *SMTPSender) auth(c *smtp.Client) error {
+	if s.login == "" {
+		return nil
+	}
+	if ok, _ := c.Extension("AUTH"); !ok {
+		return errors.New("mail: smtp server does not advertise AUTH")
+	}
+
+	return c.Auth(smtp.PlainAuth("", s.login, s.password, s.host))
+}
+
+// sendData writes the message and quits the session
+func (s *SMTPSender) sendData(c *smtp.Client, msg []byte) error {
 	w, err := c.Data()
 	if err != nil {
 		return err
 	}
-	if _, err = w.Write(msg); err != nil {
+	if _, err := w.Write(msg); err != nil {
 		w.Close()
 		return err
 	}
 	if err := w.Close(); err != nil {
 		return err
 	}
+
 	return c.Quit()
-}
-
-// buildSMTPMessage renders an rfc 822 message from a postmark email
-func buildSMTPMessage(req *postmark.Email) ([]byte, error) {
-	for _, v := range []string{req.From, req.To, req.Cc, req.Bcc, req.ReplyTo, req.Tag, req.Subject} {
-		if strings.ContainsAny(v, "\r\n") {
-			return nil, fmt.Errorf("mail: header value must not contain line breaks")
-		}
-	}
-
-	var b bytes.Buffer
-
-	fmt.Fprintf(&b, "From: %s\r\n", req.From)
-	fmt.Fprintf(&b, "Date: %s\r\n", time.Now().UTC().Format(time.RFC1123Z))
-	fmt.Fprintf(&b, "To: %s\r\n", req.To)
-	if req.Cc != "" {
-		fmt.Fprintf(&b, "Cc: %s\r\n", req.Cc)
-	}
-	if req.ReplyTo != "" {
-		fmt.Fprintf(&b, "Reply-To: %s\r\n", req.ReplyTo)
-	}
-	if req.Tag != "" {
-		fmt.Fprintf(&b, "X-Tag: %s\r\n", req.Tag)
-	}
-	fmt.Fprintf(&b, "Subject: %s\r\n", encodeSubject(req.Subject))
-	b.WriteString("MIME-Version: 1.0\r\n")
-
-	switch {
-	case req.TextBody != "" && req.HTMLBody != "":
-		fmt.Fprintf(&b, "Content-Type: multipart/alternative; boundary=%s\r\n\r\n", boundary)
-		fmt.Fprintf(&b, "--%s\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n%s", boundary, req.TextBody)
-		fmt.Fprintf(&b, "\r\n--%s\r\nContent-Type: text/html; charset=utf-8\r\n\r\n%s", boundary, req.HTMLBody)
-		fmt.Fprintf(&b, "\r\n--%s--\r\n", boundary)
-	case req.TextBody != "":
-		b.WriteString("Content-Type: text/plain; charset=utf-8\r\n\r\n")
-		b.WriteString(req.TextBody)
-	default:
-		b.WriteString("Content-Type: text/html; charset=utf-8\r\n\r\n")
-		b.WriteString(req.HTMLBody)
-	}
-
-	return b.Bytes(), nil
-}
-
-// encodeSubject applies rfc 2047 base64 encoding to non-ascii subjects
-func encodeSubject(subject string) string {
-	if isASCII(subject) {
-		return subject
-	}
-	return "=?utf-8?b?" + base64.StdEncoding.EncodeToString([]byte(subject)) + "?="
-}
-
-func isASCII(s string) bool {
-	for i := 0; i < len(s); i++ {
-		if s[i] >= utf8.RuneSelf {
-			return false
-		}
-	}
-	return true
 }

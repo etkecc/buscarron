@@ -87,8 +87,8 @@ type SMTP struct {
 	Port              string
 	Login             string
 	Password          string
-	From              string
 	ReplyTo           string
+	From              string
 	EnforceValidation bool
 }
 

@@ -187,11 +187,8 @@ func initControllers(cfg *config.Config, rdm *redmine.Redmine) {
 		v := validator.New(vcfg)
 		vs[name] = v
 	}
-	var (
-		sender  mail.Sender
-		from    string
-		replyto string
-	)
+	var sender mail.Sender
+	var from, replyto string
 	switch {
 	case cfg.SMTP.Host != "":
 		sender = mail.NewSMTP(cfg.SMTP.Host, cfg.SMTP.Port, cfg.SMTP.Login, cfg.SMTP.Password)
